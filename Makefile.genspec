@@ -1,4 +1,4 @@
-SUBDIRS = aarch64-unknown-linux amd64-unknown-freebsd7.2 amd64-unknown-linux i386-unknown-freebsd7.2 i386-unknown-linux2.4 i386-unknown-nt4.0 ppc32_linux ppc64_pgq_ion ppc64_linux x86_64-unknown-linux2.4
+SUBDIRS = aarch64-unknown-linux amd64-unknown-freebsd7.2 i386-unknown-freebsd7.2 i386-unknown-linux2.4 i386-unknown-nt4.0 ppc32_linux ppc64_bgq_ion ppc64_linux x86_64-unknown-linux2.4
 
 
 TO_SPEC = src/specification
