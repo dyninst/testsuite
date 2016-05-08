@@ -27,9 +27,11 @@ $(SUBDIRS:%=%/tuples): %/tuples: $(PROLOG_FILES)
 	cd $(TO_SPEC); gprolog --entry-goal "['spec-grouped.pl']" \
 		--entry-goal "test_init('$*')" \
 		--entry-goal "write_tuples('../../$@', '$*')" \
-		--entry-goal "halt" ; gzip -f ../../$@
+		--entry-goal "halt"
+%/tuples.gz: %/tuples
+	gzip -f $^
 
-$(SUBDIRS:%=%/cmake-mutatees.txt): %/cmake-mutatees.txt: $(PYTHON_FILES) %/tuples
+$(SUBDIRS:%=%/cmake-mutatees.txt): %/cmake-mutatees.txt: $(PYTHON_FILES) %/tuples.gz
 	python2 -c "import sys; import os; os.environ['PLATFORM'] = '$*'; sys.path.append('$(TO_SPEC)'); import generate ; generate.generate('$*')"
 
 $(SUBDIRS:%=%): %:%/cmake-mutatees.txt
