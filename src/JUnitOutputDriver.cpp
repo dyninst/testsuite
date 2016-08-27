@@ -3,6 +3,7 @@
 //
 
 #include "JUnitOutputDriver.h"
+#include <string.h>
 
 #if !defined(os_windows_test)
 #include <sys/types.h>
@@ -35,7 +36,7 @@ void JUnitOutputDriver::startNewTest(std::map <std::string, std::string> &attrib
         {
             std::stringstream suitename;
             suitename << last_group->modname;
-            if(last_group->mutatee != '\0') suitename << "." << last_group->mutatee;
+            if(strcmp(last_group->mutatee, "\0")) suitename << "." << last_group->mutatee;
             log(HUMAN, "<testsuite name=\"%s\" errors=\"%d\" skipped=\"%d\" tests=\"%d\" failures=\"%d\">\n",
                 suitename.str().c_str(), group_errors, group_skips, group_tests, group_failures);
             log(HUMAN, group_output.str().c_str());
@@ -57,7 +58,6 @@ void JUnitOutputDriver::startNewTest(std::map <std::string, std::string> &attrib
 
 // Before calling any of the log* methods or finalizeOutput(), the user
 // must have initialized the test output driver with a call to startNewTest()
-
 
 std::string modeString(RunGroup* group)
 {
@@ -95,7 +95,7 @@ std::string makeClassName(RunGroup* group)
     return ret;
 }
 
-void JUnitOutputDriver::logResult(test_results_t result, int stage)
+void JUnitOutputDriver::logResult(test_results_t result, int /*stage*/)
 {
 
 
