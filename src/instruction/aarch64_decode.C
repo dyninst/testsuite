@@ -201,7 +201,7 @@ test_results_t aarch64_decode_Mutator::executeTest()
 	0xD5, 0x3B, 0xE8, 0x40,		// MRS X0, PMEVCNTR2_EL0
 	0xD5, 0x1B, 0xE0, 0x21,		// MSR CNTPCT_EL0, X1
 	0xD5, 0x1B, 0xEF, 0xC0,		// MSR PMEVTYPER30_EL0, X0
-    0x00, 0x00, 0x00, 0x00      // INVALID
+    0x00, 0x00, 0x00, 0x00,      // INVALID
   };
 
   unsigned int size = sizeof(buffer);
@@ -218,7 +218,7 @@ test_results_t aarch64_decode_Mutator::executeTest()
     i = d.decode();
     decodedInsns.push_back(i);
     if(i != NULL)
-      decodedInsns.back()->format();
+      /*std::cout<<*/decodedInsns.back()->format()/*<<std::endl*/;
   }
   while(i && i->isValid());
 

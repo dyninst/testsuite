@@ -274,7 +274,7 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest()
     i = d.decode();
     decodedInsns.push_back(i);
     if(i != NULL)
-        i->format();
+        /*std::cout<<*/i->format()/*<<std::endl*/;
   }
   while(i && i->isValid());
 
@@ -526,7 +526,7 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest()
   RegisterAST::Ptr b30(new RegisterAST(aarch64::b30));
   RegisterAST::Ptr b31(new RegisterAST(aarch64::b31));
 
-  RegisterAST::Ptr zr (new RegisterAST(aarch64:x:zr));
+  RegisterAST::Ptr zr (new RegisterAST(aarch64::xzr));
   RegisterAST::Ptr wzr (new RegisterAST(aarch64::wzr));
   RegisterAST::Ptr sp (new RegisterAST(aarch64::sp));
   RegisterAST::Ptr wsp (new RegisterAST(aarch64::wsp));
