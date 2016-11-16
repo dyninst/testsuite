@@ -249,7 +249,7 @@ test_results_t aarch64_simd_Mutator::executeTest()
 	return FAILED;
     }
 
-    RegisterAST::Ptr zr (new RegisterAST(aarch64::zr));
+    RegisterAST::Ptr zr (new RegisterAST(aarch64::xzr));
     RegisterAST::Ptr wzr (new RegisterAST(aarch64::wzr));
 
     RegisterAST::Ptr x0 (new RegisterAST(aarch64::x0));

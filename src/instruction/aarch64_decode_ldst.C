@@ -526,7 +526,7 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest()
   RegisterAST::Ptr b30(new RegisterAST(aarch64::b30));
   RegisterAST::Ptr b31(new RegisterAST(aarch64::b31));
 
-  RegisterAST::Ptr zr (new RegisterAST(aarch64::zr));
+  RegisterAST::Ptr zr (new RegisterAST(aarch64:x:zr));
   RegisterAST::Ptr wzr (new RegisterAST(aarch64::wzr));
   RegisterAST::Ptr sp (new RegisterAST(aarch64::sp));
   RegisterAST::Ptr wsp (new RegisterAST(aarch64::wsp));
