@@ -29,7 +29,7 @@ $(SUBDIRS:%=%/tuples): %/tuples: $(PROLOG_FILES)
 		--entry-goal "write_tuples('../../$@', '$*')" \
 		--entry-goal "halt"
 %/tuples.gz: %/tuples
-	gzip -f $^
+	gzip -9f $^
 
 $(SUBDIRS:%=%/cmake-mutatees.txt): %/cmake-mutatees.txt: $(PYTHON_FILES) %/tuples.gz
 	python2 -c "import sys; import os; os.environ['PLATFORM'] = '$*'; sys.path.append('$(TO_SPEC)'); import generate ; generate.generate('$*')"
