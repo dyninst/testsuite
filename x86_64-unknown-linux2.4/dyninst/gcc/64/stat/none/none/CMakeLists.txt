@@ -19,8 +19,8 @@ CHECK_MUTATEE_COMPILER ("${M_gnu_cc}"
 IF (MUTATEEgnucc64statC MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/x86_64-unknown-linux2.4/srclists.cmake)
 if(TARGET dyninstAPI)
-add_executable (dyninst_group_test.stat_gcc_64_none_none ${SOURCE_LIST_48})
-foreach (f ${SOURCE_LIST_48})
+add_executable (dyninst_group_test.stat_gcc_64_none_none ${SOURCE_LIST_47})
+foreach (f ${SOURCE_LIST_47})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE C)
@@ -28,8 +28,8 @@ foreach (f ${SOURCE_LIST_48})
 	endforeach()
 set_target_properties(dyninst_group_test.stat_gcc_64_none_none PROPERTIES LINKER_LANGUAGE C)
 target_link_libraries (dyninst_group_test.stat_gcc_64_none_none ${CMAKE_DL_LIBS})
-add_executable (test1_14.stat_gcc_64_none_none ${SOURCE_LIST_53})
-foreach (f ${SOURCE_LIST_53})
+add_executable (test1_14.stat_gcc_64_none_none ${SOURCE_LIST_52})
+foreach (f ${SOURCE_LIST_52})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE C)
@@ -44,21 +44,12 @@ foreach (f ${SOURCE_LIST_4})
 	endif()
 	endforeach()
 set_target_properties(test1_29.stat_gcc_64_none_none PROPERTIES LINKER_LANGUAGE C)
-add_executable (test1_35.stat_gcc_64_none_none ${SOURCE_LIST_44})
-foreach (f ${SOURCE_LIST_44})
-	get_source_file_property(lang ${f} LANGUAGE)
-	if(lang MATCHES "C")
-		set_source_files_properties(${f} PROPERTIES LANGUAGE C)
-	endif()
-	endforeach()
-set_target_properties(test1_35.stat_gcc_64_none_none PROPERTIES LINKER_LANGUAGE C)
 
 
 INSTALL (TARGETS
 		dyninst_group_test.stat_gcc_64_none_none
 		test1_14.stat_gcc_64_none_none
 		test1_29.stat_gcc_64_none_none
-		test1_35.stat_gcc_64_none_none
 	DESTINATION ${INSTALL_DIR})
 
 ENDIF()

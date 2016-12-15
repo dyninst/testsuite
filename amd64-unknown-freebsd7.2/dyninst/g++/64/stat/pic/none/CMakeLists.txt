@@ -19,24 +19,24 @@ CHECK_MUTATEE_COMPILER ("${M_gnu_cxx}"
 IF (MUTATEEgnucxx64statCXX MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/amd64-unknown-freebsd7.2/srclists.cmake)
 if(TARGET dyninstAPI)
-add_executable (dyninst_cxx_group_test.stat_g++_64_pic_none ${SOURCE_LIST_66})
-foreach (f ${SOURCE_LIST_66})
+add_executable (dyninst_cxx_group_test.stat_g++_64_pic_none ${SOURCE_LIST_65})
+foreach (f ${SOURCE_LIST_65})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
 	endif()
 	endforeach()
 set_target_properties(dyninst_cxx_group_test.stat_g++_64_pic_none PROPERTIES LINKER_LANGUAGE CXX)
-add_executable (dyninst_group_test.stat_g++_64_pic_none ${SOURCE_LIST_75})
-foreach (f ${SOURCE_LIST_75})
+add_executable (dyninst_group_test.stat_g++_64_pic_none ${SOURCE_LIST_74})
+foreach (f ${SOURCE_LIST_74})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
 	endif()
 	endforeach()
 set_target_properties(dyninst_group_test.stat_g++_64_pic_none PROPERTIES LINKER_LANGUAGE CXX)
-add_executable (test1_14.stat_g++_64_pic_none ${SOURCE_LIST_49})
-foreach (f ${SOURCE_LIST_49})
+add_executable (test1_14.stat_g++_64_pic_none ${SOURCE_LIST_48})
+foreach (f ${SOURCE_LIST_48})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
@@ -51,14 +51,6 @@ foreach (f ${SOURCE_LIST_4})
 	endif()
 	endforeach()
 set_target_properties(test1_29.stat_g++_64_pic_none PROPERTIES LINKER_LANGUAGE CXX)
-add_executable (test1_35.stat_g++_64_pic_none ${SOURCE_LIST_41})
-foreach (f ${SOURCE_LIST_41})
-	get_source_file_property(lang ${f} LANGUAGE)
-	if(lang MATCHES "C")
-		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
-	endif()
-	endforeach()
-set_target_properties(test1_35.stat_g++_64_pic_none PROPERTIES LINKER_LANGUAGE CXX)
 
 
 INSTALL (TARGETS
@@ -66,7 +58,6 @@ INSTALL (TARGETS
 		dyninst_group_test.stat_g++_64_pic_none
 		test1_14.stat_g++_64_pic_none
 		test1_29.stat_g++_64_pic_none
-		test1_35.stat_g++_64_pic_none
 	DESTINATION ${INSTALL_DIR})
 
 ENDIF()

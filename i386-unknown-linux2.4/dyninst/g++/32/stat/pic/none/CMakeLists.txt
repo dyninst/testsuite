@@ -19,8 +19,8 @@ CHECK_MUTATEE_COMPILER ("${M_gnu_cxx}"
 IF (MUTATEEgnucxx32statCXX MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/i386-unknown-linux2.4/srclists.cmake)
 if(TARGET dyninstAPI)
-add_executable (dyninst_cxx_group_test.stat_g++_32_pic_none ${SOURCE_LIST_92})
-foreach (f ${SOURCE_LIST_92})
+add_executable (dyninst_cxx_group_test.stat_g++_32_pic_none ${SOURCE_LIST_91})
+foreach (f ${SOURCE_LIST_91})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
@@ -52,14 +52,6 @@ foreach (f ${SOURCE_LIST_58})
 	endif()
 	endforeach()
 set_target_properties(test1_29.stat_g++_32_pic_none PROPERTIES LINKER_LANGUAGE CXX)
-add_executable (test1_35.stat_g++_32_pic_none ${SOURCE_LIST_91})
-foreach (f ${SOURCE_LIST_91})
-	get_source_file_property(lang ${f} LANGUAGE)
-	if(lang MATCHES "C")
-		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
-	endif()
-	endforeach()
-set_target_properties(test1_35.stat_g++_32_pic_none PROPERTIES LINKER_LANGUAGE CXX)
 
 
 INSTALL (TARGETS
@@ -67,7 +59,6 @@ INSTALL (TARGETS
 		dyninst_group_test.stat_g++_32_pic_none
 		test1_14.stat_g++_32_pic_none
 		test1_29.stat_g++_32_pic_none
-		test1_35.stat_g++_32_pic_none
 	DESTINATION ${INSTALL_DIR})
 
 ENDIF()

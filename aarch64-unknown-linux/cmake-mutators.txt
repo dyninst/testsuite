@@ -20,9 +20,9 @@ set (dyninst_OBJS_ALL_MUTATORS test1_1.o test1_2.o test1_3.o test1_4.o test1_5.o
 
 
 include_directories ("..src/symtab")
-set (symtab_MUTATORS test_lookup_func test_lookup_var test_add_symbols test_line_info test_module test_relocations test_type_info test_symtab_ser_funcs test_ser_anno test_anno_basic_types )
+set (symtab_MUTATORS test_lookup_func test_lookup_var test_add_symbols test_line_info test_module test_relocations test_type_info test_symtab_ser_funcs test_ser_anno )
 
-set (symtab_OBJS_ALL_MUTATORS test_lookup_func.o test_lookup_var.o test_add_symbols.o test_line_info.o test_module.o test_relocations.o test_type_info.o test_symtab_ser_funcs.o test_ser_anno.o test_anno_basic_types.o )
+set (symtab_OBJS_ALL_MUTATORS test_lookup_func.o test_lookup_var.o test_add_symbols.o test_line_info.o test_module.o test_relocations.o test_type_info.o test_symtab_ser_funcs.o test_ser_anno.o )
 
 set (MUTATOR_NAME_LIST
 	pc_addlibrary
@@ -115,7 +115,6 @@ set (MUTATOR_NAME_LIST
 	test5_8
 	test5_9
 	test_add_symbols
-	test_anno_basic_types
 	test_callback_1
 	test_callback_2
 	test_fork_10
@@ -241,7 +240,6 @@ set (MUTATOR_MODULE_LIB_LIST
 	testdyninst
 	testdyninst
 	testdyninst
-	testsymtab
 	testsymtab
 	testdyninst
 	testdyninst
@@ -370,7 +368,6 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test5_8.C
 	${SRC}/dyninst/test5_9.C
 	${SRC}/symtab/test_add_symbols.C
-	${SRC}/symtab/test_anno_basic_types.C
 	${SRC}/dyninst/test_callback_1.C
 	${SRC}/dyninst/test_callback_2.C
 	${SRC}/dyninst/test_fork_10.C
@@ -406,7 +403,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/symtab/test_type_info.C
 	)
 
-foreach (val RANGE 123)
+foreach (val RANGE 122)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)

@@ -27,8 +27,8 @@ foreach (f ${SOURCE_LIST_26})
 	endif()
 	endforeach()
 set_target_properties(dyninst_group_test.stat_gcc_32_none_none PROPERTIES LINKER_LANGUAGE C)
-add_executable (test1_14.stat_gcc_32_none_none ${SOURCE_LIST_48})
-foreach (f ${SOURCE_LIST_48})
+add_executable (test1_14.stat_gcc_32_none_none ${SOURCE_LIST_47})
+foreach (f ${SOURCE_LIST_47})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE C)
@@ -43,21 +43,12 @@ foreach (f ${SOURCE_LIST_4})
 	endif()
 	endforeach()
 set_target_properties(test1_29.stat_gcc_32_none_none PROPERTIES LINKER_LANGUAGE C)
-add_executable (test1_35.stat_gcc_32_none_none ${SOURCE_LIST_67})
-foreach (f ${SOURCE_LIST_67})
-	get_source_file_property(lang ${f} LANGUAGE)
-	if(lang MATCHES "C")
-		set_source_files_properties(${f} PROPERTIES LANGUAGE C)
-	endif()
-	endforeach()
-set_target_properties(test1_35.stat_gcc_32_none_none PROPERTIES LINKER_LANGUAGE C)
 
 
 INSTALL (TARGETS
 		dyninst_group_test.stat_gcc_32_none_none
 		test1_14.stat_gcc_32_none_none
 		test1_29.stat_gcc_32_none_none
-		test1_35.stat_gcc_32_none_none
 	DESTINATION ${INSTALL_DIR})
 
 ENDIF()

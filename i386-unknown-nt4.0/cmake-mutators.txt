@@ -20,20 +20,21 @@ set (dyninst_OBJS_ALL_MUTATORS test1_1.obj test1_2.obj test1_3.obj test1_4.obj t
 
 
 include_directories ("..src/instruction")
-set (instruction_MUTATORS test_instruction_read_write test_instruction_farcall test_instruction_bind_eval power_decode aarch64_decode aarch64_cft aarch64_decode_ldst power_cft fucompp mov_size_details )
+set (instruction_MUTATORS test_instruction_read_write test_instruction_farcall test_instruction_bind_eval power_decode aarch64_decode aarch64_cft aarch64_decode_ldst aarch64_simd power_cft fucompp mov_size_details )
 
-set (instruction_OBJS_ALL_MUTATORS test_instruction_read_write.obj test_instruction_farcall.obj test_instruction_bind_eval.obj power_decode.obj aarch64_decode.obj aarch64_cft.obj aarch64_decode_ldst.obj power_cft.obj fucompp.obj mov_size_details.obj )
+set (instruction_OBJS_ALL_MUTATORS test_instruction_read_write.obj test_instruction_farcall.obj test_instruction_bind_eval.obj power_decode.obj aarch64_decode.obj aarch64_cft.obj aarch64_decode_ldst.obj aarch64_simd.obj power_cft.obj fucompp.obj mov_size_details.obj )
 
 
 include_directories ("..src/symtab")
-set (symtab_MUTATORS test_lookup_func test_lookup_var test_line_info test_module test_type_info test_symtab_ser_funcs test_ser_anno test_anno_basic_types )
+set (symtab_MUTATORS test_lookup_func test_lookup_var test_line_info test_module test_type_info test_symtab_ser_funcs test_ser_anno )
 
-set (symtab_OBJS_ALL_MUTATORS test_lookup_func.obj test_lookup_var.obj test_line_info.obj test_module.obj test_type_info.obj test_symtab_ser_funcs.obj test_ser_anno.obj test_anno_basic_types.obj )
+set (symtab_OBJS_ALL_MUTATORS test_lookup_func.obj test_lookup_var.obj test_line_info.obj test_module.obj test_type_info.obj test_symtab_ser_funcs.obj test_ser_anno.obj )
 
 set (MUTATOR_NAME_LIST
 	aarch64_cft
 	aarch64_decode
 	aarch64_decode_ldst
+	aarch64_simd
 	fucompp
 	mov_size_details
 	pc_addlibrary
@@ -116,7 +117,6 @@ set (MUTATOR_NAME_LIST
 	test5_7
 	test5_8
 	test5_9
-	test_anno_basic_types
 	test_instruction_bind_eval
 	test_instruction_farcall
 	test_instruction_read_write
@@ -150,6 +150,7 @@ set (MUTATOR_MODULE_LIB_LIST
 	testinstruction
 	testinstruction
 	testinstruction
+	testinstruction
 	testproccontrol
 	testproccontrol
 	testproccontrol
@@ -230,7 +231,6 @@ set (MUTATOR_MODULE_LIB_LIST
 	testdyninst
 	testdyninst
 	testdyninst
-	testsymtab
 	testinstruction
 	testinstruction
 	testinstruction
@@ -263,6 +263,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/instruction/aarch64_cft.C
 	${SRC}/instruction/aarch64_decode.C
 	${SRC}/instruction/aarch64_decode_ldst.C
+	${SRC}/instruction/aarch64_simd.C
 	${SRC}/instruction/fucompp.C
 	${SRC}/instruction/mov_size_details.C
 	${SRC}/proccontrol/pc_addlibrary.C
@@ -345,7 +346,6 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test5_7.C
 	${SRC}/dyninst/test5_8.C
 	${SRC}/dyninst/test5_9.C
-	${SRC}/symtab/test_anno_basic_types.C
 	${SRC}/instruction/test_instruction_bind_eval.C
 	${SRC}/instruction/test_instruction_farcall.C
 	${SRC}/instruction/test_instruction_read_write.C
