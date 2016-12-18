@@ -38,6 +38,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 #include "pcontrol_mutatee_tools.h"
 #include "solo_mutatee_boilerplate.h"
@@ -69,7 +70,7 @@ static unsigned int lib_count = 0;
 int cb(struct dl_phdr_info *info, size_t size, void *v)
 {
    (void) info; (void) size; (void) v;
-   lib_count++;
+   if (strstr(info->dlpi_name, "linux-vdso.so.1") != NULL) lib_count++;
    return 0;
 }
 
