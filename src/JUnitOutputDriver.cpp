@@ -48,8 +48,9 @@ void JUnitOutputDriver::startNewTest(std::map <std::string, std::string> &attrib
         group_skips = 0;
         group_errors= 0;
         group_tests = 0;
+        group_output.str() = "";
     }
-    failure_log.clear();
+    failure_log.str() = "";
     StdOutputDriver::startNewTest(attributes, test, group);
 }
 
@@ -57,17 +58,53 @@ void JUnitOutputDriver::startNewTest(std::map <std::string, std::string> &attrib
 // Before calling any of the log* methods or finalizeOutput(), the user
 // must have initialized the test output driver with a call to startNewTest()
 
+
+std::string modeString(RunGroup* group)
+{
+    switch(group->createmode)
+    {
+        case CREATE:
+            return "create";
+        case USEATTACH:
+            return "attach";
+        case DISK:
+            return "disk";
+        default:
+            return "unknown mode";
+    }
+}
+
+std::string makeClassName(RunGroup* group)
+{
+    std::stringstream classname;
+    classname << group->modname;
+    if(group->mutatee != "")
+    {
+        classname << "." << group->mutatee;
+    }
+    classname << "." << modeString(group);
+    std::string ret = classname.str();
+    int found = ret.find('.');
+    if(found == std::string::npos) found = 0;
+    found = ret.find('_', found);
+    while(found != std::string::npos)
+    {
+        ret[found] = '.';
+        found = ret.find('_', found + 1);
+    }
+    return ret;
+}
+
 void JUnitOutputDriver::logResult(test_results_t result, int stage)
 {
 
 
 
-    group_output << "<testcase classname=\"" << last_group->modname.c_str();
-    if(last_group->mutatee != "") group_output << "." << last_group->mutatee;
+    group_output << "<testcase classname=\"" << makeClassName(last_group);
     group_output << "\" name=\"" << last_test->name << "\"";
 
     if (last_test && last_test->usage.has_data()) {
-        float cpu = last_test->usage.cpuUsage().tv_sec + last_test->usage.cpuUsage().tv_usec / 1000000;
+        float cpu = last_test->usage.cpuUsage().tv_sec + (float)last_test->usage.cpuUsage().tv_usec / 1000000.0;
         group_output << " time=\"" << cpu << "\"";
     }
     group_tests++;
@@ -90,7 +127,7 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
 
         case CRASHED:
             group_errors++;
-            group_output << ">\n<error>Test crashed</error>\n";
+            group_output << ">\n<error>Test crashed: " << failure_log.str() << "</error>\n";
             group_output << "</testcase>";
             break;
 
