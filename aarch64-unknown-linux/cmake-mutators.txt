@@ -20,9 +20,9 @@ set (dyninst_OBJS_ALL_MUTATORS test1_1.o test1_2.o test1_3.o test1_4.o test1_5.o
 
 
 include_directories ("..src/instruction")
-set (instruction_MUTATORS aarch64_decode aarch64_cft aarch64_decode_ldst aarch64_simd )
+set (instruction_MUTATORS test_instruction_read_write test_instruction_profile aarch64_decode aarch64_cft aarch64_decode_ldst aarch64_simd )
 
-set (instruction_OBJS_ALL_MUTATORS aarch64_decode.o aarch64_cft.o aarch64_decode_ldst.o aarch64_simd.o )
+set (instruction_OBJS_ALL_MUTATORS test_instruction_read_write.o test_instruction_profile.o aarch64_decode.o aarch64_cft.o aarch64_decode_ldst.o aarch64_simd.o )
 
 
 include_directories ("..src/symtab")
@@ -137,6 +137,8 @@ set (MUTATOR_NAME_LIST
 	test_fork_7
 	test_fork_8
 	test_fork_9
+	test_instruction_profile
+	test_instruction_read_write
 	test_line_info
 	test_lookup_func
 	test_lookup_var
@@ -267,6 +269,8 @@ set (MUTATOR_MODULE_LIB_LIST
 	testdyninst
 	testdyninst
 	testdyninst
+	testinstruction
+	testinstruction
 	testsymtab
 	testsymtab
 	testsymtab
@@ -398,6 +402,8 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_fork_7.C
 	${SRC}/dyninst/test_fork_8.C
 	${SRC}/dyninst/test_fork_9.C
+	${SRC}/instruction/test_instruction_profile.C
+	${SRC}/instruction/test_instruction_read_write.C
 	${SRC}/symtab/test_line_info.C
 	${SRC}/symtab/test_lookup_func.C
 	${SRC}/symtab/test_lookup_var.C
@@ -421,7 +427,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/symtab/test_type_info.C
 	)
 
-foreach (val RANGE 126)
+foreach (val RANGE 128)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)

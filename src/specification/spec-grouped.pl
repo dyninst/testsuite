@@ -2260,7 +2260,8 @@ test_description('test_instruction_read_write', 'Tests the read & write sets of 
 test_platform('test_instruction_read_write', Platform) :-
         platform(Platform),
         platform('i386', _, _, Platform);
-        platform('x86_64', _, _, Platform).
+        platform('x86_64', _, _, Platform);
+	platform('aarch64', _, _, Platform).
 mutator('test_instruction_read_write', ['test_instruction_read_write.C']).
 test_runmode('test_instruction_read_write', 'disk').
 test_start_state('test_instruction_read_write', 'stopped').
@@ -2293,7 +2294,8 @@ test_description('test_instruction_profile', 'Collect profiling data from decodi
 test_platform('test_instruction_profile', Platform) :-
         platform(Platform),
         platform('i386', OS, _, Platform), OS \= 'windows';
-        platform('x86_64', OS, _, Platform), OS \= 'windows'.
+        platform('x86_64', OS, _, Platform), OS \= 'windows';
+	platform('aarch64', OS, _, Platform), OS \= 'windows'.
 mutator('test_instruction_profile', ['test_instruction_profile.C']).
 test_runmode('test_instruction_profile', 'disk').
 test_start_state('test_instruction_profile', 'stopped').
