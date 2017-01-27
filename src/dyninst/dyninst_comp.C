@@ -260,18 +260,35 @@ test_results_t DyninstComponent::group_setup(RunGroup *group,
    return PASSED;
 }
 
+void runToCompletion(BPatch* bp, BPatch_process* p)
+{
+    p->terminateExecution();
+    while(p && !p->isTerminated())
+    {
+        bp->waitForStatusChange();
+    }
+}
+
 test_results_t DyninstComponent::group_teardown(RunGroup *group,
                                                 ParameterDict &params)
 {
 
     if (group->customExecution) {
+        runToCompletion(bpatch, appProc);
+        delete appProc;
         // We don't care about pass/fail here but we most definitely care about mutatee cleanup.
         // Just kill the process...
-        if(appProc)
-        {
-            //fprintf(stderr, "killing mutatee proc\n");
-            appProc->terminateExecution();
-        }      
+//        if(appProc)
+//        {
+//            //fprintf(stderr, "killing mutatee proc\n");
+//            appProc->terminateExecution();
+//            do {
+//                //fprintf(stderr, "continuing mutatee...\n");
+//                appProc->continueExecution();
+//                bpatch->waitForStatusChange();
+//            } while (appProc && !appProc->isTerminated());
+//            delete appProc;
+//        }
         return PASSED;
     }
    bool someTestPassed = false;
@@ -286,8 +303,9 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
    char *mutatee_resumelog = params["mutatee_resumelog"]->getString();
 
    if (group->createmode == DISK) {
-      if (!someTestPassed)
-         return FAILED;
+      if (!someTestPassed) {
+          return FAILED;
+      }
 
       test_results_t test_result;
       runBinaryTest(group, params, test_result);
@@ -298,12 +316,15 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
    {
       // All tests failed or skipped in executeTest(), so I didn't execute the
       // mutatee.  I should kill it so it doesn't run in attach mode
-      appProc->terminateExecution();
+       runToCompletion(bpatch, appProc);
+       delete appProc;
       return FAILED;
    }
    if (appThread == NULL) {
        // I saw this happen during a broken resumeLog cleanup, so handle
        // it as an error... - bernat, 12JAN09
+       runToCompletion(bpatch, appProc);
+       delete appProc;
        return FAILED;
    }
 
@@ -316,6 +337,7 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
    if (appProc->terminationStatus() == ExitedNormally &&
        appProc->getExitCode() == 0)
    {
+       delete appProc;
       return PASSED;
    }
 
@@ -331,7 +353,7 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
    }
 
    parse_mutateelog(group, mutatee_resumelog);
-
+    delete appProc;
    return UNKNOWN;
 }
 

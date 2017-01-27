@@ -203,7 +203,7 @@ bool runBinaryTest(RunGroup *group, ParameterDict &params, test_results_t &test_
    bool app_crash;
    const char **child_argv = NULL;
    std::string outfile, mutatee_string;
-   BPatch_binaryEdit *binEdit;
+   BPatch_binaryEdit *binEdit = NULL;
 
    int unique_id = params["unique_id"]->getInt();
    
@@ -304,6 +304,6 @@ bool runBinaryTest(RunGroup *group, ParameterDict &params, test_results_t &test_
       killWaywardChild(pid);
    if (child_argv)
       delete [] child_argv;
-      
-   return !error;  
+   delete binEdit;
+   return !error;
 }
