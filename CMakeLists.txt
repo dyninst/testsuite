@@ -98,11 +98,15 @@ foreach (def ${DYNINST_INTERNAL_DEFINES})
   set (MUTATEE_DEFINES "${MUTATEE_DEFINES} ${def}_test")
 endforeach()
 
+find_package(LibXml2 REQUIRED)
+
 include_directories (src
                     src/dyninst
                     src/proccontrol
                     src/symtab
-                    src/instruction)
+                    src/instruction
+                    ${LIBXML2_INCLUDE_DIR})
+
 
 set (LIBTESTSUITE_COMMON_SRCS
             src/test_lib.C 
@@ -141,7 +145,7 @@ endif()
 
 set_target_properties(${TESTSUITE_TESTLAUNCH_LINK} PROPERTIES COMPILE_DEFINITIONS TESTLIB_DLL_BUILD)
 
-target_link_libraries (testSuite ${CMAKE_DL_LIBS})
+target_link_libraries (testSuite ${CMAKE_DL_LIBS} ${LIBXML2_LIBRARIES})
 
 add_library(DatabaseOutputDriver SHARED
 				 src/DatabaseOutputDriver.C

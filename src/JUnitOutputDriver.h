@@ -8,6 +8,61 @@
 #include "StdOutputDriver.h"
 #include <sstream>
 
+
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+
+struct RungroupResults
+{
+    RungroupResults(RunGroup* g) :
+            failures(0), skips(0), errors(0), tests(0),
+            group_node(xmlNewNode(NULL, BAD_CAST "testsuite"))
+    {
+    }
+    RungroupResults() :
+            failures(0), skips(0), errors(0), tests(0),
+            group_node(NULL)
+    {}
+
+    xmlNodePtr add_test(const char* class_name, const char* test_name, float cpu_usage) {
+        xmlNodePtr curTest = xmlNewChild(group_node, NULL, BAD_CAST "testcase", NULL);
+        xmlSetProp(curTest, BAD_CAST  "class", BAD_CAST class_name);
+        xmlSetProp(curTest, BAD_CAST  "test", BAD_CAST test_name);
+        std::stringstream t;
+        t << cpu_usage;
+        xmlNewProp(curTest, BAD_CAST "time", BAD_CAST t.str().c_str());
+        tests++;
+        t.str("");
+        t << tests;
+        xmlSetProp(group_node, BAD_CAST "tests", BAD_CAST t.str().c_str());
+        return curTest;
+    }
+    void add_failure() {
+        failures++;
+        std::stringstream t;
+        t << failures;
+        xmlSetProp(group_node, BAD_CAST "failures", BAD_CAST t.str().c_str());
+    }
+    void add_skip() {
+        skips++;
+        std::stringstream t;
+        t << skips;
+        xmlSetProp(group_node, BAD_CAST "skipped", BAD_CAST t.str().c_str());
+    }
+    void add_error() {
+        errors++;
+        std::stringstream t;
+        t << errors;
+        xmlSetProp(group_node, BAD_CAST "errors", BAD_CAST t.str().c_str());
+    }
+
+    int failures;
+    int skips;
+    int errors;
+    int tests;
+    xmlNodePtr group_node;
+};
+
 class JUnitOutputDriver : public StdOutputDriver
 {
 public:
@@ -31,8 +86,12 @@ private:
     int group_skips;
     int group_errors;
     int group_tests;
-    std::stringstream group_output;
+    std::map<RunGroup*, RungroupResults> groups;
     std::stringstream failure_log;
+    xmlDocPtr results;
+    xmlNodePtr root;
+    RungroupResults cur_group_results;
+    xmlNodePtr cur_test;
 };
 
 
