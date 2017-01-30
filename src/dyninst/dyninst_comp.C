@@ -262,7 +262,7 @@ test_results_t DyninstComponent::group_setup(RunGroup *group,
 
 void runToCompletion(BPatch* bp, BPatch_process* p)
 {
-    p->terminateExecution();
+    if(p) p->terminateExecution();
     while(p && !p->isTerminated())
     {
         bp->waitForStatusChange();
