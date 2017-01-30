@@ -145,8 +145,11 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
             break;
 
         case FAILED:
+        {
             cur_group_results.add_failure();
-            xmlNewChild(cur_test, NULL, BAD_CAST("failure"), BAD_CAST(failure_log.str().c_str()));
+            auto fail = xmlNewChild(cur_test, NULL, BAD_CAST "failure", NULL);
+            xmlNewProp(fail, BAD_CAST("message"), BAD_CAST(failure_log.str().c_str()));
+        }
 //            group_output << ">\n<failure>" << failure_log.str() << "</failure>\n";
 //            group_failures++;
 //            group_output << "</testcase>";
@@ -161,9 +164,12 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
             break;
 
         case CRASHED:
+        {
             cur_group_results.add_error();
-            group_errors++;
-            xmlNewChild(cur_test, NULL, BAD_CAST "error", BAD_CAST failure_log.str().c_str());
+            auto err = xmlNewChild(cur_test, NULL, BAD_CAST "error", NULL);
+            xmlNewProp(err, BAD_CAST("message"), BAD_CAST(failure_log.str().c_str()));
+        }
+//            group_errors++;
 //            group_output << ">\n<error>Test crashed: " << failure_log.str() << "</error>\n";
 //            group_output << "</testcase>";
             break;
