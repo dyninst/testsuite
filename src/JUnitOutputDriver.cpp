@@ -83,18 +83,18 @@ void JUnitOutputDriver::startNewTest(std::map <std::string, std::string> &attrib
     {
         found = groups.insert(std::make_pair(group, RungroupResults(group))).first;
         xmlAddChild(root, found->second.group_node);
+        xmlNodePtr props = xmlNewChild(found->second.group_node, NULL, BAD_CAST "properties", NULL);
+        for(auto i = attributes.begin();
+            i != attributes.end();
+            ++i)
+        {
+            xmlNodePtr p = xmlNewChild(props, NULL, BAD_CAST "property", NULL);
+            xmlNewProp(p, BAD_CAST i->first.c_str(), BAD_CAST i->second.c_str());
+        }
     }
     float cpu = test->usage.cpuUsage().tv_sec + (float)test->usage.cpuUsage().tv_usec / 1000000.0;
     cur_test = found->second.add_test(makeClassName(group).c_str(), test->name, cpu);
     cur_group_results = found->second;
-    xmlNodePtr props = xmlNewChild(cur_group_results.group_node, NULL, BAD_CAST "properties", NULL);
-    for(auto i = attributes.begin();
-            i != attributes.end();
-            ++i)
-    {
-        xmlNodePtr p = xmlNewChild(props, NULL, BAD_CAST "property", NULL);
-        xmlNewProp(p, BAD_CAST i->first.c_str(), BAD_CAST i->second.c_str());
-    }
     failure_log.str("");
 
 //    if (group != last_group) {
