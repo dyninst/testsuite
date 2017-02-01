@@ -4,10 +4,8 @@
 
 #include "JUnitOutputDriver.h"
 
-#if !defined(os_windows_test)
-#include <sys/types.h>
-#include <unistd.h>
-#endif
+
+#include "assert.h"
 
 JUnitOutputDriver::JUnitOutputDriver(void *data) : StdOutputDriver(data),
                                                    group_failures(0),
@@ -17,16 +15,26 @@ JUnitOutputDriver::JUnitOutputDriver(void *data) : StdOutputDriver(data),
     results = xmlNewDoc((const xmlChar *) "1.0");
     root  = xmlNewNode(NULL, (const xmlChar *) "testsuites");
     xmlDocSetRootElement(results, root);
+    xmlCreateIntSubset(results, BAD_CAST "testsuites", NULL,
+                       BAD_CAST "dtd");
+
     std::stringstream results_log_name;
     results_log_name << "test_results" << getpid() << ".xml";
     streams[HUMAN] = results_log_name.str();
-//   log(HUMAN, "<testsuites>\n");
+
+//    auto schema_parser = xmlSchemaNewParserCtxt(
+//            "dtd/junit-10.xsd");
+//    auto parsed_schema = xmlSchemaParse(schema_parser);
+//    validation = xmlSchemaNewValidCtxt(parsed_schema);
+//    xmlSchemaFree(parsed_schema);
+//    xmlSchemaFreeParserCtxt(schema_parser);
 }
 
 JUnitOutputDriver::~JUnitOutputDriver() {
     bool debug = false;
     xmlSaveFormatFileEnc(debug ? "-" : streams[HUMAN].c_str(), results, "UTF-8", 1);
     xmlFreeDoc(results);
+//    xmlSchemaFreeValidCtxt(validation);
     xmlCleanupParser();
     xmlMemoryDump();
 //    log(HUMAN, "</testsuites>\n");
@@ -57,7 +65,7 @@ std::string makeClassName(RunGroup* group)
     classname << group->modname;
     classname << ".";
     classname << modeString(group);
-    classname << "." << group->compiler << "_" << group->abi;
+    classname << "." << (group->compiler || "none") << "_" << group->abi;
 //    if(group->mutatee  && group->mutatee != "")
 //    {
 //        classname << "." << group->mutatee;
@@ -89,13 +97,16 @@ void JUnitOutputDriver::startNewTest(std::map <std::string, std::string> &attrib
             ++i)
         {
             xmlNodePtr p = xmlNewChild(props, NULL, BAD_CAST "property", NULL);
-            xmlNewProp(p, BAD_CAST i->first.c_str(), BAD_CAST i->second.c_str());
+            xmlNewProp(p, BAD_CAST "name", BAD_CAST i->first.c_str());
+            xmlNewProp(p, BAD_CAST "value", BAD_CAST i->second.c_str());
         }
     }
     float cpu = test->usage.cpuUsage().tv_sec + (float)test->usage.cpuUsage().tv_usec / 1000000.0;
     cur_test = found->second.add_test(makeClassName(group).c_str(), test->name, cpu);
     cur_group_results = found->second;
-    failure_log.str("");
+    clearStreams();
+    xmlSetProp(cur_test, BAD_CAST "status", BAD_CAST "started");
+    xmlSaveFormatFileEnc(streams[HUMAN].c_str(), results, "UTF-8", 1);
 
 //    if (group != last_group) {
 //        if(last_group)
@@ -129,7 +140,14 @@ void JUnitOutputDriver::startNewTest(std::map <std::string, std::string> &attrib
 
 void JUnitOutputDriver::logResult(test_results_t result, int stage)
 {
-
+    std::string err = test_streams[STDERR].str();
+    std::string out = test_streams[STDOUT].str();
+    std::string info = test_streams[LOGINFO].str();
+    std::string human = test_streams[HUMAN].str();
+    std::string log = "LOGINFO:\n" + info + "HUMANLOG:" + human;
+    xmlNewChild(cur_test, NULL, BAD_CAST "system-err", BAD_CAST err.c_str());
+    xmlNewChild(cur_test, NULL, BAD_CAST "system-out", BAD_CAST out.c_str());
+    xmlNewProp(cur_test, BAD_CAST "log", BAD_CAST log.c_str());
 
 //    group_output << "<testcase classname=\"" << makeClassName(last_group);
 //    group_output << "\" name=\"" << last_test->name << "\"";
@@ -141,6 +159,7 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
 //    group_tests++;
     switch (result) {
         case PASSED:
+            xmlSetProp(cur_test, BAD_CAST "status", BAD_CAST "passed");
 //            group_output << "/>\n";
             break;
 
@@ -148,7 +167,8 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
         {
             cur_group_results.add_failure();
             auto fail = xmlNewChild(cur_test, NULL, BAD_CAST "failure", NULL);
-            xmlNewProp(fail, BAD_CAST("message"), BAD_CAST(failure_log.str().c_str()));
+            xmlNewProp(fail, BAD_CAST("message"), BAD_CAST(test_streams[LOGERR].str().c_str()));
+            xmlSetProp(cur_test, BAD_CAST "status", BAD_CAST "failed");
         }
 //            group_output << ">\n<failure>" << failure_log.str() << "</failure>\n";
 //            group_failures++;
@@ -158,6 +178,7 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
         case SKIPPED:
             cur_group_results.add_skip();
             xmlNewChild(cur_test, NULL, BAD_CAST "skipped", NULL);
+            xmlSetProp(cur_test, BAD_CAST "status", BAD_CAST "skipped");
 //            group_skips++;
 //            group_output << ">\n<skipped />\n";
 //            group_output << "</testcase>";
@@ -167,7 +188,8 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
         {
             cur_group_results.add_error();
             auto err = xmlNewChild(cur_test, NULL, BAD_CAST "error", NULL);
-            xmlNewProp(err, BAD_CAST("message"), BAD_CAST(failure_log.str().c_str()));
+            xmlSetProp(cur_test, BAD_CAST "status", BAD_CAST "crashed");
+            xmlNewProp(err, BAD_CAST("message"), BAD_CAST(test_streams[LOGERR].str().c_str()));
         }
 //            group_errors++;
 //            group_output << ">\n<error>Test crashed: " << failure_log.str() << "</error>\n";
@@ -187,21 +209,24 @@ void JUnitOutputDriver::logResult(test_results_t result, int stage)
 
 void JUnitOutputDriver::vlog(TestOutputStream stream, const char *fmt, va_list args)
 {
-    if(stream == LOGERR)
-    {
-        char tmp[256];
-        vsnprintf(tmp, 256, fmt, args );
-        failure_log << tmp;
-    }
-    else
-    {
-        StdOutputDriver::vlog(stream, fmt, args);
-    }
+    char tmp[256];
+    vsnprintf(tmp, 256, fmt, args );
+    test_streams[stream] << tmp;
 }
 void JUnitOutputDriver::finalizeOutput()
 {
-    bool debug = true;
+    bool debug = false;
+//    xmlSchemaValidateDoc(validation, results);
     xmlSaveFormatFileEnc(debug ? "-" : streams[HUMAN].c_str(), results, "UTF-8", 1);
+}
+
+void JUnitOutputDriver::clearStreams() {
+    for(auto i = 0;
+            i < OUTPUT_STREAMS_SIZE;
+            ++i)
+    {
+        test_streams[i].str() = "";
+    }
 }
 
 

@@ -11,6 +11,7 @@
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include <libxml/xmlschemas.h>
 
 struct RungroupResults
 {
@@ -80,18 +81,19 @@ public:
     virtual void logResult(test_results_t result, int stage=-1);
     virtual void finalizeOutput();
     virtual void vlog(TestOutputStream stream, const char *fmt, va_list args);
-
+    void clearStreams();
 private:
     int group_failures;
     int group_skips;
     int group_errors;
     int group_tests;
     std::map<RunGroup*, RungroupResults> groups;
-    std::stringstream failure_log;
     xmlDocPtr results;
     xmlNodePtr root;
     RungroupResults cur_group_results;
     xmlNodePtr cur_test;
+    xmlSchemaValidCtxtPtr validation;
+    std::stringstream test_streams[OUTPUT_STREAMS_SIZE];
 };
 
 

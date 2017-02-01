@@ -43,11 +43,12 @@
 #include "test_results.h"
 
 typedef enum {
-  STDOUT,
+  STDOUT = 0,
   STDERR,
   LOGINFO,
   LOGERR,
-  HUMAN
+  HUMAN,
+  OUTPUT_STREAMS_SIZE
 } TestOutputStream;
 
 class TestOutputDriver {
