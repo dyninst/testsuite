@@ -58,7 +58,7 @@ std::string modeString(RunGroup* group)
         case DISK:
             return "disk";
         default:
-            return "unknown mode";
+            return "unknown_mode";
     }
 }
 
@@ -68,7 +68,7 @@ std::string makeClassName(RunGroup* group)
     classname << group->modname;
     classname << ".";
     classname << modeString(group);
-    classname << "." << (group->compiler || "none") << "_" << group->abi;
+    classname << "." << (group->compiler ? group->compiler : "none") << "_" << group->abi;
 //    if(group->mutatee  && group->mutatee != "")
 //    {
 //        classname << "." << group->mutatee;
