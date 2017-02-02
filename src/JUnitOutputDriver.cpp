@@ -62,13 +62,22 @@ std::string modeString(RunGroup* group)
     }
 }
 
+std::string compilerString(RunGroup* group)
+{
+    if(group->compiler) {
+        if(group->compiler != "") {
+            return group->compiler;
+        }
+    }
+    return "none";
+}
+
 std::string makeClassName(RunGroup* group)
 {
     std::stringstream classname;
-    classname << group->modname;
-    classname << ".";
-    classname << modeString(group);
-    classname << "." << (group->compiler ? group->compiler : "none") << "_" << group->abi;
+    classname << group->modname << ".";
+    classname << modeString(group) << ".";
+    classname << compilerString(group) << "_" << group->abi;
 //    if(group->mutatee  && group->mutatee != "")
 //    {
 //        classname << "." << group->mutatee;
