@@ -4,6 +4,9 @@
 
 #include "JUnitOutputDriver.h"
 
+#if !defined(os_windows_test)
+#include <unistd.h>
+#endif
 
 #include "assert.h"
 
