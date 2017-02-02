@@ -18,8 +18,8 @@ JUnitOutputDriver::JUnitOutputDriver(void *data) : StdOutputDriver(data),
     results = xmlNewDoc((const xmlChar *) "1.0");
     root  = xmlNewNode(NULL, (const xmlChar *) "testsuites");
     xmlDocSetRootElement(results, root);
-    xmlCreateIntSubset(results, BAD_CAST "testsuites", NULL,
-                       BAD_CAST "dtd");
+//    xmlCreateIntSubset(results, BAD_CAST "testsuites", NULL,
+//                       BAD_CAST "dtd");
 
     std::stringstream results_log_name;
     results_log_name << "test_results" << getpid() << ".xml";
