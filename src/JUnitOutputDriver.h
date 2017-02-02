@@ -27,7 +27,7 @@ struct RungroupResults
 
     xmlNodePtr add_test(const char* class_name, const char* test_name, float cpu_usage) {
         xmlNodePtr curTest = xmlNewChild(group_node, NULL, BAD_CAST "testcase", NULL);
-        xmlSetProp(curTest, BAD_CAST  "class", BAD_CAST class_name);
+        xmlSetProp(curTest, BAD_CAST  "classname", BAD_CAST class_name);
         xmlSetProp(curTest, BAD_CAST  "name", BAD_CAST test_name);
         std::stringstream t;
         t << cpu_usage;
