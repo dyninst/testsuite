@@ -36,6 +36,7 @@
 #include "Type.h"
 #include "Module.h"
 #include <iostream>
+#include <typeinfo>
 
 using namespace Dyninst;
 using namespace SymtabAPI;
@@ -408,9 +409,9 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
       std::vector<std::pair<std::string, std::string> > *afields)
 {
 	std::string &tn = t->getName();
-
-	//std::cerr << "verify_field_list for " << tn << std::endl;
-
+	if (t->getName() == "my_union") {
+		std::cerr << "verify_field_list for " << tn << std::endl;
+	}
 	std::vector<Field *> *components = t->getComponents();
 
 	if (comps && !components)
@@ -446,6 +447,7 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
 		for (unsigned int i = 0; i < fields->size(); ++i)
 		{
 			Field *f = (*fields)[i];
+			if (t->getName() == "my_union") std::cout << "getName " << f->getName() << std::endl;
 			if (!verify_field(f))
 			{
 				logerror( "%s[%d]:  verify field failed for type %s\n", 
@@ -582,7 +584,7 @@ bool test_type_info_Mutator::verify_type_union(typeUnion *t,
 	got_type_union = true;
 	std::string &tn = t->getName();
 
-	//std::cerr << "verify_union for " << tn << std::endl;
+	std::cerr << "verify_union for " << tn << std::endl;
 
 	if (!verify_field_list(t, ecomps, efields))
 	{
@@ -638,8 +640,9 @@ bool test_type_info_Mutator::verify_type(Type *t)
 	assert(t);
 	std::string & tn = t->getName();
 
-	//std::cerr << "considering type " << tn << std::endl;
-
+	if (t->getUnionType()) {logerror( "%s[%d]: considering type %s, getUnionType() returns %s\n", FILE__, __LINE__, tn.c_str(), typeid(t->getUnionType()).name());
+	std::cout << "ID " << t->getID() << " Size " << t->getSize() << std::endl;
+	}
 	if (!t->getID())
 	{
 		logerror( "%s[%d]:  type %s with zero id\n", FILE__, __LINE__, tn.c_str());
@@ -999,7 +1002,7 @@ test_results_t test_type_info_Mutator::verify_basic_type_lists()
 	   }
 
 	   //logerror( "%s[%d]:  examining types in module %s\n", FILE__, __LINE__,
-	   //		   mods[i]->fileName().c_str());
+	   //              mods[i]->fileName().c_str());
 
 	   for (unsigned int j = 0; j < modtypes->size(); ++j)
 	   {
@@ -1062,7 +1065,7 @@ test_results_t test_type_info_Mutator::executeTest()
 	for (unsigned int i = 0; i < mods.size(); ++i)
 	{
 		std::string mname = mods[i]->fileName();
-		//logerror( "%s[%d]:  considering module %s\n", FILE__, __LINE__, mname.c_str());
+		logerror( "%s[%d]:  considering module %s\n", FILE__, __LINE__, mname.c_str());
 		if (!strncmp("solo_mutatee", mname.c_str(), strlen("solo_mutatee")) ||	
 		    !strncmp("test_type_info_mutatee", mname.c_str(), strlen("test_type_info_mutatee")))
 		{
@@ -1071,7 +1074,7 @@ test_results_t test_type_info_Mutator::executeTest()
 		   mod = mods[i];
 		}
 	}
-
+logerror("Selected module is %s\n", mod->fileName().c_str());
 	if (!mod)
 	{
 		logerror( "%s[%d]:  failed to find module\n", FILE__, __LINE__);
