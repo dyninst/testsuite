@@ -174,7 +174,10 @@ mutatee('symtab_group_test', [
 	'test_ser_anno_mutatee.c',
 	'test_type_info_mutatee.c',
         'test_anno_basic_types_mutatee.c',
-        'test_add_symbols_mutatee.c'
+	    'test_add_symbols_mutatee.c',
+	    'test_local_var_lookup_mutatee.c',
+	    'test_local_var_locations_mutatee.C'
+   
    ]).
 compiler_for_mutatee('symtab_group_test', Compiler) :-
     comp_lang(Compiler, 'c').
@@ -2167,6 +2170,27 @@ test_start_state('test_lookup_var', 'stopped').
 tests_module('test_lookup_var', 'symtab').
 % test_serializable('test_lookup_var').
 
+
+test('test_local_var_lookup', 'test_local_var_lookup', 'symtab_group_test').
+test_description('test_local_var_lookup', 'Lookup local variables with SymtabAPI').
+test_runs_everywhere('test_local_var_lookup').
+groupable_test('test_local_var_lookup').
+mutator('test_local_var_lookup', ['test_local_var_lookup.C']).
+test_runmode('test_local_var_lookup', 'disk').
+test_start_state('test_local_var_lookup', 'stopped').
+tests_module('test_local_var_lookup', 'symtab').
+
+
+test('test_local_var_locations', 'test_local_var_locations', 'symtab_group_test').
+test_description('test_local_var_locations', 'Lookup a single variable with SymtabAPI').
+test_runs_everywhere('test_local_var_locations').
+groupable_test('test_local_var_locations').
+mutator('test_local_var_locations', ['test_local_var_locations.C']).
+test_runmode('test_local_var_locations', 'disk').
+test_start_state('test_local_var_locations', 'stopped').
+tests_module('test_local_var_locations', 'symtab').
+
+    
 test('test_add_symbols', 'test_add_symbols', 'symtab_group_test').
 test_description('test_add_symbols', 'Use SymtabAPI to add symbols to a file').
 groupable_test('test_add_symbols').

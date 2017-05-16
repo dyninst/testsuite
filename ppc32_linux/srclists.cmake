@@ -187,72 +187,66 @@ set (SOURCE_LIST_37
  	${SRC}/mutatee_util_mt.c
  )
 set (SOURCE_LIST_38 
+	${SRC}/mutatee_driver.c	${SRC}/dyninst/test_stack_3_mutatee.c
+ 	${SRC}/mutatee_util.c
+ )
+set (SOURCE_LIST_39 
 	${SRC}/mutatee_driver.c	${SRC}/proccontrol/pc_groups_mutatee.c
  	${SRC}/proccontrol/pcontrol_mutatee_tools.c
  	${SRC}/mutatee_util.c
  	${SRC}/mutatee_util_mt.c
  )
-set (SOURCE_LIST_39 
+set (SOURCE_LIST_40 
 	${SRC}/mutatee_driver.c	${SRC}/proccontrol/pc_addlibrary_mutatee.c
  	${SRC}/proccontrol/pcontrol_mutatee_tools.c
  	${SRC}/mutatee_util.c
  	${SRC}/mutatee_util_mt.c
  )
-set (SOURCE_LIST_40 
+set (SOURCE_LIST_41 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test_stack_1_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_41 
+set (SOURCE_LIST_42 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test1_14_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_42 
+set (SOURCE_LIST_43 
 	${SRC}/mutatee_driver.c	${SRC}/proccontrol/pc_launch_mutatee.c
  	${SRC}/proccontrol/pcontrol_mutatee_tools.c
  	${SRC}/mutatee_util.c
  	${SRC}/mutatee_util_mt.c
  )
-set (SOURCE_LIST_43 
+set (SOURCE_LIST_44 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test3_5_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_44 
+set (SOURCE_LIST_45 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test_fork_10_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_45 
+set (SOURCE_LIST_46 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test_fork_6_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_46 
+set (SOURCE_LIST_47 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test3_6_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_47 
+set (SOURCE_LIST_48 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test_snip_remove_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_48 
+set (SOURCE_LIST_49 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/test3_3_mutatee.c
  	${SRC}/mutatee_util.c
  )
-set (SOURCE_LIST_49 
+set (SOURCE_LIST_50 
 	${SRC}/mutatee_driver.c	${SRC}/proccontrol/pc_terminate_stopped_mutatee.c
  	${SRC}/proccontrol/pcontrol_mutatee_tools.c
  	${SRC}/mutatee_util.c
  	${SRC}/mutatee_util_mt.c
  )
-set (SOURCE_LIST_50 
-	${SRC}/mutatee_driver.c	${SRC}/dyninst/test_stack_3_mutatee.c
- 	${SRC}/mutatee_util.c
- )
 set (SOURCE_LIST_51 
-	${SRC}/mutatee_driver.c	${SRC}/proccontrol/pc_fork_exec_mutatee.c
- 	${SRC}/proccontrol/pcontrol_mutatee_tools.c
- 	${SRC}/mutatee_util.c
- 	${SRC}/mutatee_util_mt.c
- )
-set (SOURCE_LIST_52 
 	${SRC}/mutatee_driver.c	${PROJECT_SOURCE_DIR}/ppc32_linux/symtab_group_test_group.c
 	${SRC}/symtab/test_lookup_func_mutatee.c
  	${SRC}/symtab/test_lookup_var_mutatee.c
@@ -264,7 +258,15 @@ set (SOURCE_LIST_52
  	${SRC}/symtab/test_type_info_mutatee.c
  	${SRC}/symtab/test_anno_basic_types_mutatee.c
  	${SRC}/symtab/test_add_symbols_mutatee.c
+ 	${SRC}/symtab/test_local_var_lookup_mutatee.c
+ 	${SRC}/symtab/test_local_var_locations_mutatee.C
  	${SRC}/mutatee_util.c
+ )
+set (SOURCE_LIST_52 
+	${SRC}/mutatee_driver.c	${SRC}/proccontrol/pc_fork_exec_mutatee.c
+ 	${SRC}/proccontrol/pcontrol_mutatee_tools.c
+ 	${SRC}/mutatee_util.c
+ 	${SRC}/mutatee_util_mt.c
  )
 set (SOURCE_LIST_53 
 	${SRC}/mutatee_driver.c	${SRC}/dyninst/init_fini_callback_mutatee.c
@@ -508,6 +510,8 @@ set_property (SOURCE ${SRC}/proccontrol/pc_thread_mutatee.c APPEND PROPERTY COMP
 set_property (SOURCE ${SRC}/proccontrol/pc_thread_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=0)
 set_property (SOURCE ${SRC}/dyninst/test4_3b_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=test4_3b)
 set_property (SOURCE ${SRC}/dyninst/test4_3b_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=0)
+set_property (SOURCE ${SRC}/symtab/test_local_var_locations_mutatee.C APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=test_local_var_locations)
+set_property (SOURCE ${SRC}/symtab/test_local_var_locations_mutatee.C APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=1)
 set_property (SOURCE ${SRC}/dyninst/test_fork_5_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=test_fork_5)
 set_property (SOURCE ${SRC}/dyninst/test_fork_5_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=0)
 set_property (SOURCE ${SRC}/dyninst/snip_change_shlib_var_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=snip_change_shlib_var)
@@ -536,6 +540,8 @@ set_property (SOURCE ${SRC}/dyninst/test1_13_mutatee.c APPEND PROPERTY COMPILE_D
 set_property (SOURCE ${SRC}/dyninst/test1_13_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=1)
 set_property (SOURCE ${SRC}/dyninst/test_thread_7_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=test_thread_7)
 set_property (SOURCE ${SRC}/dyninst/test_thread_7_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=0)
+set_property (SOURCE ${SRC}/symtab/test_local_var_lookup_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=test_local_var_lookup)
+set_property (SOURCE ${SRC}/symtab/test_local_var_lookup_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=1)
 set_property (SOURCE ${SRC}/dyninst/test_fork_10_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=test_fork_10)
 set_property (SOURCE ${SRC}/dyninst/test_fork_10_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS GROUPABLE=0)
 set_property (SOURCE ${SRC}/dyninst/test3_1_mutatee.c APPEND PROPERTY COMPILE_DEFINITIONS TEST_NAME=test3_1)

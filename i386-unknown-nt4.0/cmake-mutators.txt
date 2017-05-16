@@ -26,9 +26,9 @@ set (instruction_OBJS_ALL_MUTATORS test_instruction_read_write.obj test_instruct
 
 
 include_directories ("..src/symtab")
-set (symtab_MUTATORS test_lookup_func test_lookup_var test_line_info test_module test_type_info test_symtab_ser_funcs test_ser_anno )
+set (symtab_MUTATORS test_lookup_func test_lookup_var test_local_var_lookup test_local_var_locations test_line_info test_module test_type_info test_symtab_ser_funcs test_ser_anno )
 
-set (symtab_OBJS_ALL_MUTATORS test_lookup_func.obj test_lookup_var.obj test_line_info.obj test_module.obj test_type_info.obj test_symtab_ser_funcs.obj test_ser_anno.obj )
+set (symtab_OBJS_ALL_MUTATORS test_lookup_func.obj test_lookup_var.obj test_local_var_lookup.obj test_local_var_locations.obj test_line_info.obj test_module.obj test_type_info.obj test_symtab_ser_funcs.obj test_ser_anno.obj )
 
 set (MUTATOR_NAME_LIST
 	aarch64_cft
@@ -121,6 +121,8 @@ set (MUTATOR_NAME_LIST
 	test_instruction_farcall
 	test_instruction_read_write
 	test_line_info
+	test_local_var_locations
+	test_local_var_lookup
 	test_lookup_func
 	test_lookup_var
 	test_mem_1
@@ -237,6 +239,8 @@ set (MUTATOR_MODULE_LIB_LIST
 	testsymtab
 	testsymtab
 	testsymtab
+	testsymtab
+	testsymtab
 	testdyninst
 	testdyninst
 	testdyninst
@@ -350,6 +354,8 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/instruction/test_instruction_farcall.C
 	${SRC}/instruction/test_instruction_read_write.C
 	${SRC}/symtab/test_line_info.C
+	${SRC}/symtab/test_local_var_locations.C
+	${SRC}/symtab/test_local_var_lookup.C
 	${SRC}/symtab/test_lookup_func.C
 	${SRC}/symtab/test_lookup_var.C
 	${SRC}/dyninst/test_mem_1.C
@@ -373,7 +379,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_write_param.C
 	)
 
-foreach (val RANGE 110)
+foreach (val RANGE 112)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)
