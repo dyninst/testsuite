@@ -158,7 +158,7 @@ mutatee('dyninst_cxx_group_test', ['test5_1_mutatee.C',
 	'test5_6_mutatee.C',
 	'test5_7_mutatee.C',
 	'test5_8_mutatee.C',
-	'test5_9_mutatee.C', 
+	'test5_9_mutatee.C',
         'cpp_test.C']).
 compiler_for_mutatee('dyninst_cxx_group_test', Compiler) :-
     comp_lang(Compiler, 'c++').
@@ -415,6 +415,18 @@ test_runmode('test1_22', 'staticdynamic').
 test_start_state('test1_22', 'stopped').
 tests_module('test1_22', 'dyninst').
 test_exclude_format('test1_22', 'staticMutatee').
+
+test('test_reloc', 'test_reloc', 'test_reloc').
+test_description('test_reloc', 'Relocate all functions in binary without any instrumentation').
+test_runs_everywhere('test_reloc').
+groupable_test('test_reloc').
+mutator('test_reloc', ['test_reloc.C']).
+mutatee('test_reloc', ['test_reloc_mutatee.c']).
+compiler_for_mutatee('test_reloc', Compiler) :-
+    comp_lang(Compiler, 'c').
+tests_module('test_reloc', 'dyninst').
+test_start_state('test_reloc', 'stopped').
+test_runmode('test_reloc', 'staticdynamic').
 
 test('snip_ref_shlib_var', 'snip_ref_shlib_var', 'dyninst_group_test').
 test_description('snip_ref_shlib_var', 'Inst references variable in shared lib').
