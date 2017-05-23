@@ -86,7 +86,7 @@ test_results_t test_local_var_locations_Mutator::executeTest()
         result = funcs[0]->findLocalVariable(localVariables, variablesToLookUp[i]);
         if(!result || !localVariables.size())
         {
-            logerror("[%s:%u] - variable (%s) not found.\n", FILE__, __LINE__, variablesToLookUp[i]);
+            logerror("[%s:%u] - variable (%s) not found.\n", FILE__, __LINE__, variablesToLookUp[i].c_str());
             fprintf(stderr, "[%s:%u] - variable (%s) not found.\n", FILE__, __LINE__, variablesToLookUp[i].c_str());
             return FAILED;
         }
@@ -111,7 +111,7 @@ test_results_t test_local_var_locations_Mutator::executeTest()
             }
 
             // Verify hiPC
-            if(variableLocations[i].lowPC < variableLocations[i].hiPC) 
+            if(variableLocations[i].lowPC <= variableLocations[i].hiPC) 
             {
                 if(isOutOfInverval(interval, variableLocations[i].hiPC))
                 {
