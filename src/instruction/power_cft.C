@@ -92,18 +92,18 @@ test_results_t verifyTargetType(const Instruction::CFT& actual, const cftExpecte
 
 test_results_t power_cft_Mutator::executeTest()
 {
-  const unsigned char buffer[] = 
+  const uint32_t buffer[] = 
   {
-        0x48, 0x00, 0x00, 0x10, // b +16                     
-        0x42, 0xf0, 0x00, 0x20, // b +32
-        0x4e, 0xf0, 0x04, 0x20, // bctr
-        0x42, 0xf0, 0x00, 0x22, // b 32
-        0x42, 0xf0, 0xff, 0xd0, // b -32
-        0x4e, 0xf0, 0x00, 0x20, // blr
-        0x40, 0x01, 0x01, 0x01, // bdnzl cr0, +0x100
-        0x40, 0x01, 0x01, 0x00, // bdnz cr0, +0x100
-        0x4e, 0xf0, 0x04, 0x21, // bctrl
-        0x4c, 0xa3, 0x00, 0x20, // bnslr+
+        0x48000010, // b +16                     
+        0x42f00020, // b +32
+        0x4ef00420, // bctr
+        0x42f00022, // b 32
+        0x42f0ffd0, // b -32
+        0x4ef00020, // blr
+        0x40010101, // bdnzl cr0, +0x100
+        0x40010100, // bdnz cr0, +0x100
+        0x4ef00421, // bctrl
+        0x4ca30020, // bnslr+
   };
   unsigned int expectedInsns = 10;
   unsigned int size = expectedInsns * 4;
