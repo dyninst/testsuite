@@ -176,11 +176,11 @@ test_results_t aarch64_decode_Mutator::executeTest()
 	0x1F, 0x62, 0x84, 0x88,		// FNMSUB D8, D4, D2, D1
 	0x1E, 0x31, 0x10, 0x00,		// FMOV S0, #88
 	0x1E, 0x67, 0xF0, 0x1F,		// FMOV D31, #7F
-	0x1E, 0x02, 0x17, 0xC0,		// SCVTF S0, W30, #59
+	0x1E, 0x02, 0x97, 0xC0,		// SCVTF S0, W30, #59
 	0x9E, 0x43, 0x24, 0x01,		// UCVTF D1, X0, #55
-	0x1E, 0x02, 0x01, 0x45,		// SCVTF S5, W10, #64
-	0x1E, 0x43, 0x04, 0x48,		// UCVTF D8, W2, #63
-	0x1E, 0x19, 0x04, 0x0B,		// FCVTZU W12, S0, #63
+	0x1E, 0x02, 0xC1, 0x45,		// SCVTF S5, W10, #64
+	0x1E, 0x43, 0x84, 0x48,		// UCVTF D8, W2, #63
+	0x1E, 0x19, 0xC4, 0x0B,		// FCVTZU W12, S0, #63
 	0x9E, 0x58, 0xFF, 0xFE,		// FCVTZS X30, D31, #0
 	0x9E, 0x19, 0xE1, 0x41,		// FCVTZU X1, S10, #8
 	0x1E, 0x58, 0xF1, 0x29,		// FCVTZS W9, D9, #4
@@ -201,7 +201,7 @@ test_results_t aarch64_decode_Mutator::executeTest()
 	0xD5, 0x3B, 0xE8, 0x40,		// MRS X0, PMEVCNTR2_EL0
 	0xD5, 0x1B, 0xE0, 0x21,		// MSR CNTPCT_EL0, X1
 	0xD5, 0x1B, 0xEF, 0xC0,		// MSR PMEVTYPER30_EL0, X0
-    0x00, 0x00, 0x00, 0x00      // INVALID
+    0x00, 0x00, 0x00, 0x00,      // INVALID
   };
 
   unsigned int size = sizeof(buffer);
@@ -218,7 +218,7 @@ test_results_t aarch64_decode_Mutator::executeTest()
     i = d.decode();
     decodedInsns.push_back(i);
     if(i != NULL)
-      decodedInsns.back()->format();
+      /*std::cout<<*/decodedInsns.back()->format()/*<<std::endl*/;
   }
   while(i && i->isValid());
 
@@ -470,7 +470,7 @@ test_results_t aarch64_decode_Mutator::executeTest()
   RegisterAST::Ptr b30(new RegisterAST(aarch64::b30));
   RegisterAST::Ptr b31(new RegisterAST(aarch64::b31));
 
-  RegisterAST::Ptr zr (new RegisterAST(aarch64::zr));
+  RegisterAST::Ptr zr (new RegisterAST(aarch64::xzr));
   RegisterAST::Ptr wzr (new RegisterAST(aarch64::wzr));
   RegisterAST::Ptr sp (new RegisterAST(aarch64::sp));
   RegisterAST::Ptr wsp (new RegisterAST(aarch64::wsp));
@@ -833,10 +833,10 @@ expectedWritten.push_back(tmpWritten);
 tmpRead.clear();
 tmpWritten.clear();
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-	tmpRead = {x1,x1,x0};
+	tmpRead = {x1,w1,w0};
 	tmpWritten = {x0};
 #else
-	tmpRead = list_of(x1)(x1)(x0);
+	tmpRead = list_of(x1)(w1)(w0);
 	tmpWritten = list_of(x0);
 #endif
 expectedRead.push_back(tmpRead);

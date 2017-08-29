@@ -148,7 +148,7 @@ test_results_t aarch64_simd_Mutator::executeTest()
 	0x0E, 0x68, 0x70, 0x45,	    //SABDL   Q5, D2, D8
 	0x4E, 0xA2, 0xB0, 0x20,	    //SQDMLSL Q0, HQ1, HQ2
 	0x2E, 0x3F, 0x61, 0xE2,	    //RSUBHN  D2, Q15, Q31
-	0x4E, 0xE3, 0x60, 0x48,	    //SUBHN   HQ8, Q2,Q3
+	0x4E, 0x63, 0x60, 0x48,	    //SUBHN   HQ8, Q2,Q3
 	0x0E, 0x25, 0x0C, 0x62,	    //SQADD   D2, D3, D5
 	0x4E, 0x3F, 0x34, 0x20,	    //CMGT    Q0, Q1, Q31
 	0x0E, 0x2A, 0x7D, 0x28,	    //SABA    D8, D9, D10
@@ -249,7 +249,7 @@ test_results_t aarch64_simd_Mutator::executeTest()
 	return FAILED;
     }
 
-    RegisterAST::Ptr zr (new RegisterAST(aarch64::zr));
+    RegisterAST::Ptr zr (new RegisterAST(aarch64::xzr));
     RegisterAST::Ptr wzr (new RegisterAST(aarch64::wzr));
 
     RegisterAST::Ptr x0 (new RegisterAST(aarch64::x0));

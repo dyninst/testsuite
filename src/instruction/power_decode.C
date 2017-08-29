@@ -58,33 +58,33 @@ extern "C" DLLEXPORT TestMutator* power_decode_factory()
 
 test_results_t power_decode_Mutator::executeTest()
 {
-  const unsigned char buffer[] = 
+  const uint32_t buffer[] = 
   {
-      0x7d, 0x20, 0x42, 0x15, // add. r9, r0, r8
-      0x7d, 0x20, 0x42, 0x14,  // add r9, r0, r8
-      0x7d, 0x20, 0x46, 0x14,  // addo r9, r0, r8
-      0xfc, 0x01, 0x10, 0x2a, // fadd fpr0, fpr1, fpr2
-      0xfc, 0x01, 0x10, 0x2b, // fadd. fpr0, fpr1, fpr2
-      0x38, 0x20, 0x00, 0x01, // addi r1, 0, 1
-      0x38, 0x21, 0x00, 0x01, // addi r1, r1, 1
-      0xf0, 0x00, 0xff, 0xfc, // stfq fpr0, 0, -1
-      0xf0, 0x01, 0x00, 0x04, // stfq fpr0, r1, 1
-      0xff, 0x80, 0x08, 0x00, // fcmpu fpscr7, fpr0, fpr1
-      0x7f, 0x80, 0x08, 0x00, // fcmpu cr7, r0, r1
-      0x7c, 0x0a, 0xa1, 0x20, // mtcrf cr0, cr2, cr4, cr6, r0
-      0xfd, 0x54, 0x06, 0x06, // mtfsf fpscr0, fpscr2, fpscr4, fpscr6, fpr0
-      0x80, 0x01, 0x00, 0x00, // lwz r0, 0(r1)
-      0x84, 0x01, 0x00, 0x00, // lwzu r0, 0(r1)
-      0x7c, 0x01, 0x10, 0x2e, // lwzx r0, r2(r1)
-      0x7c, 0x01, 0x10, 0x6e, // lwzux r0, r2(r1)
-      0x78, 0x01, 0x44, 0x0c, // rlimi r0, r1
-      0x00, 0x01, 0x00, 0x90, // fpmul fpr0, fpr1
-      0x00, 0x01, 0x00, 0x92, // fxmul fpr0, fpr1, or qvfxmadds 
-      0x00, 0x01, 0x00, 0x94, // fxcpmul fpr0, fpr1
-      0x00, 0x01, 0x00, 0x96, // fxcsmul fpr0, fpr1, or qvfxxnpmadds
-      0x40, 0x01, 0x01, 0x01, // bdnzl cr0, +0x100
-      0x40, 0x01, 0x01, 0x00, // bdnz cr0, +0x100
-      0x7c, 0xa7, 0x4a, 0x6e, // lhzux r9, r7, r5
+      0x7d204215, // add. r9, r0, r8
+      0x7d204214,  // add r9, r0, r8
+      0x7d204614,  // addo r9, r0, r8
+      0xfc01102a, // fadd fpr0, fpr1, fpr2
+      0xfc01102b, // fadd. fpr0, fpr1, fpr2
+      0x38200001, // addi r1, 0, 1
+      0x38210001, // addi r1, r1, 1
+      0xf000fffc, // stfq fpr0, 0, -1
+      0xf0010004, // stfq fpr0, r1, 1
+      0xff800800, // fcmpu fpscr7, fpr0, fpr1
+      0x7f800800, // fcmpu cr7, r0, r1
+      0x7c0aa120, // mtcrf cr0, cr2, cr4, cr6, r0
+      0xfd540606, // mtfsf fpscr0, fpscr2, fpscr4, fpscr6, fpr0
+      0x80010000, // lwz r0, 0(r1)
+      0x84010000, // lwzu r0, 0(r1)
+      0x7c01102e, // lwzx r0, r2(r1)
+      0x7c01106e, // lwzux r0, r2(r1)
+      0x7801440c, // rlimi r0, r1
+      0x00010090, // fpmul fpr0, fpr1
+      0x00010092, // fxmul fpr0, fpr1, or qvfxmadds 
+      0x00010094, // fxcpmul fpr0, fpr1
+      0x00010096, // fxcsmul fpr0, fpr1, or qvfxxnpmadds
+      0x40010101, // bdnzl cr0, +0x100
+      0x40010100, // bdnz cr0, +0x100
+      0x7ca74a6e, // lhzux r9, r7, r5
                 
   };
   unsigned int expectedInsns = 25;
