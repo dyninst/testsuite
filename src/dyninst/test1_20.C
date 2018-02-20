@@ -60,7 +60,7 @@ extern "C" DLLEXPORT  TestMutator *test1_20_factory()
 //
 // Start Test Case #20 - mutator side (instrumentation at arbitrary points)
 //
-bool nullFilter(Dyninst::InstructionAPI::Instruction::Ptr)
+bool nullFilter(Dyninst::InstructionAPI::Instruction)
 {
     return true;
 }
@@ -160,7 +160,7 @@ test_results_t test1_20_Mutator::executeTest()
 
                             dprintf("%s[%d]:  SUCCESS installing inst at address %p\n",
                                     FILE__, __LINE__, pt->getAddress());
-                            dprintf("\t\tInsn at point is %s\n", pt->getInsnAtPoint()->format().c_str());
+                            dprintf("\t\tInsn at point is %s\n", pt->getInsnAtPoint().format().c_str());
                         }
                         else
                             logerror("%s[%d]:  non-arbitrary point (%d) being ignored\n",

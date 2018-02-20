@@ -49,6 +49,7 @@
 //#include "test_lib.h"
 
 #include "DatabaseOutputDriver.h"
+#include "UsageMonitor.h"
 
 extern "C" {
 	TestOutputDriver *outputDriver_factory(void * data) 

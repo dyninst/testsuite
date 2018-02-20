@@ -81,35 +81,36 @@ test_results_t test_instruction_bind_eval_Mutator::executeTest()
     
   
     InstructionDecoder d(buffer, size, curArch);
-    std::vector<Instruction::Ptr> decodedInsns;
-    Instruction::Ptr i;
+    std::vector<Instruction> decodedInsns;
+    Instruction i;
     do
     {
       i = d.decode();
       decodedInsns.push_back(i);
     }
-    while(i && i->isValid());
+    while(i.isValid());
     if(decodedInsns.size() != expectedInsns)
     {
       logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-      for(std::vector<Instruction::Ptr>::iterator curInsn = decodedInsns.begin();
+      for(std::vector<Instruction>::iterator curInsn = decodedInsns.begin();
 	  curInsn != decodedInsns.end();
 	  ++curInsn)
       {
-      logerror("\t%s\n", (*curInsn)->format().c_str());
+      logerror("\t%s\n", curInsn->format().c_str());
       }
       
       return FAILED;
     }
-    if(decodedInsns.back() && decodedInsns.back()->isValid())
+    if(decodedInsns.back().isValid())
     {
       logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
       return FAILED;
     }
 
-  Expression::Ptr theCFT = decodedInsns[0]->getControlFlowTarget();
+  Expression::Ptr theCFT = decodedInsns[0].getControlFlowTarget();
   if(!theCFT) {
-    logerror("FAILED: instruction %s decoded from call [8*EAX + ECX + 0xDEADBEEF], no CFT found\n", decodedInsns[0]->format().c_str());
+    logerror("FAILED: instruction %s decoded from call [8*EAX + ECX + 0xDEADBEEF], no CFT found\n",
+             decodedInsns[0].format().c_str());
     return FAILED;
   }
   if(verifyCFT(theCFT, false, 0x1000, u32) == FAILED)
@@ -131,7 +132,7 @@ test_results_t test_instruction_bind_eval_Mutator::executeTest()
   Result five(u32, 5);
   
   if(!theCFT->bind(r_eax, three)) {
-      logerror("FAILED: bind of EAX failed (insn %s)\n", decodedInsns[0]->format().c_str());
+      logerror("FAILED: bind of EAX failed (insn %s)\n", decodedInsns[0].format().c_str());
     return FAILED;
   }
   if(verifyCFT(theCFT, false, 0x1000, u32) == FAILED)

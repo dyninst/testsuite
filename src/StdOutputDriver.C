@@ -33,6 +33,7 @@
 #include "TestOutputDriver.h"
 #include "StdOutputDriver.h"
 #include "test_info_new.h"
+#include "UsageMonitor.h"
 
 #include <map>
 #include <string>

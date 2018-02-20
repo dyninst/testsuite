@@ -33,9 +33,7 @@
  */
 
 /* int runMutatedBinary(char *path, char* fileName, char* testID); */
+#include <testsuite/src/test_lib_dll.h>
 
-void changePath(char *path);
 
-int runMutatedBinaryLDLIBRARYPATH(char *path, char* fileName, char* testID);
-
-void sleep_ms(int ms);
+void TESTLIB_DLL_EXPORT sleep_ms(int ms);

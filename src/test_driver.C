@@ -72,6 +72,7 @@
 #include "module.h"
 #include "MutateeStart.h"
 #include "remotetest.h"
+#include "UsageMonitor.h"
 
 using namespace std;
 

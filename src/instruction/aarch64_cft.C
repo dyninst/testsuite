@@ -126,27 +126,27 @@ test_results_t aarch64_cft_Mutator::executeTest()
   reverseBuffer(buffer, size);
   InstructionDecoder d(buffer, size, Dyninst::Arch_aarch64);
 
-  std::deque<Instruction::Ptr> decodedInsns;
-  Instruction::Ptr i;
+  std::deque<Instruction> decodedInsns;
+  Instruction i;
   do
   {
     i = d.decode();
     decodedInsns.push_back(i);
   }
-  while(i);
+  while(i.isValid());
   if(decodedInsns.size() != expectedInsns)
   {
     logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-    for(std::deque<Instruction::Ptr>::iterator curInsn = decodedInsns.begin();
+    for(std::deque<Instruction>::iterator curInsn = decodedInsns.begin();
 	curInsn != decodedInsns.end();
 	++curInsn)
     {
-        if(*curInsn) logerror("\t%s\n", (*curInsn)->format().c_str());
+        logerror("\t%s\n", curInsn->format().c_str());
     }
 
     return FAILED;
   }
-  if(decodedInsns.back() && decodedInsns.back()->isValid())
+  if(decodedInsns.back().isValid())
   {
     logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
     return FAILED;
@@ -179,9 +179,9 @@ test_results_t aarch64_cft_Mutator::executeTest()
 
   while(!decodedInsns.empty())
   {
-      (void)(decodedInsns.front()->getControlFlowTarget());
-      for(Instruction::cftConstIter curCFT = decodedInsns.front()->cft_begin();
-          curCFT != decodedInsns.front()->cft_end();
+      (void)(decodedInsns.front().getControlFlowTarget());
+      for(Instruction::cftConstIter curCFT = decodedInsns.front().cft_begin();
+          curCFT != decodedInsns.front().cft_end();
           ++curCFT)
       {
           Expression::Ptr theCFT = curCFT->target;
@@ -195,7 +195,7 @@ test_results_t aarch64_cft_Mutator::executeTest()
           }
           else
           {
-              logerror("FAILED: instruction %s expected CFT, wasn't present", decodedInsns.front()->format().c_str());
+              logerror("FAILED: instruction %s expected CFT, wasn't present", decodedInsns.front().format().c_str());
               retVal = failure_accumulator(retVal, FAILED);
           }
           cfts.pop_front();

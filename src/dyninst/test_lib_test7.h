@@ -27,6 +27,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
+#include <testsuite/src/test_lib_dll.h>
 #include "BPatch.h"
 #include "BPatch_thread.h"
 
@@ -42,11 +43,11 @@ typedef struct msgSt ipcMsg;
 typedef struct msgSt ipcMsg;
 
 /* Test7 Functions */
-bool setupMessaging(int *msgid);
-bool doError(bool *passedTest, bool cond, const char *str);
-bool verifyProcMemory(BPatch_process *appThread, const char *name,
+TESTLIB_DLL_EXPORT bool setupMessaging(int *msgid);
+TESTLIB_DLL_EXPORT bool doError(bool *passedTest, bool cond, const char *str);
+TESTLIB_DLL_EXPORT bool verifyProcMemory(BPatch_process *appThread, const char *name,
                       int expectedVal, procType proc_type);
-bool verifyProcMemory(const char *name, BPatch_variableExpr *var,
+TESTLIB_DLL_EXPORT bool verifyProcMemory(const char *name, BPatch_variableExpr *var,
                       int expectedVal, procType proc_type);
-void showFinalResults(bool passedTest, int i);
+TESTLIB_DLL_EXPORT void showFinalResults(bool passedTest, int i);
 

@@ -4,14 +4,14 @@ project (Dyninst-TestSuite)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
 include (c++11.cmake)
 
-set (USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
-if (NOT ("${USE_CXX11_ABI}" STREQUAL ""))
-  if (${USE_CXX11_ABI})
-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-  else()
-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
-  endif()
-endif()
+#set (USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
+#if (NOT ("${USE_CXX11_ABI}" STREQUAL ""))
+#  if (${USE_CXX11_ABI})
+#    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+#  else()
+#    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+#  endif()
+#endif()
 
 
 if (CMAKE_COMPILER_IS_GNUCXX  OR  ${CMAKE_C_COMPILER_ID} MATCHES Clang)
@@ -116,8 +116,12 @@ set (LIBTESTSUITE_COMMON_SRCS
             src/StdOutputDriver.C
             src/remotetest.C
             src/connection.C
+            src/ParameterDict.C
             src/module.C
-            src/test_lib_templates.C src/JUnitOutputDriver.cpp)
+            src/ResumeLog.C
+            src/test_lib_templates.C
+            src/JUnitOutputDriver.cpp
+            src/UsageMonitor.C)
 
 set (LIBTESTLAUNCH_SRCS
     src/CmdLine.C
@@ -125,7 +129,12 @@ set (LIBTESTLAUNCH_SRCS
     src/ResumeLog.C
     src/MutateeStart.C
     src/test_info_new.C
-    ${DYNINST_PLATFORM}/test_info_new.gen.C)    
+    ${DYNINST_PLATFORM}/test_info_new.gen.C
+        src/UsageMonitor.C
+        src/TestOutputDriver.C
+        src/StdOutputDriver.C
+        src/JUnitOutputDriver.cpp
+        )
 
 if(UNIX)
 add_library(testSuite SHARED
@@ -133,7 +142,7 @@ add_library(testSuite SHARED
     ${LIBTESTSUITE_COMMON_SRCS})
 add_library(testlaunch SHARED
     ${LIBTESTLAUNCH_SRCS})
-target_link_libraries (testlaunch)
+target_link_libraries (testlaunch ${LIBXML2_LIBRARIES} testSuite)
 set(TESTSUITE_TESTLAUNCH_LINK testSuite testlaunch)
 else()
 add_library(testSuite SHARED
@@ -174,7 +183,7 @@ if(TARGET dyninstAPI)
     src/dyninst/Callbacks.C
     src/dyninst/Process_data.C
     ${PLAT_SRC})
-  target_link_libraries (testdyninst testSuite dyninstAPI instructionAPI ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testdyninst testlaunch testSuite dyninstAPI instructionAPI common boost_system ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testdyninst
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testdyninst PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -182,7 +191,7 @@ endif()
 if(TARGET symtabAPI)
   add_library (testsymtab SHARED
     src/symtab/symtab_comp.C)
-  target_link_libraries (testsymtab testSuite symtabAPI common ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testsymtab testSuite symtabAPI common boost_system ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testsymtab
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testsymtab PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -191,7 +200,7 @@ endif()
 if(TARGET instructionAPI)
   add_library (testinstruction SHARED
     src/instruction/instruction_comp.C)
-  target_link_libraries (testinstruction testSuite instructionAPI symtabAPI common ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testinstruction testSuite instructionAPI symtabAPI common boost_system ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testinstruction
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testinstruction PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -204,7 +213,7 @@ if(TARGET pcontrol)
   if(WIN32)
     target_link_libraries(testproccontrol testSuite pcontrol common ${CMAKE_THREAD_LIBS_INIT} ws2_32)
   else()
-    target_link_libraries (testproccontrol testSuite pcontrol common ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries (testproccontrol testlaunch testSuite pcontrol common boost_system ${CMAKE_THREAD_LIBS_INIT})
   endif()
   install(TARGETS testproccontrol
     DESTINATION ${INSTALL_DIR})
@@ -304,12 +313,13 @@ set_target_properties(testA_static PROPERTIES OUTPUT_NAME testA)
 set_target_properties(testB_static PROPERTIES OUTPUT_NAME testB)
 
 if(UNIX)
-add_library (Test12 SHARED src/dyninst/libTest12.c)
-install (TARGETS Test12 
-	LIBRARY DESTINATION ${INSTALL_DIR}
-	RUNTIME DESTINATION ${INSTALL_DIR}
-	ARCHIVE DESTINATION ${INSTALL_DIR}
-)
+#add_library (Test12 SHARED src/dyninst/libTest12.c)
+#add_dependencies(Test12 dyninstAPI)
+#install (TARGETS Test12
+#	LIBRARY DESTINATION ${INSTALL_DIR}
+#	RUNTIME DESTINATION ${INSTALL_DIR}
+#	ARCHIVE DESTINATION ${INSTALL_DIR}
+#)
 endif()
 install (TARGETS testA testB testA_static testB_static
 	LIBRARY DESTINATION ${INSTALL_DIR}
@@ -329,9 +339,10 @@ add_library (testA_m32_static STATIC src/libtestA.c)
 add_library (testB_m32_static STATIC src/libtestB.c)
 set_target_properties(testA_m32_static PROPERTIES OUTPUT_NAME testA_m32)
 set_target_properties(testB_m32_static PROPERTIES OUTPUT_NAME testB_m32)
-add_library (Test12_m32 SHARED src/dyninst/libTest12.c)
+#add_library (Test12_m32 SHARED src/dyninst/libTest12.c)
+#add_dependencies(Test12_m32 dyninstAPI)
 
-install (TARGETS testA_m32 testB_m32 Test12_m32 testA_m32_static testB_m32_static 
+install (TARGETS testA_m32 testB_m32 testA_m32_static testB_m32_static # Test12_m32
 	LIBRARY DESTINATION ${INSTALL_DIR}
 	ARCHIVE DESTINATION ${INSTALL_DIR})
 
@@ -343,10 +354,10 @@ set_target_properties (testB_m32 testB_m32_static
                       PROPERTIES
                       COMPILE_FLAGS "-m32 -Dm32_test"
                       LINK_FLAGS "-m32")
-set_target_properties (Test12_m32
-                      PROPERTIES
-                      COMPILE_FLAGS "-m32 -Dm32_test"
-                      LINK_FLAGS "-m32")
+#set_target_properties (Test12_m32
+#                      PROPERTIES
+#                      COMPILE_FLAGS "-m32 -Dm32_test"
+#                      LINK_FLAGS "-m32")
 endif()
 endif()
 

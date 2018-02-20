@@ -29,6 +29,7 @@
  */
 
 #include "symtab_comp.h"
+#include "UsageMonitor.h"
 #include <stdlib.h>
 
 using namespace Dyninst;

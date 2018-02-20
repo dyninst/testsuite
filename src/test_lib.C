@@ -63,6 +63,7 @@ using namespace std;
 #include <sys/stat.h>
 #endif
 #include <stdarg.h>
+#include "ResumeLog.h"
 
 // Blind inclusion from test9.C
 #if defined(i386_unknown_linux2_0_test) \

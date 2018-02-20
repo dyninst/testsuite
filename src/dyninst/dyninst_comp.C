@@ -45,6 +45,7 @@
 #include "ResumeLog.h"
 #include "dyninst_comp.h"
 #include "MutateeStart.h"
+#include "UsageMonitor.h"
 
 using namespace std;
 
@@ -1266,7 +1267,7 @@ int instEffAddr(BPatch_addressSpace* as, const char* fname,
 #endif
                 BPatch_Vector<BPatch_snippet*> listArgs;
                 BPatch_effectiveAddressExpr eae;
-                BPatch_constExpr insn_str((*res)[i]->getInsnAtPoint()->format().c_str());
+                BPatch_constExpr insn_str((*res)[i]->getInsnAtPoint().format().c_str());
                 listArgs.push_back(&insn_str);
                 listArgs.push_back(&eae);
                 BPatch_funcCallExpr listXXXCall(*listXXXFunc, listArgs);
@@ -1291,7 +1292,7 @@ int instEffAddr(BPatch_addressSpace* as, const char* fname,
             for(unsigned int i = 0; i < (*res2).size(); i++)
             {
                 BPatch_Vector<BPatch_snippet*> listArgs2;
-                BPatch_constExpr insn_str2((*res2)[i]->getInsnAtPoint()->format().c_str());
+                BPatch_constExpr insn_str2((*res2)[i]->getInsnAtPoint().format().c_str());
                 listArgs2.push_back(&insn_str2);
                 listArgs2.push_back(&eae2);
                 BPatch_funcCallExpr listXXXCall2(*listXXXFunc, listArgs2);
@@ -1303,7 +1304,7 @@ int instEffAddr(BPatch_addressSpace* as, const char* fname,
             for(int i = 0; i < (*res2).size(); i++)
             {
                 BPatch_Vector<BPatch_snippet*> listArgs2;
-                std::string insn = (*res2)[i]->getInsnAtPoint()->format();
+                std::string insn = (*res2)[i]->getInsnAtPoint().format();
                 BPatch_constExpr insn_str2(insn.c_str());
                 listArgs2.push_back(&insn_str2);
                 listArgs2.push_back(&eae2);
@@ -1350,7 +1351,7 @@ int instByteCnt(BPatch_addressSpace* as, const char* fname,
 
 #endif
                 BPatch_bytesAccessedExpr bae;
-                std::string insn = (*res)[i]->getInsnAtPoint()->format();
+                std::string insn = (*res)[i]->getInsnAtPoint().format();
                 BPatch_constExpr insn_str(insn.c_str());
                 listArgs.push_back(&insn_str);
                 listArgs.push_back(&bae);
@@ -1375,7 +1376,7 @@ int instByteCnt(BPatch_addressSpace* as, const char* fname,
             for(unsigned int i = 0; i < (*res2).size(); i++)
             {
                 BPatch_Vector<BPatch_snippet*> listArgs2;
-                std::string insn2 = (*res2)[i]->getInsnAtPoint()->format();
+                std::string insn2 = (*res2)[i]->getInsnAtPoint().format();
                 BPatch_constExpr insn_str2(insn2.c_str());
                 listArgs2.push_back(&insn_str2);
                 listArgs2.push_back(&bae2);
@@ -1388,7 +1389,7 @@ int instByteCnt(BPatch_addressSpace* as, const char* fname,
             for(unsigned int i = 0; i < (*res2).size(); i++)
             {
                 BPatch_Vector<BPatch_snippet*> listArgs2;
-                std::string insn = (*res2)[i]->getInsnAtPoint()->format();
+                std::string insn = (*res2)[i]->getInsnAtPoint().format();
                 BPatch_constExpr insn_str2(insn.c_str());
                 listArgs2.push_back(&insn_str2);
                 listArgs2.push_back(&bae2);

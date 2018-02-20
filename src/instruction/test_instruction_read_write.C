@@ -73,27 +73,27 @@ test_results_t test_instruction_read_write_Mutator::executeTest()
   unsigned int size = 40;
   unsigned int expectedInsns = 12;
   InstructionDecoder d(buffer, size, Dyninst::Arch_x86);
-  std::deque<Instruction::Ptr> decodedInsns;
-  Instruction::Ptr i;
+  std::deque<Instruction> decodedInsns;
+  Instruction i;
   do
   {
     i = d.decode();
     decodedInsns.push_back(i);
   }
-  while(i && i->isValid());
+  while(i.isValid());
   if(decodedInsns.size() != expectedInsns)
   {
     logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-    for(std::deque<Instruction::Ptr>::iterator curInsn = decodedInsns.begin();
+    for(std::deque<Instruction>::iterator curInsn = decodedInsns.begin();
 	curInsn != decodedInsns.end();
 	++curInsn)
     {
-      logerror("\t%s\n", (*curInsn)->format().c_str());
+      logerror("\t%s\n", curInsn->format().c_str());
     }
     
     return FAILED;
   }
-  if(decodedInsns.back() && decodedInsns.back()->isValid())
+  if(decodedInsns.back().isValid())
   {
     logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
     return FAILED;
@@ -102,7 +102,7 @@ test_results_t test_instruction_read_write_Mutator::executeTest()
   Architecture curArch = Arch_x86;
   registerSet expectedRead, expectedWritten;
   test_results_t retVal = PASSED;
-  Instruction::Ptr callInsn;
+  Instruction callInsn;
   {
       using namespace x86;
   
@@ -233,8 +233,9 @@ test_results_t test_instruction_read_write_Mutator::executeTest()
 #endif
   retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
 							      expectedRead, expectedWritten));
-  if(decodedInsns.front()->size() != 4) {
-    logerror("FAILURE: movddup expected size 4, decoded to %s, had size %d\n", decodedInsns.front()->format().c_str(), decodedInsns.front()->size());
+  if(decodedInsns.front().size() != 4) {
+    logerror("FAILURE: movddup expected size 4, decoded to %s, had size %d\n",
+             decodedInsns.front().format().c_str(), decodedInsns.front().size());
     retVal = FAILED;
   }
   decodedInsns.pop_front();
@@ -249,8 +250,9 @@ test_results_t test_instruction_read_write_Mutator::executeTest()
   expectedWritten = list_of(r_xmm1);
 #endif
   retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), expectedRead, expectedWritten));
-  if(decodedInsns.front()->size() != 4) {
-    logerror("FAILURE: haddpd expected size 4, decoded to %s, had size %d\n", decodedInsns.front()->format().c_str(), decodedInsns.front()->size());
+  if(decodedInsns.front().size() != 4) {
+    logerror("FAILURE: haddpd expected size 4, decoded to %s, had size %d\n",
+             decodedInsns.front().format().c_str(), decodedInsns.front().size());
     retVal = FAILED;
   }  
   decodedInsns.pop_front();
@@ -276,15 +278,15 @@ test_results_t test_instruction_read_write_Mutator::executeTest()
   };
   unsigned int amd64_size = 4;
   unsigned int amd64_num_valid_insns = 1;
-  deque<Instruction::Ptr> amd64Insns;
+  deque<Instruction> amd64Insns;
   
   InstructionDecoder amd64_decoder(amd64_specific, amd64_size, Dyninst::Arch_x86_64);
-  Instruction::Ptr tmp;
+  Instruction tmp;
   do
   {
     tmp = amd64_decoder.decode();
     amd64Insns.push_back(tmp);
-  } while(tmp && tmp->isValid());
+  } while(tmp.isValid());
   amd64Insns.pop_back();
   if(amd64Insns.size() != amd64_num_valid_insns) 
   {
@@ -310,7 +312,7 @@ test_results_t test_instruction_read_write_Mutator::executeTest()
 #endif
 
 
-  Expression::Ptr cft = callInsn->getControlFlowTarget();
+  Expression::Ptr cft = callInsn.getControlFlowTarget();
   if(!cft) {
     logerror("FAILED: call had no control flow target\n");
     return FAILED;

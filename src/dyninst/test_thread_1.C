@@ -60,7 +60,6 @@ extern "C" DLLEXPORT TestMutator *test_thread_1_factory() {
 #define TESTDESC "rtlib spinlocks"
 
 static int mutateeXLC;
-extern BPatch *bpatch;
 
 static const char *expected_fnames[] = {"call1_1","call1_2","call1_3","call1_4"};
 static int test1done = 0;
@@ -79,7 +78,7 @@ test_results_t test_thread_1_Mutator::executeTest() {
   proc->continueExecution();
 
   while( !proc->isTerminated() ) {
-      if( !bpatch->waitForStatusChange() ) {
+      if( !BPatch::bpatch->waitForStatusChange() ) {
           dprintf("%s[%d]: failed to wait for events\n",
                   __FILE__, __LINE__);
           return FAILED;

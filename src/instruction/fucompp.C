@@ -63,34 +63,27 @@ test_results_t fucompp_Mutator::executeTest()
     unsigned int size = 2;
     unsigned int expectedInsns = 2;
     InstructionDecoder d(buffer, size, Dyninst::Arch_x86);
-    std::deque<Instruction::Ptr> decodedInsns;
-    Instruction::Ptr i;
+    std::deque<Instruction> decodedInsns;
+    Instruction i;
     do
     {
         i = d.decode();
         decodedInsns.push_back(i);
     }
-    while(i && i->isValid());
+    while(i.isValid());
     if(decodedInsns.size() != expectedInsns)
     {
         logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-        for(std::deque<Instruction::Ptr>::iterator curInsn = decodedInsns.begin();
+        for(std::deque<Instruction>::iterator curInsn = decodedInsns.begin();
             curInsn != decodedInsns.end();
             ++curInsn)
         {
-            if(*curInsn)
-            {
-                logerror("\t%s\n", (*curInsn)->format().c_str());
-            }
-            else
-            {
-                logerror("\t[NULL]\n");
-            }
+            logerror("\t%s\n", curInsn->format().c_str());
         }
     
         return FAILED;
     }
-    if(decodedInsns.back() && decodedInsns.back()->isValid())
+    if(decodedInsns.back().isValid())
     {
         logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
         return FAILED;
