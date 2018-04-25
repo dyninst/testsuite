@@ -263,7 +263,6 @@ test_results_t RemoteComponentFE::program_teardown(ParameterDict &params)
    MessageBuffer buffer;
    comp_header(name, buffer, COMPONENT_PROGRAM_TEARDOWN);
    encodeParams(params, buffer);
-
    bool bresult = connection->send_message(buffer);
    if (!bresult) return CRASHED;
    char *result_msg;
