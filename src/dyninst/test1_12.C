@@ -157,12 +157,11 @@ int test1_12_Mutator::mutatorTesta()
 	BPatch_funcCallExpr call12_1Expr(*call12_1_func, nullArgs);
 
 	checkCost(call12_1Expr);
-        snippetHandle12_1 = appProc->insertSnippet(call12_1Expr, *point12_2);
+    snippetHandle12_1 = appProc->insertSnippet(call12_1Expr, *point12_2);
 
 	if (!snippetHandle12_1) 
 	{
-		logerror("Unable to insert snippet to call function \"%s.\"\n",
-				fn);
+		logerror("Unable to insert snippet to call function \"%s.\"\n", fn);
 		return -1;
 	}
 

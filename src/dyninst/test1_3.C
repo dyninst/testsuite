@@ -167,11 +167,13 @@ test_results_t test1_3_Mutator::executeTest()
 
 	BPatch_funcCallExpr call3Expr(*call3_func, call3_args);
 	checkCost(call3Expr);
-	appAddrSpace->insertSnippet(call3Expr, *point3_1);
+	if(!appAddrSpace->insertSnippet(call3Expr, *point3_1))
+        return FAILED;
 
 	BPatch_arithExpr expr3_5(BPatch_assign, *expr3_2, BPatch_constExpr(32));
 	checkCost(expr3_5);
-	appAddrSpace->insertSnippet(expr3_5, *point3_1);
+	if(!appAddrSpace->insertSnippet(expr3_5, *point3_1))
+        return FAILED;
 
 	dprintf("Inserted snippet3\n");
 

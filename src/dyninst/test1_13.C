@@ -106,11 +106,13 @@ test_results_t test1_13_Mutator::executeTest()
 	BPatch_funcCallExpr call13_1Expr(*call13_1_func, funcArgs);
 
 	checkCost(call13_1Expr);
-	appAddrSpace->insertSnippet(call13_1Expr, *point13_1);
+	if(!appAddrSpace->insertSnippet(call13_1Expr, *point13_1))
+        return FAILED;
 
 	BPatch_nullExpr call13_2Expr;
 	checkCost(call13_2Expr);
-	appAddrSpace->insertSnippet(call13_2Expr, *point13_1);
+	if(!appAddrSpace->insertSnippet(call13_2Expr, *point13_1))
+        return FAILED;
 
 	// now test that a return value can be read.
 	const char *funcName2 = "test1_13_func2";
@@ -162,7 +164,8 @@ test_results_t test1_13_Mutator::executeTest()
 		expr13_1 = appAddrSpace->malloc (*appImage->findType ("int"));
 		ret_var = new BPatch_retExpr();
 		BPatch_arithExpr test_arith (BPatch_assign, *expr13_1, *ret_var);
-		appAddrSpace->insertSnippet (test_arith, *point13_2);
+		if(!appAddrSpace->insertSnippet (test_arith, *point13_2))
+            return FAILED;
 		expr13_2 = expr13_1->getBaseAddr ();
 		funcArgs2.push_back (&expr13_2);
 	} 
@@ -174,7 +177,8 @@ test_results_t test1_13_Mutator::executeTest()
 	BPatch_funcCallExpr call13_3Expr(*call13_2_func, funcArgs2);
 
 	checkCost(call13_1Expr);
-	BPatchSnippetHandle* goodRetExpr = appAddrSpace->insertSnippet(call13_3Expr, *point13_2, BPatch_callAfter, BPatch_lastSnippet);
+	BPatchSnippetHandle* goodRetExpr = appAddrSpace->insertSnippet(call13_3Expr, 
+            *point13_2, BPatch_callAfter, BPatch_lastSnippet);
 	if(!goodRetExpr) {
 		logerror("Failed: couldn't insert return expression at exit point of func13_2\n");
 		return FAILED;

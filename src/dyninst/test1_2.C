@@ -151,10 +151,12 @@ test_results_t DLLEXPORT test1_2_Mutator::executeTest()
 		expr2_2 = expr2_6->getBaseAddr ();
 
 		BPatch_arithExpr expr2_7 (BPatch_assign, *expr2_5, BPatch_constExpr(1));
-		appAddrSpace->insertSnippet (expr2_7, *point2_1);
+		if(!appAddrSpace->insertSnippet (expr2_7, *point2_1))
+            return FAILED;
 
 		BPatch_arithExpr expr2_8 (BPatch_assign, *expr2_6, BPatch_constExpr(2));
-		appAddrSpace->insertSnippet (expr2_8, *point2_1);
+		if(!appAddrSpace->insertSnippet (expr2_8, *point2_1))
+            return FAILED;
 
 		expr2_3 = "testString2_1";
 		expr2_4 = 13;
@@ -176,7 +178,8 @@ test_results_t DLLEXPORT test1_2_Mutator::executeTest()
 
 	dprintf("Inserted snippet2\n");
 	checkCost(call2Expr);
-	appAddrSpace->insertSnippet(call2Expr, *point2_1, BPatch_callBefore, BPatch_lastSnippet);
+	if(!appAddrSpace->insertSnippet(call2Expr, *point2_1, BPatch_callBefore, BPatch_lastSnippet))
+        return FAILED;
 
 	return PASSED;
 }
