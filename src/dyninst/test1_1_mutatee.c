@@ -86,6 +86,7 @@ void test1_1_func1_1() {
 int test1_1_mutatee() {
   dprintf("Address of func1_1 is %p, calling func1_1\n", &test1_1_func1_1);
   test1_1_func1_1();
+  dprintf("Returned to mutatee main function from instrumented functions.\n", &test1_1_func1_1);
   if (11 == globalVariable1_1) {
     test_passes(testname);
     return 0; /* Test passed */

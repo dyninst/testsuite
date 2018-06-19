@@ -107,34 +107,7 @@ test_results_t DLLEXPORT test1_2_Mutator::executeTest()
 
 	BPatch_function *call2_func = bpfv[0];
 
-	void *ptr;
-
-#if defined(mips_sgi_irix6_4_test) || defined(arch_x86_64_test) || defined (ppc64_linux)
-
-	unsigned pointer_size = pointerSize(appImage);
-
-	/* Determine the size of pointer we should use dynamically. */
-
-	if (pointer_size == 4) 
-	{
-		ptr = TEST_PTR_32BIT;
-	}
-	else if (pointer_size == 8) 
-	{
-		ptr = TEST_PTR_64BIT;
-	} else 
-	{
-		logerror("**Failed** test #2 (four parameter function)\n");
-		logerror("    Unexpected value for pointerSize\n");
-		return FAILED;
-	}
-
-#else
-
-	/* For platforms where there is only one possible size for a pointer. */
-	ptr = TEST_PTR;
-
-#endif
+	void *ptr = (void *) get_pointer();
 
 	BPatch_Vector<BPatch_snippet *> call2_args;
 
