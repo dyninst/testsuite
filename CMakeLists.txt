@@ -310,13 +310,20 @@ set_target_properties(testA_static PROPERTIES OUTPUT_NAME testA)
 set_target_properties(testB_static PROPERTIES OUTPUT_NAME testB)
 
 if(UNIX)
-#add_library (Test12 SHARED src/dyninst/libTest12.c)
-#add_dependencies(Test12 dyninstAPI)
-#install (TARGETS Test12
-#	LIBRARY DESTINATION ${INSTALL_DIR}
-#	RUNTIME DESTINATION ${INSTALL_DIR}
-#	ARCHIVE DESTINATION ${INSTALL_DIR}
-#)
+
+add_library (Test12 SHARED src/dyninst/libTest12.c)
+add_dependencies(Test12 dyninstAPI DyninstRT)
+target_link_libraries(Test12 dyninstAPI dyninstAPI_RT)
+install (TARGETS Test12
+	LIBRARY DESTINATION ${INSTALL_DIR}
+    RUNTIME DESTINATION ${INSTALL_DIR}
+    ARCHIVE DESTINATION ${INSTALL_DIR}
+)
+set_target_properties (Test12
+                      PROPERTIES
+                      LINK_FLAGS "-L../dyninstAPI_RT")
+
+
 endif()
 install (TARGETS testA testB testA_static testB_static
 	LIBRARY DESTINATION ${INSTALL_DIR}
@@ -337,7 +344,7 @@ add_library (testB_m32_static STATIC src/libtestB.c)
 set_target_properties(testA_m32_static PROPERTIES OUTPUT_NAME testA_m32)
 set_target_properties(testB_m32_static PROPERTIES OUTPUT_NAME testB_m32)
 #add_library (Test12_m32 SHARED src/dyninst/libTest12.c)
-#add_dependencies(Test12_m32 dyninstAPI)
+#add_dependencies(Test12_m32 dyninstAPI dyninstAPI_RT)
 
 install (TARGETS testA_m32 testB_m32 testA_m32_static testB_m32_static # Test12_m32
 	LIBRARY DESTINATION ${INSTALL_DIR}
@@ -351,10 +358,10 @@ set_target_properties (testB_m32 testB_m32_static
                       PROPERTIES
                       COMPILE_FLAGS "-m32 -Dm32_test"
                       LINK_FLAGS "-m32")
-#set_target_properties (Test12_m32
-#                      PROPERTIES
-#                      COMPILE_FLAGS "-m32 -Dm32_test"
-#                      LINK_FLAGS "-m32")
+                  #set_target_properties (Test12_m32
+                  #                      PROPERTIES
+                  #                      COMPILE_FLAGS "-m32 -Dm32_test"
+                  #                      LINK_FLAGS "-m32")
 endif()
 endif()
 
