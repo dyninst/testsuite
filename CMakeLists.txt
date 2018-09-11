@@ -4,14 +4,14 @@ project (Dyninst-TestSuite)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
 include (c++11.cmake)
 
-#set (USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
-#if (NOT ("${USE_CXX11_ABI}" STREQUAL ""))
-#  if (${USE_CXX11_ABI})
-#    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-#  else()
-#    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
-#  endif()
-#endif()
+set (USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
+if (NOT ("${USE_CXX11_ABI}" STREQUAL ""))
+  if (${USE_CXX11_ABI})
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+  else()
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+  endif()
+endif()
 
 
 if (CMAKE_COMPILER_IS_GNUCXX  OR  ${CMAKE_C_COMPILER_ID} MATCHES Clang)
@@ -35,6 +35,12 @@ endif()
 SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
+find_package (Dyninst REQUIRED COMPONENTS common
+  OPTIONAL_COMPONENTS symtabAPI dyninstAPI instructionAPI proccontrol)
+
+set (TBB_INCLUDE_DIR "" CACHE STRING "TBB include path")
+include_directories (${TBB_INCLUDE_DIR})
+
 find_package (Threads)
 set(Boost_ADDITIONAL_VERSIONS "1.47" "1.47.0" "1.48" "1.48.0" "1.49" "1.49.0"
 			      "1.50" "1.50.0" "1.51" "1.51.0" "1.52" "1.52.0"
@@ -52,18 +58,18 @@ if (NOT ("${PATH_BOOST}" STREQUAL ""))
   set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} ${PATH_BOOST}/include)
 endif()
 
+find_package (Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
-
+link_directories ( ${Boost_LIBRARY_DIRS} )
 
 message (STATUS "Dyninst includes: ${DYNINST_INCLUDE_DIR}")
 include_directories (${DYNINST_INCLUDE_DIR})
-include_directories (${DYNINST_ROOT}/dyninstAPI_RT/h)
 message (STATUS "Project source dir: ${PROJECT_SOURCE_DIR}")
 set (BUILD_SHARED_LIBS ON)
 
 
 
-if ("${PLATFORM}" MATCHES "bgq")
+if ("${DYNINST_PLATFORM}" MATCHES "bgq")
 find_package( LaunchMON REQUIRED )
 include_directories(${LAUNCHMON_INCLUDE_DIR})
 add_definitions(${LAUNCHMON_DEFINITIONS})
@@ -76,7 +82,7 @@ set (INSTALL_DIR "bin/testsuite" CACHE PATH "Testsuite installation directory")
 
 if (UNIX)
   enable_language(ASM-ATT)
-  if ("${PLATFORM}" MATCHES "i386")
+  if ("${DYNINST_PLATFORM}" MATCHES "i386")
     enable_language(ASM_NASM)
   endif()
 elseif(WIN32)
@@ -88,7 +94,7 @@ elseif(WIN32)
   endif()
 endif(UNIX)
 
-foreach (def ${UNIFIED_DEFINES})
+foreach (def ${DYNINST_INTERNAL_DEFINES})
   # add_definitions doesn't seem to get pulled in; that's okay, since
   # we don't want it anyway (we want to override for mutators/ees)
   add_definitions (${def}_test)
@@ -126,7 +132,7 @@ set (LIBTESTLAUNCH_SRCS
     src/ResumeLog.C
     src/MutateeStart.C
     src/test_info_new.C
-    ${PLATFORM}/test_info_new.gen.C
+    ${DYNINST_PLATFORM}/test_info_new.gen.C
         src/UsageMonitor.C
         src/TestOutputDriver.C
         src/StdOutputDriver.C
@@ -240,7 +246,7 @@ add_executable (test_driver
                src/test_driver_templates.C
                src/dynlmon.C
                ${TD_BE}
-               ${PLATFORM}/test_info_new.gen.C)
+               ${DYNINST_PLATFORM}/test_info_new.gen.C)
 target_link_libraries (test_driver ${TESTSUITE_TESTLAUNCH_LINK})
 if (LAUNCHMON_FE_LIBRARIES)
 target_link_libraries (test_driver ${LAUNCHMON_FE_LIBRARIES})
@@ -265,7 +271,7 @@ install (TARGETS
         DESTINATION ${INSTALL_DIR})
 
 
-include (${PLATFORM}/cmake-mutators.txt)
+include (${DYNINST_PLATFORM}/cmake-mutators.txt)
 
 FOREACH (m ${MUTATOR_NAME_LIST})
     file(APPEND ${CMAKE_BINARY_DIR}/test_names.txt "${m}\n")
@@ -312,17 +318,11 @@ set_target_properties(testB_static PROPERTIES OUTPUT_NAME testB)
 if(UNIX)
 
 add_library (Test12 SHARED src/dyninst/libTest12.c)
-add_dependencies(Test12 dyninstAPI DyninstRT)
-target_link_libraries(Test12 dyninstAPI dyninstAPI_RT)
 install (TARGETS Test12
 	LIBRARY DESTINATION ${INSTALL_DIR}
     RUNTIME DESTINATION ${INSTALL_DIR}
     ARCHIVE DESTINATION ${INSTALL_DIR}
 )
-set_target_properties (Test12
-                      PROPERTIES
-                      LINK_FLAGS "-L../dyninstAPI_RT")
-
 
 endif()
 install (TARGETS testA testB testA_static testB_static
@@ -365,4 +365,4 @@ set_target_properties (testB_m32 testB_m32_static
 endif()
 endif()
 
-include (${PLATFORM}/cmake-mutatees.txt)
+include (${DYNINST_PLATFORM}/cmake-mutatees.txt)

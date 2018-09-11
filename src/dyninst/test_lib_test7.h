@@ -27,7 +27,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include <testsuite/src/test_lib_dll.h>
+#include <test_lib_dll.h>
 #include "BPatch.h"
 #include "BPatch_thread.h"
 

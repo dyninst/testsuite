@@ -33,7 +33,7 @@
  */
 
 /* int runMutatedBinary(char *path, char* fileName, char* testID); */
-#include <testsuite/src/test_lib_dll.h>
+#include <test_lib_dll.h>
 
 
 void TESTLIB_DLL_EXPORT sleep_ms(int ms);
