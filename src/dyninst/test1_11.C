@@ -165,16 +165,20 @@ test_results_t test1_11_Mutator::executeTest()
 	BPatch_funcCallExpr call11_4Expr(*call11_4_func, nullArgs);
 
 	checkCost(call11_1Expr);
-	appAddrSpace->insertSnippet(call11_1Expr, *point11_1);
+	if(!appAddrSpace->insertSnippet(call11_1Expr, *point11_1))
+        return FAILED;
 
 	checkCost(call11_2Expr);
-	appAddrSpace->insertSnippet(call11_2Expr, *point11_2, BPatch_callBefore);
+	if(!appAddrSpace->insertSnippet(call11_2Expr, *point11_2, BPatch_callBefore))
+        return FAILED;
 
 	checkCost(call11_3Expr);
-	appAddrSpace->insertSnippet(call11_3Expr, *point11_2, BPatch_callAfter);
+	if(!appAddrSpace->insertSnippet(call11_3Expr, *point11_2, BPatch_callAfter))
+        return FAILED;
 
 	checkCost(call11_4Expr);
-	appAddrSpace->insertSnippet(call11_4Expr, *point11_3);
+	if(!appAddrSpace->insertSnippet(call11_4Expr, *point11_3))
+        return FAILED;
 
 	return PASSED;
 }

@@ -103,7 +103,8 @@ test_results_t test1_9_Mutator::executeTest()
 	BPatch_variableExpr *expr9_1 = appAddrSpace->malloc (*appImage->findType ("int"));
 	BPatch_constExpr constExpr9_1 (0);
 	BPatch_arithExpr arithexpr9_1 (BPatch_assign, *expr9_1, BPatch_constExpr (91));
-	appAddrSpace->insertSnippet (arithexpr9_1, *point9_1);
+	if(!appAddrSpace->insertSnippet (arithexpr9_1, *point9_1))
+        return FAILED;
 
 	int mutateeFortran = isMutateeFortran(appImage);
 
@@ -121,7 +122,8 @@ test_results_t test1_9_Mutator::executeTest()
 	BPatch_variableExpr *expr9_2 = appAddrSpace->malloc (*appImage->findType ("int"));
 	BPatch_constExpr constExpr9_2 (0);
 	BPatch_arithExpr arithexpr9_2 (BPatch_assign, *expr9_2, BPatch_constExpr (92));
-	appAddrSpace->insertSnippet (arithexpr9_2, *point9_1);
+	if(!appAddrSpace->insertSnippet (arithexpr9_2, *point9_1))
+        return FAILED;
 
 	if (mutateeFortran) 
 	{
@@ -137,7 +139,8 @@ test_results_t test1_9_Mutator::executeTest()
 	BPatch_variableExpr *expr9_3 = appAddrSpace->malloc (*appImage->findType ("int"));
 	BPatch_constExpr constExpr9_3 (0);
 	BPatch_arithExpr arithexpr9_3 (BPatch_assign, *expr9_3, BPatch_constExpr (93));
-	appAddrSpace->insertSnippet (arithexpr9_3, *point9_1);
+	if(!appAddrSpace->insertSnippet (arithexpr9_3, *point9_1))
+        return FAILED;
 
 	if (mutateeFortran) 
 	{
@@ -153,7 +156,8 @@ test_results_t test1_9_Mutator::executeTest()
 	BPatch_variableExpr *expr9_4 = appAddrSpace->malloc (*appImage->findType ("int"));
 	BPatch_constExpr constExpr9_4 (0);
 	BPatch_arithExpr arithexpr9_4 (BPatch_assign, *expr9_4, BPatch_constExpr (94));
-	appAddrSpace->insertSnippet (arithexpr9_4, *point9_1);
+	if(!appAddrSpace->insertSnippet (arithexpr9_4, *point9_1))
+        return FAILED;
 
 	if (mutateeFortran) 
 	{
@@ -169,7 +173,8 @@ test_results_t test1_9_Mutator::executeTest()
 	BPatch_variableExpr *expr9_5 = appAddrSpace->malloc (*appImage->findType ("int"));
 	BPatch_constExpr constExpr9_5 (0);
 	BPatch_arithExpr arithexpr9_5 (BPatch_assign, *expr9_5, BPatch_constExpr (95));
-	appAddrSpace->insertSnippet (arithexpr9_5, *point9_1);
+	if(!appAddrSpace->insertSnippet (arithexpr9_5, *point9_1))
+        return FAILED;
 
 	if (mutateeFortran) 
 	{
@@ -185,7 +190,8 @@ test_results_t test1_9_Mutator::executeTest()
 	BPatch_funcCallExpr call9Expr(*call9_func, call9_args);
 
 	checkCost(call9Expr);
-	appAddrSpace->insertSnippet(call9Expr, *point9_1, BPatch_callBefore, BPatch_lastSnippet);
+	if(!appAddrSpace->insertSnippet(call9Expr, *point9_1, BPatch_callBefore, BPatch_lastSnippet))
+        return FAILED;
 
 	return PASSED;
 }

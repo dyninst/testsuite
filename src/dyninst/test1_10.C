@@ -131,19 +131,22 @@ test_results_t test1_10_Mutator::executeTest()
 	dprintf("%s[%d]:  before insertSnippet 1\n", FILE__, __LINE__);
 
 	checkCost(call10_2Expr);
-	appAddrSpace->insertSnippet( call10_2Expr, *point10_1);
+	if(!appAddrSpace->insertSnippet( call10_2Expr, *point10_1))
+        return FAILED;
 
 	dprintf("%s[%d]:  before insertSnippet 2\n", FILE__, __LINE__);
 
 	checkCost(call10_1Expr);
-	appAddrSpace->insertSnippet( call10_1Expr, *point10_1, BPatch_callBefore, 
-			BPatch_firstSnippet);
+	if(!appAddrSpace->insertSnippet( call10_1Expr, *point10_1, BPatch_callBefore, 
+                BPatch_firstSnippet))
+        return FAILED;
 
 	dprintf("%s[%d]:  before insertSnippet 3\n", FILE__, __LINE__);
 
 	checkCost(call10_3Expr);
-	appAddrSpace->insertSnippet( call10_3Expr, *point10_1, BPatch_callBefore, 
-			BPatch_lastSnippet);
+	if(!appAddrSpace->insertSnippet( call10_3Expr, *point10_1, BPatch_callBefore, 
+                BPatch_lastSnippet))
+        return FAILED;
 
 	dprintf("%s[%d]:  leaving  test1_10\n", FILE__, __LINE__);
 	return PASSED;

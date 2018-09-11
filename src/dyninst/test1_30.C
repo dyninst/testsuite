@@ -163,7 +163,10 @@ test_results_t test1_30_Mutator::executeTest() {
         if( appImage->getAddressRanges( "test1_30_mutatee.c", call30_1_line_no, ranges ) ) {
     	    n = ranges[0].first;
     	    expr30_3->writeValue( & n );
-    	}
+        }else{
+            logerror("BPatch_image->getAddressRanges returned false!\n");
+            return FAILED;
+        }
     	
 
 
@@ -186,7 +189,10 @@ test_results_t test1_30_Mutator::executeTest() {
 	      expr30_4->writeValue( & n );
 	    }
 	    else
-	      logerror("BPatch_module->getAddressRanges returned false!\n");
+        {
+            logerror("BPatch_module->getAddressRanges returned false!\n");
+            return FAILED;
+        }
 	    break;
 	  }
 	}
