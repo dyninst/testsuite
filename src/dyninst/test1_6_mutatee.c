@@ -48,6 +48,8 @@ volatile int test1_6_globalVariable4 = (int)0xdeadbeef;
 volatile int test1_6_globalVariable5 = (int)0xdeadbeef;
 volatile int test1_6_globalVariable6 = (int)0xdeadbeef;
 volatile int test1_6_globalVariable7 = (int)0xdeadbeef;
+volatile int test1_6_globalVariable8 = (int)0xdeadbeef;
+
 volatile int test1_6_globalVariable1a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable2a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable3a = (int)0xdeadbeef;
@@ -55,6 +57,7 @@ volatile int test1_6_globalVariable4a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable5a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable6a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable7a = (int)0xdeadbeef;
+volatile int test1_6_globalVariable8a = (int)0xdeadbeef;
 
 volatile int test1_6_constVar0 = 0;
 volatile int test1_6_constVar1 = 1;
@@ -88,11 +91,11 @@ int test1_6_func1() {
   if ((test1_6_globalVariable1 == 60+2) && (test1_6_globalVariable2 == 64-1) &&
       (test1_6_globalVariable3 == 66/3) && (test1_6_globalVariable4 == 67/3) &&
       (test1_6_globalVariable5 == 6 * 5) && (test1_6_globalVariable6 == 3) &&
-      (test1_6_globalVariable7 == 10/2) &&
+      (test1_6_globalVariable7 == 10/2) && (test1_6_globalVariable8 == (5^9)) &&
       (test1_6_globalVariable1a == 60+2) && (test1_6_globalVariable2a == 64-1) &&
       (test1_6_globalVariable3a == 66/3) && (test1_6_globalVariable4a == 67/3) &&
       (test1_6_globalVariable5a == 6 * 5) && (test1_6_globalVariable6a == 3)
-      && (test1_6_globalVariable7a == 10/2)) {
+      && (test1_6_globalVariable7a == 10/2) && (test1_6_globalVariable8a == (67^10))) {
     logerror("Passed test #6 (arithmetic operators)\n");
     retval = 0; /* Test passed */
   } else {
@@ -111,6 +114,8 @@ int test1_6_func1() {
       logerror("    comma error 10,3 (const) got %d\n", test1_6_globalVariable6);
     if (test1_6_globalVariable7 != 10/2)
       logerror("    division error (const) 10/2 got %d\n", test1_6_globalVariable7);
+    if (test1_6_globalVariable8 != (5^9))
+      logerror("    xor error (const) 12 got %d\n", test1_6_globalVariable8);
     if (test1_6_globalVariable1a != 60+2)
       logerror("    addition error 60+2 (var) got %d\n", test1_6_globalVariable1a);
     if (test1_6_globalVariable2a != 64-1)
@@ -125,6 +130,8 @@ int test1_6_func1() {
       logerror("    comma error 10,3 (var) got %d\n", test1_6_globalVariable6a);
     if (test1_6_globalVariable7a != 10/2)
       logerror("    division error 10/2 (var) got %d\n", test1_6_globalVariable7a);
+    if (test1_6_globalVariable8a != (67^10))
+      logerror("    xor error 67/10 (var) got %d\n", test1_6_globalVariable8a);
     retval = -1; /* Test failed */
   }
   return retval;
