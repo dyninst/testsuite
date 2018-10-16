@@ -97,6 +97,7 @@ void test1_10_func1() {
 
 void test1_10_call1() {
   if (globalVariable10_4 == 0) {
+    logerror("Entered test1_10_call1.\n");
     globalVariable10_4 = 1;
     globalVariable10_1 = 1;
   }
@@ -105,6 +106,7 @@ void test1_10_call1() {
 
 void test1_10_call2() {
   if (globalVariable10_4 == 1) {
+    logerror("Entered test1_10_call2.\n");
     globalVariable10_4 = 2;
     globalVariable10_2 = 1;
   }
@@ -112,6 +114,7 @@ void test1_10_call2() {
 
 void test1_10_call3() {
   if (globalVariable10_4 == 2) {
+    logerror("Entered test1_10_call3.\n");
     globalVariable10_4 = 3;
     globalVariable10_3 = 1;
   }

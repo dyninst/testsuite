@@ -67,28 +67,16 @@ static unsigned long globalVariable30_2 = 0;
 
 /* Function definitions follow */
 
-#if defined(i386_unknown_linux2_0_test) \
- || defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
- || defined(i386_unknown_nt4_0_test) \
- || defined(rs6000_ibm_aix4_1_test) \
- || defined(os_linux_test) /* Use OS #define instead of platform - Greg */ \
- || defined(os_freebsd_test)
 
 /* this function has to be only 1 line for test30 to pass */
 /* these two lines have to be together otherwise test30 will fail */
 unsigned long test1_30_globalVariable7 = __LINE__;
 void test1_30_call1(){ globalVariable30_1 = __LINE__; globalVariable30_2 = (unsigned long)test1_30_call1;}
 
-#endif
 
 int test1_30_mutatee() {
   int passed, retval;
 
-#if defined(i386_unknown_linux2_0_test) \
- || defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
- || defined(i386_unknown_nt4_0_test) \
- || defined(rs6000_ibm_aix4_1_test) \
- || defined(os_freebsd_test)
     
     func30_2();
 
@@ -145,12 +133,6 @@ int test1_30_mutatee() {
     logerror("Passed test #30 (line information)\n");
     retval = 0; /* Test passed */
     test_passes(testname);
-#else
-    logerror("Skipped test #30 (line information)\n");
-    logerror("\t- not implemented on this platform\n");
-    test_passes(testname);
-    retval = 0; /* Test "passed" */
-#endif
     return retval;
 }
 
