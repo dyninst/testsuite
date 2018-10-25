@@ -121,38 +121,38 @@ TEST_DLL_EXPORT ComponentTester *componentTesterFactory()
 }
 
 
-test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, const registerSet& expectedRead,
+test_results_t InstructionMutator::verify_read_write_sets(Instruction i, const registerSet& expectedRead,
                                       const registerSet& expectedWritten)
 {
     set<RegisterAST::Ptr> actualRead_uo;
     set<RegisterAST::Ptr> actualWritten_uo;
-    i->getWriteSet(actualWritten_uo);
-    i->getReadSet(actualRead_uo);
+    i.getWriteSet(actualWritten_uo);
+    i.getReadSet(actualRead_uo);
     registerSet actualRead, actualWritten;
     copy(actualRead_uo.begin(), actualRead_uo.end(), inserter(actualRead, actualRead.begin()));
     copy(actualWritten_uo.begin(), actualWritten_uo.end(), inserter(actualWritten, actualWritten.begin()));
-    ArchSpecificFormatter *formatter = i->getFormatter();
-  
+    Dyninst::Architecture a = i.getArch();
+
     if(actualRead.size() != expectedRead.size() ||
        actualWritten.size() != expectedWritten.size())
     {
         logerror("FAILED: instruction %s, expected %d regs read, %d regs written, actual %d read, %d written\n",
-                 i->format().c_str(), expectedRead.size(), expectedWritten.size(), actualRead.size(), actualWritten.size());
+                 i.format().c_str(), expectedRead.size(), expectedWritten.size(), actualRead.size(), actualWritten.size());
         logerror("Expected read:\n");
         for (registerSet::const_iterator iter = expectedRead.begin(); iter != expectedRead.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Expected written:\n");
         for (registerSet::const_iterator iter = expectedWritten.begin(); iter != expectedWritten.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Actual read:\n");
         for (registerSet::iterator iter = actualRead.begin(); iter != actualRead.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Actual written:\n");
         for (registerSet::iterator iter = actualWritten.begin(); iter != actualWritten.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
 
         return FAILED;
@@ -164,7 +164,7 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, co
     {
         if(!(*safety))
         {
-            logerror("ERROR: null shared pointer in expectedRead for instruction %s\n", i->format().c_str());
+            logerror("ERROR: null shared pointer in expectedRead for instruction %s\n", i.format().c_str());
             return FAILED;
         }
     
@@ -175,7 +175,7 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, co
     {
         if(!(*safety))
         {
-            logerror("ERROR: null shared pointer in actualRead for instruction %s\n", i->format().c_str());
+            logerror("ERROR: null shared pointer in actualRead for instruction %s\n", i.format().c_str());
             return FAILED;
         }
     
@@ -190,9 +190,9 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, co
             it != expectedRead.end();
             ++it)
         {
-            if(!i->isRead(*it))
+            if(!i.isRead(*it))
             {
-                logerror("%s was in read set, but isRead(%s) was false\n", (*it)->format(formatter).c_str(), (*it)->format(formatter).c_str());
+                logerror("%s was in read set, but isRead(%s) was false\n", (*it)->format(a).c_str(), (*it)->format(a).c_str());
                 return FAILED;
             }
         }
@@ -201,22 +201,22 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, co
     else
     {
         
-        logerror("Read set for instruction %s not as expected\n", i->format().c_str());
+        logerror("Read set for instruction %s not as expected\n", i.format().c_str());
         logerror("Expected read:\n");
         for (registerSet::const_iterator iter = expectedRead.begin(); iter != expectedRead.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Expected written:\n");
         for (registerSet::const_iterator iter = expectedWritten.begin(); iter != expectedWritten.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Actual read:\n");
         for (registerSet::iterator iter = actualRead.begin(); iter != actualRead.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Actual written:\n");
         for (registerSet::iterator iter = actualWritten.begin(); iter != actualWritten.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         
         return FAILED;
@@ -227,7 +227,7 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, co
     {
         if(!(*safety))
         {
-            logerror("ERROR: null shared pointer in expectedWritten for instruction %s\n", i->format().c_str());
+            logerror("ERROR: null shared pointer in expectedWritten for instruction %s\n", i.format().c_str());
             return FAILED;
         }
     
@@ -238,7 +238,7 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, co
     {
         if(!(*safety))
         {
-            logerror("ERROR: null shared pointer in actualWritten for instruction %s\n", i->format().c_str());
+            logerror("ERROR: null shared pointer in actualWritten for instruction %s\n", i.format().c_str());
             return FAILED;
         }
     
@@ -252,35 +252,35 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction::Ptr i, co
             it != expectedWritten.end();
             ++it)
         {
-            if(!i->isWritten(*it))
+            if(!i.isWritten(*it))
             {
-                logerror("%s was in write set, but isWritten(%s) was false\n", (*it)->format(formatter).c_str(), (*it)->format(formatter).c_str());
+                logerror("%s was in write set, but isWritten(%s) was false\n", (*it)->format(a).c_str(), (*it)->format(a).c_str());
                 return FAILED;
             }
         }
     }
     else
     {
-        logerror("Write set for instruction %s not as expected\n", i->format().c_str());
+        logerror("Write set for instruction %s not as expected\n", i.format().c_str());
         logerror("Expected read:\n");
         for (registerSet::const_iterator iter = expectedRead.begin(); iter != expectedRead.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Expected written:\n");
         for (registerSet::const_iterator iter = expectedWritten.begin(); iter != expectedWritten.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Actual read:\n");
         for (registerSet::iterator iter = actualRead.begin(); iter != actualRead.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         logerror("Actual written:\n");
         for (registerSet::iterator iter = actualWritten.begin(); iter != actualWritten.end(); iter++) {
-            logerror("\t%s\n", (*iter)->format(formatter).c_str());
+            logerror("\t%s\n", (*iter)->format(a).c_str());
         }
         return FAILED;
     }
-    logerror("PASSED: Instruction %s had read, write sets as expected\n", i->format().c_str());
+    logerror("PASSED: Instruction %s had read, write sets as expected\n", i.format().c_str());
     return PASSED;
 }
 

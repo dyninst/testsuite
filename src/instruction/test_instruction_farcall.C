@@ -73,16 +73,16 @@ test_results_t test_instruction_farcall_Mutator::executeTest()
     
   
     InstructionDecoder d(buffer, size, curArch);
-    std::vector<Instruction::Ptr> decodedInsns;
-    Instruction::Ptr i;
+    std::vector<Instruction> decodedInsns;
+    Instruction i;
     do
     {
       i = d.decode();
       decodedInsns.push_back(i);
     }
-    while(i && i->isValid());
+    while(i.isValid());
 #if defined(arch_x86_64_test)
-  if(decodedInsns.empty() || !decodedInsns[0] || !decodedInsns[0]->isValid() || decodedInsns[0]->isLegalInsn())
+  if(decodedInsns.empty() || !decodedInsns[0].isValid() || decodedInsns[0].isLegalInsn())
   {
     logerror("FAILED: %s\n", decodedInsns.empty() ? "no instructions decoded" : "first instruction was valid");
     return FAILED;

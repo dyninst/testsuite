@@ -95,8 +95,8 @@ test_results_t test_instruction_profile_Mutator::executeTest()
     if((*curReg)->getDiskSize() < 16) continue;
     const unsigned char* decodeBase = reinterpret_cast<const unsigned char*>((*curReg)->getPtrToRawData());
     
-    std::vector<Instruction::Ptr > decodedInsns;
-    Instruction::Ptr i;
+    std::vector<Instruction > decodedInsns;
+    Instruction i;
     InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_x86);
     long offset = 0;
     
@@ -107,17 +107,17 @@ test_results_t test_instruction_profile_Mutator::executeTest()
       //cout << endl << "\t\t" << i->format() << std::endl;
       total_count++;
       decodedInsns.push_back(i);
-      if(i) {
-	offset += i->size();
-	valid_count++;
-	if((i->getCategory() != c_NoCategory) && i->getControlFlowTarget())
-	{
+      if(i.isValid()) {
+    	offset += i.size();
+	    valid_count++;
+	    if((i.getCategory() != c_NoCategory) && i.getControlFlowTarget())
+	    {
             cf_count++;
             decodedInsns.clear();
         }
       }
       else {
-	offset++;
+	    offset++;
       }
     }
   }

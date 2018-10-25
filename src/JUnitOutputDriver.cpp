@@ -9,6 +9,7 @@
 #endif
 
 #include "assert.h"
+#include "UsageMonitor.h"
 
 JUnitOutputDriver::JUnitOutputDriver(void *data) : StdOutputDriver(data),
                                                    group_failures(0),

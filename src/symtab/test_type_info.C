@@ -175,7 +175,7 @@ bool test_type_info_Mutator::verify_type_enum(typeEnum *t, std::vector<std::pair
 	std::string &tn = t->getName();
 	//std::cerr << "verify_type_enum for " << tn << std::endl;
 
-	std::vector<std::pair<std::string, int> > &constants = t->getConstants();
+	auto constants = t->getConstants();
 
 	if (!constants.size())
 	{
@@ -267,7 +267,7 @@ bool test_type_info_Mutator::verify_type_function(typeFunction *t)
 		return false;
 	}
 
-	std::vector<Type *> &params = t->getParams();
+	auto params = t->getParams();
 
 	//  It is not an error to have zero params
 
@@ -411,7 +411,7 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
 
 	//std::cerr << "verify_field_list for " << tn << std::endl;
 
-	std::vector<Field *> *components = t->getComponents();
+	auto components = t->getComponents();
 
 	if (comps && !components)
 	{
@@ -433,7 +433,7 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
 		}
 	}
 
-	std::vector<Field *> *fields = t->getFields();
+	auto fields = t->getFields();
 
 	if (efields && !fields)
 	{

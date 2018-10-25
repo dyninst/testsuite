@@ -51,12 +51,12 @@ typedef enum {
   OUTPUT_STREAMS_SIZE
 } TestOutputStream;
 
-class TestOutputDriver {
+class TESTLIB_DLL_EXPORT TestOutputDriver {
 protected:
    bool needs_header;
 public:
-   TESTLIB_DLL_EXPORT virtual ~TestOutputDriver();
-   TESTLIB_DLL_EXPORT static bool getAttributesMap(TestInfo *test, 
+   virtual ~TestOutputDriver();
+   static bool getAttributesMap(TestInfo *test,
                         RunGroup *group, std::map<std::string, std::string> &attrs);
 
   // Informs the output driver that any log messages or results should be
@@ -82,10 +82,10 @@ public:
   virtual void vlog(TestOutputStream stream, const char *fmt, va_list args) = 0;
   virtual void finalizeOutput() = 0;
 
-  TESTLIB_DLL_EXPORT void setNeedsHeader(bool h);
+  void setNeedsHeader(bool h);
   // Returns arguments to pass to the mutatee driver that cause it to invoke
   // its support for this output driver
-  TESTLIB_DLL_EXPORT virtual void getMutateeArgs(std::vector<std::string> &args);
+  virtual void getMutateeArgs(std::vector<std::string> &args);
 };
 
 #endif // TEST_OUTPUT_DRIVER_H

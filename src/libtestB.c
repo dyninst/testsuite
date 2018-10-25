@@ -34,7 +34,7 @@
 #if defined(os_windows_test)
 #define DLLEXPORT __declspec( dllexport )
 #else
-#define DLLEXPORT
+#define DLLEXPORT __attribute__((visibility ("default")))
 #endif
 
 #if defined(os_windows_test) && defined(__cplusplus)
@@ -43,12 +43,12 @@ extern "C"
 #endif
 DLLEXPORT int snip_change_shlib_var = 20;
 
-int snip_ref_shlib_var1 = 5;
-long snip_ref_shlib_var2 = 5L;
-char snip_ref_shlib_var3 = 'e';
-char * snip_ref_shlib_var4 = (char*)0x5;
-float snip_ref_shlib_var5 = 5.5e5;
-double snip_ref_shlib_var6 = 5.5e50;
+DLLEXPORT int snip_ref_shlib_var1 = 5;
+DLLEXPORT long snip_ref_shlib_var2 = 5L;
+DLLEXPORT char snip_ref_shlib_var3 = 'e';
+DLLEXPORT char * snip_ref_shlib_var4 = (char*)0x5;
+DLLEXPORT float snip_ref_shlib_var5 = 5.5e5;
+DLLEXPORT double snip_ref_shlib_var6 = 5.5e50;
 
 DLLEXPORT int check_snip_change_shlib_var()
 {

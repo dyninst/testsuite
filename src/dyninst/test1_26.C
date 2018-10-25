@@ -89,14 +89,14 @@ test_results_t test1_26_Mutator::executeTest()
 	BPatch_Vector<BPatch_point *> *point26_1 = found_funcs[0]->findPoint(BPatch_subroutine);
 	BPatch_Vector<BPatch_point *> *point26_2 = found_funcs[0]->findPoint(BPatch_subroutine);
 
-	if ( !point26_1 )
+	if ( !point26_1  || point26_1->empty())
 	{
 		logerror("**Failed** test #26 (struct elements)\n");
 		logerror("  point26_1 incorrect\n");
 		return FAILED;
 	}
 
-	if ( ! point26_2 )
+	if ( ! point26_2  || point26_2->empty())
 	{
 		logerror("**Failed** test #26 (struct elements)\n");
 		logerror("  point26_2 NULL\n");

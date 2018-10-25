@@ -34,6 +34,7 @@
 #include "test_results.h"
 #include "ParameterDict.h"
 #include "test_info_new.h"
+#include "UsageMonitor.h"
 #include <vector>
 
 class ComponentTester {

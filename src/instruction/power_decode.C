@@ -92,27 +92,27 @@ test_results_t power_decode_Mutator::executeTest()
   ++expectedInsns;
   InstructionDecoder d(buffer, size, Dyninst::Arch_ppc32);
   
-  std::deque<Instruction::Ptr> decodedInsns;
-  Instruction::Ptr i;
+  std::deque<Instruction> decodedInsns;
+  Instruction i;
   do
   {
     i = d.decode();
     decodedInsns.push_back(i);
   }
-  while(i && i->isValid());
+  while(i.isValid());
   if(decodedInsns.size() != expectedInsns)
   {
     logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-    for(std::deque<Instruction::Ptr>::iterator curInsn = decodedInsns.begin();
+    for(std::deque<Instruction>::iterator curInsn = decodedInsns.begin();
 	curInsn != decodedInsns.end();
 	++curInsn)
     {
-        if(*curInsn) logerror("\t%s\n", (*curInsn)->format().c_str());
+        logerror("\t%s\n", curInsn->format().c_str());
     }
     
     return FAILED;
   }
-  if(decodedInsns.back() && decodedInsns.back()->isValid())
+  if(decodedInsns.back().isValid())
   {
     logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
     return FAILED;
@@ -489,10 +489,10 @@ test_results_t power_decode_Mutator::executeTest()
       // TEMP
       if(decodedInsns.size() == 1)
       {
-          if(!decodedInsns.front()->readsMemory())
+          if(!decodedInsns.front().readsMemory())
           {
               logerror("**FAILED**: insn %s did not read memory, expected lhzux r5, r7, r9\n",
-                       decodedInsns.front()->format().c_str());
+                       decodedInsns.front().format().c_str());
               return FAILED;
           }
       }

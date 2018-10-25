@@ -47,6 +47,7 @@
 #include "Callbacks.h"
 #include "dyninst_comp.h"
 #include "ParseThat.h"
+#include "UsageMonitor.h"
 
 class test_pt_ls_Mutator : public DyninstMutator 
 {
