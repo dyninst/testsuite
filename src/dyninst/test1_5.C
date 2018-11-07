@@ -47,6 +47,9 @@
 #include "dyninst_comp.h"
 #include <limits.h>
 
+#define BA BPatch_arithExpr
+#define BC BPatch_constExpr
+
 class test1_5_Mutator : public DyninstMutator {
 	virtual test_results_t executeTest();
 };
@@ -143,11 +146,10 @@ test_results_t test1_5_Mutator::executeTest()
 			BPatch_arithExpr(BPatch_assign, *expr5_2,
 				BPatch_constExpr(0)));
 
-	BPatch_ifExpr ifexpr5_3(BPatch_boolExpr(BPatch_eq, BPatch_constExpr(-1),
-				BPatch_constExpr(-1)),
-			BPatch_arithExpr(BPatch_assign, *expr5_3,
-				BPatch_constExpr(0)));
-				
+	BPatch_ifExpr ifexpr5_3(BPatch_boolExpr(BPatch_eq, BC(-1),
+				BC(-1)),
+			BA(BPatch_assign, *expr5_3,
+				BC(0)));
 
 	vect5_1.push_back(&ifexpr5_1);
 	vect5_1.push_back(&ifexpr5_2);
