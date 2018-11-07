@@ -44,6 +44,7 @@
 
 #include "test_lib.h"
 #include "dyninst_comp.h"
+#include <limits.h>
 
 class test1_6_Mutator : public DyninstMutator {
 	virtual test_results_t executeTest();
@@ -130,6 +131,16 @@ test_results_t test1_6_Mutator::executeTest()
 	expr6_6a = findVariable(appImage, "test1_6_globalVariable6a", point6_2);
 	expr6_7a = findVariable(appImage, "test1_6_globalVariable7a", point6_2);
 	expr6_8a = findVariable(appImage, "test1_6_globalVariable8a", point6_2);
+
+	expr6_1b = findVariable(appImage, "test1_6_globalVariable1b", point6_2);
+	expr6_2b = findVariable(appImage, "test1_6_globalVariable2b", point6_2);
+	expr6_3b = findVariable(appImage, "test1_6_globalVariable3b", point6_2);
+	expr6_4b = findVariable(appImage, "test1_6_globalVariable4b", point6_2);
+	expr6_5b = findVariable(appImage, "test1_6_globalVariable5b", point6_2);
+	expr6_6b = findVariable(appImage, "test1_6_globalVariable6b", point6_2);
+	expr6_7b = findVariable(appImage, "test1_6_globalVariable7b", point6_2);
+	expr6_8b = findVariable(appImage, "test1_6_globalVariable8b", point6_2);
+
 
 	constVar1 = findVariable(appImage, "test1_6_constVar1", point6_2);
 	constVar2 = findVariable(appImage, "test1_6_constVar2", point6_2);
@@ -246,6 +257,10 @@ test_results_t test1_6_Mutator::executeTest()
 	BPatch_arithExpr arith6_8a (BPatch_assign, *expr6_8a, BPatch_arithExpr(
 				BPatch_xor, *constVar67, *constVar10));
 	vect6_1.push_back(&arith6_8a);
+
+
+    // comprehensive arithmetic tests
+    // test1_6_globalVariable1b = -1-1
 
 	checkCost(BPatch_sequence(vect6_1));
 	if(!appAddrSpace->insertSnippet( BPatch_sequence(vect6_1), *point6_1))

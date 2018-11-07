@@ -45,6 +45,7 @@
 
 #include "test_lib.h"
 #include "dyninst_comp.h"
+#include <limits.h>
 
 class test1_5_Mutator : public DyninstMutator {
 	virtual test_results_t executeTest();

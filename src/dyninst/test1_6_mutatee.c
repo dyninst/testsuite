@@ -29,6 +29,7 @@
  */
 #include "mutatee_util.h"
 #include "solo_mutatee_boilerplate.h"
+#include <limits.h>
 
 /* Externally accessed function prototypes.  These must have globally unique
  * names.  I suggest following the pattern <testname>_<function>
@@ -58,6 +59,15 @@ volatile int test1_6_globalVariable5a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable6a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable7a = (int)0xdeadbeef;
 volatile int test1_6_globalVariable8a = (int)0xdeadbeef;
+
+volatile int test1_6_globalVariable1b = (int)0xdeadbeef;
+volatile int test1_6_globalVariable2b = (int)0xdeadbeef;
+volatile int test1_6_globalVariable3b = (int)0xdeadbeef;
+volatile int test1_6_globalVariable4b = (int)0xdeadbeef;
+volatile int test1_6_globalVariable5b = (int)0xdeadbeef;
+volatile int test1_6_globalVariable6b = (int)0xdeadbeef;
+volatile int test1_6_globalVariable7b = (int)0xdeadbeef;
+volatile int test1_6_globalVariable8b = (int)0xdeadbeef;
 
 volatile int test1_6_constVar0 = 0;
 volatile int test1_6_constVar1 = 1;
