@@ -111,6 +111,7 @@ test_results_t test1_6_Mutator::executeTest()
 
 	BPatch_variableExpr *expr6_1, *expr6_2, *expr6_3, *expr6_4, *expr6_5, *expr6_6, *expr6_7, *expr6_8,
 		    *expr6_1a, *expr6_2a, *expr6_3a, *expr6_4a, *expr6_5a, *expr6_6a, *expr6_7a, *expr6_8a,
+		    *expr6_1b, *expr6_2b, *expr6_3b, *expr6_4b, *expr6_5b, *expr6_6b, *expr6_7b, *expr6_8b,
 		    *constVar1, *constVar2, *constVar3, *constVar5, *constVar6,
 		    *constVar10, *constVar60, *constVar64, *constVar66, *constVar67;
 

@@ -111,39 +111,51 @@ test_results_t test1_5_Mutator::executeTest()
 		return FAILED;
 	}
 
-	const char *globalVar1 = "test1_5_globalVariable5_1";
-	const char *globalVar2 = "test1_5_globalVariable5_2";
-	BPatch_variableExpr *expr5_1 = findVariable (appImage, globalVar1, point5_1);
-	BPatch_variableExpr *expr5_2 = findVariable (appImage, globalVar2, point5_1);
+	BPatch_variableExpr *expr5_1 = findVariable (appImage, "test1_5_globalVariable5_1", point5_1);
+	BPatch_variableExpr *expr5_2 = findVariable (appImage, "test1_5_globalVariable5_2", point5_1);
+	BPatch_variableExpr *expr5_3 = findVariable (appImage, "test1_5_globalVariable5_3", point5_1);
+	BPatch_variableExpr *expr5_4 = findVariable (appImage, "test1_5_globalVariable5_4", point5_1);
+	BPatch_variableExpr *expr5_5 = findVariable (appImage, "test1_5_globalVariable5_5", point5_1);
+	BPatch_variableExpr *expr5_6 = findVariable (appImage, "test1_5_globalVariable5_6", point5_1);
+	BPatch_variableExpr *expr5_7 = findVariable (appImage, "test1_5_globalVariable5_7", point5_1);
+	BPatch_variableExpr *expr5_8 = findVariable (appImage, "test1_5_globalVariable5_8", point5_1);
 
-	if (!expr5_1 || !expr5_2) 
+	if (!expr5_1 || !expr5_2 || !expr5_3 || !expr5_4 || !expr5_5 || !expr5_6 || !expr5_7 || !expr5_8) 
 	{
 		logerror("**Failed** test #5 (1f w.o. else)\n");
-		logerror("    Unable to locate variable %s or ", globalVar1);
-		logerror("    variable %s\n", globalVar2);
+		logerror("    Unable to locate one of the variables\n");
 		return FAILED;
 	}
 
 	BPatch_Vector<BPatch_snippet*> vect5_1;
 
-	// if (0 == 1) globalVariable5_1 = 52;
-	BPatch_ifExpr expr5_3(BPatch_boolExpr(BPatch_eq, BPatch_constExpr(0),
+	// Global Variables are initialized as 0s
+
+	// if (0 == 1) globalVariable5_1 = 1;
+	BPatch_ifExpr ifexpr5_1(BPatch_boolExpr(BPatch_eq, BPatch_constExpr(0),
 				BPatch_constExpr(1)), 
 			BPatch_arithExpr(BPatch_assign, *expr5_1,
-				BPatch_constExpr(52)));
+				BPatch_constExpr(1)));
 
-	// if (1 == 1) globalVariable5_2 = 53;
-	BPatch_ifExpr expr5_4(BPatch_boolExpr(BPatch_eq, BPatch_constExpr(1),
+	// if (1 == 1) globalVariable5_2 = 0;
+	BPatch_ifExpr ifexpr5_2(BPatch_boolExpr(BPatch_eq, BPatch_constExpr(1),
 				BPatch_constExpr(1)), 
 			BPatch_arithExpr(BPatch_assign, *expr5_2,
-				BPatch_constExpr(53)));
+				BPatch_constExpr(0)));
 
-	vect5_1.push_back(&expr5_3);
-	vect5_1.push_back(&expr5_4);
+	BPatch_ifExpr ifexpr5_3(BPatch_boolExpr(BPatch_eq, BPatch_constExpr(-1),
+				BPatch_constExpr(-1)),
+			BPatch_arithExpr(BPatch_assign, *expr5_3,
+				BPatch_constExpr(0)));
+				
 
-	BPatch_sequence expr5_5(vect5_1);
-	checkCost(expr5_5);
-	if(!appAddrSpace->insertSnippet(expr5_5, *point5_1))
+	vect5_1.push_back(&ifexpr5_1);
+	vect5_1.push_back(&ifexpr5_2);
+	vect5_1.push_back(&ifexpr5_3);
+
+	BPatch_sequence seexpr5_1(vect5_1);
+	checkCost(seexpr5_1);
+	if(!appAddrSpace->insertSnippet(seexpr5_1, *point5_1))
         return FAILED;
 
 	return PASSED;
