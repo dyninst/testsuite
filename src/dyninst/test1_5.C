@@ -122,8 +122,18 @@ test_results_t test1_5_Mutator::executeTest()
 	BPatch_variableExpr *expr5_6 = findVariable (appImage, "test1_5_globalVariable5_6", point5_1);
 	BPatch_variableExpr *expr5_7 = findVariable (appImage, "test1_5_globalVariable5_7", point5_1);
 	BPatch_variableExpr *expr5_8 = findVariable (appImage, "test1_5_globalVariable5_8", point5_1);
+	BPatch_variableExpr *expr5_9 = findVariable (appImage, "test1_5_globalVariable5_9", point5_1);
+	BPatch_variableExpr *expr5_10 = findVariable (appImage, "test1_5_globalVariable5_10", point5_1);
+	BPatch_variableExpr *expr5_11 = findVariable (appImage, "test1_5_globalVariable5_11", point5_1);
+	BPatch_variableExpr *expr5_12 = findVariable (appImage, "test1_5_globalVariable5_12", point5_1);
+	BPatch_variableExpr *expr5_13 = findVariable (appImage, "test1_5_globalVariable5_13", point5_1);
+	BPatch_variableExpr *expr5_14 = findVariable (appImage, "test1_5_globalVariable5_14", point5_1);
+	BPatch_variableExpr *expr5_15 = findVariable (appImage, "test1_5_globalVariable5_15", point5_1);
+	BPatch_variableExpr *expr5_16 = findVariable (appImage, "test1_5_globalVariable5_16", point5_1);
 
-	if (!expr5_1 || !expr5_2 || !expr5_3 || !expr5_4 || !expr5_5 || !expr5_6 || !expr5_7 || !expr5_8) 
+	if (!expr5_1 || !expr5_2 || !expr5_3 || !expr5_4 || !expr5_5 || !expr5_6 || !expr5_7
+            || !expr5_8 || !expr5_9 || !expr5_10 || !expr5_11 || !expr5_12 || !expr5_13
+            || !expr5_14 || !expr5_15 || !expr5_16)
 	{
 		logerror("**Failed** test #5 (1f w.o. else)\n");
 		logerror("    Unable to locate one of the variables\n");
@@ -146,14 +156,112 @@ test_results_t test1_5_Mutator::executeTest()
 			BPatch_arithExpr(BPatch_assign, *expr5_2,
 				BPatch_constExpr(0)));
 
+    // if (-1 == -1) globalVariable5_3 = 0
 	BPatch_ifExpr ifexpr5_3(BPatch_boolExpr(BPatch_eq, BC(-1),
 				BC(-1)),
 			BA(BPatch_assign, *expr5_3,
 				BC(0)));
 
+    // if (LLONG_MIN == LLONG_MIN) globalVariable5_4 = 0
+    BPatch_ifExpr ifexpr5_4(BPatch_boolExpr(BPatch_eq, BC(LLONG_MIN),
+                BC(LLONG_MIN)),
+            BA(BPatch_assign, *expr5_4,
+                BC(0)));
+
+    // if (LLONG_MIN != LLONG_MIN) globalVariable5_5 = 1
+    BPatch_ifExpr ifexpr5_5(BPatch_boolExpr(BPatch_ne, BC(LLONG_MIN),
+                BC(LLONG_MIN)),
+            BA(BPatch_assign, *expr5_5,
+                BC(1)));
+
+    // if (LLONG_MAX == LLONG_MAX) globalVariable5_6 = 0
+    BPatch_ifExpr ifexpr5_6(BPatch_boolExpr(BPatch_eq, BC(LLONG_MAX),
+                BC(LLONG_MAX)),
+            BA(BPatch_assign, *expr5_6,
+                BC(0)));
+
+    // if (LLONG_MAX == (long long)INT_MAX + 1) globalVariable5_7 = 1
+    BPatch_ifExpr ifexpr5_7(BPatch_boolExpr(BPatch_eq, BC(LLONG_MAX),
+                BC((long long) INT_MAX + 1)),
+            BA(BPatch_assign, *expr5_7,
+                BC(1)));
+
+    // if ((long long) -1 == (long long) -1 ) globalVariable5_8 = 0
+    BPatch_ifExpr ifexpr5_8(BPatch_boolExpr(BPatch_eq, BC((long long) -1),
+                BC((long long) -1)),
+            BA(BPatch_assign, *expr5_8,
+                BC(0)));
+
+    // LONG_MIN and LONG_MAX tests skipped
+    // since the results might be inconsistent on 32-bit
+    //
+    // if (INT_MIN == INT_MIN) globalVariable5_9 = 0
+    BPatch_ifExpr ifexpr5_9(BPatch_boolExpr(BPatch_eq, BC(INT_MIN),
+                BC(INT_MIN)),
+            BA(BPatch_assign, *expr5_9,
+                BC(0)));
+
+    // if (INT_MAX == INT_MAX) globalVariable5_10 = 0
+    BPatch_ifExpr ifexpr5_10(BPatch_boolExpr(BPatch_eq, BC(INT_MAX),
+                BC(INT_MAX)),
+            BA(BPatch_assign, *expr5_10,
+                BC(0)));
+
+    // if (false == false) globalVariable5_11 = 0
+    BPatch_ifExpr ifexpr5_11(BPatch_boolExpr(BPatch_eq, BC(false),
+                BC(false)),
+            BA(BPatch_assign, *expr5_11,
+                BC(0)));
+
+    // < > <= >=
+    // if (long long) INT_MAX < LLONG_MAX, globalVariable5_12 = 0
+    BPatch_ifExpr ifexpr5_12(BPatch_boolExpr(BPatch_lt, BC((long long)INT_MAX),
+                BC(LLONG_MAX)),
+            BA(BPatch_assign, *expr5_12,
+                BC(0)));
+
+    // if LLONG_MIN <= LLONG_MAX, globalVariable5_13 = 0
+    BPatch_ifExpr ifexpr5_13(BPatch_boolExpr(BPatch_le, BC(LLONG_MIN),
+                BC(LLONG_MAX)),
+            BA(BPatch_assign, *expr5_13,
+                BC(0)));
+    
+    // if LLONG_MIN <= LLONG_MIN, globalVariable5_14 = 0
+    BPatch_ifExpr ifexpr5_14(BPatch_boolExpr(BPatch_le, BC(LLONG_MIN),
+                BC(LLONG_MIN)),
+            BA(BPatch_assign, *expr5_14,
+                BC(0)));
+
+    // if LLONG_MAX >= LLONG_MAX, globalVariable5_15 = 0
+    BPatch_ifExpr ifexpr5_15(BPatch_boolExpr(BPatch_ge, BC(LLONG_MAX),
+                BC(LLONG_MAX)),
+            BA(BPatch_assign, *expr5_15,
+                BC(0)));
+
+    // if LLONG_MAX <= LLONG_MIN, globalVariable5_16 = 1
+    BPatch_ifExpr ifexpr5_16(BPatch_boolExpr(BPatch_le, BC(LLONG_MAX),
+                BC(LLONG_MIN)),
+            BA(BPatch_assign, *expr5_16,
+                BC(1)));
+
+
 	vect5_1.push_back(&ifexpr5_1);
 	vect5_1.push_back(&ifexpr5_2);
 	vect5_1.push_back(&ifexpr5_3);
+	vect5_1.push_back(&ifexpr5_4);
+	vect5_1.push_back(&ifexpr5_5);
+	vect5_1.push_back(&ifexpr5_6);
+	vect5_1.push_back(&ifexpr5_7);
+	vect5_1.push_back(&ifexpr5_8);
+	vect5_1.push_back(&ifexpr5_9);
+	vect5_1.push_back(&ifexpr5_10);
+	vect5_1.push_back(&ifexpr5_11);
+	vect5_1.push_back(&ifexpr5_12);
+	vect5_1.push_back(&ifexpr5_13);
+	vect5_1.push_back(&ifexpr5_14);
+	vect5_1.push_back(&ifexpr5_15);
+	vect5_1.push_back(&ifexpr5_16);
+
 
 	BPatch_sequence seexpr5_1(vect5_1);
 	checkCost(seexpr5_1);

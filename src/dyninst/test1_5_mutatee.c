@@ -45,11 +45,19 @@ int test1_5_func1();
 int test1_5_globalVariable5_1 = 0;
 int test1_5_globalVariable5_2 = 1;
 int test1_5_globalVariable5_3 = 1;
-int test1_5_globalVariable5_4 = 0;
+int test1_5_globalVariable5_4 = 1;
 int test1_5_globalVariable5_5 = 0;
-int test1_5_globalVariable5_6 = 0;
+int test1_5_globalVariable5_6 = 1;
 int test1_5_globalVariable5_7 = 0;
-int test1_5_globalVariable5_8 = 0;
+int test1_5_globalVariable5_8 = 1;
+int test1_5_globalVariable5_9 = 1;
+int test1_5_globalVariable5_10 = 1;
+int test1_5_globalVariable5_11 = 1;
+int test1_5_globalVariable5_12 = 1;
+int test1_5_globalVariable5_13 = 1;
+int test1_5_globalVariable5_14 = 1;
+int test1_5_globalVariable5_15 = 1;
+int test1_5_globalVariable5_16 = 0;
 
 /* Internally used function prototypes.  These should be declared with the
  * keyword static so they don't interfere with other mutatees in the group.
@@ -67,17 +75,26 @@ int test1_5_func1() {
   test1_5_func2();
 
   if (!(test1_5_globalVariable5_1
-      || test1_5_globalVariable5_2 || test1_5_globalVariable5_3)) {
+      || test1_5_globalVariable5_2
+      || test1_5_globalVariable5_3
+      || test1_5_globalVariable5_4
+      || test1_5_globalVariable5_5
+      || test1_5_globalVariable5_6
+      || test1_5_globalVariable5_7
+      || test1_5_globalVariable5_8
+      || test1_5_globalVariable5_9
+      || test1_5_globalVariable5_10
+      || test1_5_globalVariable5_11
+      || test1_5_globalVariable5_12
+      || test1_5_globalVariable5_13
+      || test1_5_globalVariable5_14
+      || test1_5_globalVariable5_15
+      || test1_5_globalVariable5_16
+      )) {
     logerror("Passed test #5 (if w.o. else)\n");
     retval = 0; /* Test passed */
   } else {
     logerror("**Failed** test #5 (if w.o. else)\n");
-    if (test1_5_globalVariable5_1) {
-      logerror("    condition executed for false\n");
-    }
-    if (test1_5_globalVariable5_2) {
-      logerror("    condition not executed for true\n");
-    }
     retval = -1; /* Test failed */
   }
   return retval;
