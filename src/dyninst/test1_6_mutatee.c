@@ -64,9 +64,9 @@ volatile int test1_6_globalVariable1b = (int)0xdeadbeef;
 volatile int test1_6_globalVariable2b = (int)0xdeadbeef;
 volatile int test1_6_globalVariable3b = (int)0xdeadbeef;
 volatile int test1_6_globalVariable4b = (int)0xdeadbeef;
-volatile int test1_6_globalVariable5b = (int)0xdeadbeef;
+volatile long long test1_6_globalVariable5b = (long long)0xdeadbeef;
 volatile int test1_6_globalVariable6b = (int)0xdeadbeef;
-volatile int test1_6_globalVariable7b = (int)0xdeadbeef;
+volatile long long test1_6_globalVariable7b = (long long)0xdeadbeef;
 volatile int test1_6_globalVariable8b = (int)0xdeadbeef;
 
 volatile int test1_6_constVar0 = 0;
@@ -105,7 +105,15 @@ int test1_6_func1() {
       (test1_6_globalVariable1a == 60+2) && (test1_6_globalVariable2a == 64-1) &&
       (test1_6_globalVariable3a == 66/3) && (test1_6_globalVariable4a == 67/3) &&
       (test1_6_globalVariable5a == 6 * 5) && (test1_6_globalVariable6a == 3)
-      && (test1_6_globalVariable7a == 10/2) && (test1_6_globalVariable8a == (67^10))) {
+      && (test1_6_globalVariable7a == 10/2) && (test1_6_globalVariable8a == (67^10))
+      && (test1_6_globalVariable1b == -2)
+      && (test1_6_globalVariable2b == 0)
+      && (test1_6_globalVariable3b == 0)
+      && (test1_6_globalVariable4b == 0)
+      && (test1_6_globalVariable5b == 6442450941)
+      && (test1_6_globalVariable6b == 3)
+      && (test1_6_globalVariable7b == 4294967298)
+      ) {
     logerror("Passed test #6 (arithmetic operators)\n");
     retval = 0; /* Test passed */
   } else {

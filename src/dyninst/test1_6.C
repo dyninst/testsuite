@@ -46,6 +46,9 @@
 #include "dyninst_comp.h"
 #include <limits.h>
 
+#define BA BPatch_arithExpr
+#define BC BPatch_constExpr
+
 class test1_6_Mutator : public DyninstMutator {
 	virtual test_results_t executeTest();
 };
@@ -259,9 +262,48 @@ test_results_t test1_6_Mutator::executeTest()
 				BPatch_xor, *constVar67, *constVar10));
 	vect6_1.push_back(&arith6_8a);
 
+    // var1b = -1 + (-1)
+    BA arith6_1b (BPatch_assign, *expr6_1b, BA(
+                BPatch_plus, BC(-1), BC(-1)
+                ));
+    vect6_1.push_back(&arith6_1b);
 
-    // comprehensive arithmetic tests
-    // test1_6_globalVariable1b = -1-1
+    // var2b = -66666 - (-66666)
+    BA arith6_2b (BPatch_assign, *expr6_2b, BA(
+                BPatch_minus, BC(-66666), BC(-66666)
+                ));
+    vect6_1.push_back(&arith6_2b);
+
+    // var3b = INT_MAX - INT_MAX
+    BA arith6_3b (BPatch_assign, *expr6_3b, BA(
+                BPatch_minus, BC(INT_MAX), BC(INT_MAX)
+                ));
+    vect6_1.push_back(&arith6_3b);
+
+    // var4b = INT_MAX - LLONG_MAX - (-INT_MIN + LLONG_MIN) = (0)
+    BA arith6_4b (BPatch_assign, *expr6_4b, BA(
+                BPatch_minus, 
+                BA(BPatch_minus, BC((long long)INT_MAX), BC(LLONG_MAX)), 
+                BA(BPatch_plus, BC(-(long long)INT_MIN), BC(LLONG_MIN))));
+    vect6_1.push_back(&arith6_4b);
+
+    // var5b = 3 * INT_MAX
+    BA arith6_5b (BPatch_assign, *expr6_5b, BA(
+                BPatch_times, BC((long long)3), BC((long long)INT_MAX)
+                ));
+    vect6_1.push_back(&arith6_5b);
+
+    // var6b = 10 / 3
+    BA arith6_6b (BPatch_assign, *expr6_6b, BA(
+                BPatch_divide, BC(10), BC(3)
+                ));
+    vect6_1.push_back(&arith6_6b);
+
+    // var7b = LLONG_MAX / INT_MAX
+    BA arith6_7b (BPatch_assign, *expr6_7b, BA(
+                BPatch_divide, BC(LLONG_MAX), BC((long long)INT_MAX)
+                ));
+    vect6_1.push_back(&arith6_7b);
 
 	checkCost(BPatch_sequence(vect6_1));
 	if(!appAddrSpace->insertSnippet( BPatch_sequence(vect6_1), *point6_1))
