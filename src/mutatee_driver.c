@@ -321,25 +321,20 @@ int main(int iargc, char *argv[])
 
 		  delayed_attach = 1;
       } else if (!strcmp(argv[i], "-run")) {
-         char *tests;
-         char *name;
-
-         if (i + 1 >= argc) {
-            output->log(STDERR, "-run must be followed by a test name\n");
-            exit(-1);
-         }
-         i += 1;
-         tests = strdup(argv[i]);
-         /* FIXME I think strtok is frowned on */
-         name = strtok(tests, ",");
-         setRunTest(name); /* Enables the named test to run */
-         while (name != NULL) {
-            name = strtok(NULL, ",");
-            if (name != NULL) {
-               setRunTest(name);
+         int j;
+         for ( j = i+1; j < argc; j++ )
+         {
+            if ( argv[j][0] == '-' )
+            {
+               // end of test list
+               break;
+            }
+            else
+            {
+               setRunTest(argv[j]);
             }
          }
-         free(tests);
+         i = j - 1;
       } else if (!strcmp(argv[i], "-label")) {
          if (i + 1 >= argc) {
             output->log(STDERR, "-label must be followed by a label string\n");
