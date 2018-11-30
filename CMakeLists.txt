@@ -44,7 +44,7 @@ include_directories (${TBB_INCLUDE_DIR})
 find_package (Threads)
 set(Boost_ADDITIONAL_VERSIONS "1.47" "1.47.0" "1.48" "1.48.0" "1.49" "1.49.0"
 			      "1.50" "1.50.0" "1.51" "1.51.0" "1.52" "1.52.0"
-			      "1.53" "1.53.0" "1.54" "1.54.0" "1.55" "1.55.0")
+			      "1.53" "1.53.0" "1.54" "1.54.0" "1.55" "1.55.0" "1.66" "1.66.0")
 
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
@@ -61,6 +61,11 @@ endif()
 find_package (Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories ( ${Boost_LIBRARY_DIRS} )
+if (${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION} VERSION_GREATER 1.55)
+  set (Boost_SYSTEM_LIBRARY boost_system)
+else()
+  set (Boost_SYSTEM_LIBRARY boost_system-mt)
+endif()
 
 message (STATUS "Dyninst includes: ${DYNINST_INCLUDE_DIR}")
 include_directories (${DYNINST_INCLUDE_DIR})
@@ -186,7 +191,7 @@ if(TARGET dyninstAPI)
     src/dyninst/Callbacks.C
     src/dyninst/Process_data.C
     ${PLAT_SRC})
-  target_link_libraries (testdyninst testlaunch testSuite dyninstAPI instructionAPI common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testdyninst testlaunch testSuite dyninstAPI instructionAPI common ${Boost_SYSTEM_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testdyninst
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testdyninst PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -194,7 +199,7 @@ endif()
 if(TARGET symtabAPI)
   add_library (testsymtab SHARED
     src/symtab/symtab_comp.C)
-  target_link_libraries (testsymtab testSuite symtabAPI common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testsymtab testSuite symtabAPI common ${Boost_SYSTEM_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testsymtab
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testsymtab PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -203,7 +208,7 @@ endif()
 if(TARGET instructionAPI)
   add_library (testinstruction SHARED
     src/instruction/instruction_comp.C)
-  target_link_libraries (testinstruction testSuite instructionAPI symtabAPI common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testinstruction testSuite instructionAPI symtabAPI common ${Boost_SYSTEM_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testinstruction
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testinstruction PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -216,7 +221,7 @@ if(TARGET pcontrol)
   if(WIN32)
     target_link_libraries(testproccontrol testSuite pcontrol common ${CMAKE_THREAD_LIBS_INIT} ws2_32)
   else()
-    target_link_libraries (testproccontrol testlaunch testSuite pcontrol common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries (testproccontrol testlaunch testSuite pcontrol common ${Boost_SYSTEM_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
   endif()
   install(TARGETS testproccontrol
     DESTINATION ${INSTALL_DIR})
