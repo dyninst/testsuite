@@ -1,0 +1,186 @@
+lbz                RT,D(RA)
+lbzx              RT,RA,RB
+lbzu              RT,D(RA)
+lbzux            RT,RA,RB
+lhz                RT,D(RA)
+lhzx              RT,RA,RB
+lhzu              RT,D(RA)
+lhzux            RT,RA,RB
+lha                RT,D(RA)
+lhax              RT,RA,RB
+lhau             RT,D(RA)
+lhaux            RT,RA,RB
+lwz               RT,D(RA)
+lwzx             RT,RA,RB
+lwzu             RT,D(RA)
+lwzux           RT,RA,RB
+lwa               RT,DS(RA)
+lwax             RT,RA,RB
+lwaux           RT,RA,RB
+ld                  RT,DS(RA)
+ldx                RT,RA,RB
+ldu                RT,DS(RA)
+ldux              RT,RA,RB
+stb                RS,D(RA)
+stbx              RS,RA,RB
+stbu             RS,D(RA)
+stbux            RS,RA,RB
+sth                RS,D(RA)
+sthx              RS,RA,RB
+sthu             RS,D(RA)
+sthux            RS,RA,RB
+stw               RS,D(RA)
+stwx             RS,RA,RB
+stwu             RS,D(RA)
+stwux           RS,RA,RB
+std                RS,DS(RA)
+stdx              RS,RA,RB
+stdu             RS,DS(RA)
+stdux            RS,RA,RB
+stq                RSp,DS(RA)
+lhbrx            RT,RA,RB
+sthbrx          RS,RA,RB
+lwbrx            RT,RA,RB
+lwbrx            RT,RA,RB
+ldbrx            RT,RA,RB
+stdbrx          RS,RA,RB
+lmw              RT,D(RA)
+stmw            RS,D(RA)
+lswi              RT,RA,NB
+lswx             RT,RA,RB
+stswi            RS,RA,NB
+stswx           RS,RA,RB
+addi             RT,RA,SI
+addis            RT,RA,SI
+addpcis        RT,D
+add	RT,RA,RB(OE=0 Rc=0)
+subf	RT,RA,RB(OE=0 Rc=0)
+addic            RT,RA,SI
+addic.           RT,RA,SI
+subfic           RT,RA,SI
+addc	RT,RA,RB(OE=0 Rc=0)
+subfc	RT,RA,RB(OE=0 Rc=0)
+adde	RT,RA,RB(OE=0 Rc=0)
+subfe	RT,RA,RB(OE=0 Rc=0)
+addme         RT,RA(OE=0 Rc=0)
+subfme        RT,RA(OE=0 Rc=0)
+addex                  RT,RA,RB,CY
+subfze          RT,RA                                   (OE=0 Rc=0)
+addze	RT,RA(OE=0 Rc=0)
+neg	RT,RA(OE=0 Rc=0)
+mulli             RT,RA,SI
+mulhw          RT,RA,RB                                       (Rc=0)
+mullw	RT,RA,RB(OE=0 Rc=0)
+mulhwu        RT,RA,RB(Rc=0)
+divw	RT,RA,RB(OE=0 Rc=0)
+divwu	RT,RA,RB(OE=0 Rc=0)
+divwe	RT,RA,RB(OE=0 Rc=0)
+divweu	RT,RA,RB(OE=0 Rc=0)
+modsw                RT,RA,RB
+moduw                RT,RA,RB 
+darn             RT,L
+mulld	RT,RA,RB(OE=0 Rc=0)
+mulhd	RT,RA,RB(Rc=0)
+mulhdu        RT,RA,RB                                       (Rc=0)
+maddhd               RT,RA.RB,RC
+maddhdu             RT,RA.RB,RC
+maddld                RT,RA.RB,RC
+divd	RT,RA,RB(OE=0 Rc=0)
+divdu	RT,RA,RB(OE=0 Rc=0)
+divde            RT,RA,RB(OE=0 Rc=0)
+divdeu          RT,RA,RB                             (OE=0 Rc=0)
+modsd                 RT,RA,RB
+modud                 RT,RA,RB 
+cmpi             BF,L,RA,SI
+cmp             BF,L,RA,RB
+cmpli            BF,L,RA,UI
+cmpl             BF,L,RA,RB
+cmprb                  BF,L,RA,RB
+cmpeqb               BF,RA,RB
+twi                TO,RA,SI
+tw                 TO,RA,RB
+tdi                TO,RA,SI
+td                 TO,RA,RB
+isel               RT,RA,RB,BC
+andi.            RA,RS,UI
+ori                RA,RS,UI
+andis.           RA,RS,UI
+oris      RA,RS,UI
+xoris             RA,RS,UI
+xori              RA,RS,UI
+and	RA,RS,RB(Rc=0)
+or	RA,RS,RB(Rc=0)
+xor	RA,RS,RB (Rc=0)
+nand	RA,RS,RB (Rc=0)
+nor	RA,RS,RB(Rc=0)
+eqv	RA,RS,RB(Rc=0)
+andc	RA,RS,RB(Rc=0)
+orc	RA,RS,RB(Rc=0)
+extsb	RA,RS(Rc=0)
+extsh	RA,RS(Rc=0)
+cntlzw	RA,RS(Rc=0)
+cnttzw	RA,RS(Rc=0)
+cmpb           RA,RS,RB
+popcntb       RA, RS
+popcntw       RA, RS
+prtyd RA,RS
+prtyw RA,RS
+extsw           RA,RS                                             (Rc=0)
+popcntd       RA, RS
+cntlzd	RA,RS(Rc=0)
+cnttzd	RA,RS(Rc=0)
+bpermd        RA,RS,RB
+rlwinm          RA,RS,SH,MB,ME                          (Rc=0)
+rlwnm	RA,RS,RB,MB,ME(Rc=0)
+rlwimi	RA,RS,SH,MB,ME(Rc=0)
+rldicl	RA,RS,SH,MB(Rc=0)
+rldicr	RA,RS,SH,ME(Rc=0)
+rldic	RA,RS,SH,MB(Rc=0)
+rldcl	RA,RS,RB,MB(Rc=0)
+rldcr	RA,RS,RB,ME(Rc=0)
+rldimi	RA,RS,SH,MB(Rc=0)
+slw	RA,RS,RB(Rc=0)
+srw	RA,RS,RB(Rc=0)
+srawi	RA,RS,SH(Rc=0)
+sraw         RA,RS,RB(Rc=0)
+sld	RA,RS,RB	(Rc=0)		
+srd	RA,RS,RB	(Rc=0)
+sradi            RA,RS,SH                                       (Rc=0)
+srad             RA,RS,RB                                       (Rc=0)
+extswsli	RA,RS,SH	(Rc=0)
+cdtbcd          RA, RS
+addg6s        RT,RA,RB
+cbcdtd          RA, RS
+mfvsrd                 RA,XS
+mfvsrld                RA,XS
+mfvsrwz              RA,XS
+mtvsrd                 XT,RA
+mtvsrwa              XT,RA
+mtvsrwz              XT,RA
+mtvsrdd               XT,RA,RB
+mtvsrws              XT,RA
+mtspr           SPR,RS
+mfspr           RT,SPR
+mcrxrx                 BF
+mtocrf          FXM,RS
+mtcrf            FXM,RS
+mfocrf                  RT,FXM
+mfcr                     RT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
