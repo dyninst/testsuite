@@ -305,6 +305,12 @@ test_results_t test1_6_Mutator::executeTest()
                 ));
     vect6_1.push_back(&arith6_7b);
 
+    // var8b = 0x1deadbeaf * 10  test 64-bit integer multiplication
+    BA arith6_8b (BPatch_assign, *expr6_8b, BA(
+                BPatch_times, BC(4600387192LL), BC(123LL)
+                ));
+    vect6_1.push_back(&arith6_8b);
+
 	checkCost(BPatch_sequence(vect6_1));
 	if(!appAddrSpace->insertSnippet( BPatch_sequence(vect6_1), *point6_1))
         return FAILED;

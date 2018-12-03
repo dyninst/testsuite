@@ -96,6 +96,22 @@ int test1_5_func1() {
   } else {
     logerror("**Failed** test #5 (if w.o. else)\n");
     retval = -1; /* Test failed */
+    if (test1_5_globalVariable5_1) logerror("\t ifexpr5_1 failed\n");
+    if (test1_5_globalVariable5_2) logerror("\t ifexpr5_2 failed\n");
+    if (test1_5_globalVariable5_3) logerror("\t ifexpr5_3 failed\n");
+    if (test1_5_globalVariable5_4) logerror("\t ifexpr5_4 failed\n");
+    if (test1_5_globalVariable5_5) logerror("\t ifexpr5_5 failed\n");
+    if (test1_5_globalVariable5_6) logerror("\t ifexpr5_6 failed\n");
+    if (test1_5_globalVariable5_7) logerror("\t ifexpr5_7 failed\n");
+    if (test1_5_globalVariable5_8) logerror("\t ifexpr5_8 failed\n");
+    if (test1_5_globalVariable5_9) logerror("\t ifexpr5_9 failed\n");
+    if (test1_5_globalVariable5_10) logerror("\t ifexpr5_10 failed\n");
+    if (test1_5_globalVariable5_11) logerror("\t ifexpr5_11 failed\n");
+    if (test1_5_globalVariable5_12) logerror("\t ifexpr5_12 failed\n");
+    if (test1_5_globalVariable5_13) logerror("\t ifexpr5_13 failed\n");
+    if (test1_5_globalVariable5_14) logerror("\t ifexpr5_14 failed\n");
+    if (test1_5_globalVariable5_15) logerror("\t ifexpr5_15 failed\n");
+    if (test1_5_globalVariable5_16) logerror("\t ifexpr5_16 failed\n");
   }
   return retval;
 }

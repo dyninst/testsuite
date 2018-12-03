@@ -67,7 +67,7 @@ volatile int test1_6_globalVariable4b = (int)0xdeadbeef;
 volatile long long test1_6_globalVariable5b = (long long)0xdeadbeef;
 volatile int test1_6_globalVariable6b = (int)0xdeadbeef;
 volatile long long test1_6_globalVariable7b = (long long)0xdeadbeef;
-volatile int test1_6_globalVariable8b = (int)0xdeadbeef;
+volatile long long test1_6_globalVariable8b = (long long)0xdeadbeef;
 
 volatile int test1_6_constVar0 = 0;
 volatile int test1_6_constVar1 = 1;
@@ -113,6 +113,7 @@ int test1_6_func1() {
       && (test1_6_globalVariable5b == 6442450941)
       && (test1_6_globalVariable6b == 3)
       && (test1_6_globalVariable7b == 4294967298)
+      && (test1_6_globalVariable8b == 565847624616LL)
       ) {
     logerror("Passed test #6 (arithmetic operators)\n");
     retval = 0; /* Test passed */
@@ -150,6 +151,23 @@ int test1_6_func1() {
       logerror("    division error 10/2 (var) got %d\n", test1_6_globalVariable7a);
     if (test1_6_globalVariable8a != (67^10))
       logerror("    xor error 67/10 (var) got %d\n", test1_6_globalVariable8a);
+    if (test1_6_globalVariable1b != -2)
+      logerror("    (-1) + (-1) got %d\n", test1_6_globalVariable1b);
+    if (test1_6_globalVariable2b != 0)
+      logerror("    (-66666) - (-66666) got %d\n", test1_6_globalVariable2b);
+    if (test1_6_globalVariable3b != 0)
+      logerror("    INT_MAX - INT_MAX got %d\n", test1_6_globalVariable3b);
+    if (test1_6_globalVariable4b != 0)
+      logerror("    INT_MAX - LLONG_MAX - (-INT_MIN + LLONG_MIN) got %d\n", test1_6_globalVariable4b);
+    if (test1_6_globalVariable5b != 6442450941)
+      logerror("    3 * INT_MAX got %ld\n", test1_6_globalVariable5b);
+    if (test1_6_globalVariable6b != 3)
+      logerror("    10 / 3 got %d\n" ,  test1_6_globalVariable6b);
+    if (test1_6_globalVariable7b != 4294967298)
+      logerror("    LLONG_MAX / INT_MAX got %ld\n", test1_6_globalVariable7b);
+    if (test1_6_globalVariable8b != 565847624616LL)
+      logerror("    4600387192 * 123 got %ld\n", test1_6_globalVariable8b);
+
     retval = -1; /* Test failed */
   }
   return retval;
