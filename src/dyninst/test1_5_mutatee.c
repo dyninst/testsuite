@@ -58,6 +58,8 @@ int test1_5_globalVariable5_13 = 1;
 int test1_5_globalVariable5_14 = 1;
 int test1_5_globalVariable5_15 = 1;
 int test1_5_globalVariable5_16 = 0;
+int test1_5_globalVariable5_17 = 1;
+
 
 /* Internally used function prototypes.  These should be declared with the
  * keyword static so they don't interfere with other mutatees in the group.
@@ -90,6 +92,7 @@ int test1_5_func1() {
       || test1_5_globalVariable5_14
       || test1_5_globalVariable5_15
       || test1_5_globalVariable5_16
+      || test1_5_globalVariable5_17
       )) {
     logerror("Passed test #5 (if w.o. else)\n");
     retval = 0; /* Test passed */
@@ -112,6 +115,7 @@ int test1_5_func1() {
     if (test1_5_globalVariable5_14) logerror("\t ifexpr5_14 failed\n");
     if (test1_5_globalVariable5_15) logerror("\t ifexpr5_15 failed\n");
     if (test1_5_globalVariable5_16) logerror("\t ifexpr5_16 failed\n");
+    if (test1_5_globalVariable5_17) logerror("\t ifexpr5_17 failed\n");
   }
   return retval;
 }

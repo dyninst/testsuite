@@ -115,6 +115,7 @@ test_results_t test1_6_Mutator::executeTest()
 	BPatch_variableExpr *expr6_1, *expr6_2, *expr6_3, *expr6_4, *expr6_5, *expr6_6, *expr6_7, *expr6_8,
 		    *expr6_1a, *expr6_2a, *expr6_3a, *expr6_4a, *expr6_5a, *expr6_6a, *expr6_7a, *expr6_8a,
 		    *expr6_1b, *expr6_2b, *expr6_3b, *expr6_4b, *expr6_5b, *expr6_6b, *expr6_7b, *expr6_8b,
+            *expr6_9b, *expr6_10b,
 		    *constVar1, *constVar2, *constVar3, *constVar5, *constVar6,
 		    *constVar10, *constVar60, *constVar64, *constVar66, *constVar67;
 
@@ -144,6 +145,8 @@ test_results_t test1_6_Mutator::executeTest()
 	expr6_6b = findVariable(appImage, "test1_6_globalVariable6b", point6_2);
 	expr6_7b = findVariable(appImage, "test1_6_globalVariable7b", point6_2);
 	expr6_8b = findVariable(appImage, "test1_6_globalVariable8b", point6_2);
+	expr6_9b = findVariable(appImage, "test1_6_globalVariable9b", point6_2);
+	expr6_10b = findVariable(appImage, "test1_6_globalVariable10b", point6_2);
 
 
 	constVar1 = findVariable(appImage, "test1_6_constVar1", point6_2);
@@ -310,6 +313,18 @@ test_results_t test1_6_Mutator::executeTest()
                 BPatch_times, BC(4600387192LL), BC(123LL)
                 ));
     vect6_1.push_back(&arith6_8b);
+
+    // var9b = ULLONG_MAX / 100, unsigned 64-bit integer division
+    BA arith6_9b (BPatch_assign, *expr6_9b, BA(
+                BPatch_divide, BC(ULLONG_MAX), BC((unsigned long long)100)
+                ));
+    vect6_1.push_back(&arith6_9b);
+
+    // var10b = 3689348814741910323 * 5 == ULLONG_MAX test 64-bit unsigned integer multiplication
+    BA arith6_10b (BPatch_assign, *expr6_10b, BA(
+                BPatch_times, BC(3689348814741910323ULL), BC(5ULL)
+                ));
+    vect6_1.push_back(&arith6_10b);
 
 	checkCost(BPatch_sequence(vect6_1));
 	if(!appAddrSpace->insertSnippet( BPatch_sequence(vect6_1), *point6_1))

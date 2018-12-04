@@ -68,6 +68,9 @@ volatile long long test1_6_globalVariable5b = (long long)0xdeadbeef;
 volatile int test1_6_globalVariable6b = (int)0xdeadbeef;
 volatile long long test1_6_globalVariable7b = (long long)0xdeadbeef;
 volatile long long test1_6_globalVariable8b = (long long)0xdeadbeef;
+volatile unsigned long long test1_6_globalVariable9b = 0;
+volatile unsigned long long test1_6_globalVariable10b = 0;
+
 
 volatile int test1_6_constVar0 = 0;
 volatile int test1_6_constVar1 = 1;
@@ -114,6 +117,8 @@ int test1_6_func1() {
       && (test1_6_globalVariable6b == 3)
       && (test1_6_globalVariable7b == 4294967298)
       && (test1_6_globalVariable8b == 565847624616LL)
+      && (test1_6_globalVariable9b == 184467440737095516ULL)
+      && (test1_6_globalVariable10b == ULLONG_MAX)
       ) {
     logerror("Passed test #6 (arithmetic operators)\n");
     retval = 0; /* Test passed */
@@ -167,6 +172,10 @@ int test1_6_func1() {
       logerror("    LLONG_MAX / INT_MAX got %ld\n", test1_6_globalVariable7b);
     if (test1_6_globalVariable8b != 565847624616LL)
       logerror("    4600387192 * 123 got %ld\n", test1_6_globalVariable8b);
+    if (test1_6_globalVariable9b != 184467440737095516ULL)
+      logerror("    ULLONG_MAX / 100 got %llu\n", test1_6_globalVariable9b);
+    if (test1_6_globalVariable10b != ULLONG_MAX)
+      logerror("    3689348814741910323 * 5 got %llu\n", test1_6_globalVariable10b);
 
     retval = -1; /* Test failed */
   }

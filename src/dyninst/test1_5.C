@@ -130,10 +130,12 @@ test_results_t test1_5_Mutator::executeTest()
 	BPatch_variableExpr *expr5_14 = findVariable (appImage, "test1_5_globalVariable5_14", point5_1);
 	BPatch_variableExpr *expr5_15 = findVariable (appImage, "test1_5_globalVariable5_15", point5_1);
 	BPatch_variableExpr *expr5_16 = findVariable (appImage, "test1_5_globalVariable5_16", point5_1);
+	BPatch_variableExpr *expr5_17 = findVariable (appImage, "test1_5_globalVariable5_17", point5_1);
+
 
 	if (!expr5_1 || !expr5_2 || !expr5_3 || !expr5_4 || !expr5_5 || !expr5_6 || !expr5_7
             || !expr5_8 || !expr5_9 || !expr5_10 || !expr5_11 || !expr5_12 || !expr5_13
-            || !expr5_14 || !expr5_15 || !expr5_16)
+            || !expr5_14 || !expr5_15 || !expr5_16 || !expr5_17)
 	{
 		logerror("**Failed** test #5 (1f w.o. else)\n");
 		logerror("    Unable to locate one of the variables\n");
@@ -244,6 +246,12 @@ test_results_t test1_5_Mutator::executeTest()
             BA(BPatch_assign, *expr5_16,
                 BC(1)));
 
+    // if 0 <= ULLONG_MAX, globalVariable5_17 = 0, unsigned comparsion
+    BPatch_ifExpr ifexpr5_17(BPatch_boolExpr(BPatch_le, BC((unsigned long long)0),
+                BC(ULLONG_MAX)),
+            BA(BPatch_assign, *expr5_17,
+                BC(0)));
+
 
 	vect5_1.push_back(&ifexpr5_1);
 	vect5_1.push_back(&ifexpr5_2);
@@ -261,7 +269,7 @@ test_results_t test1_5_Mutator::executeTest()
 	vect5_1.push_back(&ifexpr5_14);
 	vect5_1.push_back(&ifexpr5_15);
 	vect5_1.push_back(&ifexpr5_16);
-
+	vect5_1.push_back(&ifexpr5_17);
 
 	BPatch_sequence seexpr5_1(vect5_1);
 	checkCost(seexpr5_1);
