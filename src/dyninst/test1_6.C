@@ -115,7 +115,7 @@ test_results_t test1_6_Mutator::executeTest()
 	BPatch_variableExpr *expr6_1, *expr6_2, *expr6_3, *expr6_4, *expr6_5, *expr6_6, *expr6_7, *expr6_8,
 		    *expr6_1a, *expr6_2a, *expr6_3a, *expr6_4a, *expr6_5a, *expr6_6a, *expr6_7a, *expr6_8a,
 		    *expr6_1b, *expr6_2b, *expr6_3b, *expr6_4b, *expr6_5b, *expr6_6b, *expr6_7b, *expr6_8b,
-            *expr6_9b, *expr6_10b,
+            *expr6_9b, *expr6_10b, *expr6_11b, *expr6_12b, *expr6_13b,
 		    *constVar1, *constVar2, *constVar3, *constVar5, *constVar6,
 		    *constVar10, *constVar60, *constVar64, *constVar66, *constVar67;
 
@@ -147,6 +147,9 @@ test_results_t test1_6_Mutator::executeTest()
 	expr6_8b = findVariable(appImage, "test1_6_globalVariable8b", point6_2);
 	expr6_9b = findVariable(appImage, "test1_6_globalVariable9b", point6_2);
 	expr6_10b = findVariable(appImage, "test1_6_globalVariable10b", point6_2);
+	expr6_11b = findVariable(appImage, "test1_6_globalVariable11b", point6_2);
+	expr6_12b = findVariable(appImage, "test1_6_globalVariable12b", point6_2);
+	expr6_13b = findVariable(appImage, "test1_6_globalVariable13b", point6_2);
 
 
 	constVar1 = findVariable(appImage, "test1_6_constVar1", point6_2);
@@ -325,6 +328,26 @@ test_results_t test1_6_Mutator::executeTest()
                 BPatch_times, BC(3689348814741910323ULL), BC(5ULL)
                 ));
     vect6_1.push_back(&arith6_10b);
+
+    // var11b = -10 / 5 signed 64-bit integer division
+    BA arith6_11b (BPatch_assign, *expr6_11b, BA(
+                BPatch_divide, BC(-10), BC(5)
+                ));
+    vect6_1.push_back(&arith6_11b);
+
+    // var12b = -100 / 4 signed right shift 
+    BA arith6_12b (BPatch_assign, *expr6_12b, BA(
+                BPatch_divide, BC(-100), BC(4)
+                ));
+    vect6_1.push_back(&arith6_12b);
+
+    // var13b = ULLONG_MAX / 32 unsigned right shift 
+    BA arith6_13b (BPatch_assign, *expr6_13b, BA(
+                BPatch_divide, BC(ULLONG_MAX), BC(32ULL)
+                ));
+    vect6_1.push_back(&arith6_13b);
+
+
 
 	checkCost(BPatch_sequence(vect6_1));
 	if(!appAddrSpace->insertSnippet( BPatch_sequence(vect6_1), *point6_1))
