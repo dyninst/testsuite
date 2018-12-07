@@ -115,6 +115,7 @@ mutatee('dyninst_group_test', ['test1_1_mutatee.c',
 	'test1_10_mutatee.c',
 	'test1_11_mutatee.c',
 	'test1_13_mutatee.c',
+	'test1_15_mutatee.c',
 	'test1_16_mutatee.c',
 	'test1_17_mutatee.c',
 	'test1_18_mutatee.c',
@@ -320,17 +321,14 @@ tests_module('test1_14', 'dyninst').
 groupable_test('test1_14').
 mutatee_format('test1_14', 'staticMutatee').
 
-% Removed 2AUG2012, nobody uses this functionality and it doesn't work. 
-%test('test1_15', 'test1_15', 'test1_15').
-%test_description('test1_15', 'setMutationsActive').
-%test_runs_everywhere('test1_15').
-%mutator('test1_15', ['test1_15.C']).
-%mutatee('test1_15', ['test1_15_mutatee.c']).
-%compiler_for_mutatee('test1_15', Compiler) :-
-%   comp_lang(Compiler, 'c').
-%test_runmode('test1_15', 'dynamic').
-%test_start_state('test1_15', 'stopped').
-%tests_module('test1_15', 'dyninst').
+test('test1_15', 'test1_15', 'dyninst_group_test').
+test_description('test1_15', 'whileExpr').
+test_runs_everywhere('test1_15').
+groupable_test('test1_15').
+mutator('test1_15', ['test1_15.C']).
+test_runmode('test1_15', 'staticdynamic').
+test_start_state('test1_15', 'stopped').
+tests_module('test1_15', 'dyninst').
 
 test('test1_16', 'test1_16', 'dyninst_group_test').
 test_description('test1_16', 'If else').

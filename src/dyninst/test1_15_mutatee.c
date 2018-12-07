@@ -64,12 +64,12 @@ int test1_15_func1() {
   int retval;
   test1_15_func2();
 
-  if (!(test1_15_globalVariable15_1 == 10
+  if (test1_15_globalVariable15_1 == 10
       && test1_15_globalVariable15_2 == 1024 
       && test1_15_globalVariable15_3 == 0
       && test1_15_globalVariable15_4 == 1
-      && test1_15_globalVariable15_5 == 1
-      )) {
+      && test1_15_globalVariable15_5 == 0
+      ) {
     logerror("Passed test #15 (While)\n");
     retval = 0; /* Test passed */
   } else {
@@ -79,7 +79,7 @@ int test1_15_func1() {
     if (test1_15_globalVariable15_2 != 1024) logerror("\t whileexpr15_2 failed\n");
     if (test1_15_globalVariable15_3 != 0) logerror("\t whileexpr15_3 failed\n");
     if (test1_15_globalVariable15_4 != 1) logerror("\t whileexpr15_4 failed\n");
-    if (test1_15_globalVariable15_5 != 1) logerror("\t whileexpr15_5 failed\n");
+    if (test1_15_globalVariable15_5 != 0) logerror("\t whileexpr15_5 failed\n");
   }
   return retval;
 }

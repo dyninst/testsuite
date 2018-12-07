@@ -14,9 +14,9 @@ set (proccontrol_OBJS_ALL_MUTATORS pc_launch.obj pc_thread_cont.obj pc_breakpoin
 
 
 include_directories ("..src/dyninst")
-set (dyninst_MUTATORS test1_1 test1_2 test1_3 test1_4 test1_5 test1_6 test1_7 test1_8 test1_9 test1_10 test1_11 test1_12 test1_13 test1_14 test1_16 test1_17 test1_18 test1_19 test1_20 test1_21 test1_22 test_reloc snip_ref_shlib_var snip_change_shlib_var test_snip_remove test1_23 test1_24 test1_25 test1_26 test1_27 test1_28 test1_29 test1_30 test1_31 test1_32 test1_33 test1_34 test1_36 test1_37 test1_38 test_write_param test2_1 test2_2 test2_3 test2_4 test2_5 test2_7 test2_8 test2_11 test2_12 test2_13 test2_14 test3_1 test3_2 test3_3 test3_4 test3_7 test4_1 test5_1 test5_2 test5_3 test5_4 test5_5 test5_7 test5_8 test5_9 test_mem_1 test_mem_2 test_mem_3 test_mem_4 test_mem_5 test_mem_6 test_mem_7 test_mem_8 test_stack_1 test_stack_3 test_thread_6 test_thread_7 test_thread_8 )
+set (dyninst_MUTATORS test1_1 test1_2 test1_3 test1_4 test1_5 test1_6 test1_7 test1_8 test1_9 test1_10 test1_11 test1_12 test1_13 test1_14 test1_15 test1_16 test1_17 test1_18 test1_19 test1_20 test1_21 test1_22 test_reloc snip_ref_shlib_var snip_change_shlib_var test_snip_remove test1_23 test1_24 test1_25 test1_26 test1_27 test1_28 test1_29 test1_30 test1_31 test1_32 test1_33 test1_34 test1_36 test1_37 test1_38 test_write_param test2_1 test2_2 test2_3 test2_4 test2_5 test2_7 test2_8 test2_11 test2_12 test2_13 test2_14 test3_1 test3_2 test3_3 test3_4 test3_7 test4_1 test5_1 test5_2 test5_3 test5_4 test5_5 test5_7 test5_8 test5_9 test_mem_1 test_mem_2 test_mem_3 test_mem_4 test_mem_5 test_mem_6 test_mem_7 test_mem_8 test_stack_1 test_stack_3 test_thread_6 test_thread_7 test_thread_8 )
 
-set (dyninst_OBJS_ALL_MUTATORS test1_1.obj test1_2.obj test1_3.obj test1_4.obj test1_5.obj test1_6.obj test1_7.obj test1_8.obj test1_9.obj test1_10.obj test1_11.obj test1_12.obj test1_13.obj test1_14.obj test1_16.obj test1_17.obj test1_18.obj test1_19.obj test1_20.obj test1_21.obj test1_22.obj test_reloc.obj snip_ref_shlib_var.obj snip_change_shlib_var.obj test_snip_remove.obj test1_23.obj test1_24.obj test1_25.obj test1_26.obj test1_27.obj test1_28.obj test1_29.obj test1_30.obj test1_31.obj test1_32.obj test1_33.obj test1_34.obj test1_36.obj test1_37.obj test1_38.obj test_write_param.obj test2_1.obj test2_2.obj test2_3.obj test2_4.obj test2_5.obj test2_7.obj test2_8.obj test2_11.obj test2_12.obj test2_13.obj test2_14.obj test3_1.obj test3_2.obj test3_3.obj test3_4.obj test3_7.obj test4_1.obj test5_1.obj test5_2.obj test5_3.obj test5_4.obj test5_5.obj test5_7.obj test5_8.obj test5_9.obj test_mem_1.obj test_mem_2.obj test_mem_3.obj test_mem_4.obj test_mem_5.obj test_mem_6.obj test_mem_7.obj test_mem_8.obj test_stack_1.obj test_stack_3.obj test_thread_6.obj test_thread_7.obj test_thread_8.obj )
+set (dyninst_OBJS_ALL_MUTATORS test1_1.obj test1_2.obj test1_3.obj test1_4.obj test1_5.obj test1_6.obj test1_7.obj test1_8.obj test1_9.obj test1_10.obj test1_11.obj test1_12.obj test1_13.obj test1_14.obj test1_15.obj test1_16.obj test1_17.obj test1_18.obj test1_19.obj test1_20.obj test1_21.obj test1_22.obj test_reloc.obj snip_ref_shlib_var.obj snip_change_shlib_var.obj test_snip_remove.obj test1_23.obj test1_24.obj test1_25.obj test1_26.obj test1_27.obj test1_28.obj test1_29.obj test1_30.obj test1_31.obj test1_32.obj test1_33.obj test1_34.obj test1_36.obj test1_37.obj test1_38.obj test_write_param.obj test2_1.obj test2_2.obj test2_3.obj test2_4.obj test2_5.obj test2_7.obj test2_8.obj test2_11.obj test2_12.obj test2_13.obj test2_14.obj test3_1.obj test3_2.obj test3_3.obj test3_4.obj test3_7.obj test4_1.obj test5_1.obj test5_2.obj test5_3.obj test5_4.obj test5_5.obj test5_7.obj test5_8.obj test5_9.obj test_mem_1.obj test_mem_2.obj test_mem_3.obj test_mem_4.obj test_mem_5.obj test_mem_6.obj test_mem_7.obj test_mem_8.obj test_stack_1.obj test_stack_3.obj test_thread_6.obj test_thread_7.obj test_thread_8.obj )
 
 
 include_directories ("..src/instruction")
@@ -62,6 +62,7 @@ set (MUTATOR_NAME_LIST
 	test1_12
 	test1_13
 	test1_14
+	test1_15
 	test1_16
 	test1_17
 	test1_18
@@ -234,6 +235,7 @@ set (MUTATOR_MODULE_LIB_LIST
 	testdyninst
 	testdyninst
 	testdyninst
+	testdyninst
 	testinstruction
 	testinstruction
 	testinstruction
@@ -297,6 +299,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test1_12.C
 	${SRC}/dyninst/test1_13.C
 	${SRC}/dyninst/test1_14.C
+	${SRC}/dyninst/test1_15.C
 	${SRC}/dyninst/test1_16.C
 	${SRC}/dyninst/test1_17.C
 	${SRC}/dyninst/test1_18.C
@@ -382,7 +385,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_write_param.C
 	)
 
-foreach (val RANGE 113)
+foreach (val RANGE 114)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)

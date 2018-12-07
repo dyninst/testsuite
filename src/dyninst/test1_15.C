@@ -114,11 +114,11 @@ test_results_t test1_15_Mutator::executeTest()
 		return FAILED;
 	}
 
-	BPatch_variableExpr *expr15_1 = findVariable (appImage, "test1_15_globalVariable5_1", point15_1);
-	BPatch_variableExpr *expr15_2 = findVariable (appImage, "test1_15_globalVariable5_2", point15_1);
-	BPatch_variableExpr *expr15_3 = findVariable (appImage, "test1_15_globalVariable5_3", point15_1);
-	BPatch_variableExpr *expr15_4 = findVariable (appImage, "test1_15_globalVariable5_4", point15_1);
-	BPatch_variableExpr *expr15_5 = findVariable (appImage, "test1_15_globalVariable5_5", point15_1);
+	BPatch_variableExpr *expr15_1 = findVariable (appImage, "test1_15_globalVariable15_1", point15_1);
+	BPatch_variableExpr *expr15_2 = findVariable (appImage, "test1_15_globalVariable15_2", point15_1);
+	BPatch_variableExpr *expr15_3 = findVariable (appImage, "test1_15_globalVariable15_3", point15_1);
+	BPatch_variableExpr *expr15_4 = findVariable (appImage, "test1_15_globalVariable15_4", point15_1);
+	BPatch_variableExpr *expr15_5 = findVariable (appImage, "test1_15_globalVariable15_5", point15_1);
 
 
 	if (!expr15_1 || !expr15_2 || !expr15_3 || !expr15_4 || !expr15_5)
@@ -150,9 +150,9 @@ test_results_t test1_15_Mutator::executeTest()
 			BA(BPatch_assign, *expr15_3,
 				BA(BPatch_minus, *expr15_3, BC(1))));
 
-    // while (expr15_4 > 0 ) expr15_4/=2
+    // while (expr15_4 > 1 ) expr15_4/=2
     BPatch_whileExpr whileexpr15_4(BPatch_boolExpr(BPatch_gt, *expr15_4,
-                BC(0)),
+                BC(1)),
             BA(BPatch_assign, *expr15_4,
                 BA(BPatch_divide, *expr15_4, BC(2))));
 
@@ -160,7 +160,7 @@ test_results_t test1_15_Mutator::executeTest()
     BPatch_whileExpr whileexpr15_5(BPatch_boolExpr(BPatch_eq, *expr15_5,
                 BC(1)),
             BA(BPatch_assign, *expr15_5,
-                BC(0)));
+                BC(2)));
 
 
 	vect15_1.push_back(&whileexpr15_1);
