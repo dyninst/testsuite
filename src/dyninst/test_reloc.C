@@ -73,11 +73,17 @@ test_results_t test_reloc_Mutator::executeTest() {
         return PASSED;
     }
 
-    dprintf("Starting to relocate all functions...\n");
+    dprintf("Starting to relocate all %d functions...\n", all_funcs->size());
+    // For this test, it is important to use insertion set,
+    // because it would take forever to relocate thousands of functions
+    // individually. Using insertion set makes sure that we relocate 
+    // all functions together.
+    appAddrSpace->beginInsertionSet();
     for(BPatch_Vector<BPatch_function *>::iterator itr = all_funcs->begin(); itr != all_funcs->end(); itr++) {
         dprintf("Relocation function: %s\n", (*itr)->getName().c_str());
         (*itr)->relocateFunction();
     }
+    appAddrSpace->finalizeInsertionSet(false);
 
     dprintf("Relocated all functions.\n");
     return PASSED;
