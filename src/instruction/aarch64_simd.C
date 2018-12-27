@@ -215,17 +215,18 @@ test_results_t aarch64_simd_Mutator::executeTest()
     unsigned int size = sizeof(buffer);
     unsigned int expectedInsns = size/4;
 
-    ++expectedInsns;
+    //++expectedInsns;
     reverseBuffer(buffer, size);
     InstructionDecoder d(buffer, size, Dyninst::Arch_aarch64);
 
     std::deque<Instruction> decodedInsns;
     Instruction i;
+    i = d.decode();
     do
     {
-        i = d.decode();
         decodedInsns.push_back(i);
         /*cout<<*/decodedInsns.back().format()/*<<endl*/;
+        i = d.decode();
     }
     while(i.isValid());
     
@@ -242,11 +243,11 @@ test_results_t aarch64_simd_Mutator::executeTest()
 	return FAILED;
     }
 
-    if(decodedInsns.back().isValid())
+    /*if(decodedInsns.back().isValid())
     {
 	logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
 	return FAILED;
-    }
+    }*/
 
     RegisterAST::Ptr zr (new RegisterAST(aarch64::xzr));
     RegisterAST::Ptr wzr (new RegisterAST(aarch64::wzr));

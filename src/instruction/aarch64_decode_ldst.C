@@ -263,17 +263,18 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest()
   unsigned int size = sizeof(buffer);
   unsigned int expectedInsns = size/4;
 
-  ++expectedInsns;
+  //++expectedInsns;
   reverseBuffer(buffer, size);
   InstructionDecoder d(buffer, size, Dyninst::Arch_aarch64);
 
   std::deque<Instruction> decodedInsns;
   Instruction i;
+  i = d.decode();
   do
   {
-    i = d.decode();
     decodedInsns.push_back(i);
     /*std::cout<<*/i.format()/*<<std::endl*/;
+    i = d.decode();
   }
   while(i.isValid());
 
@@ -290,11 +291,11 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest()
     return FAILED;
   }
 
-  if(decodedInsns.back().isValid())
+  /*if(decodedInsns.back().isValid())
   {
     logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
     return FAILED;
-  }
+  }*/
 
   RegisterAST::Ptr x0 (new RegisterAST(aarch64::x0));
   RegisterAST::Ptr x1 (new RegisterAST(aarch64::x1));

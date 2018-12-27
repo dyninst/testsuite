@@ -43,7 +43,7 @@
  * group.
  */
 
-#if 0
+/*
 //  from libtestB -- the expected end values
 int snip_ref_shlib_var1 = 5;
 long snip_ref_shlib_var2 = 5L;
@@ -51,14 +51,16 @@ char snip_ref_shlib_var3 = 'e';
 char * snip_ref_shlib_var4 = 0x5;
 float snip_ref_shlib_var5 = 5.5e5;
 double snip_ref_shlib_var6 = 5.5e50;
-#endif
+short snip_ref_shlib_var7 = 0x3333;
+*/
 
 volatile int gv_srsv1 = 0;
 volatile long gv_srsv2 = 0L;
-volatile char gv_srsv3 = '\0';
+char gv_srsv3[2] = {'A','B'};
 volatile char *gv_srsv4 = NULL;
 volatile float gv_srsv5 = 0.0;
 volatile double gv_srsv6 = 0.0;
+short gv_srsv7[2] = {0x1234, 0x5678};
 
 int srsv1(int x)
 {
@@ -76,12 +78,15 @@ int snip_ref_shlib_var_mutatee()
 
 	if (gv_srsv1 != 5) {failed = 1; goto finish_up;}
 	if (gv_srsv2 != 5L) {failed = 2; goto finish_up;}
-	if (gv_srsv3 != 'e') {failed = 3; goto finish_up;}
+	if (gv_srsv3[0] != 'e') {failed = 3; goto finish_up;}
+	if (gv_srsv3[1] != 'B') {failed = 33; goto finish_up;}
 	if (gv_srsv4 != (char *)0x5) {failed = 4; goto finish_up;}
 	if (gv_srsv5 != 5.5e5) {failed = 5; goto finish_up;}
 #if 0
 	if (gv_srsv6 != 5.5e50) {failed = 6; goto finish_up;}
 #endif
+	if (gv_srsv7[0] != 0x3333) {failed = 7; goto finish_up;}
+	if (gv_srsv7[1] != 0x5678) {failed = 77; goto finish_up;}
 
 finish_up:
 	if (failed)
@@ -89,12 +94,15 @@ finish_up:
       logerror("Failed snip_ref_shlib_var test with code %d\n", failed);
 	  logerror("\tgv_srsv1 = %d\n", gv_srsv1);
 	  logerror("\tgv_srsv2 = %lu\n", gv_srsv2);
-	  logerror("\tgv_srsv3 = %c\n", gv_srsv3);
+	  logerror("\tgv_srsv3[0] = %c\n", gv_srsv3[0]);
+	  logerror("\tgv_srsv3[1] = %c\n", gv_srsv3[1]);
 	  logerror("\tgv_srsv4 = %p\n", gv_srsv4);
 	  logerror("\tgv_srsv5 = %f\n", gv_srsv5);
 #if 0
 	  logerror("\tgv_srsv6 = %e\n", gv_srsv6);
 #endif
+	  logerror("\tgv_srsv7[0] = 0x%x\n", gv_srsv7[0]);
+	  logerror("\tgv_srsv7[1] = 0x%x\n", gv_srsv7[1]);
 	  return -1;
 	}
 

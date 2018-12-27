@@ -49,6 +49,7 @@ DLLEXPORT char snip_ref_shlib_var3 = 'e';
 DLLEXPORT char * snip_ref_shlib_var4 = (char*)0x5;
 DLLEXPORT float snip_ref_shlib_var5 = 5.5e5;
 DLLEXPORT double snip_ref_shlib_var6 = 5.5e50;
+DLLEXPORT short snip_ref_shlib_var7 = 0x3333;
 
 DLLEXPORT int check_snip_change_shlib_var()
 {

@@ -52,6 +52,7 @@ class snip_ref_shlib_var_Mutator : public DyninstMutator {
 	char libNameA[128], libNameB[128];
 
 	BPatch_snippet *doVarAssign(const char * to, const char *from);
+	BPatch_snippet *doVarArrayAssign(const char * to, const char *from, unsigned idx);
 	public:
 	snip_ref_shlib_var_Mutator();
 	virtual test_results_t executeTest();
@@ -98,6 +99,32 @@ BPatch_snippet * snip_ref_shlib_var_Mutator::doVarAssign(const char *to, const c
 	return ret;
 }
 
+BPatch_snippet * snip_ref_shlib_var_Mutator::doVarArrayAssign(
+        const char *to, const char *from, unsigned idx)
+{
+	BPatch_variableExpr *to_v = appImage->findVariable(to);
+
+	if (!to_v)
+	{
+		logerror("%s[%d]:  failed to find var %s\n", FILE__, __LINE__, to);
+		return NULL;
+	}
+
+	BPatch_variableExpr *from_v = appImage->findVariable(from);
+
+	if (!from_v)
+	{
+		logerror("%s[%d]:  failed to find var %s\n", FILE__, __LINE__, from);
+		return NULL;
+	}
+
+    BPatch_snippet *ret;
+    ret = new BPatch_arithExpr(BPatch_assign,
+           BPatch_arithExpr(BPatch_ref, *to_v, BPatch_constExpr(idx)), *from_v);
+    assert(ret);
+	return ret;
+}
+
 test_results_t snip_ref_shlib_var_Mutator::mutatorTest() 
 {
 	//  The check function returns 1 on success (value changed as expected)
@@ -139,7 +166,7 @@ test_results_t snip_ref_shlib_var_Mutator::mutatorTest()
 	if (NULL == snip) return FAILED;
 	allInst.push_back(snip);
 
-	snip = doVarAssign("gv_srsv3", "snip_ref_shlib_var3");
+	snip = doVarArrayAssign("gv_srsv3", "snip_ref_shlib_var3", 0);
 	if (NULL == snip) return FAILED;
 	allInst.push_back(snip);
 
@@ -156,6 +183,10 @@ test_results_t snip_ref_shlib_var_Mutator::mutatorTest()
 	if (NULL == snip) return FAILED;
 	allInst.push_back(snip);
 #endif
+
+	snip = doVarArrayAssign("gv_srsv7", "snip_ref_shlib_var7", 0);
+	if (NULL == snip) return FAILED;
+	allInst.push_back(snip);
 
 	BPatch_sequence my_ass(allInst);
 
