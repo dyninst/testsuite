@@ -23,17 +23,10 @@ gen-clean:
 	-rm -f $(ALL_GENERATED_FILES)
 
 $(SUBDIRS:%=%/tuples): %/tuples: $(PROLOG_FILES)
-	cd $(TO_SPEC); swipl -g go\
-		-g "test_init('$*')" \
-		-g "write_tuples('../../$@', '$*')" \
-		-t "halt" && gzip -f ../../$@
-
-
-#$(SUBDIRS:%=%/tuples): %/tuples: $(PROLOG_FILES)
-#	cd $(TO_SPEC); gprolog --entry-goal "['spec-grouped.pl']" \
-#		--entry-goal "test_init('$*')" \
-#		--entry-goal "write_tuples('../../$@', '$*')" \
-#		--entry-goal "halt" ; gzip -f ../../$@
+	cd $(TO_SPEC); gprolog --entry-goal "['spec-grouped.pl']" \
+		--entry-goal "test_init('$*')" \
+		--entry-goal "write_tuples('../../$@', '$*')" \
+		--entry-goal "halt" ; gzip -f ../../$@
 
 
 $(SUBDIRS:%=%/cmake-mutatees.txt): %/cmake-mutatees.txt: $(PYTHON_FILES) %/tuples
