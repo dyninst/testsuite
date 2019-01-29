@@ -3636,6 +3636,7 @@ runmode_platform(P, 'useAttach', 'proccontrol') :- platform(_, _, _, P).
 runmode_platform(P, 'createProcess', 'instruction') :- platform(_, _, _, P).
 runmode_platform(P, 'binary', _) :- platform('i386', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('x86_64', 'linux', _, P).
+runmode_platform(P, 'binary', _) :- platform('aarch64', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('power32', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('power64', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('power32', 'bluegene', _, P).

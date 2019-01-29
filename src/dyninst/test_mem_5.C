@@ -59,15 +59,7 @@ extern "C" DLLEXPORT TestMutator *test_mem_5_factory() {
 test_results_t test_mem_5_Mutator::executeTest() {
   int testnum = 5;
   const char* testdesc = "instrumentation w/effective address snippet";
-#if(!defined(rs6000_ibm_aix4_1_test) || defined(AIX5)) \
- && !defined(i386_unknown_linux2_0_test) \
- && !defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
- && !defined(i386_unknown_nt4_0_test) \
- && !defined(amd64_unknown_freebsd7_0_test) \
- && !defined(i386_unknown_freebsd7_0_test)
-  //skiptest(testnum, testdesc);
-  return SKIPPED;
-#else
+
   std::set<BPatch_opCode> axs;
   axs.insert(BPatch_opLoad);
   axs.insert(BPatch_opStore);
@@ -94,7 +86,6 @@ test_results_t test_mem_5_Mutator::executeTest() {
   if (instEffAddr(appAddrSpace, "EffAddr", res1, false) < 0) {
       failtest(testnum, testdesc, "Unable to instrument effective addresses\".\n");
   }
-#endif
   //appThread->detach(false);
   //appThread->continueExecution();
 
