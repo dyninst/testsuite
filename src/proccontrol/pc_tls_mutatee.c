@@ -70,7 +70,7 @@ static unsigned int lib_count = 0;
 int cb(struct dl_phdr_info *info, size_t size, void *v)
 {
    (void) info; (void) size; (void) v;
-   if (strstr(info->dlpi_name, "linux-vdso.so.1") != NULL) lib_count++;
+   lib_count++;
    return 0;
 }
 
@@ -78,8 +78,8 @@ int am_i_staticlink()
 {
    if (lib_count == 0)
       dl_iterate_phdr(cb, NULL);
-
-   return (lib_count == 1);
+   // The two loaded objects are the executable and the loader
+   return (lib_count <= 2);
 }
 #else
 #error Test currently only builds on Linux
