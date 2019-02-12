@@ -80,107 +80,28 @@ ParseThat::ParseThat() :
 			return;
 		}
 	}
-
 	//  If we get here, we didn't find it
-	const char *dyn_root_env = getenv("DYNINST_ROOT");
-	if (!dyn_root_env) {
-		dyn_root_env = "../..";
-	}	
-	const char *plat_env = getenv("PLATFORM");
+    const char *dyn_rt_path = getenv("DYNINSTAPI_RT_LIB");
+    if (dyn_rt_path) {
+        const char *dyn_lib_path_end = strrchr(dyn_rt_path, slashc);
+        if (dyn_lib_path_end) {
+            std::string path(dyn_rt_path, 0, dyn_lib_path_end - dyn_rt_path + 1);
+            path += ".." + slash + "bin" + slash + "parseThat"; 
+            struct stat statbuf;
+            if (!stat(path.c_str(), &statbuf))
+            {
+                pt_path = path;
+                logerror("%s[%d]:  resolved parseThat to %s\n", FILE__, __LINE__, pt_path.c_str());
+                return;
+            }
+            else
+            {
+			    logerror("%s[%d]:  cannot resolve pt path '%s'\n", FILE__, __LINE__, path.c_str());
+            }
 
-	if (!plat_env)
-	{
-#if defined (os_windows_test)
-		plat_env = "i386-unknown-nt4.0";
-#elif defined (os_linux_test)
-#if defined (arch_x86_test)
-		plat_env = "i386-unknown-linux2.4";
-#elif defined (arch_x86_64_test)
-		plat_env = "x86_64-unknown-linux2.4";
-#elif defined (arch_power_test)
-#if defined (arch_64bit_test)
-		plat_env = "ppc64_linux";
-#else
-		plat_env = "ppc32_linux";
-#endif
-#endif
-#elif defined (os_aix_test)
-		plat_env = "rs6000-ibm-aix5.1";
-#endif
-	}
+        }
+    }
 
-   if (plat_env)
-      setup_env(plat_env);
-
-	if (plat_env)
-	{
-		std::string expect_pt_loc = std::string(dyn_root_env) + slash +
-         std::string("parseThat") + slash + 
-         std::string(plat_env) + slash +
-			std::string("parseThat");
-
-		struct stat statbuf;
-		if (!stat(expect_pt_loc.c_str(), &statbuf))
-		{
-			pt_path = expect_pt_loc;
-			logerror("%s[%d]:  resolved parseThat to %s\n", FILE__, __LINE__, pt_path.c_str());
-			return;
-		}
-		else
-		{
-			logerror("%s[%d]:  cannot resolve pt path '%s'\n", FILE__, __LINE__, 
-					expect_pt_loc.c_str());
-		}
-	}
-	else
-	{
-		logerror("%s[%d]:  PLATFORM %s, can't resolve canonical parseThat loc\n",
-				FILE__, __LINE__, plat_env ? "set" : "not set");
-	}
-
-	//  try looking at relative paths
-	//  (1) assume we are in $DYNINST_ROOT/dyninst/newtestsuite/$PLATFORM
-	//  so look in ../../../$PLATFORM/bin
-
-	if (plat_env)
-	{
-		char cwdbuf[1024];
-		char *last_slash = NULL;
-		char * cwd = getcwd(cwdbuf, 1024);
-
-		if (cwd)
-		  last_slash = strrchr(cwd, slashc);
-
-		if (last_slash) 
-		{
-			*last_slash = '\0';
-			last_slash = strrchr(cwd, slashc);
-			if (last_slash) 
-			{
-				*last_slash = '\0';
-				last_slash = strrchr(cwd, slashc);
-				if (last_slash) 
-				{
-					*last_slash = '\0';
-					std::string expected_pt_path = std::string(cwd) + slash 
-						+ std::string(plat_env) + slash + std::string("bin") 
-						+ slash + std::string("parseThat");
-
-					struct stat statbuf;
-					if (!stat(expected_pt_path.c_str(), &statbuf))
-					{
-						pt_path = expected_pt_path;
-						logerror("%s[%d]:  resolved parseThat to %s\n", FILE__, __LINE__, pt_path.c_str());
-						return;
-					}
-
-					logerror("%s[%d]: could not find parseThat at loc: '%s'\n", 
-							FILE__, __LINE__, expected_pt_path.c_str());
-				}
-			}
-		}
-
-	}
 }
 
 ParseThat::~ParseThat()
@@ -283,6 +204,8 @@ bool ParseThat::setup_args(std::vector<std::string> &pt_args)
 
 		pt_args.push_back(tstr);
 	}
+
+    pt_args.push_back(std::string("--only-mod=ls"));
 
 	return true;
 }
