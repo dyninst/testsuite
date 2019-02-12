@@ -67,12 +67,10 @@ test_results_t power_decode_Mutator::executeTest()
       0xfc01102b, // fadd. fpr0, fpr1, fpr2
       0x38200001, // addi r1, 0, 1
       0x38210001, // addi r1, r1, 1
-      0xf000fffc, // stfq fpr0, 0, -1
-      0xf0010004, // stfq fpr0, r1, 1
       0xff800800, // fcmpu fpscr7, fpr0, fpr1
       0x7f800800, // fcmpu cr7, r0, r1
       0x7c0aa120, // mtcrf cr0, cr2, cr4, cr6, r0
-      0xfd540606, // mtfsf fpscr0, fpscr2, fpscr4, fpscr6, fpr0
+      0xfd54058e, // mtfsf fpscr0, fpscr2, fpscr4, fpscr6, fpr0
       0x80010000, // lwz r0, 0(r1)
       0x84010000, // lwzu r0, 0(r1)
       0x7c01102e, // lwzx r0, r2(r1)
@@ -85,9 +83,8 @@ test_results_t power_decode_Mutator::executeTest()
       0x40010101, // bdnzl cr0, +0x100
       0x40010100, // bdnz cr0, +0x100
       0x7ca74a6e, // lhzux r9, r7, r5
-                
   };
-  unsigned int expectedInsns = 25;
+  unsigned int expectedInsns = 23;
   unsigned int size = expectedInsns * 4;
   ++expectedInsns;
   InstructionDecoder d(buffer, size, Dyninst::Arch_ppc32);
@@ -232,27 +229,6 @@ test_results_t power_decode_Mutator::executeTest()
 #else
   tmpRead = list_of(r1);
   tmpWritten = list_of(r1);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // stfq fpr0/fpr1, -1(0)
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr0, fpr1 };
-#else
-  tmpRead = list_of(fpr0)(fpr1);
-#endif
-
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // stfq fpr0/fpr1, 1(r1)
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr0, fpr1, r1 };
-#else
-  tmpRead = list_of(fpr0)(fpr1)(r1);
 #endif
   expectedRead.push_back(tmpRead);
   expectedWritten.push_back(tmpWritten);
