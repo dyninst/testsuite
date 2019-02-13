@@ -3218,8 +3218,8 @@ compiler_opt_trans(IBM, 'max', '-O5') :-
 compiler_opt_trans(Comp, 'max', '/Ox /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 compiler_opt_trans(Comp, 'none', '/Od /Zi /MDd /D_DEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 
-compiler_pic_trans(_, 'none', '').
-compiler_pic_trans(Comp, 'pic', '-fPIC') :-
+compiler_pic_trans(_, 'none', '-no-pie').
+compiler_pic_trans(Comp, 'pic', ' -pie') :-
     member(Comp, ['gcc', 'g++', 'gfortran', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
 compiler_pic_trans(Comp, 'pic', '-KPIC') :-
     member(Comp, ['pgcc', 'pgcxx']).
