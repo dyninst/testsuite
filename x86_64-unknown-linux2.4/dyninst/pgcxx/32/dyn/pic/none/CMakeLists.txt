@@ -318,6 +318,22 @@ foreach (f ${SOURCE_LIST_43})
 	endif()
 	endforeach()
 set_target_properties(test_fork_9.dyn_pgcxx_32_pic_none PROPERTIES LINKER_LANGUAGE CXX)
+add_executable (test_mem_5.dyn_pgcxx_32_pic_none ${SOURCE_LIST_47})
+foreach (f ${SOURCE_LIST_47})
+	get_source_file_property(lang ${f} LANGUAGE)
+	if(lang MATCHES "C")
+		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
+	endif()
+	endforeach()
+set_target_properties(test_mem_5.dyn_pgcxx_32_pic_none PROPERTIES LINKER_LANGUAGE CXX)
+add_executable (test_mem_7.dyn_pgcxx_32_pic_none ${SOURCE_LIST_22})
+foreach (f ${SOURCE_LIST_22})
+	get_source_file_property(lang ${f} LANGUAGE)
+	if(lang MATCHES "C")
+		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
+	endif()
+	endforeach()
+set_target_properties(test_mem_7.dyn_pgcxx_32_pic_none PROPERTIES LINKER_LANGUAGE CXX)
 add_executable (test_reloc.dyn_pgcxx_32_pic_none ${SOURCE_LIST_28})
 foreach (f ${SOURCE_LIST_28})
 	get_source_file_property(lang ${f} LANGUAGE)
@@ -469,6 +485,8 @@ INSTALL (TARGETS
 		test_fork_7.dyn_pgcxx_32_pic_none
 		test_fork_8.dyn_pgcxx_32_pic_none
 		test_fork_9.dyn_pgcxx_32_pic_none
+		test_mem_5.dyn_pgcxx_32_pic_none
+		test_mem_7.dyn_pgcxx_32_pic_none
 		test_reloc.dyn_pgcxx_32_pic_none
 		test_snip_remove.dyn_pgcxx_32_pic_none
 		test_stack_1.dyn_pgcxx_32_pic_none

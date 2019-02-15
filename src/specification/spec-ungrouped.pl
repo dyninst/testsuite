@@ -1058,7 +1058,7 @@ compiler_for_mutatee('test_mem_5', Compiler) :-
     comp_lang(Compiler, 'c').
 test_runmode('test_mem_5', 'createProcess').
 test_start_state('test_mem_5', 'stopped').
-restricted_amd64_abi('test_mem_5').
+% restricted_amd64_abi('test_mem_5').
 tests_module('test_mem_5', 'dyninst').
 
 % test_mem_6, formerly test6_6
@@ -1088,7 +1088,7 @@ compiler_for_mutatee('test_mem_7', Compiler) :-
     comp_lang(Compiler, 'c').
 test_runmode('test_mem_7', 'createProcess').
 test_start_state('test_mem_7', 'stopped').
-restricted_amd64_abi('test_mem_7').
+% restricted_amd64_abi('test_mem_7').
 tests_module('test_mem_7', 'dyninst').
 
 % test_mem_8, formerly test6_8
