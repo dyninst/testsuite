@@ -148,7 +148,7 @@ test_results_t test5_4_Mutator::executeTest() {
   BPatch_Vector<BPatch_snippet *> call4_args;
   
   BPatch_funcCallExpr call4Expr(*call4_func, call4_args);
-  BPatch_constExpr thisExpr((void *)this2->getBaseAddr());
+  BPatch_arithExpr thisExpr(BPatch_addr, *this2);
   call4_args.push_back(&thisExpr);
   checkCost(call4Expr);
   appAddrSpace->insertSnippet(call4Expr, *point4_3);
