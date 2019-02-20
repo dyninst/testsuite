@@ -285,7 +285,7 @@ bool runBinaryTest(RunGroup *group, ParameterDict &params, test_results_t &test_
    if ((app_crash)  || (app_return != 0))
    {
       parse_mutateelog(group, params["mutatee_resumelog"]->getString());
-     test_result = UNKNOWN;
+     test_result = CRASHED;
    }
    else {
      test_result = PASSED;
