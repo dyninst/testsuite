@@ -284,18 +284,19 @@ bool runBinaryTest(RunGroup *group, ParameterDict &params, test_results_t &test_
 
    if ((app_crash)  || (app_return != 0))
    {
-      parse_mutateelog(group, params["mutatee_resumelog"]->getString());
-     test_result = CRASHED;
+     parse_mutateelog(group, params["mutatee_resumelog"]->getString());
+     if (app_crash) 
+       test_result = CRASHED;
+     else
+       test_result = FAILED;
+     error = true;
    }
    else {
      test_result = PASSED;
+     error = false;
    }
    
-   error = false;
  done:
-
-   if (error)
-      test_result = FAILED;
    if (cd_done)
       cdBack();
    if (file_written && !params["noClean"]->getInt())
