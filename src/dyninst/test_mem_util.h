@@ -222,6 +222,21 @@ extern unsigned int bcExp[];
 void init_test_data();
 #endif /* power linux */
 
+#if defined(arch_aarch64_test) && defined(os_linux_test)
+
+#define loadExp 0
+#define storeExp 0
+#define prefeExp 0
+#define accessExp 1
+#define accessExpCC 1
+
+//long loadsnstores(long x, long y, long z);
+
+extern unsigned int bcExp[];
+
+void init_test_data();
+#endif /* aarch64 linux */
+
 /* functions called by the simple instrumentation points */
 void countLoad();
 void countStore();

@@ -757,6 +757,23 @@ void init_test_data()
 }
 #endif /* power linux */
 
+#if defined(arch_aarch64_test) && defined(os_linux_test)
+
+/*
+long loadsnstores(long x, long y, long z)
+{
+  return x + y + z;
+}
+*/
+
+unsigned int bcExp[] = { 0 };
+
+void init_test_data()
+{
+}
+#endif /* power linux */
+
+
 /* functions called by the simple instrumentation points */
 void countLoad() {
   ++loadCnt;
