@@ -54,7 +54,9 @@ use Pod::Usage;
 	if($args{'dyninst'}) {
 		&build_dyninst($fdLog, @args{'dyninst-src','dyninst-branch','njobs'});
 	}
-	&build_tests($fdLog);
+	if($args{'tests'}) {
+		&build_tests($fdLog);
+	}
 	if($args{'run-tests'}) {
 		&run_tests($fdLog);
 	}
