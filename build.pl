@@ -70,7 +70,7 @@ sub build_dyninst {
 #git checkout $dyninst_branch
 #cd $build_root
 #$dyninst_hash = $(md5sum $dyninst_branch . cur_time)
-#$dyninst_build_base_dir = $build_root . '/dyninst/' . $dyninst_hash
+#$dyninst_build_base_dir = $build_root . $dyninst_hash
 #mkdir -p $dyninst_build_base_dir/build
 #cd $dyninst_build_base_dir
 #echo $dyninst_branch > git.log
@@ -79,6 +79,12 @@ sub build_dyninst {
 #[libIberty is broken without ccmake] cmake $dyninst_src_dir -DCMAKE_INSTALL_PREFIX=$dyninst_build_base_dir -DPATH_BOOST=$boost_dir 1>config.out 2>config.err
 #make -j8 1>build.out 2>build.err
 #make install 1>build-install.out 2>build-install.err
+# BEGIN -- HACK GARBAGE --
+#cd ../lib
+#ln -s ../build/elfutils/lib/libdw.so libdw.so
+#ln -s ../build/elfutils/lib/libdw.so.1 libdw.so.1
+# END -- HACK GARBAGE --
+
 	
 	my $build_dir = md5_base64(localtime . $branch);
 	$build_dir =~ s|/|_|g;
@@ -116,7 +122,7 @@ sub run_tests {
 #make install 1>build-install.out 2>build-install.err
 #cd ../tests
 #export DYNINSTAPI_RT_LIB=$(realpath ../dyninst/lib/libdyninstAPI_RT.so)
-#LD_LIBRARY_PATH=$(pwd):../dyninst/lib ./runTests -all -log test.log 1>stdout.log 2>stderr.log
+#LD_LIBRARY_PATH=$(pwd):../dyninst/lib:$(realpath ../dyninst/build/boost/src/boost/stage/lib) ./runTests -all -log test.log 1>stdout.log 2>stderr.log
 }
 
 sub execute($) {
@@ -161,6 +167,6 @@ build [options]
    --njobs=N               Number of make jobs (default: N=1)
    --[no-]dyninst          Build Dyninst (default: yes)
    --[no-]tests            Build the Testsuite (default: yes)
-   --[no-]run-tests        Run the tests after building them (default: yes)
+   --[no-]run-tests        Run the tests (default: yes)
    --help                  Print this help message
 =cut
