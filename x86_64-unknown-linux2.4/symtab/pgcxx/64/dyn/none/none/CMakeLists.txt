@@ -1,5 +1,5 @@
 # CMakeLists for symtab/pgcxx/64/dyn/none/none
-set (CMAKE_CXX_FLAGS "${MUTATOR_DEFINES}  ${CXXFLAGS_NATIVE} ${MUTATEE_CXXFLAGS_NATIVE}   -g -O0 ")
+set (CMAKE_CXX_FLAGS "${MUTATOR_DEFINES}  ${CXXFLAGS_NATIVE} ${MUTATEE_CXXFLAGS_NATIVE}   -g -O0 -no-pie")
 set (CMAKE_CXX_FLAGS_DEBUG "")
 set (CMAKE_CXX_FLAGS_RELEASE "")
 set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
@@ -10,7 +10,7 @@ add_definitions(-DSOLO_MUTATEE)
 set (CMAKE_EXE_LINKER_FLAGS "${MUTATEE_CXXFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}  ")
 IF (NOT ${M_pg_cxx} MATCHES "NOTFOUND")
 CHECK_MUTATEE_COMPILER ("${M_pg_cxx}"
-	"${MUTATOR_DEFINES}  ${CXXFLAGS_NATIVE} ${MUTATEE_CXXFLAGS_NATIVE}   -g -O0 "
+	"${MUTATOR_DEFINES}  ${CXXFLAGS_NATIVE} ${MUTATEE_CXXFLAGS_NATIVE}   -g -O0 -no-pie"
 	"${MUTATEE_CXXFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}  "
 	"CXX"
 	"pg_cxx 64 dyn"
@@ -19,8 +19,8 @@ CHECK_MUTATEE_COMPILER ("${M_pg_cxx}"
 IF (MUTATEEpgcxx64dynCXX MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/x86_64-unknown-linux2.4/srclists.cmake)
 if(TARGET symtabAPI)
-add_executable (symtab_group_test.dyn_pgcxx_64_none_none ${SOURCE_LIST_65})
-foreach (f ${SOURCE_LIST_65})
+add_executable (symtab_group_test.dyn_pgcxx_64_none_none ${SOURCE_LIST_58})
+foreach (f ${SOURCE_LIST_58})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)

@@ -1,5 +1,5 @@
 # CMakeLists for dyninst/g++/64/stat/none/none
-set (CMAKE_CXX_FLAGS "${MUTATOR_DEFINES}  ${CXXFLAGS} ${MUTATEE_CXXFLAGS_GNU}   -g -O0 ")
+set (CMAKE_CXX_FLAGS "${MUTATOR_DEFINES}  ${CXXFLAGS} ${MUTATEE_CXXFLAGS_GNU}   -g -O0 -no-pie")
 set (CMAKE_CXX_FLAGS_DEBUG "")
 set (CMAKE_CXX_FLAGS_RELEASE "")
 set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
@@ -11,7 +11,7 @@ set (CMAKE_SKIP_INSTALL_RPATH TRUE)
 set (CMAKE_EXE_LINKER_FLAGS "${MUTATEE_LDFLAGS_GNU}  -static")
 IF (NOT ${M_gnu_cxx} MATCHES "NOTFOUND")
 CHECK_MUTATEE_COMPILER ("${M_gnu_cxx}"
-	"${MUTATOR_DEFINES}  ${CXXFLAGS} ${MUTATEE_CXXFLAGS_GNU}   -g -O0 "
+	"${MUTATOR_DEFINES}  ${CXXFLAGS} ${MUTATEE_CXXFLAGS_GNU}   -g -O0 -no-pie"
 	"${MUTATEE_LDFLAGS_GNU}  -static"
 	"CXX"
 	"gnu_cxx 64 stat"
@@ -20,16 +20,16 @@ CHECK_MUTATEE_COMPILER ("${M_gnu_cxx}"
 IF (MUTATEEgnucxx64statCXX MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/x86_64-unknown-linux2.4/srclists.cmake)
 if(TARGET dyninstAPI)
-add_executable (dyninst_cxx_group_test.stat_g++_64_none_none ${SOURCE_LIST_50})
-foreach (f ${SOURCE_LIST_50})
+add_executable (dyninst_cxx_group_test.stat_g++_64_none_none ${SOURCE_LIST_43})
+foreach (f ${SOURCE_LIST_43})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
 	endif()
 	endforeach()
 set_target_properties(dyninst_cxx_group_test.stat_g++_64_none_none PROPERTIES LINKER_LANGUAGE CXX)
-add_executable (dyninst_group_test.stat_g++_64_none_none ${SOURCE_LIST_61})
-foreach (f ${SOURCE_LIST_61})
+add_executable (dyninst_group_test.stat_g++_64_none_none ${SOURCE_LIST_54})
+foreach (f ${SOURCE_LIST_54})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)
@@ -37,8 +37,8 @@ foreach (f ${SOURCE_LIST_61})
 	endforeach()
 set_target_properties(dyninst_group_test.stat_g++_64_none_none PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries (dyninst_group_test.stat_g++_64_none_none ${CMAKE_DL_LIBS})
-add_executable (test1_14.stat_g++_64_none_none ${SOURCE_LIST_52})
-foreach (f ${SOURCE_LIST_52})
+add_executable (test1_14.stat_g++_64_none_none ${SOURCE_LIST_45})
+foreach (f ${SOURCE_LIST_45})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE CXX)

@@ -1,5 +1,5 @@
 # CMakeLists for symtab/bgxlc/64/dyn/none/none
-set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS} ${CFLAGS}  -g -O0 ")
+set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS} ${CFLAGS}  -g -O0 -no-pie")
 set (CMAKE_C_FLAGS_DEBUG "")
 set (CMAKE_C_FLAGS_RELEASE "")
 set (CMAKE_C_FLAGS_RELWITHDEBINFO "")
@@ -10,7 +10,7 @@ add_definitions(-DSOLO_MUTATEE)
 set (CMAKE_EXE_LINKER_FLAGS "${MUTATEE_LDFLAGS_NATIVE}  -qnostaticlink")
 IF (NOT ${M_mpi_xlc} MATCHES "NOTFOUND")
 CHECK_MUTATEE_COMPILER ("${M_mpi_xlc}"
-	"${MUTATOR_DEFINES}  ${CFLAGS} ${CFLAGS}  -g -O0 "
+	"${MUTATOR_DEFINES}  ${CFLAGS} ${CFLAGS}  -g -O0 -no-pie"
 	"${MUTATEE_LDFLAGS_NATIVE}  -qnostaticlink"
 	"C"
 	"mpi_xlc 64 dyn"

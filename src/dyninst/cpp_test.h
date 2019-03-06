@@ -89,8 +89,8 @@ class arg_test : public cpp_test_util
 class overload_func_test : public cpp_test_util
 {
    public :
-
-     overload_func_test(): cpp_test_util() {};
+       int member_pass;
+     overload_func_test(): cpp_test_util() {member_pass = 0;};
      void func_cpp();
 
    private :

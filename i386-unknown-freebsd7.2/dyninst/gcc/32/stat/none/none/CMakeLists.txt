@@ -1,5 +1,5 @@
 # CMakeLists for dyninst/gcc/32/stat/none/none
-set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 ")
+set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 -no-pie")
 set (CMAKE_C_FLAGS_DEBUG "")
 set (CMAKE_C_FLAGS_RELEASE "")
 set (CMAKE_C_FLAGS_RELWITHDEBINFO "")
@@ -11,7 +11,7 @@ set (CMAKE_SKIP_INSTALL_RPATH TRUE)
 set (CMAKE_EXE_LINKER_FLAGS "${MUTATEE_LDFLAGS_GNU}  -static")
 IF (NOT ${M_gnu_cc} MATCHES "NOTFOUND")
 CHECK_MUTATEE_COMPILER ("${M_gnu_cc}"
-	"${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 "
+	"${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 -no-pie"
 	"${MUTATEE_LDFLAGS_GNU}  -static"
 	"C"
 	"gnu_cc 32 stat"
@@ -20,16 +20,16 @@ CHECK_MUTATEE_COMPILER ("${M_gnu_cc}"
 IF (MUTATEEgnucc32statC MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/i386-unknown-freebsd7.2/srclists.cmake)
 if(TARGET dyninstAPI)
-add_executable (dyninst_group_test.stat_gcc_32_none_none ${SOURCE_LIST_54})
-foreach (f ${SOURCE_LIST_54})
+add_executable (dyninst_group_test.stat_gcc_32_none_none ${SOURCE_LIST_47})
+foreach (f ${SOURCE_LIST_47})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE C)
 	endif()
 	endforeach()
 set_target_properties(dyninst_group_test.stat_gcc_32_none_none PROPERTIES LINKER_LANGUAGE C)
-add_executable (test1_14.stat_gcc_32_none_none ${SOURCE_LIST_48})
-foreach (f ${SOURCE_LIST_48})
+add_executable (test1_14.stat_gcc_32_none_none ${SOURCE_LIST_42})
+foreach (f ${SOURCE_LIST_42})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE C)

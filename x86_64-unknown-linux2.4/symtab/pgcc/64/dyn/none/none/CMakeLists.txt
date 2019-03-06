@@ -1,5 +1,5 @@
 # CMakeLists for symtab/pgcc/64/dyn/none/none
-set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS_NATIVE} ${MUTATEE_CFLAGS_NATIVE}   -g -O0 ")
+set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS_NATIVE} ${MUTATEE_CFLAGS_NATIVE}   -g -O0 -no-pie")
 set (CMAKE_C_FLAGS_DEBUG "")
 set (CMAKE_C_FLAGS_RELEASE "")
 set (CMAKE_C_FLAGS_RELWITHDEBINFO "")
@@ -10,7 +10,7 @@ add_definitions(-DSOLO_MUTATEE)
 set (CMAKE_EXE_LINKER_FLAGS "${MUTATEE_CFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}  ")
 IF (NOT ${M_pg_cc} MATCHES "NOTFOUND")
 CHECK_MUTATEE_COMPILER ("${M_pg_cc}"
-	"${MUTATOR_DEFINES}  ${CFLAGS_NATIVE} ${MUTATEE_CFLAGS_NATIVE}   -g -O0 "
+	"${MUTATOR_DEFINES}  ${CFLAGS_NATIVE} ${MUTATEE_CFLAGS_NATIVE}   -g -O0 -no-pie"
 	"${MUTATEE_CFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}  "
 	"C"
 	"pg_cc 64 dyn"
@@ -19,8 +19,8 @@ CHECK_MUTATEE_COMPILER ("${M_pg_cc}"
 IF (MUTATEEpgcc64dynC MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/x86_64-unknown-linux2.4/srclists.cmake)
 if(TARGET symtabAPI)
-add_executable (symtab_group_test.dyn_pgcc_64_none_none ${SOURCE_LIST_65})
-foreach (f ${SOURCE_LIST_65})
+add_executable (symtab_group_test.dyn_pgcc_64_none_none ${SOURCE_LIST_58})
+foreach (f ${SOURCE_LIST_58})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE C)

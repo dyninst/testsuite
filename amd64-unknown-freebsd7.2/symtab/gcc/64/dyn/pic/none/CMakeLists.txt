@@ -1,5 +1,5 @@
 # CMakeLists for symtab/gcc/64/dyn/pic/none
-set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 -fPIC")
+set (CMAKE_C_FLAGS "${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 -fPIC -fPIE -pie")
 set (CMAKE_C_FLAGS_DEBUG "")
 set (CMAKE_C_FLAGS_RELEASE "")
 set (CMAKE_C_FLAGS_RELWITHDEBINFO "")
@@ -10,7 +10,7 @@ add_definitions(-DSOLO_MUTATEE)
 set (CMAKE_EXE_LINKER_FLAGS "${MUTATEE_LDFLAGS_GNU}  -Wl,-export-dynamic")
 IF (NOT ${M_gnu_cc} MATCHES "NOTFOUND")
 CHECK_MUTATEE_COMPILER ("${M_gnu_cc}"
-	"${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 -fPIC"
+	"${MUTATOR_DEFINES}  ${CFLAGS} ${MUTATEE_CFLAGS_GNU}   -g -O0 -fPIC -fPIE -pie"
 	"${MUTATEE_LDFLAGS_GNU}  -Wl,-export-dynamic"
 	"C"
 	"gnu_cc 64 dyn"
@@ -19,8 +19,8 @@ CHECK_MUTATEE_COMPILER ("${M_gnu_cc}"
 IF (MUTATEEgnucc64dynC MATCHES "1")
 include (${PROJECT_SOURCE_DIR}/amd64-unknown-freebsd7.2/srclists.cmake)
 if(TARGET symtabAPI)
-add_executable (symtab_group_test.dyn_gcc_64_pic_none ${SOURCE_LIST_15})
-foreach (f ${SOURCE_LIST_15})
+add_executable (symtab_group_test.dyn_gcc_64_pic_none ${SOURCE_LIST_12})
+foreach (f ${SOURCE_LIST_12})
 	get_source_file_property(lang ${f} LANGUAGE)
 	if(lang MATCHES "C")
 		set_source_files_properties(${f} PROPERTIES LANGUAGE C)
