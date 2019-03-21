@@ -77,13 +77,13 @@ use Capture::Tiny qw(capture);
 
 	# Build the test suite, if requested
 	if($args{'tests'}) {
-		&build_tests($fdLog);
+		eval { &build_tests(\%args); };
 		print $fdLog $@ and die $@ if $@;
 	}
 
 	# Run the tests, if requested
 	if($args{'run-tests'}) {
-		&run_tests($fdLog);
+		eval { &run_tests(\%args); };
 		print $fdLog $@ and die $@ if $@;
 	}
 }
