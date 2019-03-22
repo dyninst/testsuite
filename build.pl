@@ -136,8 +136,9 @@ sub build_dyninst {
 		# List the commits we are actually testing
 		# 	This is the list of commits which are _different_ between
 		#	the $rel_branch and $branch.
-		my $commits = execute("git -C $src_dir log --oneline $rel_branch..$branch");
-		
+		#
+		# --pretty=oneline gives the full 40-character commit ID
+		my $commits = execute("git -C $src_dir log --pretty=oneline $rel_branch..$branch");
 		$commits =~ s/\n/\n\t/g;
 		
 		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
