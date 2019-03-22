@@ -148,18 +148,20 @@ sub build_dyninst {
 #	[libIberty is broken without ccmake]	
 	
 	# Configure the build
-	execute(<<EOF
-		cd $build_dir
-		cmake -H$base_dir/src -B$build_dir
-		-DCMAKE_INSTALL_PREFIX=$base_dir \
-		-DBoost_INCLUDE_DIR=$boost_inc \
-		-DBoost_LIBRARY_DIR_DEBUG=$boost_lib \
-		-DBoost_LIBRARY_DIR_RELEASE=$boost_lib \
-		-DIBERTY_LIBRARIES=IBERTY_LIBRARIES-NOTFOUND
-EOF
-);
-	
-	execute("make -C $build_dir -j$njobs 1>build.out 2>build.err");
+	# We need an 'eval' here since we are manually piping stderr
+	eval {
+		execute(
+			"cd $build_dir\n" .
+			"cmake -H$base_dir/src -B$build_dir " .
+			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
+			"-DBoost_INCLUDE_DIR=$boost_inc " .
+			"-DBoost_LIBRARY_DIR_DEBUG=$boost_lib " .
+			"-DBoost_LIBRARY_DIR_RELEASE=$boost_lib " .
+			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
+			"1>config.out 2>config.err "
+		);
+	};
+	die "Error configuring: see 'config.err' in $build_dir for details" if $@;
 
 	execute("make install 1>build-install.out 2>build-install.err");
 
