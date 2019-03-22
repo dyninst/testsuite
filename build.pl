@@ -60,7 +60,7 @@ use Capture::Tiny qw(capture);
 	# Canonicalize user-specified files and directories
 	for my $d ('dyninst-dir','test-src','log-file','boost-inc','boost-lib') {
 		# NB: realpath(undef) eq cwd()
-		$args{$d} = realpath($d) if defined($args{$d});
+		$args{$d} = realpath($args{$d}) if defined($args{$d});
 	}
 	
 	# Save a backup, if the log file already exists
