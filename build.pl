@@ -163,11 +163,25 @@ sub build_dyninst {
 	};
 	die "Error configuring: see 'config.err' in $build_dir for details" if $@;
 
-	execute("make install 1>build-install.out 2>build-install.err");
+	# Run the build
+	# We need an 'eval' here since we are manually piping stderr	
+	eval {
+		execute(
+			"LD_LIBRARY_PATH=$boost_lib;\n" .
+			"cd $build_dir\n" .
+			"make -j$njobs 1>build.out 2>build.err"
+		);
+	};
+	die "Error building: see 'build.err' in $build_dir for details" if $@;
 
-#	cd ../lib
-#	ln -s ../build/elfutils/lib/libdw.so libdw.so
-#	ln -s ../build/elfutils/lib/libdw.so.1 libdw.so.1
+	# Install
+	# We need an 'eval' here since we are manually piping stderr
+	eval {
+		execute(
+			"cd $build_dir\n" .
+			"make install 1>build-install.out 2>build-install.err"
+		);
+	};	die "Error installing: see 'build-install.err' in $build_dir for details" if $@;
 
 #	LD_LIBRARY_PATH=/usr/local/lib/boost-1.69/lib make -j8
 }
