@@ -183,7 +183,10 @@ sub build_dyninst {
 		);
 	};	die "Error installing: see 'build-install.err' in $build_dir for details" if $@;
 
-#	LD_LIBRARY_PATH=/usr/local/lib/boost-1.69/lib make -j8
+	# Symlinking libdw is broken in the config system right now
+	# See https://github.com/dyninst/dyninst/issues/547
+	symlink("$build_dir/elfutils/lib/libdw.so", "$base_dir/lib/libdw.so");
+	symlink("$build_dir/elfutils/lib/libdw.so.1", "$base_dir/lib/libdw.so.1");
 }
 
 sub build_tests {
