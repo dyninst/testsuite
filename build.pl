@@ -144,8 +144,6 @@ sub build_dyninst {
 		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 		print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";
 	}
-
-#	[libIberty is broken without ccmake]	
 	
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
