@@ -132,24 +132,28 @@ sub build_dyninst {
 		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 		print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";
 	}
+
+#	[libIberty is broken without ccmake]	
 	
 	# Configure the build
-	execute("
-		cd build
-		cmake $src_dir -DCMAKE_INSTALL_PREFIX=$(realpath ..) 
-	") or die "Configuring $build_dir failed";
+	execute(<<EOF
+		cd $build_dir
+		cmake -H$base_dir/src -B$build_dir
+		-DCMAKE_INSTALL_PREFIX=$base_dir \
+		-DBoost_INCLUDE_DIR=$boost_inc \
+		-DBoost_LIBRARY_DIR_DEBUG=$boost_lib \
+		-DBoost_LIBRARY_DIR_RELEASE=$boost_lib \
+		-DIBERTY_LIBRARIES=IBERTY_LIBRARIES-NOTFOUND
+EOF
+);
 	
-	execute("
-		cd $build_dir/build
-		make -j$njobs 1>build.out 2>build.err"
-	) or die "Building $build_dir failed";
+	execute("make -C $build_dir -j$njobs 1>build.out 2>build.err");
 
-	execute("make install 1>build-install.out 2>build-install.err") or die "Installing in $build_dir failed";
+	execute("make install 1>build-install.out 2>build-install.err");
 
-#		cd ../lib
-#		ln -s ../build/elfutils/lib/libdw.so libdw.so
-#		ln -s ../build/elfutils/lib/libdw.so.1 libdw.so.1
-#	");
+#	cd ../lib
+#	ln -s ../build/elfutils/lib/libdw.so libdw.so
+#	ln -s ../build/elfutils/lib/libdw.so.1 libdw.so.1
 
 #	LD_LIBRARY_PATH=/usr/local/lib/boost-1.69/lib make -j8
 
@@ -183,6 +187,7 @@ sub run_tests {
 
 sub execute($) {
 	my $cmd = shift;
+	print "$cmd\n";
 	my ($stdout,$stderr,$exit) = capture { system($cmd); };
 	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
 	die "Error executing '$cmd'\n$stderr\n" if $exit;
