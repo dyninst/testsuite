@@ -99,14 +99,17 @@ sub build_dyninst {
 	my $rel_branch = $args->{'dyninst-relative-to'};
 	
 	# Generate a unique name for the current build
-	my $build_dir = md5_base64(localtime . $branch);
-	$build_dir =~ s|/|_|g;
+	my $hash = md5_base64(localtime . $branch);
+	$hash =~ s|/|_|g;
+	
+	my $base_dir = "$hash/dyninst";
+	my $build_dir = "$base_dir/build";
 	
 	# Create the build directory
-	make_path("$build_dir/build");
+	make_path($build_dir);
 	
 	# Create symlink to source
-	symlink("$src_dir", "$build_dir/src");
+	symlink("$src_dir", "$base_dir/src");
 	
 	# If branch is specified, check it out in the source
 	if($branch) {
@@ -141,8 +144,9 @@ sub build_dyninst {
 #		ln -s ../build/elfutils/lib/libdw.so.1 libdw.so.1
 #	");
 
-	#[libIberty is broken without ccmake]
-#LD_LIBRARY_PATH=/usr/local/lib/boost-1.69/lib make -j8
+#	LD_LIBRARY_PATH=/usr/local/lib/boost-1.69/lib make -j8
+
+	return $hash;
 }
 
 sub build_tests {
