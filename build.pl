@@ -106,8 +106,12 @@ sub build_dyninst {
 		# NB: This will return 'HEAD' if in a detached-head state
 		$branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
 	}
-	
-	my $base_dir = "$hash/dyninst";
+
+	# Create the build directory
+	make_path("$hash/dyninst/build");
+
+	# The path must exist before using 'realpath'
+	my $base_dir = realpath("$hash/dyninst");
 	my $build_dir = "$base_dir/build";
 	
 	# If the user didn't specify a Boost location, then provide some defaults
