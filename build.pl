@@ -68,10 +68,14 @@ use Capture::Tiny qw(capture);
 	
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 	
+	# Generate a unique name for the current build
+	my $hash = md5_base64(localtime . $args{'dyninst-branch'} . $args{'test-branch'});
+	$hash =~ s|/|_|g;
+	
 	# Build Dyninst, if requested
 	if($args{'dyninst'}) {
-		print $fdLog "Building Dyninst($args{'dyninst-branch'})... ";
-		eval { &build_dyninst(\%args); };
+		print $fdLog "Building Dyninst($args{'dyninst-branch'} [$hash])... ";
+		eval { &build_dyninst(\%args, $hash); };
 		print $fdLog $@ and die $@ if $@;
 	}
 
@@ -89,7 +93,7 @@ use Capture::Tiny qw(capture);
 }
 
 sub build_dyninst {
-	my ($args) = @_;
+	my ($args, $hash) = @_;
 	
 	my $src_dir = $args->{'dyninst-dir'};
 	my $branch = $args->{'dyninst-branch'};
@@ -103,10 +107,6 @@ sub build_dyninst {
 		# NB: This will return 'HEAD' if in a detached-head state
 		$branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
 	}
-	
-	# Generate a unique name for the current build
-	my $hash = md5_base64(localtime . $branch);
-	$hash =~ s|/|_|g;
 	
 	my $base_dir = "$hash/dyninst";
 	my $build_dir = "$base_dir/build";
@@ -156,8 +156,6 @@ EOF
 #	ln -s ../build/elfutils/lib/libdw.so.1 libdw.so.1
 
 #	LD_LIBRARY_PATH=/usr/local/lib/boost-1.69/lib make -j8
-
-	return $hash;
 }
 
 sub build_tests {
