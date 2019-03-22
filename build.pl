@@ -97,6 +97,12 @@ sub build_dyninst {
 	my $boost_lib = $args->{'boost-lib'} // "";
 	my $njobs = $args->{'njobs'};
 	my $rel_branch = $args->{'dyninst-relative-to'};
+
+	# If the user didn't give a branch name, use the current one	
+	unless($branch) {
+		# NB: This will return 'HEAD' if in a detached-head state
+		$branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
+	}
 	
 	# Generate a unique name for the current build
 	my $hash = md5_base64(localtime . $branch);
@@ -111,19 +117,20 @@ sub build_dyninst {
 	# Create symlink to source
 	symlink("$src_dir", "$base_dir/src");
 	
-	# If branch is specified, check it out in the source
-	if($branch) {
-		execute("
-			cd $src_dir
-			git checkout $branch
-		");
+	# Check out $branch (no-op if we are already on $branch)
+	execute("git -C $src_dir checkout $branch");
+	
+	# Save the Dyninst git configuration
+	{
+		# List the commits we are actually testing
+		# 	This is the list of commits which are _different_ between
+		#	the $rel_branch and $branch.
+		my $commits = execute("git -C $src_dir log --oneline $rel_branch..$branch");
 		
-		# Save the branch information
-		execute("
-			cd $src_dir
-			echo $branch > $build_dir/git.log
-			git log --oneline $rel_branch..$branch >> $build_dir/git.log
-		");
+		$commits =~ s/\n/\n\t/g;
+		
+		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
+		print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";
 	}
 	
 	# Configure the build
