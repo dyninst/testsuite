@@ -14,10 +14,10 @@ use Capture::Tiny qw(capture);
 	my %args = (
 	'prefix'				=> cwd(),
 	'dyninst-dir'			=> undef,
-	'dyninst-branch' 		=> undef,
+	'dyninst-branch' 		=> 'master',
 	'dyninst-relative-to'	=> 'master',
 	'test-src'				=> undef,
-	'test-branch'			=> undef,
+	'test-branch'			=> 'master',
 	'test-relative-to'		=> 'master',
 	'boost-dir'				=> undef,
 	'boost-inc'				=> undef,
