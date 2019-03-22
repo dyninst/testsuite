@@ -77,6 +77,7 @@ use Capture::Tiny qw(capture);
 		print $fdLog "Building Dyninst($args{'dyninst-branch'} [$hash])... ";
 		eval { &build_dyninst(\%args, $hash); };
 		print $fdLog $@ and die $@ if $@;
+		print $fdLog "done.\n";
 	}
 
 	# Build the test suite, if requested
