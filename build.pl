@@ -98,8 +98,6 @@ sub build_dyninst {
 	
 	my $src_dir = $args->{'dyninst-dir'};
 	my $branch = $args->{'dyninst-branch'};
-	my $boost_inc = $args->{'boost-inc'} // "";
-	my $boost_lib = $args->{'boost-lib'} // "";
 	my $njobs = $args->{'njobs'};
 	my $rel_branch = $args->{'dyninst-relative-to'};
 
@@ -112,8 +110,16 @@ sub build_dyninst {
 	my $base_dir = "$hash/dyninst";
 	my $build_dir = "$base_dir/build";
 	
-	# Create the build directory
-	make_path($build_dir);
+	# If the user didn't specify a Boost location, then provide some defaults
+	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
+	unless($args->{'boost-inc'}) {
+		$args->{'boost-inc'} = "$build_dir/boost/src/boost";
+	}
+	unless($args->{'boost-lib'}) {
+		$args->{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
+	}
+	my $boost_inc = $args->{'boost-inc'};
+	my $boost_lib = $args->{'boost-lib'};
 	
 	# Create symlink to source
 	symlink("$src_dir", "$base_dir/src");
