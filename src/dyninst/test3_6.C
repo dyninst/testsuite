@@ -138,7 +138,7 @@ test_results_t test3_6_Mutator::executeTest() {
 
     BPatch_process *appProc[MAX_MUTATEES];
 
-    for (n=0; n<MAX_MUTATEES; n++) {
+    for (n=0; n<Mutatees; n++) {
       appProc[n]=NULL;
       int pid = forkNewMutatee(pathname, child_argv);
       if(pid < 0) 
@@ -191,14 +191,24 @@ test_results_t test3_6_Mutator::executeTest() {
         int signalNum = appProc[n]->getExitSignal();
         dprintf("Terminated mutatee [%d] from signal 0x%x\n", n, signalNum);
 #endif
-        numTerminated++;
+    }
+    for (n=0; n<Mutatees; n++) {
+        int status;
+        //int ret = waitpid(pids[n], &status, WNOHANG);
+        //if (ret == -1 && errno == ECHILD) {
+        int ret = kill(pids[n], SIGKILL);
+        if (ret == -1) {
+            ++numTerminated;
+            continue;
+        }
+        logerror("\tmutatee process[%d] still alive, now killed with syscall\n",n);
     }
 
     if (numTerminated == Mutatees) {
 	logerror("Passed test3_6 (simultaneous multiple-process management - terminate (fork))\n");
         return PASSED;
     }
-    cleanup();
+    //cleanup();
     return FAILED;
 #else // os_windows
     logerror("Skipped test3_6 (simultaneous multiple-process management - terminate (fork))\n");

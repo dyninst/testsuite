@@ -86,11 +86,14 @@ void overload_func_test::call_cpp(int arg1, float arg2)
 
 void overload_func_test::pass() {
   passed = 1;
+
+  // Need to test this pointer 
+  member_pass = 1;
 }
 
 int test5_2_mutatee() {
   test5_2_test2.func_cpp();
-  if (1 == passed) {
+  if (1 == passed && test5_2_test2.member_pass) {
     // Test passed
     test_passes(testname);
     return 0;

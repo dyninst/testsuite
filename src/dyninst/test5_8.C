@@ -107,7 +107,7 @@ test_results_t test5_8_Mutator::executeTest() {
   }
 
   BPatch_Vector<BPatch_snippet *> call8_args;
-  BPatch_constExpr expr8_0((void *)this8->getBaseAddr());
+  BPatch_arithExpr expr8_0(BPatch_addr, *this8);
   call8_args.push_back(&expr8_0);
   BPatch_constExpr expr8_1(8);
   call8_args.push_back(&expr8_1);
