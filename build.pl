@@ -97,17 +97,17 @@ use Capture::Tiny qw(capture);
 sub build_dyninst {
 	my ($args, $base_dir, $build_dir) = @_;
 
-	my $src_dir = $args->{'dyninst-src'};
-	my $njobs = $args->{'njobs'};
 	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
+	my $src_dir = $args->{'dyninst-src'};
+	my $njobs = $args->{'njobs'};
 
 	# Create symlink to source
 	symlink("$src_dir", "$base_dir/src");
 
-	# Save the Dyninst git configuration
+	# Save the git configuration
 	{
-		# If the user didn't give a branch name, use the current one
+		# Fetch the current branch name
 		# NB: This will return 'HEAD' if in a detached-head state
 		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
 		
@@ -155,7 +155,8 @@ sub build_dyninst {
 			"cd $build_dir\n" .
 			"make install 1>build-install.out 2>build-install.err"
 		);
-	};	die "Error installing: see $build_dir/build-install.err for details" if $@;
+	};
+	die "Error installing: see $build_dir/build-install.err for details" if $@;
 
 	# Symlinking libdw is broken in the config system right now
 	# See https://github.com/dyninst/dyninst/issues/547
