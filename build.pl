@@ -159,7 +159,7 @@ sub build_dyninst {
 			"1>config.out 2>config.err "
 		);
 	};
-	die "Error configuring: see 'config.err' in $build_dir for details" if $@;
+	die "Error configuring: see $build_dir/config.err for details" if $@;
 
 	# Run the build
 	# We need an 'eval' here since we are manually piping stderr	
@@ -170,7 +170,7 @@ sub build_dyninst {
 			"make -j$njobs 1>build.out 2>build.err"
 		);
 	};
-	die "Error building: see 'build.err' in $build_dir for details" if $@;
+	die "Error building: see $build_dir/build.err for details" if $@;
 
 	# Install
 	# We need an 'eval' here since we are manually piping stderr
@@ -179,7 +179,7 @@ sub build_dyninst {
 			"cd $build_dir\n" .
 			"make install 1>build-install.out 2>build-install.err"
 		);
-	};	die "Error installing: see 'build-install.err' in $build_dir for details" if $@;
+	};	die "Error installing: see $build_dir/build-install.err for details" if $@;
 
 	# Symlinking libdw is broken in the config system right now
 	# See https://github.com/dyninst/dyninst/issues/547
