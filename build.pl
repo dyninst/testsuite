@@ -262,10 +262,10 @@ sub execute($) {
 
 	print "$cmd\n";
 
-#	my ($stdout,$stderr,$exit) = capture { system($cmd); };
-#	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
-#	die "Error executing '$cmd'\n$stderr\n" if $exit;
-#	return $stdout;
+	my ($stdout,$stderr,$exit) = capture { system($cmd); };
+	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
+	die "Error executing '$cmd'\n$stderr\n" if $exit;
+	return $stdout;
 }
 
 sub parse_log {
