@@ -139,10 +139,16 @@ sub build_dyninst {
 		#
 		# --pretty=oneline gives the full 40-character commit ID
 		my $commits = execute("git -C $src_dir log --pretty=oneline $rel_branch..$branch");
-		$commits =~ s/\n/\n\t/g;
 		
 		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
-		print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";
+		
+		if($commits) {
+			$commits =~ s/\n/\n\t/g;
+			print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";			
+		} else {
+			# grab the commitID for HEAD
+			print $fdOut execute("git -C $src_dir rev-parse HEAD");
+		}
 	}
 	
 	# Configure the build
