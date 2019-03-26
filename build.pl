@@ -259,8 +259,9 @@ sub run_tests {
 
 sub execute($) {
 	my $cmd = shift;
+
 	print "$cmd\n";
-	return 'foo';
+
 #	my ($stdout,$stderr,$exit) = capture { system($cmd); };
 #	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
 #	die "Error executing '$cmd'\n$stderr\n" if $exit;
