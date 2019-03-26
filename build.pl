@@ -83,8 +83,17 @@ use Capture::Tiny qw(capture);
 
 	# Build the test suite
 	{
-		eval { &build_tests(\%args); };
+		# Create the build directory
+		make_path("$hash/testsuite/build");
+		
+		my $base_dir = realpath("$hash/testsuite");
+		my $build_dir = "$base_dir/build";
+		my $dyn_dir = realpath("$hash/dyninst");
+		
+		print $fdLog "Building Testsuite... ";
+		eval { &build_tests(\%args, $base_dir, $build_dir, $dyn_dir); };
 		print $fdLog $@ and die $@ if $@;
+		print $fdLog "done.\n";
 	}
 
 	# Run the tests
@@ -165,31 +174,66 @@ sub build_dyninst {
 }
 
 sub build_tests {
-	my ($args, $hash) = @_;
-	
+	my ($args, $base_dir, $build_dir, $dyn_dir) = @_;
+
+	my $boost_inc = $args->{'boost-inc'};
+	my $boost_lib = $args->{'boost-lib'};
 	my $src_dir = $args->{'test-src'};
-	my $branch = $args->{'test-branch'};
-	my $rel_branch = $args->{'test-relative-to'};
-	
-	execute("git -C $src_dir checkout $branch");
-	
-	# Create the build directory
-	make_path("$hash/testsuite/build");
-	
-	my $base_dir = "$hash/testsuite";
-	my $build_dir = "$base_dir/build";
+	my $njobs = $args->{'njobs'};
 	
 	symlink("$src_dir", "$base_dir/src");
-	symlink("$")
-#cd $testsuite_build_base_dir
-#echo dyninst: $dyninst_branch $dyninst_hash\ntestsuite: $testsuite_branch > git.log
-#ln -s $(abspath $testsuite_src_dir) src
-#ln -s $(abspath $dyninst_build_base_dir) dyninst
-#cd $testsuite_build_base_dir/build
-#Dyninst_DIR=../dyninst/lib/cmake/Dyninst ccmake ../src -DCMAKE_INSTALL_PREFIX=$(realpath ..) -DINSTALL_DIR=$(realpath ../tests) -DBoost_INCLUDE_DIR=$(realpath ../dyninst/build/boost/src/boost)
-#Dyninst_DIR=../dyninst/lib/cmake/Dyninst ccmake ../src -DCMAKE_INSTALL_PREFIX=$(realpath ..) -DINSTALL_DIR=$(realpath ../tests) -DBoost_INCLUDE_DIR=/usr/local/lib/boost-1.69/include
-#LD_LIBRARY_PATH=$(realpath ../dyninst/build/boost/src/boost/stage/lib) make -j8
-#LD_LIBRARY_PATH=/usr/local/lib/boost-1.69/lib make -j8
+	symlink("$dyn_dir", "$base_dir/dyninst");
+	
+	# Save the git configuration
+	{
+		# Fetch the current branch name
+		# NB: This will return 'HEAD' if in a detached-head state
+		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
+		
+		# Fetch the commitID for HEAD
+		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
+
+		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
+		local $, = "\n";
+		local $\ = "\n";
+		print $fdOut "branch: $branch",
+					 "commit: $commit_head";
+	}
+
+	# Configure the Testsuite
+	# We need an 'eval' here since we are manually piping stderr
+	eval {
+		execute(
+			"cd $build_dir\n" .
+			"Dyninst_DIR=../dyninst/lib/cmake/Dyninst ".
+			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
+			"-DINSTALL_DIR=$base_dir/tests ".
+			"-DBoost_INCLUDE_DIR=$boost_inc " .
+			"1>config.out 2>config.err"
+		);
+	};
+	die "Error configuring: see $build_dir/config.err for details" if $@;
+	
+	# Build the Testsuite
+	# We need an 'eval' here since we are manually piping stderr
+	eval {
+		execute(
+			"cd $build_dir\n" .
+			"LD_LIBRARY_PATH=$boost_lib ".
+			"make -j$njobs 1>build.out 2>build.err"
+		);
+	};
+	die "Error building: see $build_dir/build.err for details" if $@;
+	
+	# Install the Testsuite
+	# We need an 'eval' here since we are manually piping stderr
+	eval {
+		execute(
+		"cd $build_dir\n" .
+		"make install 1>build-install.out 2>build-install.err"
+		);
+	};
+	die "Error installing: see $build_dir/build-install.err for details" if $@;
 }
 
 sub run_tests {
