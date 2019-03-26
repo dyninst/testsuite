@@ -128,11 +128,11 @@ sub build_dyninst {
 	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
 
-	# Check out $branch (no-op if we are already on $branch)
-	execute("git -C $src_dir checkout $branch");
-
 	# Save the Dyninst git configuration
 	{
+		# Check out $branch (no-op if we are already on $branch)
+		execute("git -C $src_dir checkout $branch");
+		
 		# List the commits we are actually testing
 		# 	This is the list of commits which are _different_ between
 		#	the $rel_branch and $branch.
