@@ -110,26 +110,15 @@ sub build_dyninst {
 		# If the user didn't give a branch name, use the current one
 		# NB: This will return 'HEAD' if in a detached-head state
 		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-
-		# Check out $branch (no-op if we are already on $branch)
-		execute("git -C $src_dir checkout $branch");
 		
-		# List the commits we are actually testing
-		# 	This is the list of commits which are _different_ between
-		#	the $rel_branch and $branch.
-		#
-		# --pretty=oneline gives the full 40-character commit ID
-		my $commits = execute("git -C $src_dir log --pretty=oneline master..$branch");
+		# Fetch the commitID for HEAD
+		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
 
 		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
-
-		if($commits) {
-			$commits =~ s/\n/\n\t/g;
-			print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";
-		} else {
-			# grab the commitID for HEAD
-			print $fdOut execute("git -C $src_dir rev-parse HEAD");
-		}
+		local $, = "\n";
+		local $\ = "\n";
+		print $fdOut "branch: $branch",
+					 "commit: $commit_head";
 	}
 
 	# Configure the build
