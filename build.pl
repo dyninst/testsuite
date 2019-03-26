@@ -136,17 +136,6 @@ sub build_dyninst {
 		);
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
-
-	# If the user didn't specify a Boost location, then provide the locations
-	# of the Boost that will be installed from source during the Dyninst build
-	#
-	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
-	unless($args->{'boost-inc'}) {
-		$args->{'boost-inc'} = "$build_dir/boost/src/boost";
-	}
-	unless($args->{'boost-lib'}) {
-		$args->{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
-	}
 	
 	# Run the build
 	# We need an 'eval' here since we are manually piping stderr
