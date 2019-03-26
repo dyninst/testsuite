@@ -294,7 +294,6 @@ build [options]
  Options:
    --prefix                Base directory for the source and build directories (default: pwd)
    --dyninst-src=PATH      Source directory for Dyninst (default: prefix/dyninst)
-   --dyninst-dir=PATH      Path to pre-built Dyninst (only used for --no-dyninst)
    --test-src=PATH         Source directory for Testsuite (default: prefix/testsuite)
    --boost-dir=PATH        Base directory for Boost
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
