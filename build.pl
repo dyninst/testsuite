@@ -60,7 +60,7 @@ use Capture::Tiny qw(capture);
 		my $base_dir = realpath("$hash/dyninst");
 		my $build_dir = "$base_dir/build";
 		
-		#	# Set up the Boost environment
+		# Set up the Boost environment
 		{
 			$args{'boost-inc'} = "$args{'boost-dir'}/include" if $args{'boost-dir'};
 			$args{'boost-lib'} = "$args{'boost-dir'}/lib" if $args{'boost-dir'};
