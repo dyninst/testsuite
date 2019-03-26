@@ -98,8 +98,13 @@ use Capture::Tiny qw(capture);
 
 	# Run the tests
 	{
-		eval { &run_tests(\%args); };
+		make_path("$hash/testsuite/tests");
+		my $base_dir = realpath("$hash/testsuite/tests");
+		
+		print $fdLog "running Testsuite... ";
+		eval { &run_tests(\%args, $base_dir); };
 		print $fdLog $@ and die $@ if $@;
+		print $fdLog "done.\n";
 	}
 }
 
@@ -237,10 +242,19 @@ sub build_tests {
 }
 
 sub run_tests {
-#export DYNINSTAPI_RT_LIB=$(realpath ../dyninst/lib/libdyninstAPI_RT.so)
-#LD_LIBRARY_PATH=$(pwd):../dyninst/lib:$(realpath ../dyninst/build/boost/src/boost/stage/lib) ./runTests -all -log test.log 1>stdout.log 2>stderr.log
-#LD_LIBRARY_PATH=$(pwd):../dyninst/lib:/usr/local/lib/boost-1.69/lib ./runTests -all -log test.log 1>stdout.log 2>stderr.log
-#LD_LIBRARY_PATH=$(pwd):../dyninst/lib ./runTests -all -log test.log 1>stdout.log 2>stderr.log
+	my ($args, $base_dir) = @_;
+
+	my $boost_lib = $args->{'boost-lib'};
+
+	# We need an 'eval' here since we are manually piping stderr
+	eval {	
+		execute(
+			"cd $base_dir\n" .
+			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n".
+			"LD_LIBRARY_PATH=$base_dir:$base_dir/../dyninst/lib:$boost_lib " .
+			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
+		);
+	};
 }
 
 sub execute($) {
