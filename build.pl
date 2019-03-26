@@ -114,6 +114,9 @@ sub build_dyninst {
 	my $base_dir = realpath("$hash/dyninst");
 	my $build_dir = "$base_dir/build";
 	
+	# Create symlink to source
+	symlink("$src_dir", "$base_dir/src");	
+	
 	# If the user didn't specify a Boost location, then provide some defaults
 	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
 	unless($args->{'boost-inc'}) {
@@ -124,9 +127,6 @@ sub build_dyninst {
 	}
 	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
-	
-	# Create symlink to source
-	symlink("$src_dir", "$base_dir/src");
 	
 	# Check out $branch (no-op if we are already on $branch)
 	execute("git -C $src_dir checkout $branch");
