@@ -13,30 +13,20 @@ use Capture::Tiny qw(capture);
 {
 	my %args = (
 	'prefix'				=> cwd(),
-	'dyninst-dir'			=> undef,
-	'dyninst-branch' 		=> 'master',
-	'dyninst-relative-to'	=> 'master',
+	'dyninst-src'			=> undef,
 	'test-src'				=> undef,
-	'test-branch'			=> 'master',
-	'test-relative-to'		=> 'master',
 	'boost-dir'				=> undef,
 	'boost-inc'				=> undef,
 	'boost-lib'				=> undef,
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
-	'dyninst'				=> 1,
-	'tests'					=> 1,
-	'run-tests'				=> 1,
 	'help' 					=> 0
 	);
 
 	GetOptions(\%args,
-		'prefix=s', 'dyninst-dir=s',
-		'dyninst-branch=s', 'dyninst-relative-to=s',
-		'test-src=s', 'test-branch=s', 'test-relative-to=s',
+		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'boost-inc=s', 'boost-lib=s',
-		'log-file=s', 'njobs=i', 'dyninst!', 'tests!',
-		'run-tests!', 'help'
+		'log-file=s', 'njobs=i', 'help'
 	) or (pod2usage(2), exit);
 
 	if($args{'help'}) {
@@ -44,21 +34,12 @@ use Capture::Tiny qw(capture);
 	}
 
 	# Default directory and file locations
-	$args{'dyninst-dir'} //= "$args{'prefix'}/dyninst";
+	$args{'dyninst-src'} //= "$args{'prefix'}/dyninst";
 	$args{'test-src'} //= "$args{'prefix'}/testsuite";
 	$args{'log-file'} //= "$args{'prefix'}/build.log";
 
-	# Boost directories
-	$args{'boost-inc'} = "$args{'boost-dir'}/include" if $args{'boost-dir'};
-	$args{'boost-lib'} = "$args{'boost-dir'}/lib" if $args{'boost-dir'};
-
-	if(!$args{'dyninst'} && !$args{'dyninst-dir'}) {
-		print STDERR "Must specify dyninst-dir when not building Dyninst\n";
-		pod2usage(2) and exit;
-	}
-
 	# Canonicalize user-specified files and directories
-	for my $d ('dyninst-dir','test-src','log-file','boost-inc','boost-lib') {
+	for my $d ('dyninst-src','test-src','log-file','boost-inc','boost-lib') {
 		# NB: realpath(undef) eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d});
 	}
@@ -69,67 +50,69 @@ use Capture::Tiny qw(capture);
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 
 	# Generate a unique name for the current build
-	my $hash = md5_base64(localtime . $args{'dyninst-branch'} . $args{'test-branch'});
+	my $hash = md5_base64(localtime());
 	$hash =~ s|/|_|g;
 
-	# Build Dyninst, if requested
-	if($args{'dyninst'}) {
-		print $fdLog "Building Dyninst($args{'dyninst-branch'} [$hash])... ";
-		eval { &build_dyninst(\%args, $hash); };
+	# Build Dyninst
+	{
+		# Create the build directory
+		make_path("$hash/dyninst/build");
+	
+		# The path must exist before using 'realpath'
+		my $base_dir = realpath("$hash/dyninst");
+		my $build_dir = "$base_dir/build";
+		
+		#	# Set up the Boost environment
+		{
+			$args{'boost-inc'} = "$args{'boost-dir'}/include" if $args{'boost-dir'};
+			$args{'boost-lib'} = "$args{'boost-dir'}/lib" if $args{'boost-dir'};
+			
+			# If the user didn't specify a Boost location, then provide some defaults
+			# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
+			unless($args{'boost-inc'}) {
+				$args{'boost-inc'} = "$build_dir/boost/src/boost";
+			}
+			unless($args{'boost-lib'}) {
+				$args{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
+			}
+		}
+		
+		print $fdLog "Building Dyninst($hash)... ";
+		eval { &build_dyninst(\%args, $base_dir, $build_dir); };
 		print $fdLog $@ and die $@ if $@;
 		print $fdLog "done.\n";
 	}
 
-	# Build the test suite, if requested
-	if($args{'tests'}) {
+	# Build the test suite
+	{
 		eval { &build_tests(\%args); };
 		print $fdLog $@ and die $@ if $@;
 	}
 
-	# Run the tests, if requested
-	if($args{'run-tests'}) {
+	# Run the tests
+	{
 		eval { &run_tests(\%args); };
 		print $fdLog $@ and die $@ if $@;
 	}
 }
 
 sub build_dyninst {
-	my ($args, $hash) = @_;
+	my ($args, $base_dir, $build_dir) = @_;
 
-	my $src_dir = $args->{'dyninst-dir'};
-	my $branch = $args->{'dyninst-branch'};
+	my $src_dir = $args->{'dyninst-src'};
 	my $njobs = $args->{'njobs'};
-	my $rel_branch = $args->{'dyninst-relative-to'};
-
-	# If the user didn't give a branch name, use the current one
-	unless($branch) {
-		# NB: This will return 'HEAD' if in a detached-head state
-		$branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-	}
-
-	# Create the build directory
-	make_path("$hash/dyninst/build");
-
-	# The path must exist before using 'realpath'
-	my $base_dir = realpath("$hash/dyninst");
-	my $build_dir = "$base_dir/build";
+	my $boost_inc = $args->{'boost-inc'};
+	my $boost_lib = $args->{'boost-lib'};
 
 	# Create symlink to source
 	symlink("$src_dir", "$base_dir/src");
 
-	# If the user didn't specify a Boost location, then provide some defaults
-	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
-	unless($args->{'boost-inc'}) {
-		$args->{'boost-inc'} = "$build_dir/boost/src/boost";
-	}
-	unless($args->{'boost-lib'}) {
-		$args->{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
-	}
-	my $boost_inc = $args->{'boost-inc'};
-	my $boost_lib = $args->{'boost-lib'};
-
 	# Save the Dyninst git configuration
 	{
+		# If the user didn't give a branch name, use the current one
+		# NB: This will return 'HEAD' if in a detached-head state
+		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
+
 		# Check out $branch (no-op if we are already on $branch)
 		execute("git -C $src_dir checkout $branch");
 		
@@ -138,7 +121,7 @@ sub build_dyninst {
 		#	the $rel_branch and $branch.
 		#
 		# --pretty=oneline gives the full 40-character commit ID
-		my $commits = execute("git -C $src_dir log --pretty=oneline $rel_branch..$branch");
+		my $commits = execute("git -C $src_dir log --pretty=oneline master..$branch");
 
 		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 
@@ -194,12 +177,22 @@ sub build_dyninst {
 }
 
 sub build_tests {
-#cd $testsuite_src_dir
-#git checkout $testsuite_branch
-#cd $build_root
-#$testsuite_hash = $(md5sum $testsuite_branch . $dyninst_branch . cur_time)
-#$testsuite_build_base_dir = $build_root . '/testsuite/' . $testsuite_hash
-#mkdir -p $testsuite_build_base_dir/build
+	my ($args, $hash) = @_;
+	
+	my $src_dir = $args->{'test-src'};
+	my $branch = $args->{'test-branch'};
+	my $rel_branch = $args->{'test-relative-to'};
+	
+	execute("git -C $src_dir checkout $branch");
+	
+	# Create the build directory
+	make_path("$hash/testsuite/build");
+	
+	my $base_dir = "$hash/testsuite";
+	my $build_dir = "$base_dir/build";
+	
+	symlink("$src_dir", "$base_dir/src");
+	symlink("$")
 #cd $testsuite_build_base_dir
 #echo dyninst: $dyninst_branch $dyninst_hash\ntestsuite: $testsuite_branch > git.log
 #ln -s $(abspath $testsuite_src_dir) src
@@ -220,10 +213,12 @@ sub run_tests {
 
 sub execute($) {
 	my $cmd = shift;
-	my ($stdout,$stderr,$exit) = capture { system($cmd); };
-	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
-	die "Error executing '$cmd'\n$stderr\n" if $exit;
-	return $stdout;
+	print "$cmd\n";
+	return 'foo';
+#	my ($stdout,$stderr,$exit) = capture { system($cmd); };
+#	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
+#	die "Error executing '$cmd'\n$stderr\n" if $exit;
+#	return $stdout;
 }
 
 sub parse_log {
@@ -257,12 +252,7 @@ build [options]
    --boost-dir=PATH        Base directory for Boost
    --boost-inc=PATH        Include directory for Boost (ignored if --boost-dir is given)
    --boost-lib=PATH        Library directory for Boost (ignore if --boost-lib is given)
-   --dyninst-branch=BRANCH Check out git BRANCH for dyninst
-   --tests-branch=BRANCH   Check out git BRANCH for Testsuite
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --njobs=N               Number of make jobs (default: N=1)
-   --[no-]dyninst          Build Dyninst (default: yes)
-   --[no-]tests            Build the Testsuite (default: yes)
-   --[no-]run-tests        Run the tests (default: yes)
    --help                  Print this help message
 =cut
