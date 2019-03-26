@@ -29,7 +29,7 @@ use Capture::Tiny qw(capture);
 	'run-tests'				=> 1,
 	'help' 					=> 0
 	);
-	
+
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-dir=s',
 		'dyninst-branch=s', 'dyninst-relative-to=s',
@@ -38,11 +38,11 @@ use Capture::Tiny qw(capture);
 		'log-file=s', 'njobs=i', 'dyninst!', 'tests!',
 		'run-tests!', 'help'
 	) or (pod2usage(2), exit);
-	
+
 	if($args{'help'}) {
 		pod2usage(-exitval => 0, -verbose => 99) and exit;
 	}
-	
+
 	# Default directory and file locations
 	$args{'dyninst-dir'} //= "$args{'prefix'}/dyninst";
 	$args{'test-src'} //= "$args{'prefix'}/testsuite";
@@ -51,27 +51,27 @@ use Capture::Tiny qw(capture);
 	# Boost directories
 	$args{'boost-inc'} = "$args{'boost-dir'}/include" if $args{'boost-dir'};
 	$args{'boost-lib'} = "$args{'boost-dir'}/lib" if $args{'boost-dir'};
-	
+
 	if(!$args{'dyninst'} && !$args{'dyninst-dir'}) {
 		print STDERR "Must specify dyninst-dir when not building Dyninst\n";
 		pod2usage(2) and exit;
 	}
-	
+
 	# Canonicalize user-specified files and directories
 	for my $d ('dyninst-dir','test-src','log-file','boost-inc','boost-lib') {
 		# NB: realpath(undef) eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d});
 	}
-	
+
 	# Save a backup, if the log file already exists
 	move($args{'log-file'}, "$args{'log-file'}.bak") if -e $args{'log-file'};
-	
+
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
-	
+
 	# Generate a unique name for the current build
 	my $hash = md5_base64(localtime . $args{'dyninst-branch'} . $args{'test-branch'});
 	$hash =~ s|/|_|g;
-	
+
 	# Build Dyninst, if requested
 	if($args{'dyninst'}) {
 		print $fdLog "Building Dyninst($args{'dyninst-branch'} [$hash])... ";
@@ -95,13 +95,13 @@ use Capture::Tiny qw(capture);
 
 sub build_dyninst {
 	my ($args, $hash) = @_;
-	
+
 	my $src_dir = $args->{'dyninst-dir'};
 	my $branch = $args->{'dyninst-branch'};
 	my $njobs = $args->{'njobs'};
 	my $rel_branch = $args->{'dyninst-relative-to'};
 
-	# If the user didn't give a branch name, use the current one	
+	# If the user didn't give a branch name, use the current one
 	unless($branch) {
 		# NB: This will return 'HEAD' if in a detached-head state
 		$branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
@@ -113,10 +113,10 @@ sub build_dyninst {
 	# The path must exist before using 'realpath'
 	my $base_dir = realpath("$hash/dyninst");
 	my $build_dir = "$base_dir/build";
-	
+
 	# Create symlink to source
-	symlink("$src_dir", "$base_dir/src");	
-	
+	symlink("$src_dir", "$base_dir/src");
+
 	# If the user didn't specify a Boost location, then provide some defaults
 	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
 	unless($args->{'boost-inc'}) {
@@ -127,10 +127,10 @@ sub build_dyninst {
 	}
 	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
-	
+
 	# Check out $branch (no-op if we are already on $branch)
 	execute("git -C $src_dir checkout $branch");
-	
+
 	# Save the Dyninst git configuration
 	{
 		# List the commits we are actually testing
@@ -139,18 +139,18 @@ sub build_dyninst {
 		#
 		# --pretty=oneline gives the full 40-character commit ID
 		my $commits = execute("git -C $src_dir log --pretty=oneline $rel_branch..$branch");
-		
+
 		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
-		
+
 		if($commits) {
 			$commits =~ s/\n/\n\t/g;
-			print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";			
+			print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";
 		} else {
 			# grab the commitID for HEAD
 			print $fdOut execute("git -C $src_dir rev-parse HEAD");
 		}
 	}
-	
+
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
@@ -168,7 +168,7 @@ sub build_dyninst {
 	die "Error configuring: see $build_dir/config.err for details" if $@;
 
 	# Run the build
-	# We need an 'eval' here since we are manually piping stderr	
+	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
 			"LD_LIBRARY_PATH=$boost_lib;\n" .
