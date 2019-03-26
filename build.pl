@@ -114,17 +114,6 @@ sub build_dyninst {
 	my $base_dir = realpath("$hash/dyninst");
 	my $build_dir = "$base_dir/build";
 	
-	# If the user didn't specify a Boost location, then provide some defaults
-	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
-	unless($args->{'boost-inc'}) {
-		$args->{'boost-inc'} = "$build_dir/boost/src/boost";
-	}
-	unless($args->{'boost-lib'}) {
-		$args->{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
-	}
-	my $boost_inc = $args->{'boost-inc'};
-	my $boost_lib = $args->{'boost-lib'};
-	
 	# Create symlink to source
 	symlink("$src_dir", "$base_dir/src");
 	
@@ -145,6 +134,11 @@ sub build_dyninst {
 		print $fdOut "branch:\n\t$branch\ncommits:\n\t$commits\n";
 	}
 	
+	# When configuring Dyninst, either use the user-provided Boost directories, or
+	# let cmake find the system ones.
+	my $boost_inc = $args->{'boost-inc'} // "";
+	my $boost_lib = $args->{'boost-lib'} // "";
+	
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
@@ -161,6 +155,17 @@ sub build_dyninst {
 	};
 	die "Error configuring: see 'config.err' in $build_dir for details" if $@;
 
+	# If the user didn't specify a Boost location, then provide the locations
+	# of the Boost that will be installed from source during the Dyninst build
+	#
+	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
+	unless($args->{'boost-inc'}) {
+		$args->{'boost-inc'} = "$build_dir/boost/src/boost";
+	}
+	unless($args->{'boost-lib'}) {
+		$args->{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
+	}
+	
 	# Run the build
 	# We need an 'eval' here since we are manually piping stderr	
 	eval {
@@ -170,7 +175,7 @@ sub build_dyninst {
 			"make -j$njobs 1>build.out 2>build.err"
 		);
 	};
-	die "Error building: see 'build.err' in $build_dir for details" if $@;
+	die "Error building: see $build_dir/build.err for details" if $@;
 
 	# Install
 	# We need an 'eval' here since we are manually piping stderr
@@ -179,7 +184,7 @@ sub build_dyninst {
 			"cd $build_dir\n" .
 			"make install 1>build-install.out 2>build-install.err"
 		);
-	};	die "Error installing: see 'build-install.err' in $build_dir for details" if $@;
+	};	die "Error installing: see $build_dir/build-install.err for details" if $@;
 
 	# Symlinking libdw is broken in the config system right now
 	# See https://github.com/dyninst/dyninst/issues/547
