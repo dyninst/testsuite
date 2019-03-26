@@ -16,8 +16,6 @@ use Capture::Tiny qw(capture);
 	'dyninst-src'			=> undef,
 	'test-src'				=> undef,
 	'boost-dir'				=> undef,
-	'boost-inc'				=> undef,
-	'boost-lib'				=> undef,
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
 	'help' 					=> 0
@@ -261,8 +259,6 @@ build [options]
    --dyninst-dir=PATH      Path to pre-built Dyninst (only used for --no-dyninst)
    --test-src=PATH         Source directory for Testsuite (default: prefix/testsuite)
    --boost-dir=PATH        Base directory for Boost
-   --boost-inc=PATH        Include directory for Boost (ignored if --boost-dir is given)
-   --boost-lib=PATH        Library directory for Boost (ignore if --boost-lib is given)
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --njobs=N               Number of make jobs (default: N=1)
    --help                  Print this help message
