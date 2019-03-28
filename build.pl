@@ -18,13 +18,14 @@ use Capture::Tiny qw(capture);
 	'boost-dir'				=> undef,
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
+	'run-tests'				=> 1,
 	'help' 					=> 0
 	);
 
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'boost-inc=s', 'boost-lib=s',
-		'log-file=s', 'njobs=i', 'help'
+		'log-file=s', 'njobs=i', 'run-tests', 'help'
 	) or (pod2usage(2), exit);
 
 	if($args{'help'}) {
@@ -97,7 +98,7 @@ use Capture::Tiny qw(capture);
 	}
 
 	# Run the tests
-	{
+	if($args{'run-tests'}) {
 		make_path("$hash/testsuite/tests");
 		my $base_dir = realpath("$hash/testsuite/tests");
 		
@@ -298,5 +299,6 @@ build [options]
    --boost-dir=PATH        Base directory for Boost
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --njobs=N               Number of make jobs (default: N=1)
+   --[no-]run-tests        Run the Testsuite after building it (default: yes)
    --help                  Print this help message
 =cut
