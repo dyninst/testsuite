@@ -194,6 +194,7 @@ sub build_dyninst {
 
 	# Symlinking libdw is broken in the config system right now
 	# See https://github.com/dyninst/dyninst/issues/547
+	die "Broken: link to LIBDWARF_LIBRARIES from CMakeCache.txt";
 	symlink("$build_dir/elfutils/lib/libdw.so", "$base_dir/lib/libdw.so");
 	symlink("$build_dir/elfutils/lib/libdw.so.1", "$base_dir/lib/libdw.so.1");
 }
