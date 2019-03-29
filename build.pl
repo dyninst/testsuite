@@ -141,8 +141,6 @@ sub setup_boost {
 sub configure_dyninst {
 	my ($args, $base_dir, $build_dir) = @_;
 
-	my $boost_inc = $args->{'boost-inc'};
-	my $boost_lib = $args->{'boost-lib'};
 	my $src_dir = $args->{'dyninst-src'};
 
 	# Create symlink to source
@@ -163,6 +161,8 @@ sub configure_dyninst {
 		print $fdOut "branch: $branch",
 					 "commit: $commit_head";
 	}
+	
+	my $path_boost = $args->{'boost-dir'} // '';
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
@@ -170,10 +170,8 @@ sub configure_dyninst {
 		execute(
 			"cd $build_dir\n" .
 			"cmake -H$base_dir/src -B$build_dir " .
+			"-DPATH_BOOST=$path_boost " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
-			"-DBoost_INCLUDE_DIR=$boost_inc " .
-			"-DBoost_LIBRARY_DIR_DEBUG=$boost_lib " .
-			"-DBoost_LIBRARY_DIR_RELEASE=$boost_lib " .
 			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
 			"1>config.out 2>config.err "
 		);
