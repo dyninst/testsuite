@@ -61,23 +61,11 @@ use Capture::Tiny qw(capture);
 		my $base_dir = realpath("$hash/dyninst");
 		my $build_dir = "$base_dir/build";
 		
-		# Set up the Boost environment
-		{
-			$args{'boost-inc'} = "$args{'boost-dir'}/include" if $args{'boost-dir'};
-			$args{'boost-lib'} = "$args{'boost-dir'}/lib" if $args{'boost-dir'};
-			
-			# If the user didn't specify a Boost location, then provide some defaults
-			# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
-			unless($args{'boost-inc'}) {
-				$args{'boost-inc'} = "$build_dir/boost/src/boost";
-			}
-			unless($args{'boost-lib'}) {
-				$args{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
-			}
-		}
-		
 		print $fdLog "Building Dyninst($hash)... ";
-		eval { &build_dyninst(\%args, $base_dir, $build_dir); };
+		eval {
+			&setup_boost(\%args, $base_dir, $build_dir);
+			&build_dyninst(\%args, $base_dir, $build_dir);
+		};
 		print $fdLog $@ and die $@ if $@;
 		print $fdLog "done.\n";
 	}
@@ -106,6 +94,28 @@ use Capture::Tiny qw(capture);
 		eval { &run_tests(\%args, $base_dir); };
 		print $fdLog $@ and die $@ if $@;
 		print $fdLog "done.\n";
+	}
+}
+
+sub setup_boost {
+	my ($args, $base_dir, $build_dir) = @_;
+
+	my $boost_inc = $args->{'boost-inc'};
+	my $boost_lib = $args->{'boost-lib'};
+	my $src_dir = $args->{'dyninst-src'};
+	my $njobs = $args->{'njobs'};
+	
+	# Set up the Boost environment
+	$args->{'boost-inc'} = "$args->{'boost-dir'}/include" if $args->{'boost-dir'};
+	$args->{'boost-lib'} = "$args->{'boost-dir'}/lib" if $args->{'boost-dir'};
+	
+	# If the user didn't specify a Boost location, then provide some defaults
+	# NB: This will be fixed by https://github.com/dyninst/dyninst/issues/563
+	unless($args->{'boost-inc'}) {
+		$args->{'boost-inc'} = "$build_dir/boost/src/boost";
+	}
+	unless($args->{'boost-lib'}) {
+		$args->{'boost-lib'} = "$build_dir/boost/src/boost/stage/lib";
 	}
 }
 
