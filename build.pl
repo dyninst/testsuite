@@ -63,6 +63,7 @@ use Capture::Tiny qw(capture);
 		
 		print $fdLog "Building Dyninst($hash)... ";
 		eval {
+			&configure_dyninst(\%args, $base_dir, $build_dir);
 			&setup_boost(\%args, $base_dir, $build_dir);
 			&build_dyninst(\%args, $base_dir, $build_dir);
 		};
@@ -119,13 +120,12 @@ sub setup_boost {
 	}
 }
 
-sub build_dyninst {
+sub configure_dyninst {
 	my ($args, $base_dir, $build_dir) = @_;
 
 	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
 	my $src_dir = $args->{'dyninst-src'};
-	my $njobs = $args->{'njobs'};
 
 	# Create symlink to source
 	symlink("$src_dir", "$base_dir/src");
@@ -161,6 +161,15 @@ sub build_dyninst {
 		);
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
+}
+
+sub build_dyninst {
+	my ($args, $base_dir, $build_dir) = @_;
+
+	my $boost_inc = $args->{'boost-inc'};
+	my $boost_lib = $args->{'boost-lib'};
+	my $src_dir = $args->{'dyninst-src'};
+	my $njobs = $args->{'njobs'};
 	
 	# Run the build
 	# We need an 'eval' here since we are manually piping stderr
