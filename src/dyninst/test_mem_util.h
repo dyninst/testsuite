@@ -224,17 +224,47 @@ void init_test_data();
 
 #if defined(arch_aarch64_test) && defined(os_linux_test)
 
-#define loadExp 0
-#define storeExp 0
-#define prefeExp 0
-#define accessExp 1
-#define accessExpCC 1
+extern unsigned int loadExp;
+extern unsigned int storeExp;
+extern unsigned int prefeExp;
+extern unsigned int accessExp;
+extern unsigned int accessExpCC;
 
-//long loadsnstores(long x, long y, long z);
+extern int eaExpOffset[];
 
 extern unsigned int bcExp[];
 
+
+extern int divarw[4];
+extern float dfvars[4];
+extern double dfvard[4];
+extern long double dfvart;
+extern char dlarge[512];
+
+extern void* rip_relative_load_address;
+
+
 void init_test_data();
+
+struct reduction {
+    unsigned int loadRed;
+    unsigned int storeRed;
+    unsigned int prefeRed;
+    unsigned int axsRed;
+    unsigned int axsShift;
+};
+
+/*
+extern const struct reduction mmxRed;
+extern const struct reduction sseRed;
+extern const struct reduction sse2Red;
+extern const struct reduction amdRed;
+extern const struct reduction ccRed;
+*/
+
+void reduce(const struct reduction x);
+void reduceCC(const struct reduction x);
+
 #endif /* aarch64 linux */
 
 /* functions called by the simple instrumentation points */

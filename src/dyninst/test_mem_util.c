@@ -758,20 +758,40 @@ void init_test_data()
 #endif /* power linux */
 
 #if defined(arch_aarch64_test) && defined(os_linux_test)
+unsigned int loadExp=5;
+unsigned int storeExp=0;
+unsigned int prefeExp=0;
+unsigned int accessExp=5;
+unsigned int accessExpCC=5;
 
-/*
-long loadsnstores(long x, long y, long z)
+int divarw[4];
+float dfvars[4];
+double dfvard[4];
+long double dfvart;
+char dlarge[512] = "keep the interface small and easy to understand.";
+
+unsigned int bcExp[] = {0, 0};
+int eaExpOffset[] =    {0, 0}; 
+
+/* _inline */ void init_test_data()
 {
-  return x + y + z;
-}
-*/
+  int i;
 
-unsigned int bcExp[] = { 0 };
 
-void init_test_data()
-{
+  printf("divarw = %p\n", divarw);
+  printf("dfvars = %p\n", dfvars);
+  printf("dfvard = %p\n", dfvard);
+
+  
+  eaExp[0] = 0;
+  eaExp[1] = 0;
+  for(i=0; i<accessExp; ++i) {
+    eaExpCC[i] = eaExp[i];
+    bcExpCC[i] = bcExp[i];
+  }
 }
-#endif /* power linux */
+
+#endif /* aarch64 linux */
 
 
 /* functions called by the simple instrumentation points */

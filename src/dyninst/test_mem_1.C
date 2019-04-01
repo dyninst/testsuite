@@ -389,18 +389,58 @@ static void init_test_data()
 #endif
 
 
+
+#ifdef arch_aarch64_test
+static const unsigned int nloads = 5;
+
+static BPatch_memoryAccess* loadList[nloads];
+
+static void *divarwp, *dfvarsp, *dfvardp, *dfvartp, *dlargep;
+
+static void get_vars_addrs(BPatch_image* bip) // from mutatee
+{
+
+  BPatch_variableExpr* bpvep_diwarw = bip->findVariable("divarw");
+  BPatch_variableExpr* bpvep_diwars = bip->findVariable("dfvars");
+  BPatch_variableExpr* bpvep_diward = bip->findVariable("dfvard");
+  BPatch_variableExpr* bpvep_diwart = bip->findVariable("dfvart");
+  BPatch_variableExpr* bpvep_dlarge = bip->findVariable("dlarge");
+  divarwp = bpvep_diwarw->getBaseAddr();
+  dfvarsp = bpvep_diwars->getBaseAddr();
+  dfvardp = bpvep_diward->getBaseAddr();
+  dfvartp = bpvep_diwart->getBaseAddr();
+  dlargep = bpvep_dlarge->getBaseAddr();
+}
+
+static void init_test_data()
+{
+	printf("divarwp:%p\n", divarwp);
+	int k = -1;
+	loadList[++k] = MK_LD(12,31,-1,4);
+	loadList[++k] = MK_LD(8,31,-1,4);
+	loadList[++k] = MK_LD(4,31,-1,4);
+	loadList[++k] = MK_LD((long)divarwp,-1,-1,8);
+	loadList[++k] = MK_LD(32,0,-1,8);
+	
+}
+#endif
+
+
+
+
+
 // Find and instrument loads with a simple function call snippet
 // static int mutatorTest(BPatch_thread *appThread, BPatch_image *bpimg)
 test_results_t test_mem_1_Mutator::executeTest() {
   int testnum = 1;
   const char* testdesc = "load instrumentation";
-#if !defined(arch_power_test) && !defined(arch_x86_test) && !defined(arch_x86_64_test)
+#if !defined(arch_power_test) && !defined(arch_x86_test) && !defined(arch_x86_64_test) && !defined(arch_aarch64_test)
   //skiptest(testnum, testdesc);
   // Unsupported platform
   return SKIPPED;
 #else
 
-#if defined(arch_x86_test) || defined(arch_x86_64_test)
+#if defined(arch_x86_test) || defined(arch_x86_64_test) || defined(arch_aarch64_test)
   get_vars_addrs(appImage);
 #endif
 
