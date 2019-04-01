@@ -70,7 +70,7 @@ use File::Basename qw(dirname);
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			$cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
 			&setup_boost(\%args, $build_dir, $cmake_cache);
-			&build_dyninst(\%args, $base_dir, $build_dir);
+			&build_dyninst(\%args, $base_dir, $build_dir, $cmake_cache);
 		};
 		print $fdLog $@ and die $@ if $@;
 		print $fdLog "done.\n";
@@ -180,7 +180,7 @@ sub configure_dyninst {
 }
 
 sub build_dyninst {
-	my ($args, $base_dir, $build_dir) = @_;
+	my ($args, $base_dir, $build_dir, $cmake_cache) = @_;
 
 	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
@@ -210,9 +210,14 @@ sub build_dyninst {
 
 	# Symlinking libdw is broken in the config system right now
 	# See https://github.com/dyninst/dyninst/issues/547
-	die "Broken: link to LIBDWARF_LIBRARIES from CMakeCache.txt";
-	symlink("$build_dir/elfutils/lib/libdw.so", "$base_dir/lib/libdw.so");
-	symlink("$build_dir/elfutils/lib/libdw.so.1", "$base_dir/lib/libdw.so.1");
+	my $libdwarf_dir = $cmake_cache->{'LIBDWARF_LIBRARIES'};
+	if($libdwarf_dir =~ /NOTFOUND/) {
+		$libdwarf_dir = "$build_dir/elfutils/lib";
+	} else {
+		$libdwarf_dir = dirname($libdwarf_dir);
+	}
+	symlink("$libdwarf_dir/libdw.so", "$base_dir/lib/libdw.so");
+	symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
 }
 
 sub build_tests {
