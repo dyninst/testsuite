@@ -1,5 +1,5 @@
 # CMakeLists for dyninst/gfortran/32/dyn/pic/none
-set (CMAKE_Fortran_FLAGS "${MUTATOR_DEFINES}  -g ${MUTATEE_G77_FFLAGS}  -g -O0 -fPIC")
+set (CMAKE_Fortran_FLAGS "${MUTATOR_DEFINES}  -g ${MUTATEE_G77_FFLAGS}  -g -O0 -fPIC -fPIE -pie")
 set (CMAKE_Fortran_FLAGS_DEBUG "")
 set (CMAKE_Fortran_FLAGS_RELEASE "")
 set (CMAKE_Fortran_FLAGS_RELWITHDEBINFO "")
@@ -10,7 +10,7 @@ add_definitions(-DSOLO_MUTATEE)
 set (CMAKE_EXE_LINKER_FLAGS "${MUTATEE_G77_LDFLAGS}  ")
 IF (NOT ${M_gnu_fc} MATCHES "NOTFOUND")
 CHECK_MUTATEE_COMPILER ("${M_gnu_fc}"
-	"${MUTATOR_DEFINES}  -g ${MUTATEE_G77_FFLAGS}  -g -O0 -fPIC"
+	"${MUTATOR_DEFINES}  -g ${MUTATEE_G77_FFLAGS}  -g -O0 -fPIC -fPIE -pie"
 	"${MUTATEE_G77_LDFLAGS}  "
 	"Fortran"
 	"gnu_fc 32 dyn"

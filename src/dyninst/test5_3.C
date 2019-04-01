@@ -123,7 +123,7 @@ test_results_t test5_3_Mutator::executeTest() {
   }
 
   BPatch_Vector<BPatch_snippet *> opArgs;
-  BPatch_constExpr expr2_0((void *)this2->getBaseAddr());
+  BPatch_arithExpr expr2_0(BPatch_addr, *this2);
   opArgs.push_back(&expr2_0);
   opArgs.push_back(new BPatch_retExpr());
   BPatch_funcCallExpr call3_1Expr(*call3_1, opArgs);
