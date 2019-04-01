@@ -70,37 +70,41 @@ use File::Basename qw(dirname);
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			$cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
 			&setup_boost(\%args, $build_dir, $cmake_cache);
+			
+			use Data::Dumper;
+			print Dumper(\%args), "\n";
+			
 			&build_dyninst(\%args, $base_dir, $build_dir, $cmake_cache);
 		};
 		print $fdLog $@ and die $@ if $@;
 		print $fdLog "done.\n";
 	}
 
-	# Build the test suite
-	{
-		# Create the build directory
-		make_path("$hash/testsuite/build");
-		
-		my $base_dir = realpath("$hash/testsuite");
-		my $build_dir = "$base_dir/build";
-		my $dyn_dir = realpath("$hash/dyninst");
-		
-		print $fdLog "Building Testsuite... ";
-		eval { &build_tests(\%args, $base_dir, $build_dir, $dyn_dir); };
-		print $fdLog $@ and die $@ if $@;
-		print $fdLog "done.\n";
-	}
-
-	# Run the tests
-	if($args{'run-tests'}) {
-		make_path("$hash/testsuite/tests");
-		my $base_dir = realpath("$hash/testsuite/tests");
-		
-		print $fdLog "running Testsuite... ";
-		eval { &run_tests(\%args, $base_dir); };
-		print $fdLog $@ and die $@ if $@;
-		print $fdLog "done.\n";
-	}
+#	# Build the test suite
+#	{
+#		# Create the build directory
+#		make_path("$hash/testsuite/build");
+#		
+#		my $base_dir = realpath("$hash/testsuite");
+#		my $build_dir = "$base_dir/build";
+#		my $dyn_dir = realpath("$hash/dyninst");
+#		
+#		print $fdLog "Building Testsuite... ";
+#		eval { &build_tests(\%args, $base_dir, $build_dir, $dyn_dir); };
+#		print $fdLog $@ and die $@ if $@;
+#		print $fdLog "done.\n";
+#	}
+#
+#	# Run the tests
+#	if($args{'run-tests'}) {
+#		make_path("$hash/testsuite/tests");
+#		my $base_dir = realpath("$hash/testsuite/tests");
+#		
+#		print $fdLog "running Testsuite... ";
+#		eval { &run_tests(\%args, $base_dir); };
+#		print $fdLog $@ and die $@ if $@;
+#		print $fdLog "done.\n";
+#	}
 }
 
 sub parse_cmake_cache {
