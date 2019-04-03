@@ -15,7 +15,12 @@ endif()
 
 set(Dyninst_DIR ${_dyninst_dir} CACHE STRING "Location of Dyninst cmake files")
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+    "${PROJECT_SOURCE_DIR}/cmake/Modules"
+    "${Dyninst_DIR}"
+    "${Dyninst_DIR}/Modules"
+)
+
 include (c++11.cmake)
 
 set (USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
