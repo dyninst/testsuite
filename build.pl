@@ -163,7 +163,6 @@ sub configure_dyninst {
 sub build_dyninst {
 	my ($args, $base_dir, $build_dir, $cmake_cache) = @_;
 
-	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
 	my $src_dir = $args->{'dyninst-src'};
 	my $njobs = $args->{'njobs'};
@@ -204,7 +203,6 @@ sub build_dyninst {
 sub build_tests {
 	my ($args, $base_dir, $build_dir, $dyn_dir) = @_;
 
-	my $boost_inc = $args->{'boost-inc'};
 	my $boost_lib = $args->{'boost-lib'};
 	my $src_dir = $args->{'test-src'};
 	my $njobs = $args->{'njobs'};
@@ -236,7 +234,6 @@ sub build_tests {
 			"Dyninst_DIR=../dyninst/lib/cmake/Dyninst ".
 			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DINSTALL_DIR=$base_dir/tests ".
-			"-DBoost_INCLUDE_DIR=$boost_inc " .
 			"1>config.out 2>config.err"
 		);
 	};
