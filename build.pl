@@ -73,20 +73,23 @@ use File::Basename qw(dirname);
 		print $fdLog "done.\n";
 	}
 
-#	# Build the test suite
-#	{
-#		# Create the build directory
-#		make_path("$hash/testsuite/build");
-#		
-#		my $base_dir = realpath("$hash/testsuite");
-#		my $build_dir = "$base_dir/build";
-#		my $dyn_dir = realpath("$hash/dyninst");
-#		
-#		print $fdLog "Building Testsuite... ";
-#		eval { &build_tests(\%args, $base_dir, $build_dir, $dyn_dir); };
-#		print $fdLog $@ and die $@ if $@;
-#		print $fdLog "done.\n";
-#	}
+	# Build the test suite
+	{
+		# Create the build directory
+		make_path("$hash/testsuite/build");
+		
+		my $base_dir = realpath("$hash/testsuite");
+		my $build_dir = "$base_dir/build";
+		my $dyn_dir = realpath("$hash/dyninst");
+		
+		print $fdLog "Building Testsuite... ";
+		eval {
+			&configure_dyninst(\%args, $base_dir, $build_dir, $dyn_dir);
+			&build_tests(\%args, $base_dir, $build_dir);
+		};
+		print $fdLog $@ and die $@ if $@;
+		print $fdLog "done.\n";
+	}
 #
 #	# Run the tests
 #	if($args{'run-tests'}) {
@@ -200,12 +203,11 @@ sub build_dyninst {
 	symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
 }
 
-sub build_tests {
+sub configure_tests {
 	my ($args, $base_dir, $build_dir, $dyn_dir) = @_;
 
 	my $boost_lib = $args->{'boost-lib'};
 	my $src_dir = $args->{'test-src'};
-	my $njobs = $args->{'njobs'};
 	
 	symlink("$src_dir", "$base_dir/src");
 	symlink("$dyn_dir", "$base_dir/dyninst");
@@ -238,6 +240,12 @@ sub build_tests {
 		);
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
+}
+sub build_tests {
+	my ($args, $base_dir, $build_dir) = @_;
+
+	my $boost_lib = $args->{'boost-lib'};
+	my $njobs = $args->{'njobs'};
 	
 	# Build the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
