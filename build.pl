@@ -25,8 +25,8 @@ use File::Basename qw(dirname);
 
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
-		'boost-dir=s', 'boost-inc=s', 'boost-lib=s',
-		'log-file=s', 'njobs=i', 'run-tests', 'help'
+		'boost-dir=s', 'log-file=s', 'njobs=i',
+		'run-tests', 'help'
 	) or (pod2usage(2), exit);
 
 	if($args{'help'}) {
@@ -39,7 +39,7 @@ use File::Basename qw(dirname);
 	$args{'log-file'} //= "$args{'prefix'}/build.log";
 
 	# Canonicalize user-specified files and directories
-	for my $d ('dyninst-src','test-src','log-file','boost-inc','boost-lib') {
+	for my $d ('dyninst-src','test-src','log-file') {
 		# NB: realpath(undef) eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d});
 	}
