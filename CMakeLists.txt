@@ -1,6 +1,20 @@
 cmake_minimum_required (VERSION 3.0.0)
 project (Dyninst-TestSuite)
 
+# User must provide location of Dyninst cmake files either
+# as a cache or environment variable
+if(NOT Dyninst_DIR)
+  if(NOT ENV{Dyninst_DIR})
+    message(FATAL_ERROR "Dyninst_DIR not found: define as a cache or environment variable")
+  else()
+  	set(_dyninst_dir ENV{Dyninst_DIR})
+  endif()
+else()
+  set(_dyninst_dir ${Dyninst_DIR})
+endif()
+
+set(Dyninst_DIR ${_dyninst_dir} CACHE STRING "Location of Dyninst cmake files")
+
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
 include (c++11.cmake)
 
