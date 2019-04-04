@@ -61,13 +61,27 @@ use File::Basename qw(dirname);
 		# The path must exist before using 'realpath'
 		my $base_dir = realpath("$hash/dyninst");
 		my $build_dir = "$base_dir/build";
+
+		symlink($args{'dyninst-src'}, "$base_dir/src");
 		
 		print $fdLog "Building Dyninst($hash)... ";
 		eval {
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
 			$args{'boost-lib'} = $cmake_cache->{'Boost_LIBRARY_DIR_RELEASE'};
-			&build_dyninst(\%args, $base_dir, $build_dir, $cmake_cache);
+			&build_dyninst(\%args, $build_dir);
+			
+			# Symlinking libdw is broken in the config system right now
+			# See https://github.com/dyninst/dyninst/issues/547
+			my $libdwarf_dir = $cmake_cache->{'LIBDWARF_LIBRARIES'};
+			if($libdwarf_dir =~ /NOTFOUND/) {
+				$libdwarf_dir = "$build_dir/elfutils/lib";
+			} else {
+				$libdwarf_dir = dirname($libdwarf_dir);
+			}
+			symlink("$libdwarf_dir/libdw.so", "$base_dir/lib/libdw.so");
+			symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
+			
 		};
 		print $fdLog $@ and die $@ if $@;
 		print $fdLog "done.\n";
@@ -80,12 +94,13 @@ use File::Basename qw(dirname);
 #		
 #		my $base_dir = realpath("$hash/testsuite");
 #		my $build_dir = "$base_dir/build";
-#		my $dyn_dir = realpath("$hash/dyninst");
+#		symlink($args{'test-src'}, "$base_dir/src");
+#		symlink(realpath("$hash/dyninst"), "$base_dir/dyninst");
 #		
 #		print $fdLog "Building Testsuite... ";
 #		eval {
-#			&configure_dyninst(\%args, $base_dir, $build_dir, $dyn_dir);
-#			&build_tests(\%args, $base_dir, $build_dir);
+#			&configure_tests(\%args, $base_dir, $build_dir);
+#			&build_tests(\%args, $build_dir);
 #		};
 #		print $fdLog $@ and die $@ if $@;
 #		print $fdLog "done.\n";
@@ -127,9 +142,6 @@ sub configure_dyninst {
 
 	my $src_dir = $args->{'dyninst-src'};
 
-	# Create symlink to source
-	symlink("$src_dir", "$base_dir/src");
-
 	# Save the git configuration
 	{
 		# Fetch the current branch name
@@ -162,12 +174,10 @@ sub configure_dyninst {
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
 }
-
 sub build_dyninst {
-	my ($args, $base_dir, $build_dir, $cmake_cache) = @_;
+	my ($args, $build_dir) = @_;
 
 	my $boost_lib = $args->{'boost-lib'};
-	my $src_dir = $args->{'dyninst-src'};
 	my $njobs = $args->{'njobs'};
 	
 	# Run the build
@@ -190,27 +200,12 @@ sub build_dyninst {
 		);
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
-
-	# Symlinking libdw is broken in the config system right now
-	# See https://github.com/dyninst/dyninst/issues/547
-	my $libdwarf_dir = $cmake_cache->{'LIBDWARF_LIBRARIES'};
-	if($libdwarf_dir =~ /NOTFOUND/) {
-		$libdwarf_dir = "$build_dir/elfutils/lib";
-	} else {
-		$libdwarf_dir = dirname($libdwarf_dir);
-	}
-	symlink("$libdwarf_dir/libdw.so", "$base_dir/lib/libdw.so");
-	symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
 }
 
 sub configure_tests {
-	my ($args, $base_dir, $build_dir, $dyn_dir) = @_;
+	my ($args, $base_dir, $build_dir) = @_;
 
-	my $boost_lib = $args->{'boost-lib'};
 	my $src_dir = $args->{'test-src'};
-	
-	symlink("$src_dir", "$base_dir/src");
-	symlink("$dyn_dir", "$base_dir/dyninst");
 	
 	# Save the git configuration
 	{
@@ -242,7 +237,7 @@ sub configure_tests {
 	die "Error configuring: see $build_dir/config.err for details" if $@;
 }
 sub build_tests {
-	my ($args, $base_dir, $build_dir) = @_;
+	my ($args, $build_dir) = @_;
 
 	my $boost_lib = $args->{'boost-lib'};
 	my $njobs = $args->{'njobs'};
