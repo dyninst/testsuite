@@ -184,7 +184,6 @@ sub build_dyninst {
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
-			"LD_LIBRARY_PATH=$boost_lib;\n" .
 			"cd $build_dir\n" .
 			"make -j$njobs 1>build.out 2>build.err"
 		);
@@ -247,7 +246,6 @@ sub build_tests {
 	eval {
 		execute(
 			"cd $build_dir\n" .
-			"LD_LIBRARY_PATH=$boost_lib ".
 			"make -j$njobs 1>build.out 2>build.err"
 		);
 	};
