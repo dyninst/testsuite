@@ -15,6 +15,9 @@ endif()
 
 set(Dyninst_DIR ${_dyninst_dir} CACHE STRING "Location of Dyninst cmake files")
 
+# Import the system threads library
+find_package(Threads)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
     "${Dyninst_DIR}"
@@ -60,7 +63,6 @@ find_package (Dyninst REQUIRED COMPONENTS common
 set (TBB_INCLUDE_DIR "" CACHE STRING "TBB include path")
 include_directories (${TBB_INCLUDE_DIR})
 
-find_package (Threads)
 set(Boost_ADDITIONAL_VERSIONS "1.47" "1.47.0" "1.48" "1.48.0" "1.49" "1.49.0"
 			      "1.50" "1.50.0" "1.51" "1.51.0" "1.52" "1.52.0"
 			      "1.53" "1.53.0" "1.54" "1.54.0" "1.55" "1.55.0")
