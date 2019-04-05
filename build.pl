@@ -87,25 +87,25 @@ use File::Basename qw(dirname);
 		print $fdLog "done.\n";
 	}
 
-#	# Build the test suite
-#	{
-#		# Create the build directory
-#		make_path("$hash/testsuite/build");
-#		
-#		my $base_dir = realpath("$hash/testsuite");
-#		my $build_dir = "$base_dir/build";
-#		symlink($args{'test-src'}, "$base_dir/src");
-#		symlink(realpath("$hash/dyninst"), "$base_dir/dyninst");
-#		
-#		print $fdLog "Building Testsuite... ";
-#		eval {
-#			&configure_tests(\%args, $base_dir, $build_dir);
-#			&build_tests(\%args, $build_dir);
-#		};
-#		print $fdLog $@ and die $@ if $@;
-#		print $fdLog "done.\n";
-#	}
-#
+	# Build the test suite
+	{
+		# Create the build directory
+		make_path("$hash/testsuite/build");
+		
+		my $base_dir = realpath("$hash/testsuite");
+		my $build_dir = "$base_dir/build";
+		symlink($args{'test-src'}, "$base_dir/src");
+		symlink(realpath("$hash/dyninst"), "$base_dir/dyninst");
+		
+		print $fdLog "Building Testsuite... ";
+		eval {
+			&configure_tests(\%args, $base_dir, $build_dir);
+			&build_tests(\%args, $build_dir);
+		};
+		print $fdLog $@ and die $@ if $@;
+		print $fdLog "done.\n";
+	}
+
 #	# Run the tests
 #	if($args{'run-tests'}) {
 #		make_path("$hash/testsuite/tests");
