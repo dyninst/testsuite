@@ -228,9 +228,9 @@ sub configure_tests {
 	eval {
 		execute(
 			"cd $build_dir\n" .
-			"Dyninst_DIR=../dyninst/lib/cmake/Dyninst ".
 			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DINSTALL_DIR=$base_dir/tests ".
+			"-DDyninst_DIR=../dyninst/lib/cmake/Dyninst ".
 			"1>config.out 2>config.err"
 		);
 	};
