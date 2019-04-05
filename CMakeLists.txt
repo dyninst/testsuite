@@ -18,6 +18,16 @@ set(Dyninst_DIR ${_dyninst_dir} CACHE STRING "Location of Dyninst cmake files")
 # Import the system threads library
 find_package(Threads)
 
+# Read the Boost variables from the cache generated from building Dyninst
+load_cache(${Dyninst_DIR}
+  Boost_SYSTEM_LIBRARY_RELEASE
+  Boost_INCLUDE_DIRS
+  Boost_LIBRARY_DIRS
+)
+
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
     "${Dyninst_DIR}"
@@ -62,26 +72,6 @@ find_package (Dyninst REQUIRED COMPONENTS common
 
 set (TBB_INCLUDE_DIR "" CACHE STRING "TBB include path")
 include_directories (${TBB_INCLUDE_DIR})
-
-set(Boost_ADDITIONAL_VERSIONS "1.47" "1.47.0" "1.48" "1.48.0" "1.49" "1.49.0"
-			      "1.50" "1.50.0" "1.51" "1.51.0" "1.52" "1.52.0"
-			      "1.53" "1.53.0" "1.54" "1.54.0" "1.55" "1.55.0")
-
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
-
-if (NOT ("${Boost_NO_BOOST_CMAKE}" STREQUAL "OFF"))
-  message(STATUS "Disabling Boost's own CMake--known buggy in many cases")
-  set(Boost_NO_BOOST_CMAKE ON)
-endif()
-if (NOT ("${PATH_BOOST}" STREQUAL ""))
-  set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${PATH_BOOST}/lib ${PATH_BOOST}/lib64)
-  set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} ${PATH_BOOST}/include)
-endif()
-
-find_package (Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
-link_directories ( ${Boost_LIBRARY_DIRS} )
 
 message (STATUS "Dyninst includes: ${DYNINST_INCLUDE_DIR}")
 include_directories (${DYNINST_INCLUDE_DIR})
@@ -207,7 +197,7 @@ if(TARGET dyninstAPI)
     src/dyninst/Callbacks.C
     src/dyninst/Process_data.C
     ${PLAT_SRC})
-  target_link_libraries (testdyninst testlaunch testSuite dyninstAPI instructionAPI common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testdyninst testlaunch testSuite dyninstAPI instructionAPI common ${Boost_SYSTEM_LIBRARY_RELEASE} ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testdyninst
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testdyninst PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -215,7 +205,7 @@ endif()
 if(TARGET symtabAPI)
   add_library (testsymtab SHARED
     src/symtab/symtab_comp.C)
-  target_link_libraries (testsymtab testSuite symtabAPI common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testsymtab testSuite symtabAPI common ${Boost_SYSTEM_LIBRARY_RELEASE} ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testsymtab
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testsymtab PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -224,7 +214,7 @@ endif()
 if(TARGET instructionAPI)
   add_library (testinstruction SHARED
     src/instruction/instruction_comp.C)
-  target_link_libraries (testinstruction testSuite instructionAPI symtabAPI common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries (testinstruction testSuite instructionAPI symtabAPI common ${Boost_SYSTEM_LIBRARY_RELEASE} ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testinstruction
     DESTINATION ${INSTALL_DIR})
   set_target_properties(testinstruction PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
@@ -237,7 +227,7 @@ if(TARGET pcontrol)
   if(WIN32)
     target_link_libraries(testproccontrol testSuite pcontrol common ${CMAKE_THREAD_LIBS_INIT} ws2_32)
   else()
-    target_link_libraries (testproccontrol testlaunch testSuite pcontrol common boost_system-mt ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries (testproccontrol testlaunch testSuite pcontrol common ${Boost_SYSTEM_LIBRARY_RELEASE} ${CMAKE_THREAD_LIBS_INIT})
   endif()
   install(TARGETS testproccontrol
     DESTINATION ${INSTALL_DIR})
