@@ -5,10 +5,10 @@ use lib cwd();
 use Getopt::Long qw(GetOptions);
 use File::Copy qw(copy move);
 use File::Path qw(make_path);
-use Digest::MD5 qw(md5_base64);
 use Pod::Usage;
 use Capture::Tiny qw(capture);
 use File::Basename qw(dirname);
+use File::Temp qw(tempdir);
 
 #-- Main
 {
@@ -51,22 +51,21 @@ use File::Basename qw(dirname);
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 
 	# Generate a unique name for the current build
-	my $hash = md5_base64(localtime());
-	$hash =~ s|/|_|g;
+	my $root_dir = tempdir(cwd().'/xxxxxxxx', CLEANUP=>0);
 	
 	# Build Dyninst
 	{
 		# Create the build directory
-		make_path("$hash/dyninst/build");
+		make_path("$root_dir/dyninst/build");
 	
 		# The path must exist before using 'realpath'
-		my $base_dir = realpath("$hash/dyninst");
+		my $base_dir = realpath("$root_dir/dyninst");
 		my $build_dir = "$base_dir/build";
 
 		symlink($args{'dyninst-src'}, "$base_dir/src");
 		
 		eval {
-			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst($hash)... ");
+			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst($root_dir)... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
 			$args{'boost-lib'} = $cmake_cache->{'Boost_LIBRARY_DIR_RELEASE'};
@@ -93,12 +92,12 @@ use File::Basename qw(dirname);
 	# Build the test suite
 	{
 		# Create the build directory
-		make_path("$hash/testsuite/build");
+		make_path("$root_dir/testsuite/build");
 		
-		my $base_dir = realpath("$hash/testsuite");
+		my $base_dir = realpath("$root_dir/testsuite");
 		my $build_dir = "$base_dir/build";
 		symlink($args{'test-src'}, "$base_dir/src");
-		symlink(realpath("$hash/dyninst"), "$base_dir/dyninst");
+		symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
 		
 		eval {
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
@@ -113,8 +112,8 @@ use File::Basename qw(dirname);
 
 	# Run the tests
 	if($args{'run-tests'}) {
-		make_path("$hash/testsuite/tests");
-		my $base_dir = realpath("$hash/testsuite/tests");
+		make_path("$root_dir/testsuite/tests");
+		my $base_dir = realpath("$root_dir/testsuite/tests");
 		
 		print_log($fdLog, !$args{'quiet'}, "running Testsuite... ");
 		eval { &run_tests(\%args, $base_dir); };
