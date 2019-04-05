@@ -65,11 +65,13 @@ use File::Basename qw(dirname);
 
 		symlink($args{'dyninst-src'}, "$base_dir/src");
 		
-		print_log($fdLog, !$args{'quiet'}, "Building Dyninst($hash)... ");
 		eval {
+			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst($hash)... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
 			$args{'boost-lib'} = $cmake_cache->{'Boost_LIBRARY_DIR_RELEASE'};
+			
+			print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			&build_dyninst(\%args, $build_dir);
 			
 			# Symlinking libdw is broken in the config system right now
@@ -98,9 +100,11 @@ use File::Basename qw(dirname);
 		symlink($args{'test-src'}, "$base_dir/src");
 		symlink(realpath("$hash/dyninst"), "$base_dir/dyninst");
 		
-		print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 		eval {
+			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
+			
+			print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 			&build_tests(\%args, $build_dir);
 		};
 		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
