@@ -20,13 +20,14 @@ use File::Basename qw(dirname);
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
 	'run-tests'				=> 1,
+	'quiet'					=> 0,
 	'help' 					=> 0
 	);
 
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'log-file=s', 'njobs=i',
-		'run-tests', 'help'
+		'quiet', 'run-tests', 'help'
 	) or (pod2usage(2), exit);
 
 	if($args{'help'}) {
@@ -64,7 +65,7 @@ use File::Basename qw(dirname);
 
 		symlink($args{'dyninst-src'}, "$base_dir/src");
 		
-		print $fdLog "Building Dyninst($hash)... ";
+		print_log($fdLog, !$args{'quiet'}, "Building Dyninst($hash)... ");
 		eval {
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
@@ -83,8 +84,8 @@ use File::Basename qw(dirname);
 			symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
 			
 		};
-		print $fdLog $@ and die $@ if $@;
-		print $fdLog "done.\n";
+		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
+		print_log($fdLog, !$args{'quiet'}, "done.\n");
 	}
 
 	# Build the test suite
@@ -97,27 +98,36 @@ use File::Basename qw(dirname);
 		symlink($args{'test-src'}, "$base_dir/src");
 		symlink(realpath("$hash/dyninst"), "$base_dir/dyninst");
 		
-		print $fdLog "Building Testsuite... ";
+		print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 		eval {
 			&configure_tests(\%args, $base_dir, $build_dir);
 			&build_tests(\%args, $build_dir);
 		};
-		print $fdLog $@ and die $@ if $@;
-		print $fdLog "done.\n";
+		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
+		print_log($fdLog, !$args{'quiet'}, "done.\n");
 	}
 
-#	# Run the tests
-#	if($args{'run-tests'}) {
-#		make_path("$hash/testsuite/tests");
-#		my $base_dir = realpath("$hash/testsuite/tests");
-#		
-#		print $fdLog "running Testsuite... ";
-#		eval { &run_tests(\%args, $base_dir); };
-#		print $fdLog $@ and die $@ if $@;
-#		print $fdLog "done.\n";
-#	}
+	# Run the tests
+	if($args{'run-tests'}) {
+		make_path("$hash/testsuite/tests");
+		my $base_dir = realpath("$hash/testsuite/tests");
+		
+		print_log($fdLog, !$args{'quiet'}, "running Testsuite... ");
+		eval { &run_tests(\%args, $base_dir); };
+		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
+		print_log($fdLog, !$args{'quiet'}, "done.\n");
+	}
 }
 
+sub print_log {
+	my ($fd, $echo_stdout, $msg) = @_;
+	
+	print $fd $msg;
+
+	if($echo_stdout) {
+		print $msg;
+	}
+}
 sub parse_cmake_cache {
 	my $filename = shift;
 	my %defines = ();
@@ -320,5 +330,6 @@ build [options]
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --njobs=N               Number of make jobs (default: N=1)
    --[no-]run-tests        Run the Testsuite after building it (default: yes)
+   --quiet                 Don't echo logging information to stdout (default: no)
    --help                  Print this help message
 =cut
