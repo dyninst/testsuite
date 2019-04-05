@@ -11,6 +11,7 @@ if(NOT Dyninst_DIR)
   endif()
 else()
   set(_dyninst_dir ${Dyninst_DIR})
+  set(ENV{Dyninst_DIR} ${_dyninst_dir})
 endif()
 
 set(Dyninst_DIR ${_dyninst_dir} CACHE STRING "Location of Dyninst cmake files")
