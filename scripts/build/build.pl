@@ -51,7 +51,7 @@ use File::Temp qw(tempdir);
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 
 	# Generate a unique name for the current build
-	my $root_dir = tempdir(cwd().'/xxxxxxxx', CLEANUP=>0);
+	my $root_dir = tempdir(cwd().'/XXXXXXXX', CLEANUP=>0);
 	
 	# Build Dyninst
 	{
@@ -281,7 +281,7 @@ sub run_tests {
 	my $boost_lib = $args->{'boost-lib'};
 
 	# We need an 'eval' here since we are manually piping stderr
-	eval {	
+	eval {
 		execute(
 			"cd $base_dir\n" .
 			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n".
