@@ -10,6 +10,7 @@ use Capture::Tiny qw(capture);
 use File::Basename qw(dirname basename);
 use File::Temp qw(tempdir);
 use Archive::Tar;
+use POSIX;
 
 my $debug_mode = 0;
 
@@ -59,6 +60,17 @@ my $debug_mode = 0;
 	my $root_dir;
 	
 	eval {
+		# Save some information about the system
+		my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
+		print_log($fdLog, !$args{'quiet'}, 
+			"os: $sysname\n" .
+			"hostname: $nodename\n" .
+			"kernel: $release\n" .
+			"version: $version\n" .
+			"arch: $machine\n" .
+			'*'x20 . "\n"
+		);
+		
 		# Generate a unique name for the current build
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
 		
@@ -127,13 +139,13 @@ my $debug_mode = 0;
 	};
 	if($@) {
 		print_log($fdLog, !$args{'quiet'}, $@);
-		open my $fdOut, '>', 'FAILED';	
+		open my $fdOut, '>', "$root_dir/FAILED";
 	}
 	
 	# Create the exportable tarball of results
 	my @log_files = (
 		File::Spec->abs2rel($args{'log-file'}),
-		'FAILED',
+		"$root_dir/FAILED",
 		"$root_dir/dyninst/git.log",
 		"$root_dir/dyninst/build/config.out",
 		"$root_dir/dyninst/build/config.err",
