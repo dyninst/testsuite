@@ -102,9 +102,11 @@ use File::Temp qw(tempdir);
 		eval {
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
+			print_log($fdLog, !$args{'quiet'}, "done\n");
 			
 			print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 			&build_tests(\%args, $build_dir);
+			print_log($fdLog, !$args{'quiet'}, "done\n");
 		};
 		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
 		print_log($fdLog, !$args{'quiet'}, "done.\n");
