@@ -67,11 +67,14 @@ use File::Temp qw(tempdir);
 		eval {
 			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst($root_dir)... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
+			print_log($fdLog, !$args{'quiet'}, "done.\n");
+			
 			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
 			$args{'boost-lib'} = $cmake_cache->{'Boost_LIBRARY_DIR_RELEASE'};
 			
 			print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			&build_dyninst(\%args, $build_dir);
+			print_log($fdLog, !$args{'quiet'}, "done.\n");
 			
 			# Symlinking libdw is broken in the config system right now
 			# See https://github.com/dyninst/dyninst/issues/547
