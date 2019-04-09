@@ -7,8 +7,10 @@ use File::Copy qw(copy move);
 use File::Path qw(make_path);
 use Pod::Usage;
 use Capture::Tiny qw(capture);
-use File::Basename qw(dirname);
+use File::Basename qw(dirname basename);
 use File::Temp qw(tempdir);
+use Archive::Tar;
+use POSIX;
 
 my $debug_mode = 0;
 
@@ -55,9 +57,11 @@ my $debug_mode = 0;
 
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 
+	my $root_dir;
+	
 	eval {
 		# Generate a unique name for the current build
-		my $root_dir = tempdir(cwd().'/XXXXXXXX', CLEANUP=>0);
+		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
 		
 		# Build Dyninst
 		{
@@ -122,7 +126,39 @@ my $debug_mode = 0;
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
 		}
 	};
-	print_log($fdLog, !$args{'quiet'}, $@) if $@;
+	if($@) {
+		print_log($fdLog, !$args{'quiet'}, $@);
+		open my $fdOut, '>', 'FAILED';	
+	}
+	
+	# Create the exportable tarball of results
+	my @log_files = (
+		File::Spec->abs2rel($args{'log-file'}),
+		'FAILED',
+		"$root_dir/dyninst/git.log",
+		"$root_dir/dyninst/build/config.out",
+		"$root_dir/dyninst/build/config.err",
+		"$root_dir/dyninst/build/build.out",
+		"$root_dir/dyninst/build/build.err",
+		"$root_dir/dyninst/build/build-install.out",
+		"$root_dir/dyninst/build/build-install.err",
+		"$root_dir/testsuite/git.log",
+		"$root_dir/testsuite/build/config.out",
+		"$root_dir/testsuite/build/config.err",
+		"$root_dir/testsuite/build/build.out",
+		"$root_dir/testsuite/build/build.err",
+		"$root_dir/testsuite/build/build-install.out",
+		"$root_dir/testsuite/build/build-install.err",
+		"$root_dir/testsuite/tests/stdout.log",
+		"$root_dir/testsuite/tests/stderr.log",
+		"$root_dir/testsuite/tests/test.log"
+	);
+	my $tar = Archive::Tar->new();
+	
+	# Only add the files that exist
+	# Non-existent files indicate an error occurred
+	$tar->add_files(grep {-f $_ } @log_files);
+	$tar->write('results.tar.gz', COMPRESS_GZIP);
 }
 
 sub print_log {
