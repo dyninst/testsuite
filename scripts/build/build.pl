@@ -10,6 +10,8 @@ use Capture::Tiny qw(capture);
 use File::Basename qw(dirname);
 use File::Temp qw(tempdir);
 
+my $debug_mode = 0;
+
 #-- Main
 {
 	my %args = (
@@ -21,7 +23,8 @@ use File::Temp qw(tempdir);
 	'njobs' 				=> 1,
 	'run-tests'				=> 1,
 	'quiet'					=> 0,
-	'help' 					=> 0
+	'help' 					=> 0,
+	'debug-mode'			=> 0	# undocumented debug mode
 	);
 
 	GetOptions(\%args,
@@ -33,6 +36,8 @@ use File::Temp qw(tempdir);
 	if($args{'help'}) {
 		pod2usage(-exitval => 0, -verbose => 99);
 	}
+	
+	$debug_mode = $args{'debug-mode'};
 
 	# Default directory and file locations
 	$args{'dyninst-src'} //= "$args{'prefix'}/dyninst";
@@ -291,8 +296,8 @@ sub run_tests {
 
 sub execute($) {
 	my $cmd = shift;
-
-	print "$cmd\n";
+	
+	print "$cmd\n" if $debug_mode;
 
 	my ($stdout,$stderr,$exit) = capture { system($cmd); };
 	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
