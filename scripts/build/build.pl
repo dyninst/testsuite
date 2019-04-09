@@ -50,21 +50,21 @@ use File::Temp qw(tempdir);
 
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 
-	# Generate a unique name for the current build
-	my $root_dir = tempdir(cwd().'/XXXXXXXX', CLEANUP=>0);
-	
-	# Build Dyninst
-	{
-		# Create the build directory
-		make_path("$root_dir/dyninst/build");
-	
-		# The path must exist before using 'realpath'
-		my $base_dir = realpath("$root_dir/dyninst");
-		my $build_dir = "$base_dir/build";
-
-		symlink($args{'dyninst-src'}, "$base_dir/src");
+	eval {
+		# Generate a unique name for the current build
+		my $root_dir = tempdir(cwd().'/XXXXXXXX', CLEANUP=>0);
 		
-		eval {
+		# Build Dyninst
+		{
+			# Create the build directory
+			make_path("$root_dir/dyninst/build");
+		
+			# The path must exist before using 'realpath'
+			my $base_dir = realpath("$root_dir/dyninst");
+			my $build_dir = "$base_dir/build";
+	
+			symlink($args{'dyninst-src'}, "$base_dir/src");
+			
 			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst($root_dir)... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
@@ -86,23 +86,18 @@ use File::Temp qw(tempdir);
 			}
 			symlink("$libdwarf_dir/libdw.so", "$base_dir/lib/libdw.so");
 			symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
+		}
+	
+		# Build the test suite
+		{
+			# Create the build directory
+			make_path("$root_dir/testsuite/build");
 			
-		};
-		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
-		print_log($fdLog, !$args{'quiet'}, "done.\n");
-	}
-
-	# Build the test suite
-	{
-		# Create the build directory
-		make_path("$root_dir/testsuite/build");
-		
-		my $base_dir = realpath("$root_dir/testsuite");
-		my $build_dir = "$base_dir/build";
-		symlink($args{'test-src'}, "$base_dir/src");
-		symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
-		
-		eval {
+			my $base_dir = realpath("$root_dir/testsuite");
+			my $build_dir = "$base_dir/build";
+			symlink($args{'test-src'}, "$base_dir/src");
+			symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
+			
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done\n");
@@ -110,21 +105,19 @@ use File::Temp qw(tempdir);
 			print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 			&build_tests(\%args, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done\n");
-		};
-		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
-		print_log($fdLog, !$args{'quiet'}, "done.\n");
-	}
-
-	# Run the tests
-	if($args{'run-tests'}) {
-		make_path("$root_dir/testsuite/tests");
-		my $base_dir = realpath("$root_dir/testsuite/tests");
-		
-		print_log($fdLog, !$args{'quiet'}, "running Testsuite... ");
-		eval { &run_tests(\%args, $base_dir); };
-		print_log($fdLog, !$args{'quiet'}, $@) and exit if $@;
-		print_log($fdLog, !$args{'quiet'}, "done.\n");
-	}
+		}
+	
+		# Run the tests
+		if($args{'run-tests'}) {
+			make_path("$root_dir/testsuite/tests");
+			my $base_dir = realpath("$root_dir/testsuite/tests");
+			
+			print_log($fdLog, !$args{'quiet'}, "running Testsuite... ");
+			&run_tests(\%args, $base_dir);
+			print_log($fdLog, !$args{'quiet'}, "done.\n");
+		}
+	};
+	print_log($fdLog, !$args{'quiet'}, $@) if $@;
 }
 
 sub print_log {
