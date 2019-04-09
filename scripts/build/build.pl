@@ -28,10 +28,10 @@ use File::Temp qw(tempdir);
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'log-file=s', 'njobs=i',
 		'quiet', 'run-tests', 'help'
-	) or (pod2usage(2), exit);
+	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
-		pod2usage(-exitval => 0, -verbose => 99) and exit;
+		pod2usage(-exitval => 0, -verbose => 99);
 	}
 
 	# Default directory and file locations
