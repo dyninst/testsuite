@@ -10,7 +10,6 @@ use Capture::Tiny qw(capture);
 use File::Basename qw(dirname basename);
 use File::Temp qw(tempdir);
 use Archive::Tar;
-use POSIX;
 
 my $debug_mode = 0;
 
