@@ -133,7 +133,14 @@ my $debug_mode = 0;
 			my $base_dir = realpath("$root_dir/testsuite/tests");
 			
 			print_log($fdLog, !$args{'quiet'}, "running Testsuite... ");
-			&run_tests(\%args, $base_dir);
+			my $max_attempts = 3;
+			while(!&run_tests(\%args, $base_dir)) {
+				$max_attempts--;
+				if($max_attempts <= 0) {
+					die "Maximum number of Testsuite retries exceeded\n";
+				}
+				print_log($fdLog, !$args{'quiet'}, "\nTestsuite killed; restarting... ");
+			}
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
 		}
 	};
@@ -339,6 +346,13 @@ sub run_tests {
 			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
 		);
 	};
+	
+	# Check if we were killed by the watchdog timer
+	open my $fdIn, '<', "$base_dir/stderr.log";
+	while(<$fdIn>) {
+		return !!0 if m/Process exceeded time limit/;
+	}
+	return !!1;
 }
 
 sub execute($) {
