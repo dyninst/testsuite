@@ -4,7 +4,7 @@ use Cwd qw(cwd realpath);
 use lib cwd();
 use Getopt::Long qw(GetOptions);
 use File::Copy qw(copy move);
-use File::Path qw(make_path);
+use File::Path qw(make_path remove_tree);
 use Pod::Usage;
 use Capture::Tiny qw(capture);
 use File::Basename qw(dirname basename);
@@ -25,6 +25,7 @@ my $debug_mode = 0;
 	'njobs' 				=> 1,
 	'run-tests'				=> 1,
 	'quiet'					=> 0,
+	'purge'					=> 0,
 	'help' 					=> 0,
 	'debug-mode'			=> 0	# undocumented debug mode
 	);
@@ -177,6 +178,11 @@ my $debug_mode = 0;
 	# Non-existent files indicate an error occurred
 	$tar->add_files(grep {-f $_ } @log_files);
 	$tar->write('results.tar.gz', COMPRESS_GZIP);
+	
+	# Remove the generated files, if requested
+	if($args{'purge'}) {
+		remove_tree($root_dir);
+	}
 }
 
 sub print_log {
@@ -398,5 +404,6 @@ build [options]
    --njobs=N               Number of make jobs (default: N=1)
    --[no-]run-tests        Run the Testsuite after building it (default: yes)
    --quiet                 Don't echo logging information to stdout (default: no)
+   --purge                 Remove all files after running testsuite (default: no)
    --help                  Print this help message
 =cut
