@@ -39,7 +39,7 @@ my $debug_mode = 0;
 	if($args{'help'}) {
 		pod2usage(-exitval => 0, -verbose => 99);
 	}
-	
+
 	$debug_mode = $args{'debug-mode'};
 
 	# Default directory and file locations
@@ -59,11 +59,11 @@ my $debug_mode = 0;
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 
 	my $root_dir;
-	
+
 	eval {
 		# Save some information about the system
 		my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
-		print_log($fdLog, !$args{'quiet'}, 
+		print_log($fdLog, !$args{'quiet'},
 			"os: $sysname\n" .
 			"hostname: $nodename\n" .
 			"kernel: $release\n" .
@@ -71,32 +71,32 @@ my $debug_mode = 0;
 			"arch: $machine\n" .
 			'*'x20 . "\n"
 		);
-		
+
 		# Generate a unique name for the current build
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
-		
+
 		# Build Dyninst
 		{
 			# Create the build directory
 			make_path("$root_dir/dyninst/build");
-		
+
 			# The path must exist before using 'realpath'
 			my $base_dir = realpath("$root_dir/dyninst");
 			my $build_dir = "$base_dir/build";
-	
+
 			symlink($args{'dyninst-src'}, "$base_dir/src");
-			
+
 			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst($root_dir)... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
-			
+
 			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
 			$args{'boost-lib'} = $cmake_cache->{'Boost_LIBRARY_DIR_RELEASE'};
-			
+
 			print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			&build_dyninst(\%args, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
-			
+
 			# Symlinking libdw is broken in the config system right now
 			# See https://github.com/dyninst/dyninst/issues/547
 			my $libdwarf_dir = $cmake_cache->{'LIBDWARF_LIBRARIES'};
@@ -108,31 +108,31 @@ my $debug_mode = 0;
 			symlink("$libdwarf_dir/libdw.so", "$base_dir/lib/libdw.so");
 			symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
 		}
-	
+
 		# Build the test suite
 		{
 			# Create the build directory
 			make_path("$root_dir/testsuite/build");
-			
+
 			my $base_dir = realpath("$root_dir/testsuite");
 			my $build_dir = "$base_dir/build";
 			symlink($args{'test-src'}, "$base_dir/src");
 			symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
-			
+
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done\n");
-			
+
 			print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 			&build_tests(\%args, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done\n");
 		}
-	
+
 		# Run the tests
 		if($args{'run-tests'}) {
 			make_path("$root_dir/testsuite/tests");
 			my $base_dir = realpath("$root_dir/testsuite/tests");
-			
+
 			print_log($fdLog, !$args{'quiet'}, "running Testsuite... ");
 			my $max_attempts = 3;
 			while(!&run_tests(\%args, $base_dir)) {
@@ -149,7 +149,7 @@ my $debug_mode = 0;
 		print_log($fdLog, !$args{'quiet'}, $@);
 		open my $fdOut, '>', "$root_dir/FAILED";
 	}
-	
+
 	# Create the exportable tarball of results
 	my @log_files = (
 		File::Spec->abs2rel($args{'log-file'}),
@@ -173,12 +173,12 @@ my $debug_mode = 0;
 		"$root_dir/testsuite/tests/test.log"
 	);
 	my $tar = Archive::Tar->new();
-	
+
 	# Only add the files that exist
 	# Non-existent files indicate an error occurred
 	$tar->add_files(grep {-f $_ } @log_files);
 	$tar->write('results.tar.gz', COMPRESS_GZIP);
-	
+
 	# Remove the generated files, if requested
 	if($args{'purge'}) {
 		remove_tree($root_dir);
@@ -187,7 +187,7 @@ my $debug_mode = 0;
 
 sub print_log {
 	my ($fd, $echo_stdout, $msg) = @_;
-	
+
 	print $fd $msg;
 
 	if($echo_stdout) {
@@ -197,14 +197,14 @@ sub print_log {
 sub parse_cmake_cache {
 	my $filename = shift;
 	my %defines = ();
-	
+
 	open my $fdIn, '<', $filename or die "Unable to open $filename: $!\n";
 	while(<$fdIn>) {
 		chomp;
 		next if /^#/;
 		next if /^\/\//;
 		next if $_ eq '';
-		
+
 		# Format is KEY:TYPE=VALUE
 		my ($key, $value) = split('=');
 		($key, undef) = split('\:', $key);
@@ -223,7 +223,7 @@ sub configure_dyninst {
 		# Fetch the current branch name
 		# NB: This will return 'HEAD' if in a detached-head state
 		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-		
+
 		# Fetch the commitID for HEAD
 		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
 
@@ -233,7 +233,7 @@ sub configure_dyninst {
 		print $fdOut "branch: $branch",
 					 "commit: $commit_head";
 	}
-	
+
 	my $path_boost = $args->{'boost-dir'} // '';
 
 	# Configure the build
@@ -255,7 +255,7 @@ sub build_dyninst {
 
 	my $boost_lib = $args->{'boost-lib'};
 	my $njobs = $args->{'njobs'};
-	
+
 	# Run the build
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
@@ -281,13 +281,13 @@ sub configure_tests {
 	my ($args, $base_dir, $build_dir) = @_;
 
 	my $src_dir = $args->{'test-src'};
-	
+
 	# Save the git configuration
 	{
 		# Fetch the current branch name
 		# NB: This will return 'HEAD' if in a detached-head state
 		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-		
+
 		# Fetch the commitID for HEAD
 		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
 
@@ -316,7 +316,7 @@ sub build_tests {
 
 	my $boost_lib = $args->{'boost-lib'};
 	my $njobs = $args->{'njobs'};
-	
+
 	# Build the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
@@ -326,7 +326,7 @@ sub build_tests {
 		);
 	};
 	die "Error building: see $build_dir/build.err for details" if $@;
-	
+
 	# Install the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
@@ -352,7 +352,7 @@ sub run_tests {
 			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
 		);
 	};
-	
+
 	# Check if we were killed by the watchdog timer
 	open my $fdIn, '<', "$base_dir/stderr.log";
 	while(<$fdIn>) {
@@ -363,7 +363,7 @@ sub run_tests {
 
 sub execute($) {
 	my $cmd = shift;
-	
+
 	print "$cmd\n" if $debug_mode;
 
 	my ($stdout,$stderr,$exit) = capture { system($cmd); };
