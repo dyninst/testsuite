@@ -100,7 +100,7 @@ my $debug_mode = 0;
 			# Symlinking libdw is broken in the config system right now
 			# See https://github.com/dyninst/dyninst/issues/547
 			my $libdwarf_dir = $cmake_cache->{'LIBDWARF_LIBRARIES'};
-			if($libdwarf_dir =~ /NOTFOUND/) {
+			if($libdwarf_dir =~ /NOTFOUND/ || $nodename =~ /leela/i) {
 				$libdwarf_dir = "$build_dir/elfutils/lib";
 			} else {
 				$libdwarf_dir = dirname($libdwarf_dir);
