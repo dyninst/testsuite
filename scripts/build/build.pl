@@ -23,7 +23,6 @@ my $debug_mode = 0;
 	'boost-dir'				=> undef,
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
-	'run-tests'				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
 	'help' 					=> 0,
@@ -33,8 +32,7 @@ my $debug_mode = 0;
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'log-file=s', 'njobs=i',
-		'run-tests', 'quiet', 'purge', 'help',
-		'debug-mode'
+		'quiet', 'purge', 'help', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -130,7 +128,7 @@ my $debug_mode = 0;
 		}
 
 		# Run the tests
-		if($args{'run-tests'}) {
+		{
 			make_path("$root_dir/testsuite/tests");
 			my $base_dir = realpath("$root_dir/testsuite/tests");
 
@@ -403,7 +401,6 @@ build [options]
    --boost-dir=PATH        Base directory for Boost
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --njobs=N               Number of make jobs (default: N=1)
-   --[no-]run-tests        Run the Testsuite after building it (default: yes)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
    --help                  Print this help message
