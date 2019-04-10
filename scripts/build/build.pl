@@ -33,7 +33,8 @@ my $debug_mode = 0;
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'log-file=s', 'njobs=i',
-		'quiet', 'run-tests', 'help'
+		'run-tests', 'quiet', 'purge', 'help',
+		'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
