@@ -9,7 +9,6 @@ use Pod::Usage;
 use Capture::Tiny qw(capture);
 use File::Basename qw(dirname basename);
 use File::Temp qw(tempdir);
-use Archive::Tar;
 use POSIX;
 
 my $debug_mode = 0;
@@ -171,12 +170,11 @@ my $debug_mode = 0;
 		"$root_dir/testsuite/tests/stderr.log",
 		"$root_dir/testsuite/tests/test.log"
 	);
-	my $tar = Archive::Tar->new();
 
 	# Only add the files that exist
 	# Non-existent files indicate an error occurred
-	$tar->add_files(grep {-f $_ } @log_files);
-	$tar->write('results.tar.gz', COMPRESS_GZIP);
+	my $files = join(' ', grep {-f $_ } @log_files);
+	&execute("tar -zcf results.tar.gz $files");
 
 	# Remove the generated files, if requested
 	if($args{'purge'}) {
