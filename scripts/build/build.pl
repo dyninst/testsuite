@@ -66,9 +66,19 @@ my $debug_mode = 0;
 			"hostname: $nodename\n" .
 			"kernel: $release\n" .
 			"version: $version\n" .
-			"arch: $machine\n" .
-			'*'x20 . "\n"
+			"arch: $machine\n"
 		);
+		
+		# Find and save the version of libc
+		my $libc_info = (split("\n", &execute('ldd --version')))[0];
+		if($libc_info =~ /gnu/i || $libc_info =~ /glibc/i) {
+			# We have a GNU libc, the version is at the end
+			$libc_info = (split(' ', $libc_info))[-1];
+		} else {
+			$libc_info = "Unknown";
+		}
+		print_log($fdLog, !$args{'quiet'}, "libc: $libc_info\n");
+		print_log($fdLog, !$args{'quiet'}, '*'x20 . "\n");
 
 		# Generate a unique name for the current build
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
