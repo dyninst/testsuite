@@ -33,10 +33,13 @@ bool isSignTst;
 void walk_stack1(Walker *walker);
 void parse_args(std::vector<Walker *> &walkers, int argc, char *argv[]);
 void usage();
+void onTerminate(int);
 
 void *a = 0;
 
 bool isSelfSW = false;
+
+std::vector<Walker *> walkers;
 
 /**
  * An example and test showing how to build a stackwalker object, how to
@@ -49,7 +52,8 @@ bool isSelfSW = false;
  **/
 int main(int argc, char *argv[])
 {
-  std::vector<Walker *> walkers;
+    signal(SIGINT, onTerminate);
+
   parse_args(walkers, argc, argv);
   if (!walkers.size())
      usage();
@@ -170,6 +174,13 @@ void usage()
   fprintf(stderr, "You may specify multiple processes at once e.g:\n");
   fprintf(stderr, "\t test_basic -self -create foo arg1 -attach 5000 -attach 5002\n");
   exit(-1);
+}
+
+void onTerminate(int signal)
+{
+    for(int i=0; i<walkers.size(); i++)
+        kill( walkers[i]->getProcessState()->getProcessId(), 0); 
+    exit(-1);
 }
 
 void parse_args(std::vector<Walker *> &walkers, int argc, char *argv[])
