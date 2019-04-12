@@ -102,7 +102,6 @@ my $debug_mode = 0;
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
 
 			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
-			$args{'boost-lib'} = $cmake_cache->{'Boost_LIBRARY_DIR_RELEASE'};
 
 			print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			&build_dyninst(\%args, $build_dir);
@@ -281,7 +280,6 @@ sub configure_dyninst {
 sub build_dyninst {
 	my ($args, $build_dir) = @_;
 
-	my $boost_lib = $args->{'boost-lib'};
 	my $njobs = $args->{'njobs'};
 
 	# Run the build
@@ -342,7 +340,6 @@ sub configure_tests {
 sub build_tests {
 	my ($args, $build_dir) = @_;
 
-	my $boost_lib = $args->{'boost-lib'};
 	my $njobs = $args->{'njobs'};
 
 	# Build the Testsuite
@@ -369,14 +366,12 @@ sub build_tests {
 sub run_tests {
 	my ($args, $base_dir) = @_;
 
-	my $boost_lib = $args->{'boost-lib'};
-
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
 			"cd $base_dir\n" .
 			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n".
-			"LD_LIBRARY_PATH=$base_dir:$base_dir/../dyninst/lib:$boost_lib " .
+			"LD_LIBRARY_PATH=$base_dir:$base_dir/../dyninst/lib " .
 			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
 		);
 	};
