@@ -395,7 +395,7 @@ sub run_tests {
 sub execute($) {
 	my $cmd = shift;
 
-	print "$cmd\n" if $debug_mode;
+	print "\n$cmd\n" if $debug_mode;
 
 	my ($stdout,$stderr,$exit) = capture { system($cmd); };
 	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
