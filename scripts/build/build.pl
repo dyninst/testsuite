@@ -20,6 +20,7 @@ my $debug_mode = 0;
 	'dyninst-src'			=> undef,
 	'test-src'				=> undef,
 	'boost-dir'				=> undef,
+	'elf-dir'				=> undef,
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
@@ -30,8 +31,9 @@ my $debug_mode = 0;
 
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
-		'boost-dir=s', 'log-file=s', 'njobs=i',
-		'quiet', 'purge', 'help', 'debug-mode'
+		'boost-dir=s', 'elf-dir=s', 'log-file=s',
+		'njobs=i', 'quiet', 'purge', 'help',
+		'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -46,7 +48,7 @@ my $debug_mode = 0;
 	$args{'log-file'} //= "$args{'prefix'}/build.log";
 
 	# Canonicalize user-specified files and directories
-	for my $d ('dyninst-src','test-src','log-file') {
+	for my $d ('dyninst-src','test-src','log-file', 'elf-dir') {
 		# NB: realpath(undef) eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d});
 	}
@@ -242,6 +244,15 @@ sub configure_dyninst {
 	}
 
 	my $path_boost = $args->{'boost-dir'} // '';
+	
+	my $elf_dir = $args->{'elf-dir'} // '';
+	if($elf_dir ne '') {
+		$elf_dir = 
+			"-DLIBDWARF_INCLUDE_DIR=$elf_dir/include " .
+			"-DLIBDWARF_LIBRARIES=$elf_dir/lib/libelf.so " .
+			"-DLIBELF_INCLUDE_DIR=$elf_dir/include ".
+			"-DLIBELF_LIBRARIES=$elf_dir/lib/libelf.so ";
+	}
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
@@ -249,6 +260,7 @@ sub configure_dyninst {
 		execute(
 			"cd $build_dir\n" .
 			"cmake -H$base_dir/src -B$build_dir " .
+			"$elf_dir " .
 			"-DPATH_BOOST=$path_boost " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
@@ -407,6 +419,7 @@ build [options]
    --dyninst-src=PATH      Source directory for Dyninst (default: prefix/dyninst)
    --test-src=PATH         Source directory for Testsuite (default: prefix/testsuite)
    --boost-dir=PATH        Base directory for Boost
+   --elf-dir=PATH          Base directory for elf/dwarf libraries
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --njobs=N               Number of make jobs (default: N=1)
    --quiet                 Don't echo logging information to stdout (default: no)
