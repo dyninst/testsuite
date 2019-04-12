@@ -249,7 +249,7 @@ sub configure_dyninst {
 	if($elf_dir ne '') {
 		$elf_dir = 
 			"-DLIBDWARF_INCLUDE_DIR=$elf_dir/include " .
-			"-DLIBDWARF_LIBRARIES=$elf_dir/lib/libelf.so " .
+			"-DLIBDWARF_LIBRARIES=$elf_dir/lib/libdw.so " .
 			"-DLIBELF_INCLUDE_DIR=$elf_dir/include ".
 			"-DLIBELF_LIBRARIES=$elf_dir/lib/libelf.so ";
 	}
