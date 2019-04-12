@@ -62,6 +62,11 @@ my $debug_mode = 0;
 	my $root_dir;
 
 	eval {
+		if($debug_mode) {
+			use Data::Dumper;
+			print_log($fdLog, !$args{'quiet'}, Dumper(\%args));
+		}
+		
 		# Save some information about the system
 		my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
 		print_log($fdLog, !$args{'quiet'},
@@ -85,6 +90,25 @@ my $debug_mode = 0;
 
 		# Generate a unique name for the current build
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
+		
+		# Set up elf/dwarf library locations
+		$args{'elf-dir'} //= '';
+		if($args{'elf-dir'}) {
+			$args{'elf-dir'} = 
+				"-DLIBDWARF_INCLUDE_DIR=$args{'elf-dir'}/include " .
+				"-DLIBDWARF_LIBRARIES=$args{'elf-dir'}/lib/libdw.so " .
+				"-DLIBELF_INCLUDE_DIR=$args{'elf-dir'}/include ".
+				"-DLIBELF_LIBRARIES=$args{'elf-dir'}/lib/libelf.so ";
+		}
+
+		# Set up TBB library locations
+		$args{'tbb-dir'} //= '';
+		if($args{'tbb-dir'} ne '') {
+			$args{'tbb-dir'} =
+				"-DTBB_INCLUDE_DIRS=$args{'tbb-dir'}/include " .
+				"-DTBB_tbb_LIBRARY_RELEASE=$args{'tbb-dir'}/lib/libtbb.so " .
+				"-DTBB_tbb_LIBRARY_DEBUG=$args{'tbb-dir'}/lib/libtbb.so ";
+		}
 
 		# Build Dyninst
 		{
@@ -244,23 +268,6 @@ sub configure_dyninst {
 	}
 
 	my $path_boost = $args->{'boost-dir'} // '';
-	
-	my $elf_dir = $args->{'elf-dir'} // '';
-	if($elf_dir ne '') {
-		$elf_dir = 
-			"-DLIBDWARF_INCLUDE_DIR=$elf_dir/include " .
-			"-DLIBDWARF_LIBRARIES=$elf_dir/lib/libdw.so " .
-			"-DLIBELF_INCLUDE_DIR=$elf_dir/include ".
-			"-DLIBELF_LIBRARIES=$elf_dir/lib/libelf.so ";
-	}
-	
-	my $tbb_dir = $args->{'tbb-dir'} // '';
-	if($tbb_dir ne '') {
-		$tbb_dir =
-			"-DTBB_INCLUDE_DIRS=$tbb_dir/include " .
-			"-DTBB_tbb_LIBRARY_RELEASE=$tbb_dir/lib/libtbb.so " .
-			"-DTBB_tbb_LIBRARY_DEBUG=$tbb_dir/lib/libtbb.so ";
-	}
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
@@ -268,7 +275,7 @@ sub configure_dyninst {
 		execute(
 			"cd $build_dir\n" .
 			"cmake -H$base_dir/src -B$build_dir " .
-			"$elf_dir $tbb_dir " .
+			"$args->{'elf-dir'} $args->{'tbb-dir'} " .
 			"-DPATH_BOOST=$path_boost " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
@@ -330,6 +337,7 @@ sub configure_tests {
 		execute(
 			"cd $build_dir\n" .
 			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
+			"$args->{'elf-dir'} $args->{'tbb-dir'} " .
 			"-DINSTALL_DIR=$base_dir/tests ".
 			"-DDyninst_DIR=../dyninst/lib/cmake/Dyninst ".
 			"1>config.out 2>config.err"
