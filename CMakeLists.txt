@@ -19,15 +19,24 @@ set(Dyninst_DIR ${_dyninst_dir} CACHE STRING "Location of Dyninst cmake files")
 # Import the system threads library
 find_package(Threads)
 
-# Read the Boost variables from the cache generated from building Dyninst
+# Read the cache generated from building Dyninst
 load_cache(${Dyninst_DIR}
   Boost_SYSTEM_LIBRARY_RELEASE
   Boost_INCLUDE_DIRS
   Boost_LIBRARY_DIRS
+  Boost_DEFINES
+  TBB_LIBRARY_DIRS
+  TBB_INCLUDE_DIRS
+  TBB_DEFINES
 )
 
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
+add_definitions(${Boost_DEFINES})
+
+include_directories(${TBB_INCLUDE_DIRS})
+link_directories(${TBB_LIBRARY_DIRS})
+add_definitions(${TBB_DEFINES})
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
@@ -71,15 +80,10 @@ SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 find_package (Dyninst REQUIRED COMPONENTS common
   OPTIONAL_COMPONENTS symtabAPI dyninstAPI instructionAPI proccontrol)
 
-set (TBB_INCLUDE_DIR "" CACHE STRING "TBB include path")
-include_directories (${TBB_INCLUDE_DIR})
-
 message (STATUS "Dyninst includes: ${DYNINST_INCLUDE_DIR}")
 include_directories (${DYNINST_INCLUDE_DIR})
 message (STATUS "Project source dir: ${PROJECT_SOURCE_DIR}")
 set (BUILD_SHARED_LIBS ON)
-
-
 
 if ("${DYNINST_PLATFORM}" MATCHES "bgq")
 find_package( LaunchMON REQUIRED )
