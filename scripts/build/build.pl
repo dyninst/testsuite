@@ -102,12 +102,10 @@ my $debug_mode = 0;
 		}
 
 		# Set up TBB library locations
-		$args{'tbb-dir'} //= '';
-		if($args{'tbb-dir'} ne '') {
-			$args{'tbb-dir'} =
-				"-DTBB_INCLUDE_DIRS=$args{'tbb-dir'}/include " .
-				"-DTBB_tbb_LIBRARY_RELEASE=$args{'tbb-dir'}/lib/libtbb.so " .
-				"-DTBB_tbb_LIBRARY_DEBUG=$args{'tbb-dir'}/lib/libtbb.so ";
+		if($args{'tbb-dir'}) {
+			$args{'tbb-dir'} = "-DTBB_ROOT_DIR=$args{'tbb-dir'}";
+		} else {
+			$args{'tbb-dir'} = "";
 		}
 
 		# Build Dyninst
