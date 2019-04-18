@@ -355,13 +355,21 @@ sub build_tests {
 
 sub run_tests {
 	my ($args, $base_dir) = @_;
+	
+	my $paths = join(':',
+		$base_dir,
+		realpath("$base_dir/../dyninst/lib"),
+		$args->{'boost-dir'},
+		$args->{'tbb-dir'},
+		$args->{'elf-dir'}
+	);
 
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
 			"cd $base_dir\n" .
 			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n".
-			"LD_LIBRARY_PATH=$base_dir:$base_dir/../dyninst/lib " .
+			"LD_LIBRARY_PATH=$paths " .
 			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
 		);
 	};
