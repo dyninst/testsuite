@@ -19,9 +19,9 @@ my $debug_mode = 0;
 	'prefix'				=> cwd(),
 	'dyninst-src'			=> undef,
 	'test-src'				=> undef,
-	'boost-dir'				=> undef,
-	'elf-dir'				=> undef,
-	'tbb-dir'				=> undef,
+	'boost-dir'				=> '',
+	'elf-dir'				=> '',
+	'tbb-dir'				=> '',
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
@@ -49,9 +49,9 @@ my $debug_mode = 0;
 	$args{'log-file'} //= "$args{'prefix'}/build.log";
 
 	# Canonicalize user-specified files and directories
-	for my $d ('dyninst-src','test-src','log-file', 'elf-dir', 'tbb-dir') {
-		# NB: realpath(undef) eq cwd()
-		$args{$d} = realpath($args{$d}) if defined($args{$d});
+	for my $d ('dyninst-src','test-src','log-file', 'boost-dir', 'elf-dir', 'tbb-dir') {
+		# NB: realpath(undef|'') eq cwd()
+		$args{$d} = realpath($args{$d}) if defined($args{$d}) && $args{$d} ne '';
 	}
 
 	# Save a backup, if the log file already exists
@@ -90,23 +90,6 @@ my $debug_mode = 0;
 
 		# Generate a unique name for the current build
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
-		
-		# Set up elf/dwarf library locations
-		$args{'elf-dir'} //= '';
-		if($args{'elf-dir'}) {
-			$args{'elf-dir'} = 
-				"-DLIBDWARF_INCLUDE_DIR=$args{'elf-dir'}/include " .
-				"-DLIBDWARF_LIBRARIES=$args{'elf-dir'}/lib/libdw.so " .
-				"-DLIBELF_INCLUDE_DIR=$args{'elf-dir'}/include ".
-				"-DLIBELF_LIBRARIES=$args{'elf-dir'}/lib/libelf.so ";
-		}
-
-		# Set up TBB library locations
-		if($args{'tbb-dir'}) {
-			$args{'tbb-dir'} = "-DTBB_ROOT_DIR=$args{'tbb-dir'}";
-		} else {
-			$args{'tbb-dir'} = "";
-		}
 
 		# Build Dyninst
 		{
@@ -264,8 +247,6 @@ sub configure_dyninst {
 		print $fdOut "branch: $branch",
 					 "commit: $commit_head";
 	}
-
-	my $path_boost = $args->{'boost-dir'} // '';
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
