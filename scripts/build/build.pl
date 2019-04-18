@@ -21,6 +21,7 @@ my $debug_mode = 0;
 	'test-src'				=> undef,
 	'boost-dir'				=> '',
 	'elf-dir'				=> '',
+	'dwarf-dir'				=> '',
 	'tbb-dir'				=> '',
 	'log-file'      		=> undef,
 	'njobs' 				=> 1,
@@ -33,8 +34,8 @@ my $debug_mode = 0;
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'elf-dir=s', 'tbb-dir=s',
-		'log-file=s', 'njobs=i', 'quiet', 'purge',
-		'help', 'debug-mode'
+		'dwarf-dir=s', 'log-file=s', 'njobs=i',
+		'quiet', 'purge', 'help', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -49,9 +50,26 @@ my $debug_mode = 0;
 	$args{'log-file'} //= "$args{'prefix'}/build.log";
 
 	# Canonicalize user-specified files and directories
-	for my $d ('dyninst-src','test-src','log-file', 'boost-dir', 'elf-dir', 'tbb-dir') {
+	for my $d ('dyninst-src','test-src','log-file',
+				'boost-dir', 'elf-dir', 'tbb-dir',
+				'dwarf-dir')
+	{
 		# NB: realpath(undef|'') eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d}) && $args{$d} ne '';
+	}
+	
+	# If only one of the elf/dwarf directories is specified, 
+	# assume they are both located in the given directory.
+	#
+	# NOTE: This purposefully includes the case that neither
+	#		is specified to simplify the logic.
+	#
+	if($args{'elf-dir'} eq '' || $args{'dwarf-dir'} eq '') {
+		if($args{'elf-dir'} ne '') {
+			$args{'dwarf-dir'} = $args{'elf-dir'};
+		} else {
+			$args{'elf-dir'} = $args{'dwarf-dir'};
+		}
 	}
 
 	# Save a backup, if the log file already exists
@@ -255,6 +273,7 @@ sub configure_dyninst {
 			"cd $build_dir\n" .
 			"cmake -H$base_dir/src -B$build_dir " .
 			"-DLIBELF_ROOT_DIR=$args->{'elf-dir'} " .
+			"-DLIBDWARF_ROOT_DIR=$args->{'dwarf-dir'} " .
 			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
 			"-DPATH_BOOST=$args->{'boost-dir'} " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
@@ -318,6 +337,7 @@ sub configure_tests {
 			"cd $build_dir\n" .
 			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DLIBELF_ROOT_DIR=$args->{'elf-dir'} " .
+			"-DLIBDWARF_ROOT_DIR=$args->{'dwarf-dir'} " .
 			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
 			"-DPATH_BOOST=$args->{'boost-dir'} " .
 			"-DINSTALL_DIR=$base_dir/tests ".
@@ -361,7 +381,8 @@ sub run_tests {
 		realpath("$base_dir/../dyninst/lib"),
 		$args->{'boost-dir'},
 		$args->{'tbb-dir'},
-		$args->{'elf-dir'}
+		$args->{'elf-dir'},
+		$args->{'dwarf-dir'}
 	);
 
 	# We need an 'eval' here since we are manually piping stderr
@@ -408,7 +429,8 @@ build [options]
    --dyninst-src=PATH      Source directory for Dyninst (default: prefix/dyninst)
    --test-src=PATH         Source directory for Testsuite (default: prefix/testsuite)
    --boost-dir=PATH        Base directory for Boost
-   --elf-dir=PATH          Base directory for elf/dwarf libraries
+   --elf-dir=PATH          Base directory for libelf
+   --dwarf-dir=PATH        Base directory for libdwarf
    --tbb-dir=PATH          Base directory for Intel's Threading Building Blocks
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --njobs=N               Number of make jobs (default: N=1)
