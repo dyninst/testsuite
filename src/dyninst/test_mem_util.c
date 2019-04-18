@@ -757,12 +757,12 @@ void init_test_data()
 }
 #endif /* power linux */
 
-#if defined(arch_aarch64_test) && defined(os_linux_test)
-unsigned int loadExp=5;
+#if defined(arch_aarch64_test)
+unsigned int loadExp=11;
 unsigned int storeExp=0;
 unsigned int prefeExp=0;
-unsigned int accessExp=5;
-unsigned int accessExpCC=5;
+unsigned int accessExp=11;
+unsigned int accessExpCC=11;
 
 int divarw[4];
 float dfvars[4];
@@ -770,21 +770,25 @@ double dfvard[4];
 long double dfvart;
 char dlarge[512] = "keep the interface small and easy to understand.";
 
-unsigned int bcExp[] = {0, 0};
-int eaExpOffset[] =    {0, 0}; 
+unsigned int bcExp[] = {0, 0, 0, 0, 0, 0, 0, 0};
+int eaExpOffset[] =    {0, 0, 0, 0, 0, 0, 0, 0, 0,
+						4, 12}; 
 
 /* _inline */ void init_test_data()
 {
-  int i;
+  dprintf("divarw = %p\n", divarw);
+  dprintf("dfvars = %p\n", dfvars);
+  dprintf("dfvard = %p\n", dfvard);
 
+  int i = 5;
+ //skip loading the divarw
 
-  printf("divarw = %p\n", divarw);
-  printf("dfvars = %p\n", dfvars);
-  printf("dfvard = %p\n", dfvard);
+  for(; i<11; ++i){
+	eaExp[i] = (void*)((unsigned long)divarw + eaExpOffset[i]);
+  }
+  //ra + rb 
+  //eaExp[i] = (void*)((unsigned long)divarw + (unsigned long)divarw);++i;
 
-  
-  eaExp[0] = 0;
-  eaExp[1] = 0;
   for(i=0; i<accessExp; ++i) {
     eaExpCC[i] = eaExp[i];
     bcExpCC[i] = bcExp[i];
@@ -856,7 +860,7 @@ void listEffAddr(const char* insn, void* addr)
   else
     doomEA = 1;
   accessCntEA++;
-  dprintf("EA[%d] (%s):%p\n", accessCntEA, insn, addr);
+  printf("EA[%d] (%s):%p\n", accessCntEA, insn, addr);
 }
 
 void listByteCnt(const char* insn, unsigned int count)

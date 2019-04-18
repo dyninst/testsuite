@@ -61,7 +61,7 @@ static void check()
     logerror("**Failed** test_mem_5 ([unconditional] effective address snippet)\n");
     logerror("    address sequences are different\n");
   }
-  dprintf("accessCnt = %d    accessExp = %d\n", accessCnt, accessExp);
+  printf("accessCnt = %d    accessExp = %d\n", accessCnt, accessExp);
 }
 
 /* skeleton test doesn't do anything besides say that it passed */
@@ -76,7 +76,7 @@ int test_mem_5_mutatee() {
   }
 
   result_of_loadsnstores = loadsnstores(2,3,4);
-  dprintf("\nresult=0x%x loads=%d stores=%d prefetches=%d accesses=%d\n",
+  printf("\nresult=0x%x loads=%d stores=%d prefetches=%d accesses=%d\n",
           result_of_loadsnstores, loadCnt, storeCnt, prefeCnt, accessCnt);
 
   init_test_data();

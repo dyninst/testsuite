@@ -11,16 +11,22 @@ loadsnstores:
 .LFB0:
 	sub	sp, sp, #16
 .LCFI0:
-	str	w0, [sp, 12]
-	str	w1, [sp, 8]
-	str	w2, [sp, 4]
-	ldr	w0, [sp, 12] 
-	ldr	w0, [sp, 8] 
-	ldr	w0, [sp, 4] 
-	
 	ldr x0, =divarw 
-	ldr x1, [x0]
-	mov	x0, 0
+	ldr x1, =divarw 
+	ldr x2, =divarw 
+	ldr x3, =divarw 
+	ldr x4, =divarw 
+	ldr x5, [x1] 
+	ldr x6, [x2] 
+	ldr x7, [x3]
+	ldr x8, [x4]
+	
+	/*No. 9*/		
+	ldr x8, [x2, 4]	
+	ldr x8, [x3, 12]	
+	/*	
+	ldr x5, [x1, x2]
+	*/
 	add	sp, sp, 16
 .LCFI1:
 	ret

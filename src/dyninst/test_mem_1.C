@@ -419,7 +419,9 @@ static void init_test_data()
 	loadList[++k] = MK_LD(12,31,-1,4);
 	loadList[++k] = MK_LD(8,31,-1,4);
 	loadList[++k] = MK_LD(4,31,-1,4);
+	//divarw_off = PCoffsetFrom(instruction, divarw);
 	loadList[++k] = MK_LD((long)divarwp,-1,-1,8);
+    //MK_LD(offset from PC of divarw, 32, -1, 8);
 	loadList[++k] = MK_LD(32,0,-1,8);
 	
 }
