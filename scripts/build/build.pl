@@ -254,8 +254,9 @@ sub configure_dyninst {
 		execute(
 			"cd $build_dir\n" .
 			"cmake -H$base_dir/src -B$build_dir " .
-			"$args->{'elf-dir'} $args->{'tbb-dir'} " .
-			"-DPATH_BOOST=$path_boost " .
+			"-DLIBELF_ROOT_DIR=$args->{'elf-dir'} " .
+			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
+			"-DPATH_BOOST=$args->{'boost-dir'} " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
 			"1>config.out 2>config.err "
@@ -316,7 +317,9 @@ sub configure_tests {
 		execute(
 			"cd $build_dir\n" .
 			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
-			"$args->{'elf-dir'} $args->{'tbb-dir'} " .
+			"-DLIBELF_ROOT_DIR=$args->{'elf-dir'} " .
+			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
+			"-DPATH_BOOST=$args->{'boost-dir'} " .
 			"-DINSTALL_DIR=$base_dir/tests ".
 			"-DDyninst_DIR=../dyninst/lib/cmake/Dyninst ".
 			"1>config.out 2>config.err"
