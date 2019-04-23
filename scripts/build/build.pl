@@ -227,7 +227,7 @@ sub configure_dyninst {
 			"cmake -H$base_dir/src -B$build_dir " .
 			"-DElfUtils_ROOT_DIR=$args->{'elfutils-dir'} " .
 			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
-			"-DPATH_BOOST=$args->{'boost-dir'} " .
+			"-DBoost_ROOT_DIR=$args->{'boost-dir'} " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
 			"1>config.out 2>config.err "
