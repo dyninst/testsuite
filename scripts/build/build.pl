@@ -113,17 +113,6 @@ my $debug_mode = 0;
 			print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			&build_dyninst(\%args, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
-
-			# Symlinking libdw is broken in the config system right now
-			# See https://github.com/dyninst/dyninst/issues/547
-			my $libdwarf_dir = $cmake_cache->{'LIBDWARF_LIBRARIES'};
-			if(-f "$build_dir/elfutils/lib/libdw.so") {
-				$libdwarf_dir = "$build_dir/elfutils/lib";
-			} else {
-				$libdwarf_dir = dirname($libdwarf_dir);
-			}
-			symlink("$libdwarf_dir/libdw.so", "$base_dir/lib/libdw.so");
-			symlink("$libdwarf_dir/libdw.so.1", "$base_dir/lib/libdw.so.1");
 		}
 
 		# Build the test suite
