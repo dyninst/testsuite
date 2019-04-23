@@ -245,7 +245,7 @@ sub build_dyninst {
 	eval {
 		execute(
 			"cd $build_dir\n" .
-			"make -j$njobs 1>build.out 2>build.err"
+			"make VERBOSE=1 -j$njobs 1>build.out 2>build.err"
 		);
 	};
 	die "Error building: see $build_dir/build.err for details" if $@;
@@ -255,7 +255,7 @@ sub build_dyninst {
 	eval {
 		execute(
 			"cd $build_dir\n" .
-			"make install 1>build-install.out 2>build-install.err"
+			"make VERBOSE=1 install 1>build-install.out 2>build-install.err"
 		);
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
@@ -305,7 +305,7 @@ sub build_tests {
 	eval {
 		execute(
 			"cd $build_dir\n" .
-			"make -j$njobs 1>build.out 2>build.err"
+			"make VERBOSE=1 -j$njobs 1>build.out 2>build.err"
 		);
 	};
 	die "Error building: see $build_dir/build.err for details" if $@;
@@ -315,7 +315,7 @@ sub build_tests {
 	eval {
 		execute(
 		"cd $build_dir\n" .
-		"make install 1>build-install.out 2>build-install.err"
+		"make VERBOSE=1 install 1>build-install.out 2>build-install.err"
 		);
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
