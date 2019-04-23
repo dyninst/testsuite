@@ -26,18 +26,11 @@ load_cache(${Dyninst_DIR}
            Boost_SYSTEM_LIBRARY_RELEASE
            Boost_INCLUDE_DIRS
            Boost_LIBRARY_DIRS
-           Boost_DEFINES
-           TBB_LIBRARY_DIRS
-           TBB_INCLUDE_DIRS
-           TBB_DEFINES)
+           Boost_DEFINES)
 
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 add_definitions(${Boost_DEFINES})
-
-include_directories(${TBB_INCLUDE_DIRS})
-link_directories(${TBB_LIBRARY_DIRS})
-add_definitions(${TBB_DEFINES})
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
