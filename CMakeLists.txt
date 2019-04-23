@@ -348,7 +348,6 @@ install (TARGETS testA testB testA_static testB_static
 )
 
 
-#if (${MUTATEE_gcc64dyn} AND ${MUTATEE_gcc32dyn})
 if (UNIX)
 CHECK_MUTATEE_COMPILER(gcc "-m32" "-m32" C "" m32_works)
 if(${m32_works})
@@ -359,10 +358,8 @@ add_library (testA_m32_static STATIC src/libtestA.c)
 add_library (testB_m32_static STATIC src/libtestB.c)
 set_target_properties(testA_m32_static PROPERTIES OUTPUT_NAME testA_m32)
 set_target_properties(testB_m32_static PROPERTIES OUTPUT_NAME testB_m32)
-#add_library (Test12_m32 SHARED src/dyninst/libTest12.c)
-#add_dependencies(Test12_m32 dyninstAPI dyninstAPI_RT)
 
-install (TARGETS testA_m32 testB_m32 testA_m32_static testB_m32_static # Test12_m32
+install (TARGETS testA_m32 testB_m32 testA_m32_static testB_m32_static
 	LIBRARY DESTINATION ${INSTALL_DIR}
 	ARCHIVE DESTINATION ${INSTALL_DIR})
 
@@ -374,10 +371,6 @@ set_target_properties (testB_m32 testB_m32_static
                       PROPERTIES
                       COMPILE_FLAGS "-m32 -Dm32_test"
                       LINK_FLAGS "-m32")
-                  #set_target_properties (Test12_m32
-                  #                      PROPERTIES
-                  #                      COMPILE_FLAGS "-m32 -Dm32_test"
-                  #                      LINK_FLAGS "-m32")
 endif()
 endif()
 
