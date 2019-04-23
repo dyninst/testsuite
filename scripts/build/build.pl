@@ -108,8 +108,6 @@ my $debug_mode = 0;
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
 
-			my $cmake_cache = &parse_cmake_cache("$build_dir/CMakeCache.txt");
-
 			print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			&build_dyninst(\%args, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
@@ -198,24 +196,6 @@ sub print_log {
 	if($echo_stdout) {
 		print $msg;
 	}
-}
-sub parse_cmake_cache {
-	my $filename = shift;
-	my %defines = ();
-
-	open my $fdIn, '<', $filename or die "Unable to open $filename: $!\n";
-	while(<$fdIn>) {
-		chomp;
-		next if /^#/;
-		next if /^\/\//;
-		next if $_ eq '';
-
-		# Format is KEY:TYPE=VALUE
-		my ($key, $value) = split('=');
-		($key, undef) = split('\:', $key);
-		$defines{$key} = $value;
-	}
-	return \%defines;
 }
 
 sub configure_dyninst {
