@@ -758,11 +758,11 @@ void init_test_data()
 #endif /* power linux */
 
 #if defined(arch_aarch64_test)
-unsigned int loadExp=11;
+unsigned int loadExp=13;
 unsigned int storeExp=0;
 unsigned int prefeExp=0;
-unsigned int accessExp=11;
-unsigned int accessExpCC=11;
+unsigned int accessExp=13;
+unsigned int accessExpCC=13;
 
 int divarw[4];
 float dfvars[4];
@@ -772,7 +772,7 @@ char dlarge[512] = "keep the interface small and easy to understand.";
 
 unsigned int bcExp[] = {0, 0, 0, 0, 0, 0, 0, 0};
 int eaExpOffset[] =    {0, 0, 0, 0, 0, 0, 0, 0, 0,
-						4, 12}; 
+						4, 12, 4}; 
 
 /* _inline */ void init_test_data()
 {
@@ -787,8 +787,11 @@ int eaExpOffset[] =    {0, 0, 0, 0, 0, 0, 0, 0, 0,
 	eaExp[i] = (void*)((unsigned long)divarw + eaExpOffset[i]);
   }
   //ra + rb 
-  //eaExp[i] = (void*)((unsigned long)divarw + (unsigned long)divarw);++i;
-
+  eaExp[i] = (void*)((unsigned long)divarw + (unsigned long)divarw);++i;
+ 
+  for(; i<13; ++i){
+	eaExp[i] = (void*)((unsigned long)divarw + eaExpOffset[i]);
+  }
   for(i=0; i<accessExp; ++i) {
     eaExpCC[i] = eaExp[i];
     bcExpCC[i] = bcExp[i];
@@ -826,11 +829,12 @@ int validateEA(void* ea1[], void* ea2[], unsigned int n)
 
   for(; i<n; ++i) {
     ok = (ok && ((ea1[i] == ea2[i]) || ea1[i] == NULL));
-    if(!((ea1[i] == ea2[i]) || ea1[i] == NULL)) {
-      logerror("EA Validation failed at access #%u. Expecting: %p. Got: %p.\n",
+    //if(!((ea1[i] == ea2[i]) || ea1[i] == NULL)) {
+	//{
+	fprintf(stderr, "EA Validation failed at access #%u. Expecting: %p. Got: %p.\n",
 	      i+1, ea1[i], ea2[i]);
-      ret = 0;
-    }
+    ret = 0;
+    //}
   }
   return ret;
 }
@@ -860,7 +864,7 @@ void listEffAddr(const char* insn, void* addr)
   else
     doomEA = 1;
   accessCntEA++;
-  printf("EA[%d] (%s):%p\n", accessCntEA, insn, addr);
+  fprintf(stderr, "EA[%d] (%s):%p\n", accessCntEA, insn, addr);
 }
 
 void listByteCnt(const char* insn, unsigned int count)

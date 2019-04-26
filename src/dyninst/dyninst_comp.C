@@ -1239,7 +1239,7 @@ int instEffAddr(BPatch_addressSpace* as, const char* fname,
 {
 	char buf[30];
 	snprintf(buf, 30, "list%s%s", fname, (conditional ? "CC" : ""));
-	printf("CALLING: %s\n", buf);
+	dprintf("CALLING: %s\n", buf);
 
 	//BPatch_Vector<BPatch_snippet*> listArgs;
 	//BPatch_effectiveAddressExpr eae;

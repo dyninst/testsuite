@@ -23,10 +23,11 @@ loadsnstores:
 	
 	/*No. 9*/		
 	ldr x8, [x2, 4]	
-	ldr x8, [x3, 12]	
-	/*	
+	ldr x8, [x3, 12]		
+	/*
 	ldr x5, [x1, x2]
 	*/
+	ldr x4, [x1, 4]	
 	add	sp, sp, 16
 .LCFI1:
 	ret
