@@ -66,7 +66,7 @@ my $debug_mode = 0;
 	eval {
 		if($debug_mode) {
 			use Data::Dumper;
-			print_log($fdLog, !$args{'quiet'}, Dumper(\%args));
+			print Dumper(\%args), "\n";
 		}
 		
 		# Save some information about the system
