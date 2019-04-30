@@ -328,8 +328,11 @@ sub run_tests {
 		$base_dir,
 		realpath("$base_dir/../dyninst/lib"),
 		$args->{'boost-dir'},
+		"$args->{'boost-dir'}/lib",
 		$args->{'tbb-dir'},
-		$args->{'elfutils-dir'}
+		"$args->{'tbb-dir'}/lib",
+		$args->{'elfutils-dir'},
+		"$args->{'elfutils-dir'}/lib"
 	);
 
 	# We need an 'eval' here since we are manually piping stderr
