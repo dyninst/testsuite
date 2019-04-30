@@ -92,6 +92,7 @@ my $debug_mode = 0;
 
 		# Generate a unique name for the current build
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
+		print_log($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
 
 		# Build Dyninst
 		{
@@ -104,7 +105,7 @@ my $debug_mode = 0;
 
 			symlink($args{'dyninst-src'}, "$base_dir/src");
 
-			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst($root_dir)... ");
+			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
 			print_log($fdLog, !$args{'quiet'}, "done.\n");
 
