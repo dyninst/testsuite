@@ -26,11 +26,28 @@ load_cache(${Dyninst_DIR}
            Boost_SYSTEM_LIBRARY_RELEASE
            Boost_INCLUDE_DIRS
            Boost_LIBRARY_DIRS
-           Boost_DEFINES)
+           Boost_DEFINES
+           TBB_INCLUDE_DIRS
+           TBB_LIBRARY_DIRS
+           TBB_DEFINES
+           ElfUtils_INCLUDE_DIRS
+           ElfUtils_LIBRARY_DIRS
+           )
 
+# Import the include and library directory names
+# NB: TBB and ElfUtils are not (currently) used directly in
+#     Testsuite, but are transitively included from headers
+#     in Dyninst.
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 add_definitions(${Boost_DEFINES})
+
+include_directories(${TBB_INCLUDE_DIRS})
+link_directories(${TBB_LIBRARY_DIRS})
+add_definitions(${TBB_DEFINES})
+
+include_directories(${ElfUtils_INCLUDE_DIRS})
+link_directories(${ElfUtils_LIBRARY_DIRS})
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
