@@ -330,12 +330,15 @@ sub run_tests {
 
 	# Construct LD_LIBRARY_PATH from the paths in the Dyninst build cache	
 	my $cmake_cache = &parse_cmake_cache("$args->{'cmake-cache-dir'}/CMakeCache.txt");
+	my @libs = ();
+	for my $l ('Boost_LIBRARY_DIRS','TBB_LIBRARY_DIRS','ElfUtils_LIBRARY_DIRS') {
+		$l =~ s/;/\:/;
+		push @libs, $l;
+	}
 	my $paths = join(':',
 		$base_dir,
 		realpath("$base_dir/../dyninst/lib"),
-		$cmake_cache->{'Boost_LIBRARY_DIRS'},
-		$cmake_cache->{'TBB_LIBRARY_DIRS'},
-		$cmake_cache->{'ElfUtils_LIBRARY_DIRS'}
+		@libs
 	);
 
 	# We need an 'eval' here since we are manually piping stderr
