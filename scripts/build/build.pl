@@ -102,6 +102,9 @@ my $debug_mode = 0;
 			# The path must exist before using 'realpath'
 			my $base_dir = realpath("$root_dir/dyninst");
 			my $build_dir = "$base_dir/build";
+			
+			# This is for internal use only
+			$args{'cmake-cache-dir'} = $build_dir;
 
 			symlink($args{'dyninst-src'}, "$base_dir/src");
 
@@ -324,16 +327,15 @@ sub build_tests {
 
 sub run_tests {
 	my ($args, $base_dir) = @_;
-	
+
+	# Construct LD_LIBRARY_PATH from the paths in the Dyninst build cache	
+	my $cmake_cache = &parse_cmake_cache("$args->{'cmake-cache-dir'}/CMakeCache.txt");
 	my $paths = join(':',
 		$base_dir,
 		realpath("$base_dir/../dyninst/lib"),
-		$args->{'boost-dir'},
-		"$args->{'boost-dir'}/lib",
-		$args->{'tbb-dir'},
-		"$args->{'tbb-dir'}/lib",
-		$args->{'elfutils-dir'},
-		"$args->{'elfutils-dir'}/lib"
+		$cmake_cache->{'Boost_LIBRARY_DIRS'},
+		$cmake_cache->{'TBB_LIBRARY_DIRS'},
+		$cmake_cache->{'ElfUtils_LIBRARY_DIRS'}
 	);
 
 	# We need an 'eval' here since we are manually piping stderr
@@ -363,6 +365,25 @@ sub execute($) {
 	$exit = (( $exit >> 8 ) != 0 || $exit == -1 || ( $exit & 127 ) != 0);
 	die "Error executing '$cmd'\n$stderr\n" if $exit;
 	return $stdout;
+}
+
+sub parse_cmake_cache {
+	my $filename = shift;
+	my %defines = ();
+
+	open my $fdIn, '<', $filename or die "Unable to open CMake cache '$filename': $!\n";
+	while(<$fdIn>) {
+		chomp;
+		next if /^#/;
+		next if /^\/\//;
+		next if $_ eq '';
+
+		# Format is KEY:TYPE=VALUE
+		my ($key, $value) = split('=');
+		($key, undef) = split('\:', $key);
+		$defines{$key} = $value;
+	}
+	return \%defines;
 }
 
 __END__
