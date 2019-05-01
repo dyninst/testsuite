@@ -330,17 +330,19 @@ sub run_tests {
 
 	# Construct LD_LIBRARY_PATH from the paths in the Dyninst build cache	
 	my $cmake_cache = &parse_cmake_cache("$args->{'cmake-cache-dir'}/CMakeCache.txt");
-	my @libs = ();
+	my $libs = '';
 	for my $l ('Boost_LIBRARY_DIRS','TBB_LIBRARY_DIRS','ElfUtils_LIBRARY_DIRS') {
-		$cmake_cache->{$l} =~ s/;/\:/;
-		push @libs, $cmake_cache->{$l};
+		$cmake_cache->{$l} =~ s/;/\:/g;
+		$libs .= ':' . $cmake_cache->{$l};
 	}
 	my $paths = join(':',
 		$base_dir,
 		realpath("$base_dir/../dyninst/lib"),
-		@libs
+		list_unique(split(':', $libs))
 	);
 
+	print "\n\nLD_LIBRARY_PATH = $paths\n\n";
+	exit;
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
@@ -387,6 +389,12 @@ sub parse_cmake_cache {
 		$defines{$key} = $value;
 	}
 	return \%defines;
+}
+
+sub list_unique {
+	my %y;
+	@y{@_} = 1;
+	return keys %y;
 }
 
 __END__
