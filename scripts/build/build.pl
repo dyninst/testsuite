@@ -341,8 +341,6 @@ sub run_tests {
 		list_unique(split(':', $libs))
 	);
 
-	print "\n\nLD_LIBRARY_PATH = $paths\n\n";
-	exit;
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
