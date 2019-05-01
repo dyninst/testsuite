@@ -332,8 +332,8 @@ sub run_tests {
 	my $cmake_cache = &parse_cmake_cache("$args->{'cmake-cache-dir'}/CMakeCache.txt");
 	my @libs = ();
 	for my $l ('Boost_LIBRARY_DIRS','TBB_LIBRARY_DIRS','ElfUtils_LIBRARY_DIRS') {
-		$l =~ s/;/\:/;
-		push @libs, $l;
+		$cmake_cache->{$l} =~ s/;/\:/;
+		push @libs, $cmake_cache->{$l};
 	}
 	my $paths = join(':',
 		$base_dir,
