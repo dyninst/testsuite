@@ -24,3 +24,9 @@ test_names.txt
 .vs
 Debug
 Win32
+
+#Eclipse files
+.cproject
+.project
+.settings/
+.pydevproject
