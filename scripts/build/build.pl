@@ -157,6 +157,15 @@ my $debug_mode = 0;
 		print_log($fdLog, !$args{'quiet'}, $@);
 		open my $fdOut, '>', "$root_dir/FAILED";
 	}
+	
+	my $results_log = "$root_dir/testsuite/tests/results.log";
+	# Parse the raw output
+	{
+		my @res = &parse_log("$root_dir/testsuite/tests/stdout.log");
+		open my $fdOut, '>', $results_log or die "$results_log: $!\n";
+		$\ = "\n";
+		print $fdOut @res;
+	}
 
 	# Create the exportable tarball of results
 	my @log_files = (
@@ -178,7 +187,8 @@ my $debug_mode = 0;
 		"$root_dir/testsuite/build/build-install.err",
 		"$root_dir/testsuite/tests/stdout.log",
 		"$root_dir/testsuite/tests/stderr.log",
-		"$root_dir/testsuite/tests/test.log"
+		"$root_dir/testsuite/tests/test.log",
+		$results_log
 	);
 
 	# Only add the files that exist
@@ -393,6 +403,38 @@ sub list_unique {
 	my %y;
 	@y{@_} = 1;
 	return keys %y;
+}
+
+sub parse_log {
+	open my $fdIn, '<', $_[0] or die "$_[0]: $!\n";
+	my @results;
+	while(<$fdIn>) {
+		chomp;
+		
+		# Parse the fixed-width format
+		my @x = unpack('a27 a7 a5 a4 a9 a8 a8 a8 a23');
+		
+		# Grab the status field (it's at the end)
+		my $status = pop @x;
+		if ($status =~ /FAILED\s*\((.+)\)\s*$/) {
+			# Split the status from the reason
+			# The format is 'FAILED (reason)'
+			$status = "FAILED,$1";
+		} else {
+			# Add an empty field to the CSV since there
+			# isn't a failure reason here
+			$status .= ',';
+		}
+		# Strip the extra whitespace (except for the failure reason)
+		@x = map {s/\s+//g; $_;} @x;
+		
+		# Add the failure status back to the record
+		push @x, $status;
+		
+		# Make it a CSV record
+		push @results, join(',', @x), "\n";
+	}
+	return @results;
 }
 
 __END__
