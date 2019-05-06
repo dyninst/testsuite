@@ -23,6 +23,8 @@ my $debug_mode = 0;
 	'elfutils-dir'			=> '',
 	'tbb-dir'				=> '',
 	'log-file'      		=> undef,
+	'dyninst-pr'			=> undef,
+	'testsuite-pr'			=> undef,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
@@ -33,8 +35,8 @@ my $debug_mode = 0;
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'elfutils-dir=s', 'tbb-dir=s',
-		'log-file=s', 'njobs=i', 'quiet', 'purge',
-		'help', 'debug-mode'
+		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
+		'njobs=i', 'quiet', 'purge', 'help', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -107,6 +109,11 @@ my $debug_mode = 0;
 			$args{'cmake-cache-dir'} = $build_dir;
 
 			symlink($args{'dyninst-src'}, "$base_dir/src");
+			
+			# Check out the PR, if specified
+			if($args{'dyninst-pr'}) {
+				&checkout_pr($args{'dyninst-src'}, $args{'dyninst-pr'});
+			}
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
@@ -199,6 +206,29 @@ my $debug_mode = 0;
 	# Remove the generated files, if requested
 	if($args{'purge'}) {
 		remove_tree($root_dir);
+	}
+}
+
+sub checkout_pr {
+	my ($src_dir, $pr) = @_;
+	
+	# The PR format is 'remote/ID'
+	my ($remote, $id) = split('/', $pr);
+	if(!defined($id)) {
+		# The user only specified an ID, so assume the remote is 'origin'
+		$id = $remote;
+		$remote = 'origin';
+	}
+	
+	eval {
+		&execute(
+			"cd $src_dir \n" .
+			"git fetch $remote pull/$id/head:PR$id \n" .
+			"git checkout PR$id \n"
+		);
+	};
+	if($@) {
+		die "\nUnable to find pull request '$remote/$id'\n\n$@\n";
 	}
 }
 
@@ -455,6 +485,8 @@ build [options]
    --elfutils-dir=PATH     Base directory for libelf/libdwarf
    --tbb-dir=PATH          Base directory for Intel's Threading Building Blocks
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
+   --dyninst-pr            The Dyninst pull request formatted as 'remote/ID' with 'remote' being optional
+   --testsuite-pr          The Testsuite pull request formatted as 'remote/ID' with 'remote' being optional
    --njobs=N               Number of make jobs (default: N=1)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
