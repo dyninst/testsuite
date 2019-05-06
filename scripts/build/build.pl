@@ -137,6 +137,11 @@ my $debug_mode = 0;
 			symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
 			
 			my $git_config = save_git_config($args{'test-src'}, $base_dir);
+			
+			# Check out the PR, if specified
+			if($args{'testsuite-pr'}) {
+				&checkout_pr($args{'test-src'}, $args{'testsuite-pr'}, $git_config->{'branch'});
+			}
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
