@@ -364,7 +364,6 @@ sub build_tests {
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
 }
-
 sub run_tests {
 	my ($args, $base_dir) = @_;
 
