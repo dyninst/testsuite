@@ -114,7 +114,7 @@ my $debug_mode = 0;
 			
 			# Check out the PR, if specified
 			if($args{'dyninst-pr'}) {
-				&checkout_pr($args{'dyninst-src'}, $args{'dyninst-pr'});
+				&checkout_pr($args{'dyninst-src'}, $args{'dyninst-pr'}, $git_config->{'branch'});
 			}
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
@@ -231,7 +231,7 @@ sub save_git_config {
 }
 
 sub checkout_pr {
-	my ($src_dir, $pr) = @_;
+	my ($src_dir, $pr, $current_branch) = @_;
 	
 	# The PR format is 'remote/ID'
 	my ($remote, $id) = split('/', $pr);
@@ -241,15 +241,27 @@ sub checkout_pr {
 		$remote = 'origin';
 	}
 	
+	# The branch we want to create for the PR
+	my $target_branch = "PR$id";
+	
 	eval {
-		&execute(
-			"cd $src_dir \n" .
-			"git fetch $remote pull/$id/head:PR$id \n" .
-			"git checkout PR$id \n"
-		);
+		if($target_branch eq $current_branch) {
+			&execute(
+				"cd $src_dir \n" .
+				"git pull $remote pull/$id/head \n"
+			);
+		} else {
+			&execute(
+				"cd $src_dir \n" .
+				"git fetch $remote pull/$id/head:$target_branch \n" .
+				"git checkout $target_branch \n"
+			);
+		}
 	};
 	if($@) {
-		die "\nUnable to find pull request '$remote/$id'\n\n$@\n";
+		my $msg = $@;
+		$msg =~ s/\n/\n\t/g;
+		die "\nERROR: Unable to checkout pull request '$remote/$id'\n\n\t$msg\n";
 	}
 }
 
