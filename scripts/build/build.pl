@@ -253,18 +253,34 @@ sub checkout_pr {
 	
 	eval {
 		if($target_branch eq $current_branch) {
+			# Just pull any changes from the remote
 			&execute(
 				"cd $src_dir \n" .
 				"git pull $remote pull/$id/head \n"
 			);
 		} else {
-			&execute(
-				"cd $src_dir \n" .
-				"git fetch $remote pull/$id/head:$target_branch \n" .
-				"git checkout $target_branch \n" .
-				"git pull $remote pull/$id/head \n" # This is redundant only in the case that the
-													# local branch PR$id doesn't already exist
-			);
+			# Check if the target branch exists
+			my $target_exists = undef;
+			eval{ &execute("git -C $src_dir checkout $target_branch"); };
+			$target_exists = 1 unless $@;
+			
+			if($target_exists) {
+				# Do a checkout/pull
+				&execute(
+					"cd $src_dir \n" .
+					"git checkout $target_branch \n" .
+					"git pull $remote pull/$id/head \n"
+				);
+			} else {
+				# Do a fetch/checkout
+				&execute(
+					"cd $src_dir \n" .
+					"git fetch $remote pull/$id/head:$target_branch \n" .
+					"git checkout $target_branch \n" .
+					"git merge --squash -Xignore-all-space $remote/master \n" .
+					"git commit -m 'Merge $remote/master' \n"
+				);
+			}
 		}
 	};
 	if($@) {
