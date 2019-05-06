@@ -224,9 +224,11 @@ sub save_git_config {
 	# Fetch the current branch name
 	# NB: This will return 'HEAD' if in a detached-head state
 	my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
+	chomp($branch);
 
 	# Fetch the commitID for HEAD
 	my $commit = execute("git -C $src_dir rev-parse HEAD");
+	chomp($commit);
 
 	open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 	local $, = "\n";
