@@ -261,7 +261,9 @@ sub checkout_pr {
 			&execute(
 				"cd $src_dir \n" .
 				"git fetch $remote pull/$id/head:$target_branch \n" .
-				"git checkout $target_branch \n"
+				"git checkout $target_branch \n" .
+				"git pull $remote pull/$id/head \n" # This is redundant only in the case that the
+													# local branch PR$id doesn't already exist
 			);
 		}
 	};
