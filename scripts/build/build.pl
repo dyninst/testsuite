@@ -110,6 +110,8 @@ my $debug_mode = 0;
 
 			symlink($args{'dyninst-src'}, "$base_dir/src");
 			
+			my $git_config = save_git_config($args{'dyninst-src'}, $base_dir);
+			
 			# Check out the PR, if specified
 			if($args{'dyninst-pr'}) {
 				&checkout_pr($args{'dyninst-src'}, $args{'dyninst-pr'});
@@ -133,6 +135,8 @@ my $debug_mode = 0;
 			my $build_dir = "$base_dir/build";
 			symlink($args{'test-src'}, "$base_dir/src");
 			symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
+			
+			my $git_config = save_git_config($args{'test-src'}, $base_dir);
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
@@ -209,6 +213,23 @@ my $debug_mode = 0;
 	}
 }
 
+sub save_git_config {
+	my ($src_dir, $base_dir) = @_;
+	
+	# Fetch the current branch name
+	# NB: This will return 'HEAD' if in a detached-head state
+	my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
+
+	# Fetch the commitID for HEAD
+	my $commit = execute("git -C $src_dir rev-parse HEAD");
+
+	open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
+	local $, = "\n";
+	print $fdOut "branch: $branch",
+				 "commit: $commit";
+	return {'branch'=>$branch, 'commit'=>$commit};
+}
+
 sub checkout_pr {
 	my ($src_dir, $pr) = @_;
 	
@@ -244,24 +265,6 @@ sub print_log {
 
 sub configure_dyninst {
 	my ($args, $base_dir, $build_dir) = @_;
-
-	my $src_dir = $args->{'dyninst-src'};
-
-	# Save the git configuration
-	{
-		# Fetch the current branch name
-		# NB: This will return 'HEAD' if in a detached-head state
-		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-
-		# Fetch the commitID for HEAD
-		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
-
-		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
-		local $, = "\n";
-		local $\ = "\n";
-		print $fdOut "branch: $branch",
-					 "commit: $commit_head";
-	}
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
@@ -307,24 +310,6 @@ sub build_dyninst {
 
 sub configure_tests {
 	my ($args, $base_dir, $build_dir) = @_;
-
-	my $src_dir = $args->{'test-src'};
-
-	# Save the git configuration
-	{
-		# Fetch the current branch name
-		# NB: This will return 'HEAD' if in a detached-head state
-		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-
-		# Fetch the commitID for HEAD
-		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
-
-		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
-		local $, = "\n";
-		local $\ = "\n";
-		print $fdOut "branch: $branch",
-					 "commit: $commit_head";
-	}
 
 	# Configure the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
