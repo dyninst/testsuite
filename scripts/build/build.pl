@@ -167,7 +167,7 @@ my $debug_mode = 0;
 	
 	my $results_log = "$root_dir/testsuite/tests/results.log";
 	# Parse the raw output
-	{
+	if(-f "$root_dir/testsuite/tests/stdout.log") {
 		my @res = &parse_log("$root_dir/testsuite/tests/stdout.log");
 		open my $fdOut, '>', $results_log or die "$results_log: $!\n";
 		$\ = "\n";
