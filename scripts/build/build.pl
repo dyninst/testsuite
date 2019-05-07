@@ -110,12 +110,15 @@ my $debug_mode = 0;
 
 			symlink($args{'dyninst-src'}, "$base_dir/src");
 			
-			my $git_config = save_git_config($args{'dyninst-src'}, $base_dir);
+			my $git_config = get_git_config($args{'dyninst-src'}, $base_dir);
 			
 			# Check out the PR, if specified
 			if($args{'dyninst-pr'}) {
 				&checkout_pr($args{'dyninst-src'}, $args{'dyninst-pr'}, $git_config->{'branch'});
+				$git_config = get_git_config($args{'dyninst-src'}, $base_dir);
 			}
+			
+			save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
@@ -136,12 +139,15 @@ my $debug_mode = 0;
 			symlink($args{'test-src'}, "$base_dir/src");
 			symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
 			
-			my $git_config = save_git_config($args{'test-src'}, $base_dir);
+			my $git_config = get_git_config($args{'test-src'}, $base_dir);
 			
 			# Check out the PR, if specified
 			if($args{'testsuite-pr'}) {
 				&checkout_pr($args{'test-src'}, $args{'testsuite-pr'}, $git_config->{'branch'});
+				$git_config = get_git_config($args{'test-src'}, $base_dir);
 			}
+			
+			save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
@@ -218,7 +224,7 @@ my $debug_mode = 0;
 	}
 }
 
-sub save_git_config {
+sub get_git_config {
 	my ($src_dir, $base_dir) = @_;
 	
 	# Fetch the current branch name
@@ -230,11 +236,17 @@ sub save_git_config {
 	my $commit = execute("git -C $src_dir rev-parse HEAD");
 	chomp($commit);
 
+	return {'branch'=>$branch, 'commit'=>$commit};
+}
+sub save_git_config {
+	my ($base_dir, $branch, $commit) = @_;
+	
 	open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 	local $, = "\n";
+	local $\ = "\n";
 	print $fdOut "branch: $branch",
 				 "commit: $commit";
-	return {'branch'=>$branch, 'commit'=>$commit};
+	
 }
 
 sub checkout_pr {
