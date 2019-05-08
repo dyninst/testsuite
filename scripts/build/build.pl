@@ -229,11 +229,11 @@ sub get_git_config {
 	
 	# Fetch the current branch name
 	# NB: This will return 'HEAD' if in a detached-head state
-	my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
+	my $branch = execute("cd $src_dir && git rev-parse --abbrev-ref HEAD");
 	chomp($branch);
 
 	# Fetch the commitID for HEAD
-	my $commit = execute("git -C $src_dir rev-parse HEAD");
+	my $commit = execute("cd $src_dir && git rev-parse HEAD");
 	chomp($commit);
 
 	return {'branch'=>$branch, 'commit'=>$commit};
@@ -273,7 +273,7 @@ sub checkout_pr {
 		} else {
 			# Check if the target branch exists
 			my $target_exists = undef;
-			eval{ &execute("git -C $src_dir checkout $target_branch"); };
+			eval{ &execute("cd $src_dir && git checkout $target_branch"); };
 			$target_exists = 1 unless $@;
 			
 			if($target_exists) {
