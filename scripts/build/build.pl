@@ -25,6 +25,8 @@ my $debug_mode = 0;
 	'log-file'      		=> undef,
 	'dyninst-pr'			=> undef,
 	'testsuite-pr'			=> undef,
+	'dyninst-cmake-args'	=> undef,
+	'testsuite-cmake-args'	=> undef,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
@@ -36,6 +38,7 @@ my $debug_mode = 0;
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'elfutils-dir=s', 'tbb-dir=s',
 		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
+		'dyninst-cmake-args=s', 'testsuite-cmake-args=s',
 		'njobs=i', 'quiet', 'purge', 'help', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
@@ -314,6 +317,8 @@ sub print_log {
 
 sub configure_dyninst {
 	my ($args, $base_dir, $build_dir) = @_;
+	
+	my $extra_args = $args->{'dyninst-cmake-args'} // '';
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
@@ -326,6 +331,7 @@ sub configure_dyninst {
 			"-DBoost_ROOT_DIR=$args->{'boost-dir'} " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
+			"$extra_args " .
 			"1>config.out 2>config.err "
 		);
 	};
@@ -359,6 +365,8 @@ sub build_dyninst {
 
 sub configure_tests {
 	my ($args, $base_dir, $build_dir) = @_;
+	
+	my $extra_args = $args->{'testsuite-cmake-args'} // '';
 
 	# Configure the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
@@ -368,6 +376,7 @@ sub configure_tests {
 			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"-DINSTALL_DIR=$base_dir/tests ".
 			"-DDyninst_DIR=../dyninst/lib/cmake/Dyninst ".
+			"$extra_args " .
 			"1>config.out 2>config.err"
 		);
 	};
@@ -520,6 +529,8 @@ build [options]
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --dyninst-pr            The Dyninst pull request formatted as 'remote/ID' with 'remote' being optional
    --testsuite-pr          The Testsuite pull request formatted as 'remote/ID' with 'remote' being optional
+   --dyninst-cmake-args    Additional CMake arguments for Dyninst
+   --testsuite-cmake-args  Additional CMake arguments for the Testsuite
    --njobs=N               Number of make jobs (default: N=1)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
