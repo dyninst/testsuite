@@ -4,10 +4,8 @@ project(Dyninst-TestSuite)
 # User must provide location of Dyninst cmake files either as a cache or
 # environment variable
 if(NOT Dyninst_DIR)
-  if(NOT ENV{Dyninst_DIR})
-    message(
-      FATAL_ERROR
-        "Dyninst_DIR not found: define as a cache or environment variable")
+  if("$ENV{Dyninst_DIR}" STREQUAL "")
+    message("Dyninst_DIR not found: define as a cache or environment variable")
   else()
     set(_dyninst_dir ENV{Dyninst_DIR})
   endif()
@@ -16,7 +14,7 @@ else()
   set(ENV{Dyninst_DIR} ${_dyninst_dir})
 endif()
 
-set(Dyninst_DIR ${_dyninst_dir} CACHE STRING "Location of Dyninst cmake files")
+set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
 
 # Import the system threads library
 find_package(Threads)
