@@ -23,6 +23,8 @@ my $debug_mode = 0;
 	'elfutils-dir'			=> '',
 	'tbb-dir'				=> '',
 	'log-file'      		=> undef,
+	'dyninst-pr'			=> undef,
+	'testsuite-pr'			=> undef,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
@@ -33,8 +35,8 @@ my $debug_mode = 0;
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
 		'boost-dir=s', 'elfutils-dir=s', 'tbb-dir=s',
-		'log-file=s', 'njobs=i', 'quiet', 'purge',
-		'help', 'debug-mode'
+		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
+		'njobs=i', 'quiet', 'purge', 'help', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -107,6 +109,16 @@ my $debug_mode = 0;
 			$args{'cmake-cache-dir'} = $build_dir;
 
 			symlink($args{'dyninst-src'}, "$base_dir/src");
+			
+			my $git_config = get_git_config($args{'dyninst-src'}, $base_dir);
+			
+			# Check out the PR, if specified
+			if($args{'dyninst-pr'}) {
+				&checkout_pr($args{'dyninst-src'}, $args{'dyninst-pr'}, $git_config->{'branch'});
+				$git_config = get_git_config($args{'dyninst-src'}, $base_dir);
+			}
+			
+			save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
 			&configure_dyninst(\%args, $base_dir, $build_dir);
@@ -126,6 +138,16 @@ my $debug_mode = 0;
 			my $build_dir = "$base_dir/build";
 			symlink($args{'test-src'}, "$base_dir/src");
 			symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
+			
+			my $git_config = get_git_config($args{'test-src'}, $base_dir);
+			
+			# Check out the PR, if specified
+			if($args{'testsuite-pr'}) {
+				&checkout_pr($args{'test-src'}, $args{'testsuite-pr'}, $git_config->{'branch'});
+				$git_config = get_git_config($args{'test-src'}, $base_dir);
+			}
+			
+			save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
 
 			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 			&configure_tests(\%args, $base_dir, $build_dir);
@@ -160,7 +182,7 @@ my $debug_mode = 0;
 	
 	my $results_log = "$root_dir/testsuite/tests/results.log";
 	# Parse the raw output
-	{
+	if(-f "$root_dir/testsuite/tests/stdout.log") {
 		my @res = &parse_log("$root_dir/testsuite/tests/stdout.log");
 		open my $fdOut, '>', $results_log or die "$results_log: $!\n";
 		$\ = "\n";
@@ -202,6 +224,84 @@ my $debug_mode = 0;
 	}
 }
 
+sub get_git_config {
+	my ($src_dir, $base_dir) = @_;
+	
+	# Fetch the current branch name
+	# NB: This will return 'HEAD' if in a detached-head state
+	my $branch = execute("cd $src_dir && git rev-parse --abbrev-ref HEAD");
+	chomp($branch);
+
+	# Fetch the commitID for HEAD
+	my $commit = execute("cd $src_dir && git rev-parse HEAD");
+	chomp($commit);
+
+	return {'branch'=>$branch, 'commit'=>$commit};
+}
+sub save_git_config {
+	my ($base_dir, $branch, $commit) = @_;
+	
+	open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
+	local $, = "\n";
+	local $\ = "\n";
+	print $fdOut "branch: $branch",
+				 "commit: $commit";
+	
+}
+
+sub checkout_pr {
+	my ($src_dir, $pr, $current_branch) = @_;
+	
+	# The PR format is 'remote/ID'
+	my ($remote, $id) = split('/', $pr);
+	if(!defined($id)) {
+		# The user only specified an ID, so assume the remote is 'origin'
+		$id = $remote;
+		$remote = 'origin';
+	}
+	
+	# The branch we want to create for the PR
+	my $target_branch = "PR$id";
+	
+	eval {
+		if($target_branch eq $current_branch) {
+			# Just pull any changes from the remote
+			&execute(
+				"cd $src_dir \n" .
+				"git pull $remote pull/$id/head \n"
+			);
+		} else {
+			# Check if the target branch exists
+			my $target_exists = undef;
+			eval{ &execute("cd $src_dir && git checkout $target_branch"); };
+			$target_exists = 1 unless $@;
+			
+			if($target_exists) {
+				# Do a checkout/pull
+				&execute(
+					"cd $src_dir \n" .
+					"git checkout $target_branch \n" .
+					"git pull $remote pull/$id/head \n"
+				);
+			} else {
+				# Do a fetch/checkout
+				&execute(
+					"cd $src_dir \n" .
+					"git fetch $remote pull/$id/head:$target_branch \n" .
+					"git checkout $target_branch \n" .
+					"git merge --squash -Xignore-all-space $remote/master \n" .
+					"git commit -m 'Merge $remote/master' \n"
+				);
+			}
+		}
+	};
+	if($@) {
+		my $msg = $@;
+		$msg =~ s/\n/\n\t/g;
+		die "\nERROR: Unable to checkout pull request '$remote/$id'\n\n\t$msg\n";
+	}
+}
+
 sub print_log {
 	my ($fd, $echo_stdout, $msg) = @_;
 
@@ -214,24 +314,6 @@ sub print_log {
 
 sub configure_dyninst {
 	my ($args, $base_dir, $build_dir) = @_;
-
-	my $src_dir = $args->{'dyninst-src'};
-
-	# Save the git configuration
-	{
-		# Fetch the current branch name
-		# NB: This will return 'HEAD' if in a detached-head state
-		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-
-		# Fetch the commitID for HEAD
-		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
-
-		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
-		local $, = "\n";
-		local $\ = "\n";
-		print $fdOut "branch: $branch",
-					 "commit: $commit_head";
-	}
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
@@ -278,24 +360,6 @@ sub build_dyninst {
 sub configure_tests {
 	my ($args, $base_dir, $build_dir) = @_;
 
-	my $src_dir = $args->{'test-src'};
-
-	# Save the git configuration
-	{
-		# Fetch the current branch name
-		# NB: This will return 'HEAD' if in a detached-head state
-		my $branch = execute("git -C $src_dir rev-parse --abbrev-ref HEAD");
-
-		# Fetch the commitID for HEAD
-		my $commit_head = execute("git -C $src_dir rev-parse HEAD");
-
-		open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
-		local $, = "\n";
-		local $\ = "\n";
-		print $fdOut "branch: $branch",
-					 "commit: $commit_head";
-	}
-
 	# Configure the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
@@ -334,7 +398,6 @@ sub build_tests {
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
 }
-
 sub run_tests {
 	my ($args, $base_dir) = @_;
 
@@ -455,6 +518,8 @@ build [options]
    --elfutils-dir=PATH     Base directory for libelf/libdwarf
    --tbb-dir=PATH          Base directory for Intel's Threading Building Blocks
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
+   --dyninst-pr            The Dyninst pull request formatted as 'remote/ID' with 'remote' being optional
+   --testsuite-pr          The Testsuite pull request formatted as 'remote/ID' with 'remote' being optional
    --njobs=N               Number of make jobs (default: N=1)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
