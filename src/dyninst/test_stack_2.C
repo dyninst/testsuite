@@ -60,10 +60,6 @@ extern "C" DLLEXPORT TestMutator *test_stack_2_factory() {
 
 // static int mutatorTest(BPatch_thread *appThread, BPatch_image *appImage)
 test_results_t test_stack_2_Mutator::executeTest() {
-#if defined(i386_unknown_linux2_0_test) \
- || defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
- || defined(amd64_unknown_freebsd7_0_test) \
- || defined(i386_unknown_freebsd7_0_test)
     appProc->continueExecution();
 
     static const frameInfo_t correct_frame_info[] = {
@@ -104,10 +100,6 @@ test_results_t test_stack_2_Mutator::executeTest() {
     while (!appProc->isTerminated()) {
       bpatch->waitForStatusChange();
     }
-#else
-    logerror("Skipping test #2 (getCallStack in signal handler)\n");
-    logerror("    feature not implemented on this platform\n");
-#endif
 
     return PASSED;
 }

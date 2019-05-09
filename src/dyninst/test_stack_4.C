@@ -65,12 +65,6 @@ extern "C" DLLEXPORT TestMutator *test_stack_4_factory() {
 // static int mutatorTest( BPatch_thread * appThread, BPatch_image * appImage ) {
 test_results_t test_stack_4_Mutator::executeTest() {
   bool passedTest = true;
-#if defined(i386_unknown_linux2_0_test) \
- || defined(x86_64_unknown_linux2_4_test) \
- || defined(amd64_unknown_freebsd7_0_test) \
- || defined(i386_unknown_freebsd7_0_test) /* Blind duplication - Ray */ \
- || defined(sparc_sun_solaris2_4_test) \
- || defined(ia64_unknown_linux2_4_test)
 
   BPatch::bpatch->setInstrStackFrames(true);
   appProc->continueExecution();
@@ -182,10 +176,6 @@ test_results_t test_stack_4_Mutator::executeTest() {
     // Workaround for issue with pgCC_high mutatee
     bpatch->waitForStatusChange();
   }
-#else
-    logerror("Skipping test #2 (getCallStack in signal handler)\n");
-    logerror("    feature not implemented on this platform\n");
-#endif
 
   if (passedTest)
     return PASSED;
