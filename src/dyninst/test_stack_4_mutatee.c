@@ -97,12 +97,6 @@ void test_stack_4_func2() {
 #endif /* i386_unknown_nt4_0_test */
 
 void test_stack_4_func1() {
-#if defined(i386_unknown_linux2_0_test) \
- || defined(x86_64_unknown_linux2_4_test) \
- || defined(amd64_unknown_freebsd7_0_test) \
- || defined(i386_unknown_freebsd7_0_test) /* Blind duplication */ \
- || defined(sparc_sun_solaris2_4_test) \
- || defined(ia64_unknown_linux2_4_test)
 
     /* Breakpoint to allow instrumenting signal handler */
     do_dyninst_breakpoint();
@@ -113,7 +107,6 @@ void test_stack_4_func1() {
     test_stack_4_func2();
 
     signal(SIGALRM, old_handler);
-#endif
 }
 
 /* skeleton test doesn't do anything besides say that it passed */
