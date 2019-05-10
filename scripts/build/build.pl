@@ -78,6 +78,10 @@ my $debug_mode = 0;
 		
 		# Save some information about the system
 		my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
+				
+		# Strip trailing digits from the hostname (these are usually from login nodes)
+		$nodename =~ s/\d+$//;
+		
 		print_log($fdLog, !$args{'quiet'},
 			"os: $sysname\n" .
 			"hostname: $nodename\n" .
