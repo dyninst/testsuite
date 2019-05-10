@@ -219,7 +219,7 @@ my $debug_mode = 0;
 	# Only add the files that exist
 	# Non-existent files indicate an error occurred
 	my $files = join(' ', grep {-f $_ } @log_files);
-	&execute("tar -zcf results.tar.gz $files");
+	&execute("tar -zcf $root_dir.results.tar.gz $files");
 
 	# Remove the generated files, if requested
 	if($args{'purge'}) {
