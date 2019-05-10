@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.4.0)
 project(Dyninst-TestSuite)
 
 # User must provide location of Dyninst cmake files either as a cache or
