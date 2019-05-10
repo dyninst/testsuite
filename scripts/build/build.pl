@@ -27,6 +27,7 @@ my $debug_mode = 0;
 	'testsuite-pr'			=> undef,
 	'dyninst-cmake-args'	=> undef,
 	'testsuite-cmake-args'	=> undef,
+	'run-tests'				=> 1,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
@@ -39,7 +40,8 @@ my $debug_mode = 0;
 		'boost-dir=s', 'elfutils-dir=s', 'tbb-dir=s',
 		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 		'dyninst-cmake-args=s', 'testsuite-cmake-args=s',
-		'njobs=i', 'quiet', 'purge', 'help', 'debug-mode'
+		'run-tests!', 'njobs=i', 'quiet', 'purge', 'help',
+		'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -162,7 +164,7 @@ my $debug_mode = 0;
 		}
 
 		# Run the tests
-		{
+		if($args{'run-tests'}) {
 			make_path("$root_dir/testsuite/tests");
 			my $base_dir = realpath("$root_dir/testsuite/tests");
 
@@ -532,6 +534,7 @@ build [options]
    --dyninst-cmake-args    Additional CMake arguments for Dyninst
    --testsuite-cmake-args  Additional CMake arguments for the Testsuite
    --njobs=N               Number of make jobs (default: N=1)
+   --[no-]run-tests        Run the Testsuite (default: yes)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
    --help                  Print this help message
