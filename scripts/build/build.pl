@@ -82,12 +82,35 @@ my $debug_mode = 0;
 		# Strip trailing digits from the hostname (these are usually from login nodes)
 		$nodename =~ s/\d+$//;
 		
+		# Try to get the vendor name
+		my $vendor_name = 'unknown';
+		
+		# Use an eval just in case we don't have access to '/proc/cpuinfo'
+		eval {
+			my $cpuinfo = &execute("cat /proc/cpuinfo");
+			my @lines = grep {/vendor_id/i} split("\n", $cpuinfo);
+			unless(@lines) {
+                @lines = grep {/cpu\s+\:/i} split("\n", $cpuinfo);
+            }
+            if(@lines) {
+                (undef, $vendor_name) = split(':', $lines[0]);
+
+                # On linux, Power has the form 'POWERXX, altivec...'
+                if($vendor_name =~ /power/i) {                
+                	$vendor_name = (split(',',$vendor_name))[0];
+                }
+                
+                # Remove all whitespace
+                $vendor_name =~ s/\s//g;
+			}
+		};
+
 		print_log($fdLog, !$args{'quiet'},
 			"os: $sysname\n" .
 			"hostname: $nodename\n" .
 			"kernel: $release\n" .
 			"version: $version\n" .
-			"arch: $machine\n"
+			"arch: $machine/$vendor_name\n"
 		);
 		
 		# Find and save the version of libc
