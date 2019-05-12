@@ -27,6 +27,7 @@ my $debug_mode = 0;
 	'testsuite-pr'			=> undef,
 	'dyninst-cmake-args'	=> undef,
 	'testsuite-cmake-args'	=> undef,
+	'run-tests'				=> 1,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
@@ -39,7 +40,8 @@ my $debug_mode = 0;
 		'boost-dir=s', 'elfutils-dir=s', 'tbb-dir=s',
 		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 		'dyninst-cmake-args=s', 'testsuite-cmake-args=s',
-		'njobs=i', 'quiet', 'purge', 'help', 'debug-mode'
+		'run-tests!', 'njobs=i', 'quiet', 'purge', 'help',
+		'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -76,12 +78,39 @@ my $debug_mode = 0;
 		
 		# Save some information about the system
 		my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
+				
+		# Strip trailing digits from the hostname (these are usually from login nodes)
+		$nodename =~ s/\d+$//;
+		
+		# Try to get the vendor name
+		my $vendor_name = 'unknown';
+		
+		# Use an eval just in case we don't have access to '/proc/cpuinfo'
+		eval {
+			my $cpuinfo = &execute("cat /proc/cpuinfo");
+			my @lines = grep {/vendor_id/i} split("\n", $cpuinfo);
+			unless(@lines) {
+                @lines = grep {/cpu\s+\:/i} split("\n", $cpuinfo);
+            }
+            if(@lines) {
+                (undef, $vendor_name) = split(':', $lines[0]);
+
+                # On linux, Power has the form 'POWERXX, altivec...'
+                if($vendor_name =~ /power/i) {                
+                	$vendor_name = (split(',',$vendor_name))[0];
+                }
+                
+                # Remove all whitespace
+                $vendor_name =~ s/\s//g;
+			}
+		};
+
 		print_log($fdLog, !$args{'quiet'},
 			"os: $sysname\n" .
 			"hostname: $nodename\n" .
 			"kernel: $release\n" .
 			"version: $version\n" .
-			"arch: $machine\n"
+			"arch: $machine/$vendor_name\n"
 		);
 		
 		# Find and save the version of libc
@@ -162,7 +191,7 @@ my $debug_mode = 0;
 		}
 
 		# Run the tests
-		{
+		if($args{'run-tests'}) {
 			make_path("$root_dir/testsuite/tests");
 			my $base_dir = realpath("$root_dir/testsuite/tests");
 
@@ -219,7 +248,7 @@ my $debug_mode = 0;
 	# Only add the files that exist
 	# Non-existent files indicate an error occurred
 	my $files = join(' ', grep {-f $_ } @log_files);
-	&execute("tar -zcf results.tar.gz $files");
+	&execute("tar -zcf $root_dir.results.tar.gz $files");
 
 	# Remove the generated files, if requested
 	if($args{'purge'}) {
@@ -532,6 +561,7 @@ build [options]
    --dyninst-cmake-args    Additional CMake arguments for Dyninst
    --testsuite-cmake-args  Additional CMake arguments for the Testsuite
    --njobs=N               Number of make jobs (default: N=1)
+   --[no-]run-tests        Run the Testsuite (default: yes)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
    --help                  Print this help message
