@@ -76,119 +76,17 @@ my $debug_mode = 0;
 			print Dumper(\%args), "\n";
 		}
 		
-		# Save some information about the system
-		my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
-				
-		# Strip trailing digits from the hostname (these are usually from login nodes)
-		$nodename =~ s/\d+$//;
+		log_system_info(\%args, $fdLog);
 		
-		# Try to get the vendor name
-		my $vendor_name = 'unknown';
-		
-		# Use an eval just in case we don't have access to '/proc/cpuinfo'
-		eval {
-			my $cpuinfo = &execute("cat /proc/cpuinfo");
-			my @lines = grep {/vendor_id/i} split("\n", $cpuinfo);
-			unless(@lines) {
-                @lines = grep {/cpu\s+\:/i} split("\n", $cpuinfo);
-            }
-            if(@lines) {
-                (undef, $vendor_name) = split(':', $lines[0]);
-
-                # On linux, Power has the form 'POWERXX, altivec...'
-                if($vendor_name =~ /power/i) {                
-                	$vendor_name = (split(',',$vendor_name))[0];
-                }
-                
-                # Remove all whitespace
-                $vendor_name =~ s/\s//g;
-			}
-		};
-
-		print_log($fdLog, !$args{'quiet'},
-			"os: $sysname\n" .
-			"hostname: $nodename\n" .
-			"kernel: $release\n" .
-			"version: $version\n" .
-			"arch: $machine/$vendor_name\n"
-		);
-		
-		# Find and save the version of libc
-		my $libc_info = (split("\n", &execute('ldd --version')))[0];
-		if($libc_info =~ /gnu/i || $libc_info =~ /glibc/i) {
-			# We have a GNU libc, the version is at the end
-			$libc_info = (split(' ', $libc_info))[-1];
-		} else {
-			$libc_info = "Unknown";
-		}
-		print_log($fdLog, !$args{'quiet'}, "libc: $libc_info\n");
-		print_log($fdLog, !$args{'quiet'}, '*'x20 . "\n");
-
 		# Generate a unique name for the current build
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
 		print_log($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
+		
+		# This is for internal use only
+		$args{'cmake-cache-dir'} = "$root_dir/dyninst/build";
 
-		# Build Dyninst
-		{
-			# Create the build directory
-			make_path("$root_dir/dyninst/build");
-
-			# The path must exist before using 'realpath'
-			my $base_dir = realpath("$root_dir/dyninst");
-			my $build_dir = "$base_dir/build";
-			
-			# This is for internal use only
-			$args{'cmake-cache-dir'} = $build_dir;
-
-			symlink($args{'dyninst-src'}, "$base_dir/src");
-			
-			my $git_config = get_git_config($args{'dyninst-src'}, $base_dir);
-			
-			# Check out the PR, if specified
-			if($args{'dyninst-pr'}) {
-				&checkout_pr($args{'dyninst-src'}, $args{'dyninst-pr'}, $git_config->{'branch'});
-				$git_config = get_git_config($args{'dyninst-src'}, $base_dir);
-			}
-			
-			save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
-
-			print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
-			&configure_dyninst(\%args, $base_dir, $build_dir);
-			print_log($fdLog, !$args{'quiet'}, "done.\n");
-
-			print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
-			&build_dyninst(\%args, $build_dir);
-			print_log($fdLog, !$args{'quiet'}, "done.\n");
-		}
-
-		# Build the test suite
-		{
-			# Create the build directory
-			make_path("$root_dir/testsuite/build");
-
-			my $base_dir = realpath("$root_dir/testsuite");
-			my $build_dir = "$base_dir/build";
-			symlink($args{'test-src'}, "$base_dir/src");
-			symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
-			
-			my $git_config = get_git_config($args{'test-src'}, $base_dir);
-			
-			# Check out the PR, if specified
-			if($args{'testsuite-pr'}) {
-				&checkout_pr($args{'test-src'}, $args{'testsuite-pr'}, $git_config->{'branch'});
-				$git_config = get_git_config($args{'test-src'}, $base_dir);
-			}
-			
-			save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
-
-			print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
-			&configure_tests(\%args, $base_dir, $build_dir);
-			print_log($fdLog, !$args{'quiet'}, "done\n");
-
-			print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
-			&build_tests(\%args, $build_dir);
-			print_log($fdLog, !$args{'quiet'}, "done\n");
-		}
+		do_dyninst($root_dir, \%args, $fdLog);
+		do_testsuite($root_dir, \%args, $fdLog);
 
 		# Run the tests
 		if($args{'run-tests'}) {
@@ -536,6 +434,120 @@ sub parse_log {
 		push @results, join(',', @x), "\n";
 	}
 	return @results;
+}
+
+sub log_system_info {
+	my ($args, $fdLog) = @_;
+	
+	# Save some information about the system
+	my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
+	    
+	# Strip trailing digits from the hostname (these are usually from login nodes)
+	$nodename =~ s/\d+$//;
+	
+	# Try to get the vendor name
+	my $vendor_name = 'unknown';
+	
+	# Use an eval just in case we don't have access to '/proc/cpuinfo'
+	eval {
+	  my $cpuinfo = &execute("cat /proc/cpuinfo");
+	  my @lines = grep {/vendor_id/i} split("\n", $cpuinfo);
+	  unless(@lines) {
+	            @lines = grep {/cpu\s+\:/i} split("\n", $cpuinfo);
+	        }
+	        if(@lines) {
+	            (undef, $vendor_name) = split(':', $lines[0]);
+	
+	            # On linux, Power has the form 'POWERXX, altivec...'
+	            if($vendor_name =~ /power/i) {                
+	              $vendor_name = (split(',',$vendor_name))[0];
+	            }
+	            
+	            # Remove all whitespace
+	            $vendor_name =~ s/\s//g;
+	  }
+	};
+	
+	print_log($fdLog, !$args->{'quiet'},
+	  "os: $sysname\n" .
+	  "hostname: $nodename\n" .
+	  "kernel: $release\n" .
+	  "version: $version\n" .
+	  "arch: $machine/$vendor_name\n"
+	);
+	
+	# Find and save the version of libc
+	my $libc_info = (split("\n", &execute('ldd --version')))[0];
+	if($libc_info =~ /gnu/i || $libc_info =~ /glibc/i) {
+	  # We have a GNU libc, the version is at the end
+	  $libc_info = (split(' ', $libc_info))[-1];
+	} else {
+	  $libc_info = "Unknown";
+	}
+	print_log($fdLog, !$args->{'quiet'}, "libc: $libc_info\n");
+	print_log($fdLog, !$args->{'quiet'}, '*'x20 . "\n");
+}
+
+sub do_dyninst {
+	my ($root_dir, $args, $fdLog) = @_;
+	
+	# Build Dyninst
+	# Create the build directory
+	make_path("$root_dir/dyninst/build");
+
+	# The path must exist before using 'realpath'
+	my $base_dir = realpath("$root_dir/dyninst");
+	my $build_dir = "$base_dir/build";
+
+	symlink($args->{'dyninst-src'}, "$base_dir/src");
+	
+	my $git_config = get_git_config($args->{'dyninst-src'}, $base_dir);
+	
+	# Check out the PR, if specified
+	if($args->{'dyninst-pr'}) {
+		&checkout_pr($args->{'dyninst-src'}, $args->{'dyninst-pr'}, $git_config->{'branch'});
+		$git_config = get_git_config($args->{'dyninst-src'}, $base_dir);
+	}
+	
+	save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
+
+	print_log($fdLog, !$args->{'quiet'}, "Configuring Dyninst... ");
+	&configure_dyninst($args, $base_dir, $build_dir);
+	print_log($fdLog, !$args->{'quiet'}, "done.\n");
+
+	print_log($fdLog, !$args->{'quiet'}, "Building Dyninst... ");
+	&build_dyninst($args, $build_dir);
+	print_log($fdLog, !$args->{'quiet'}, "done.\n");
+}
+
+sub do_testsuite {
+	my ($root_dir, $args, $fdLog) = @_;
+	
+	# Create the build directory
+	make_path("$root_dir/testsuite/build");
+
+	my $base_dir = realpath("$root_dir/testsuite");
+	my $build_dir = "$base_dir/build";
+	symlink($args->{'test-src'}, "$base_dir/src");
+	symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
+	
+	my $git_config = get_git_config($args->{'test-src'}, $base_dir);
+	
+	# Check out the PR, if specified
+	if($args->{'testsuite-pr'}) {
+		&checkout_pr($args->{'test-src'}, $args->{'testsuite-pr'}, $git_config->{'branch'});
+		$git_config = get_git_config($args->{'test-src'}, $base_dir);
+	}
+	
+	save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
+
+	print_log($fdLog, !$args->{'quiet'}, "Configuring Testsuite... ");
+	&configure_tests($args, $base_dir, $build_dir);
+	print_log($fdLog, !$args->{'quiet'}, "done\n");
+
+	print_log($fdLog, !$args->{'quiet'}, "Building Testsuite... ");
+	&build_tests($args, $build_dir);
+	print_log($fdLog, !$args->{'quiet'}, "done\n");
 }
 
 __END__
