@@ -32,6 +32,7 @@ my $debug_mode = 0;
 	'quiet'					=> 0,
 	'purge'					=> 0,
 	'help' 					=> 0,
+	'restart'				=> undef,
 	'debug-mode'			=> 0	# undocumented debug mode
 	);
 
@@ -41,7 +42,7 @@ my $debug_mode = 0;
 		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 		'dyninst-cmake-args=s', 'testsuite-cmake-args=s',
 		'run-tests!', 'njobs=i', 'quiet', 'purge', 'help',
-		'debug-mode'
+		'restart=s', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -49,6 +50,13 @@ my $debug_mode = 0;
 	}
 
 	$debug_mode = $args{'debug-mode'};
+	
+	if($args{'restart'}) {
+		if(!-d $args{'restart'}) {
+			die "Requested restart directory ($args{'restart'}) does not exist\n";
+		}
+		$args{'run-tests'} = 1;
+	}
 
 	# Default directory and file locations
 	$args{'dyninst-src'} //= "$args{'prefix'}/dyninst";
@@ -68,7 +76,7 @@ my $debug_mode = 0;
 
 	open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
 
-	my $root_dir;
+	my $root_dir = ($args{'restart'}) ? $args{'restart'} : undef;
 
 	eval {
 		if($debug_mode) {
@@ -79,14 +87,16 @@ my $debug_mode = 0;
 		log_system_info(\%args, $fdLog);
 		
 		# Generate a unique name for the current build
-		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0);
+		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
 		print_log($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
 		
 		# This is for internal use only
 		$args{'cmake-cache-dir'} = "$root_dir/dyninst/build";
 
-		do_dyninst($root_dir, \%args, $fdLog);
-		do_testsuite($root_dir, \%args, $fdLog);
+		unless($args{'restart'}) {
+			do_dyninst($root_dir, \%args, $fdLog);
+			do_testsuite($root_dir, \%args, $fdLog);
+		}
 
 		# Run the tests
 		if($args{'run-tests'}) {
@@ -576,5 +586,6 @@ build [options]
    --[no-]run-tests        Run the Testsuite (default: yes)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
+   --restart=ID            Restart the Testsuite for run 'ID' (implies --run-tests; does not build Dyninst or Testsuite)
    --help                  Print this help message
 =cut
