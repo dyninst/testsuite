@@ -90,14 +90,38 @@ my $debug_mode = 0;
 		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
 		print_log($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
 		
-		# This is for internal use only
-		$args{'cmake-cache-dir'} = "$root_dir/dyninst/build";
-
-		unless($args{'restart'}) {
-			do_dyninst($root_dir, \%args, $fdLog);
-			do_testsuite($root_dir, \%args, $fdLog);
+		# Dyninst
+		{
+			# Always set up logs, even if doing a restart
+			my ($base_dir, $build_dir) = &setup_dyninst($root_dir, \%args, $fdLog);
+	
+			unless($args{'restart'}) {
+				print_log($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
+				&configure_dyninst(\%args, $base_dir, $build_dir);
+				print_log($fdLog, !$args{'quiet'}, "done.\n");
+			
+				print_log($fdLog, !$args{'quiet'}, "Building Dyninst... ");
+				&build_dyninst(\%args, $build_dir);
+				print_log($fdLog, !$args{'quiet'}, "done.\n");
+			}
 		}
+		
+		# Testsuite
+		{
+			# Always set up logs, even if doing a restart
+			my ($base_dir, $build_dir) = &setup_testsuite($root_dir, \%args, $fdLog);
 
+			unless($args{'restart'}) {
+				print_log($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
+				&configure_tests(\%args, $base_dir, $build_dir);
+				print_log($fdLog, !$args{'quiet'}, "done\n");
+				
+				print_log($fdLog, !$args{'quiet'}, "Building Testsuite... ");
+				&build_tests(\%args, $build_dir);
+				print_log($fdLog, !$args{'quiet'}, "done\n");
+			}
+		}		
+		
 		# Run the tests
 		if($args{'run-tests'}) {
 			make_path("$root_dir/testsuite/tests");
@@ -498,7 +522,7 @@ sub log_system_info {
 	print_log($fdLog, !$args->{'quiet'}, '*'x20 . "\n");
 }
 
-sub do_dyninst {
+sub setup_dyninst {
 	my ($root_dir, $args, $fdLog) = @_;
 	
 	# Build Dyninst
@@ -508,8 +532,11 @@ sub do_dyninst {
 	# The path must exist before using 'realpath'
 	my $base_dir = realpath("$root_dir/dyninst");
 	my $build_dir = "$base_dir/build";
-
+	
 	symlink($args->{'dyninst-src'}, "$base_dir/src");
+	
+	# This is for internal use only
+	$args->{'cmake-cache-dir'} = $build_dir;
 	
 	my $git_config = get_git_config($args->{'dyninst-src'}, $base_dir);
 	
@@ -520,17 +547,11 @@ sub do_dyninst {
 	}
 	
 	save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
-
-	print_log($fdLog, !$args->{'quiet'}, "Configuring Dyninst... ");
-	&configure_dyninst($args, $base_dir, $build_dir);
-	print_log($fdLog, !$args->{'quiet'}, "done.\n");
-
-	print_log($fdLog, !$args->{'quiet'}, "Building Dyninst... ");
-	&build_dyninst($args, $build_dir);
-	print_log($fdLog, !$args->{'quiet'}, "done.\n");
+	
+	return ($base_dir, $build_dir);
 }
 
-sub do_testsuite {
+sub setup_testsuite {
 	my ($root_dir, $args, $fdLog) = @_;
 	
 	# Create the build directory
@@ -550,14 +571,8 @@ sub do_testsuite {
 	}
 	
 	save_git_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
-
-	print_log($fdLog, !$args->{'quiet'}, "Configuring Testsuite... ");
-	&configure_tests($args, $base_dir, $build_dir);
-	print_log($fdLog, !$args->{'quiet'}, "done\n");
-
-	print_log($fdLog, !$args->{'quiet'}, "Building Testsuite... ");
-	&build_tests($args, $build_dir);
-	print_log($fdLog, !$args->{'quiet'}, "done\n");
+	
+	return ($base_dir, $build_dir);
 }
 
 __END__
