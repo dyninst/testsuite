@@ -359,7 +359,6 @@ sub configure_dyninst {
 			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
 			"-DBoost_ROOT_DIR=$args->{'boost-dir'} " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
-			"-DUSE_GNU_DEMANGLER:BOOL=ON " .
 			"$extra_args " .
 			"1>config.out 2>config.err "
 		);
