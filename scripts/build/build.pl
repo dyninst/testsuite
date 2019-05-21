@@ -483,41 +483,46 @@ sub log_system_info {
 	
 	# Use an eval just in case we don't have access to '/proc/cpuinfo'
 	eval {
-	  my $cpuinfo = &execute("cat /proc/cpuinfo");
-	  my @lines = grep {/vendor_id/i} split("\n", $cpuinfo);
-	  unless(@lines) {
-	            @lines = grep {/cpu\s+\:/i} split("\n", $cpuinfo);
-	        }
-	        if(@lines) {
-	            (undef, $vendor_name) = split(':', $lines[0]);
-	
-	            # On linux, Power has the form 'POWERXX, altivec...'
-	            if($vendor_name =~ /power/i) {                
-	              $vendor_name = (split(',',$vendor_name))[0];
-	            }
-	            
-	            # Remove all whitespace
-	            $vendor_name =~ s/\s//g;
-	  }
+		my $cpuinfo = &execute("cat /proc/cpuinfo");
+		my @lines = grep {/vendor_id/i} split("\n", $cpuinfo);
+		unless(@lines) {
+			@lines = grep {/cpu\s+\:/i} split("\n", $cpuinfo);
+		}
+		if(@lines) {
+			(undef, $vendor_name) = split(':', $lines[0]);
+			
+			# On linux, Power has the form 'POWERXX, altivec...'
+			if($vendor_name =~ /power/i) {                
+				$vendor_name = (split(',',$vendor_name))[0];
+			}
+			
+			# Remove all whitespace
+			$vendor_name =~ s/\s//g;
+		}
 	};
 	
 	print_log($fdLog, !$args->{'quiet'},
-	  "os: $sysname\n" .
-	  "hostname: $nodename\n" .
-	  "kernel: $release\n" .
-	  "version: $version\n" .
-	  "arch: $machine/$vendor_name\n"
+		"os: $sysname\n" .
+		"hostname: $nodename\n" .
+		"kernel: $release\n" .
+		"version: $version\n" .
+		"arch: $machine/$vendor_name\n"
 	);
 	
 	# Find and save the version of libc
 	my $libc_info = (split("\n", &execute('ldd --version')))[0];
 	if($libc_info =~ /gnu/i || $libc_info =~ /glibc/i) {
-	  # We have a GNU libc, the version is at the end
-	  $libc_info = (split(' ', $libc_info))[-1];
+		# We have a GNU libc, the version is at the end
+		$libc_info = (split(' ', $libc_info))[-1];
 	} else {
-	  $libc_info = "Unknown";
+		$libc_info = "Unknown";
 	}
 	print_log($fdLog, !$args->{'quiet'}, "libc: $libc_info\n");
+
+	# UTC datetime	
+	use POSIX qw(strftime);
+	print_log($fdLog, !$args->{'quiet'}, strftime("date: %Y-%m-%dT%H:%M:%S.\n", gmtime()));
+	
 	print_log($fdLog, !$args->{'quiet'}, '*'x20 . "\n");
 }
 
