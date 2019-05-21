@@ -518,6 +518,11 @@ sub log_system_info {
 		$libc_info = "Unknown";
 	}
 	print_log($fdLog, !$args->{'quiet'}, "libc: $libc_info\n");
+
+	# UTC datetime	
+	use POSIX qw(strftime);
+	print_log($fdLog, !$args->{'quiet'}, strftime("date: %Y-%m-%dT%H:%M:%S.\n", gmtime()));
+	
 	print_log($fdLog, !$args->{'quiet'}, '*'x20 . "\n");
 }
 
