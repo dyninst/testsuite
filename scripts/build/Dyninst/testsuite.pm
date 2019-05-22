@@ -42,14 +42,14 @@ sub configure {
 	# Configure the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
-#		execute(
-#			"cd $build_dir\n" .
-#			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
-#			"-DINSTALL_DIR=$base_dir/tests ".
-#			"-DDyninst_DIR=../dyninst/lib/cmake/Dyninst ".
-#			"$extra_args " .
-#			"1>config.out 2>config.err"
-#		);
+		execute(
+			"cd $build_dir\n" .
+			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
+			"-DINSTALL_DIR=$base_dir/tests ".
+			"-DDyninst_DIR=../dyninst/lib/cmake/Dyninst ".
+			"$extra_args " .
+			"1>config.out 2>config.err"
+		);
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
 }
@@ -62,54 +62,54 @@ sub build {
 	# Build the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
-#		execute(
-#			"cd $build_dir\n" .
-#			"make VERBOSE=1 -j$njobs 1>build.out 2>build.err"
-#		);
+		execute(
+			"cd $build_dir\n" .
+			"make VERBOSE=1 -j$njobs 1>build.out 2>build.err"
+		);
 	};
 	die "Error building: see $build_dir/build.err for details" if $@;
 
 	# Install the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
-#		execute(
-#		"cd $build_dir\n" .
-#		"make VERBOSE=1 install 1>build-install.out 2>build-install.err"
-#		);
+		execute(
+		"cd $build_dir\n" .
+		"make VERBOSE=1 install 1>build-install.out 2>build-install.err"
+		);
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
 }
 sub run {
 	my ($args, $base_dir) = @_;
 
-#	# Construct LD_LIBRARY_PATH from the paths in the Dyninst build cache	
-#	my $cmake_cache = parse_cmake_cache("$args->{'cmake-cache-dir'}/CMakeCache.txt");
-#	my $libs = '';
-#	for my $l ('Boost_LIBRARY_DIRS','TBB_LIBRARY_DIRS','ElfUtils_LIBRARY_DIRS') {
-#		$cmake_cache->{$l} =~ s/;/\:/g;
-#		$libs .= ':' . $cmake_cache->{$l};
-#	}
-#	my $paths = join(':',
-#		$base_dir,
-#		realpath("$base_dir/../dyninst/lib"),
-#		list_unique(split(':', $libs))
-#	);
-#
-#	# We need an 'eval' here since we are manually piping stderr
-#	eval {
-#		execute(
-#			"cd $base_dir\n" .
-#			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n".
-#			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-#			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
-#		);
-#	};
-#
-#	# Check if we were killed by the watchdog timer
-#	open my $fdIn, '<', "$base_dir/stderr.log";
-#	while(<$fdIn>) {
-#		return !!0 if m/Process exceeded time limit/;
-#	}
+	# Construct LD_LIBRARY_PATH from the paths in the Dyninst build cache	
+	my $cmake_cache = parse_cmake_cache("$args->{'cmake-cache-dir'}/CMakeCache.txt");
+	my $libs = '';
+	for my $l ('Boost_LIBRARY_DIRS','TBB_LIBRARY_DIRS','ElfUtils_LIBRARY_DIRS') {
+		$cmake_cache->{$l} =~ s/;/\:/g;
+		$libs .= ':' . $cmake_cache->{$l};
+	}
+	my $paths = join(':',
+		$base_dir,
+		realpath("$base_dir/../dyninst/lib"),
+		list_unique(split(':', $libs))
+	);
+
+	# We need an 'eval' here since we are manually piping stderr
+	eval {
+		execute(
+			"cd $base_dir\n" .
+			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n".
+			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
+			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
+		);
+	};
+
+	# Check if we were killed by the watchdog timer
+	open my $fdIn, '<', "$base_dir/stderr.log";
+	while(<$fdIn>) {
+		return !!0 if m/Process exceeded time limit/;
+	}
 	return !!1;
 }
 

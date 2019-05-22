@@ -45,16 +45,16 @@ sub configure {
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
-#		execute(
-#			"cd $build_dir\n" .
-#			"cmake -H$base_dir/src -B$build_dir " .
-#			"-DElfUtils_ROOT_DIR=$args->{'elfutils-dir'} " .
-#			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
-#			"-DBoost_ROOT_DIR=$args->{'boost-dir'} " .
-#			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
-#			"$extra_args " .
-#			"1>config.out 2>config.err "
-#		);
+		execute(
+			"cd $build_dir\n" .
+			"cmake -H$base_dir/src -B$build_dir " .
+			"-DElfUtils_ROOT_DIR=$args->{'elfutils-dir'} " .
+			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
+			"-DBoost_ROOT_DIR=$args->{'boost-dir'} " .
+			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
+			"$extra_args " .
+			"1>config.out 2>config.err "
+		);
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
 }
@@ -66,20 +66,20 @@ sub build {
 	# Run the build
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
-#		execute(
-#			"cd $build_dir\n" .
-#			"make VERBOSE=1 -j$njobs 1>build.out 2>build.err"
-#		);
+		execute(
+			"cd $build_dir\n" .
+			"make VERBOSE=1 -j$njobs 1>build.out 2>build.err"
+		);
 	};
 	die "Error building: see $build_dir/build.err for details" if $@;
 
 	# Install
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
-#		execute(
-#			"cd $build_dir\n" .
-#			"make VERBOSE=1 install 1>build-install.out 2>build-install.err"
-#		);
+		execute(
+			"cd $build_dir\n" .
+			"make VERBOSE=1 install 1>build-install.out 2>build-install.err"
+		);
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
 }
