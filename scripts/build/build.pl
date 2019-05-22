@@ -118,8 +118,15 @@ use Dyninst::utils;
 				Dyninst::testsuite::build(\%args, $build_dir);
 				Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
 			}
-		}		
-		
+		}
+	};
+	if($@) {
+		Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
+		open my $fdOut, '>', "$root_dir/Build.FAILED";
+		$args{'run-tests'} = 0;
+	}
+	
+	eval {
 		# Run the tests
 		if($args{'run-tests'}) {
 			make_path("$root_dir/testsuite/tests");
@@ -139,7 +146,7 @@ use Dyninst::utils;
 	};
 	if($@) {
 		Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
-		open my $fdOut, '>', "$root_dir/FAILED";
+		open my $fdOut, '>', "$root_dir/Tests.FAILED";
 	}
 	
 	my $results_log = "$root_dir/testsuite/tests/results.log";
