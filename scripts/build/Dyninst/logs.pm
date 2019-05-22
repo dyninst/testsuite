@@ -14,21 +14,32 @@ sub parse {
 		
 		# Parse the fixed-width format
 		my @x = unpack('a27 a7 a5 a4 a9 a8 a8 a8 a23');
-		
+
 		# Grab the status field (it's at the end)
 		my $status = pop @x;
-		if ($status =~ /FAILED\s*\((.+)\)\s*$/) {
+		my $failed = 0;
+		for my $s ('FAILED','CRASHED') {
 			# Split the status from the reason
 			# The format is 'FAILED (reason)'
-			$status = "FAILED,$1";
-		} else {
+			if ($status =~ /$s\s*\((.+)\)\s*$/) {
+				$status = "$s,$1";
+				$failed = 1;
+			}
+		}
+		if (!$failed) {
 			# Add an empty field to the CSV since there
 			# isn't a failure reason here
 			$status .= ',';
 		}
+		
+		# Update the header line
+		if($status eq 'RESULT,') {
+			$status .= 'REASON';
+		}
+		
 		# Strip the extra whitespace (except for the failure reason)
 		@x = map {s/\s+//g; $_;} @x;
-		
+				
 		# Add the failure status back to the record
 		push @x, $status;
 		
