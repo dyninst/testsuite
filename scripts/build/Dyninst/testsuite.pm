@@ -24,7 +24,7 @@ sub setup {
 	
 	# Check out the PR, if specified
 	if($args->{'testsuite-pr'}) {
-		&checkout_pr($args->{'test-src'}, $args->{'testsuite-pr'}, $git_config->{'branch'});
+		Dyninst::git::checkout_pr($args->{'test-src'}, $args->{'testsuite-pr'}, $git_config->{'branch'});
 		$git_config = Dyninst::git::get_config($args->{'test-src'}, $base_dir);
 	}
 	
