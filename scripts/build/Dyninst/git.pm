@@ -66,13 +66,18 @@ sub checkout_pr {
 				);
 			} else {
 				# Do a fetch/checkout
-				&execute(
+				my $stdout = &execute(
 					"cd $src_dir \n" .
 					"git fetch $remote pull/$id/head:$target_branch \n" .
 					"git checkout $target_branch \n" .
-					"git merge --squash -Xignore-all-space $remote/master \n" .
-					"git commit -m 'Merge $remote/master' \n"
+					"git merge --squash -Xignore-all-space $remote/master \n"
 				);
+				
+				# Running 'git commit' with nothing to commit returns a non-zero value.
+				# I think this is a bug in git, but just work around it for now.
+				if($stdout !~ /Already up-to-date/i) {
+					execute("git commit -m 'Merge $remote/master'");
+				}
 			}
 		}
 	};
