@@ -54,6 +54,10 @@ set(CMAKE_MODULE_PATH
     "${Dyninst_DIR}/Modules")
 
 include(c++11.cmake)
+include(LibXml2)
+
+include_directories(${LibXml2_INCLUDE_DIRS})
+link_directories(${LibXml2_LIBRARY_DIRS})
 
 set(USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
 if(NOT ("${USE_CXX11_ABI}" STREQUAL ""))
@@ -128,8 +132,6 @@ foreach(def ${DYNINST_INTERNAL_DEFINES})
   add_definitions(${def}_test)
   set(MUTATEE_DEFINES "${MUTATEE_DEFINES} ${def}_test")
 endforeach()
-
-find_package(LibXml2 REQUIRED)
 
 include_directories(src
                     src/dyninst
