@@ -167,7 +167,8 @@ use Dyninst::utils;
 	# Create the exportable tarball of results
 	my @log_files = (
 		File::Spec->abs2rel($args{'log-file'}),
-		"$root_dir/FAILED",
+		"$root_dir/Build.FAILED",
+		"$root_dir/Tests.FAILED",
 		"$root_dir/dyninst/git.log",
 		"$root_dir/dyninst/build/config.out",
 		"$root_dir/dyninst/build/config.err",
