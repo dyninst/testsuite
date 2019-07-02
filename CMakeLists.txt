@@ -5,7 +5,7 @@ project(Dyninst-TestSuite)
 # environment variable
 if(NOT Dyninst_DIR)
   if("$ENV{Dyninst_DIR}" STREQUAL "")
-    message("Dyninst_DIR not found: define as a cache or environment variable")
+    message(FATAL_ERROR "Dyninst_DIR not found: define as a cache or environment variable")
   else()
     set(_dyninst_dir ENV{Dyninst_DIR})
   endif()
