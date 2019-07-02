@@ -49,18 +49,6 @@ use Dyninst::utils;
 	}
 
 	$Dyninst::utils::debug_mode = $args{'debug-mode'};
-	
-	# Don't run the tests, if they aren't built
-	# To re-run the Testsuite without building
-	# anything, use '--restart'.
-	$args{'run-tests'} = 0 unless $args{'tests'};
-	
-	if($args{'restart'}) {
-		if(!-d $args{'restart'}) {
-			die "Requested restart directory ($args{'restart'}) does not exist\n";
-		}
-		$args{'run-tests'} = 1;
-	}
 
 	# Default directory and file locations
 	$args{'dyninst-src'} //= "$args{'prefix'}/dyninst";
@@ -69,10 +57,36 @@ use Dyninst::utils;
 
 	# Canonicalize user-specified files and directories
 	for my $d ('dyninst-src','test-src','log-file',
-				'boost-dir', 'elfutils-dir', 'tbb-dir')
+				'boost-dir', 'elfutils-dir', 'tbb-dir',
+				'restart')
 	{
 		# NB: realpath(undef|'') eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d}) && $args{$d} ne '';
+	}
+	
+	# By default, build both Dyninst and the Testsuite
+	$args{'build-dyninst'} = 1;
+	$args{'build-testsuite'} = 1;
+	
+	# If the user specifies --no-tests, then don't build or run the Testsuite
+	$args{'build-testsuite'} = $args{'tests'};
+	$args{'run-tests'} = 0 unless $args{'tests'};
+	
+	# If the existing builds didn't fail, then don't rebuild them
+	if($args{'restart'}) {
+		if(!-d $args{'restart'}) {
+			die "Requested restart directory ($args{'restart'}) does not exist\n";
+		}
+		if(!-e "$args{'restart'}/testsuite/Build.FAILED") {
+			$args{'build-testsuite'} = 0;
+		}
+		
+		# If the Dyninst build is not good, then rebuild them both
+		if(!-e "$args{'restart'}/dyninst/Build.FAILED") {
+			$args{'build-dyninst'} = 0;
+		} else {
+			$args{'build-testsuite'} = 1;
+		}
 	}
 
 	# Save a backup, if the log file already exists
@@ -82,40 +96,46 @@ use Dyninst::utils;
 
 	my $root_dir = ($args{'restart'}) ? $args{'restart'} : undef;
 
-	eval {
-		if($Dyninst::utils::debug_mode) {
-			use Data::Dumper;
-			print Dumper(\%args), "\n";
-		}
-		
-		Dyninst::logs::save_system_info(\%args, $fdLog);
-		
-		# Generate a unique name for the current build
-		$root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
-		
-		# Dyninst
-		{
-			# Always set up logs, even if doing a restart
-			my ($base_dir, $build_dir) = Dyninst::dyninst::setup($root_dir, \%args, $fdLog);
+	if($Dyninst::utils::debug_mode) {
+		use Data::Dumper;
+		print Dumper(\%args), "\n";
+	}
 	
-			unless($args{'restart'}) {
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
-				Dyninst::dyninst::configure(\%args, $base_dir, $build_dir);
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
-			
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Dyninst... ");
-				Dyninst::dyninst::build(\%args, $build_dir);
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
-			}
-		}
+	Dyninst::logs::save_system_info(\%args, $fdLog);
+	
+	# Generate a unique name for the current build
+	$root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
+	Dyninst::logs::write($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
+
+	eval {		
+		# Dyninst
+		# Always set up logs, even if doing a restart
+		my ($base_dir, $build_dir) = Dyninst::dyninst::setup($root_dir, \%args, $fdLog);
+
+		if($args{'build-dyninst'}) {
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
+			Dyninst::dyninst::configure(\%args, $base_dir, $build_dir);
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
 		
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Dyninst... ");
+			Dyninst::dyninst::build(\%args, $build_dir);
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
+		}
+	};
+	if($@) {
+		Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
+		open my $fdOut, '>', "$root_dir/dyninst/Build.FAILED";
+		$args{'build-testsuite'} = 0;
+		$args{'run-tests'} = 0;
+	}
+	
+	eval {
 		# Testsuite
 		if($args{'tests'}) {
 			# Always set up logs, even if doing a restart
 			my ($base_dir, $build_dir) = Dyninst::testsuite::setup($root_dir, \%args, $fdLog);
 
-			unless($args{'restart'}) {
+			if($args{'build-testsuite'}) {
 				Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 				Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
 				Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
@@ -128,7 +148,7 @@ use Dyninst::utils;
 	};
 	if($@) {
 		Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
-		open my $fdOut, '>', "$root_dir/Build.FAILED";
+		open my $fdOut, '>', "$root_dir/testsuite/Build.FAILED";
 		$args{'run-tests'} = 0;
 	}
 	
@@ -167,7 +187,8 @@ use Dyninst::utils;
 	# Create the exportable tarball of results
 	my @log_files = (
 		File::Spec->abs2rel($args{'log-file'}),
-		"$root_dir/Build.FAILED",
+		"$root_dir/dyninst/Build.FAILED",
+		"$root_dir/testsuite/Build.FAILED",
 		"$root_dir/Tests.FAILED",
 		"$root_dir/dyninst/git.log",
 		"$root_dir/dyninst/build/config.out",
@@ -228,6 +249,6 @@ build [options]
    --[no-]tests            Build the Testsuite (implies --[no-]run-tests; default: yes)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
-   --restart=ID            Restart the Testsuite for run 'ID' (implies --run-tests; does not build Dyninst or Testsuite)
+   --restart=ID            Restart the script for run 'ID'
    --help                  Print this help message
 =cut
