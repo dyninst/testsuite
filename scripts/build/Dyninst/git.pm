@@ -76,7 +76,10 @@ sub checkout_pr {
 				# Running 'git commit' with nothing to commit returns a non-zero value.
 				# I think this is a bug in git, but just work around it for now.
 				if($stdout !~ /Already up-to-date/i) {
-					execute("git commit -m 'Merge $remote/master'");
+					execute(
+						"cd $src_dir \n" .
+						"git commit -m 'Merge $remote/master'"
+					);
 				}
 			}
 		}
