@@ -139,7 +139,7 @@ include_directories(src
                     src/proccontrol
                     src/symtab
                     src/instruction
-                    ${LIBXML2_INCLUDE_DIR})
+                    ${LibXml2_INCLUDE_DIRS})
 
 set(LIBTESTSUITE_COMMON_SRCS
     src/test_lib.C
@@ -174,7 +174,7 @@ if(UNIX)
               src/test_lib_soExecution.C
               ${LIBTESTSUITE_COMMON_SRCS})
   add_library(testlaunch SHARED ${LIBTESTLAUNCH_SRCS})
-  target_link_libraries(testlaunch ${LIBXML2_LIBRARIES} testSuite)
+  target_link_libraries(testlaunch ${LibXml2_LIBRARIES} testSuite)
   set(TESTSUITE_TESTLAUNCH_LINK testSuite testlaunch)
 else()
   add_library(testSuite
@@ -188,7 +188,7 @@ endif()
 set_target_properties(${TESTSUITE_TESTLAUNCH_LINK}
                       PROPERTIES COMPILE_DEFINITIONS TESTLIB_DLL_BUILD)
 
-target_link_libraries(testSuite ${CMAKE_DL_LIBS} ${LIBXML2_LIBRARIES})
+target_link_libraries(testSuite ${CMAKE_DL_LIBS} ${LibXml2_LIBRARIES})
 
 add_library(DatabaseOutputDriver SHARED src/DatabaseOutputDriver.C)
 target_link_libraries(DatabaseOutputDriver testSuite)
