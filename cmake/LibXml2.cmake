@@ -65,7 +65,7 @@ else()
       <SOURCE_DIR>/configure
       	--prefix=${CMAKE_INSTALL_PREFIX} --disable-static --with-pic --without-python
     BUILD_COMMAND make
-    INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/
+    INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     INSTALL_COMMAND make install
   )
 
