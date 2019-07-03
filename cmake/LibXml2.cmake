@@ -62,7 +62,8 @@ else()
     URL_MD5 c04a5a0a042eaa157e8e8c9eabe76bd6
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND
-      <SOURCE_DIR>/configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static --with-pic
+      <SOURCE_DIR>/configure
+      	--prefix=${CMAKE_INSTALL_PREFIX} --disable-static --with-pic --without-python
     BUILD_COMMAND make
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/
     INSTALL_COMMAND make install
