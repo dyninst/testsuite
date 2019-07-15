@@ -183,6 +183,7 @@ else()
               ${LIBTESTLAUNCH_SRCS})
   set(TESTSUITE_TESTLAUNCH_LINK testSuite)
 endif()
+add_dependencies(testSuite LibXml2)
 
 set_target_properties(${TESTSUITE_TESTLAUNCH_LINK}
                       PROPERTIES COMPILE_DEFINITIONS TESTLIB_DLL_BUILD)
