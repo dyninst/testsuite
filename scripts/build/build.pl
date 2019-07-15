@@ -32,6 +32,7 @@ use Dyninst::utils;
 	'purge'					=> 0,
 	'help' 					=> 0,
 	'restart'				=> undef,
+	'upload'				=> 1,
 	'debug-mode'			=> 0	# undocumented debug mode
 	);
 
@@ -41,7 +42,7 @@ use Dyninst::utils;
 		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 		'dyninst-cmake-args=s', 'testsuite-cmake-args=s',
 		'tests!', 'run-tests!', 'njobs=i', 'quiet',
-		'purge', 'help', 'restart=s', 'debug-mode'
+		'purge', 'help', 'restart=s', 'upload!', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
 	if($args{'help'}) {
@@ -219,6 +220,11 @@ use Dyninst::utils;
 	if($args{'purge'}) {
 		remove_tree($root_dir);
 	}
+	
+	# Upload the results to the dashboard, if requested
+	if($args{'upload'}) {
+		Dyninst::utils::execute("curl -F upload=\@$root_dir.results.tar.gz https://bottle.cs.wisc.edu/upload");
+	}
 }
 
 
@@ -250,5 +256,6 @@ build [options]
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
    --restart=ID            Restart the script for run 'ID'
+   --[no-]upload           Upload the results to the Dyninst dashboard (default: yes)
    --help                  Print this help message
 =cut
