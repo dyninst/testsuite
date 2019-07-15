@@ -138,8 +138,7 @@ include_directories(src
                     src/dyninst
                     src/proccontrol
                     src/symtab
-                    src/instruction
-                    ${LibXml2_INCLUDE_DIRS})
+                    src/instruction)
 
 set(LIBTESTSUITE_COMMON_SRCS
     src/test_lib.C
