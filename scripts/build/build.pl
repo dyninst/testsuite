@@ -94,6 +94,12 @@ use Dyninst::utils;
 			print "The Testsuite in '$args{'restart'}' must be rebuilt\n";
 			exit 1;
 		}
+	} else {
+		if($args{'run-tests'} && !$args{'build-tests'}) {
+			print "The Testsuite must be built before it can be run. ",
+			      "Use --restart to reuse a previous build.\n";
+			exit 1;
+		}
 	}
 
 	# Save a backup, if the log file already exists
@@ -138,19 +144,17 @@ use Dyninst::utils;
 	
 	eval {
 		# Testsuite
-		if($args{'tests'}) {
-			# Always set up logs, even if doing a restart
-			my ($base_dir, $build_dir) = Dyninst::testsuite::setup($root_dir, \%args, $fdLog);
-
-			if($args{'build-tests'}) {
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
-				Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
-				
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Testsuite... ");
-				Dyninst::testsuite::build(\%args, $build_dir);
-				Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
-			}
+		# Always set up logs, even if doing a restart
+		my ($base_dir, $build_dir) = Dyninst::testsuite::setup($root_dir, \%args, $fdLog);
+		
+		if($args{'build-tests'}) {
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
+			Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
+			
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Testsuite... ");
+			Dyninst::testsuite::build(\%args, $build_dir);
+			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
 		}
 	};
 	if($@) {
