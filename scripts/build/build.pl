@@ -25,8 +25,8 @@ use Dyninst::utils;
 	'testsuite-pr'			=> undef,
 	'dyninst-cmake-args'	=> undef,
 	'testsuite-cmake-args'	=> undef,
+	'build-tests'			=> 1,
 	'run-tests'				=> 1,
-	'tests'					=> 1,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
@@ -41,7 +41,7 @@ use Dyninst::utils;
 		'boost-dir=s', 'elfutils-dir=s', 'tbb-dir=s',
 		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 		'dyninst-cmake-args=s', 'testsuite-cmake-args=s',
-		'tests!', 'run-tests!', 'njobs=i', 'quiet',
+		'build-tests!', 'run-tests!', 'njobs=i', 'quiet',
 		'purge', 'help', 'restart=s', 'upload!', 'debug-mode'
 	) or pod2usage(-exitval=>2);
 
@@ -67,26 +67,20 @@ use Dyninst::utils;
 	
 	# By default, build both Dyninst and the Testsuite
 	$args{'build-dyninst'} = 1;
-	$args{'build-testsuite'} = 1;
 	
-	# If the user specifies --no-tests, then don't build or run the Testsuite
-	$args{'build-testsuite'} = $args{'tests'};
-	$args{'run-tests'} = 0 unless $args{'tests'};
-	
-	# If the existing builds didn't fail, then don't rebuild them
 	if($args{'restart'}) {
 		if(!-d $args{'restart'}) {
 			die "Requested restart directory ($args{'restart'}) does not exist\n";
 		}
 		if(!-e "$args{'restart'}/testsuite/Build.FAILED") {
-			$args{'build-testsuite'} = 0;
+			$args{'build-tests'} = 0;
 		}
 		
 		# If the Dyninst build is not good, then rebuild them both
 		if(!-e "$args{'restart'}/dyninst/Build.FAILED") {
 			$args{'build-dyninst'} = 0;
 		} else {
-			$args{'build-testsuite'} = 1;
+			$args{'build-tests'} = 1;
 		}
 	}
 
@@ -126,7 +120,7 @@ use Dyninst::utils;
 	if($@) {
 		Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
 		open my $fdOut, '>', "$root_dir/dyninst/Build.FAILED";
-		$args{'build-testsuite'} = 0;
+		$args{'build-tests'} = 0;
 		$args{'run-tests'} = 0;
 	}
 	
@@ -136,7 +130,7 @@ use Dyninst::utils;
 			# Always set up logs, even if doing a restart
 			my ($base_dir, $build_dir) = Dyninst::testsuite::setup($root_dir, \%args, $fdLog);
 
-			if($args{'build-testsuite'}) {
+			if($args{'build-tests'}) {
 				Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
 				Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
 				Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
@@ -251,8 +245,8 @@ build [options]
    --dyninst-cmake-args    Additional CMake arguments for Dyninst
    --testsuite-cmake-args  Additional CMake arguments for the Testsuite
    --njobs=N               Number of make jobs (default: N=1)
+   --[no-]build-tests      Build the Testsuite (default: yes)
    --[no-]run-tests        Run the Testsuite (default: yes)
-   --[no-]tests            Build the Testsuite (implies --[no-]run-tests; default: yes)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
    --restart=ID            Restart the script for run 'ID'
