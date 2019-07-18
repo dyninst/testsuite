@@ -65,22 +65,34 @@ use Dyninst::utils;
 		$args{$d} = realpath($args{$d}) if defined($args{$d}) && $args{$d} ne '';
 	}
 	
-	# By default, build both Dyninst and the Testsuite
+	# By default, build Dyninst
 	$args{'build-dyninst'} = 1;
 	
 	if($args{'restart'}) {
 		if(!-d $args{'restart'}) {
 			die "Requested restart directory ($args{'restart'}) does not exist\n";
 		}
-		if(!-e "$args{'restart'}/testsuite/Build.FAILED") {
-			$args{'build-tests'} = 0;
-		}
+
+		# If the Dyninst build is missing or failed, then rebuild it		
+		my $dyninst_ok = -d "$args{'restart'}/dyninst" &&
+						!-e "$args{'restart'}/dyninst/Build.FAILED";
+		$args{'build-dyninst'} = !$dyninst_ok;
 		
-		# If the Dyninst build is not good, then rebuild them both
-		if(!-e "$args{'restart'}/dyninst/Build.FAILED") {
-			$args{'build-dyninst'} = 0;
-		} else {
-			$args{'build-tests'} = 1;
+		# If the Testsuite build is missing or failed, then rebuild it
+		# The Testsuite cannot be good if Dyninst is not good
+		my $testsuite_ok = -d "$args{'restart'}/testsuite" &&
+						  !-e "$args{'restart'}/testsuite/Build.FAILED" &&
+						  $dyninst_ok;
+
+		my $user_wants_to_build_tests = $args{'build-tests'};
+		$args{'build-tests'} = !$testsuite_ok && $user_wants_to_build_tests;
+		
+		# Sanity check: If the existing Testsuite is bad and the user
+		#				wants to run the tests, but the user requested not
+		#				to build the Testsuite, then we can't continue
+		if(!$testsuite_ok && $args{'run-tests'} && !$user_wants_to_build_tests) {
+			print "The Testsuite in '$args{'restart'}' must be rebuilt\n";
+			exit 1;
 		}
 	}
 
