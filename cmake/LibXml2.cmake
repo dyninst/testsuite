@@ -42,7 +42,7 @@ find_package(LibXml2)
 # -------------- SOURCE BUILD -------------------------------------------------
 if(LIBXML2_FOUND)
   set(_lx_root ${LibXml2_ROOT_DIR})
-  set(_lx_inc_dir ${LIBXML2_INCLUDE_DIRS})
+  set(_lx_inc_dir ${LIBXML2_INCLUDE_DIR})
   set(_lx_lib_dirs ${LIBXML2_LIBRARY})
   set(_lx_libs ${LIBXML2_LIBRARIES})
   add_library(LibXml2 SHARED IMPORTED)
