@@ -49,11 +49,16 @@ link_directories(${ElfUtils_LIBRARY_DIRS})
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
+    "${PROJECT_SOURCE_DIR}/cmake"
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
     "${Dyninst_DIR}"
     "${Dyninst_DIR}/Modules")
 
 include(c++11.cmake)
+include(LibXml2)
+
+include_directories(${LibXml2_INCLUDE_DIRS})
+link_directories(${LibXml2_LIBRARY_DIRS})
 
 set(USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
 if(NOT ("${USE_CXX11_ABI}" STREQUAL ""))
@@ -129,14 +134,11 @@ foreach(def ${DYNINST_INTERNAL_DEFINES})
   set(MUTATEE_DEFINES "${MUTATEE_DEFINES} ${def}_test")
 endforeach()
 
-find_package(LibXml2 REQUIRED)
-
 include_directories(src
                     src/dyninst
                     src/proccontrol
                     src/symtab
-                    src/instruction
-                    ${LIBXML2_INCLUDE_DIR})
+                    src/instruction)
 
 set(LIBTESTSUITE_COMMON_SRCS
     src/test_lib.C
@@ -171,7 +173,7 @@ if(UNIX)
               src/test_lib_soExecution.C
               ${LIBTESTSUITE_COMMON_SRCS})
   add_library(testlaunch SHARED ${LIBTESTLAUNCH_SRCS})
-  target_link_libraries(testlaunch ${LIBXML2_LIBRARIES} testSuite)
+  target_link_libraries(testlaunch ${LibXml2_LIBRARIES} testSuite)
   set(TESTSUITE_TESTLAUNCH_LINK testSuite testlaunch)
 else()
   add_library(testSuite
@@ -181,11 +183,12 @@ else()
               ${LIBTESTLAUNCH_SRCS})
   set(TESTSUITE_TESTLAUNCH_LINK testSuite)
 endif()
+add_dependencies(testSuite LibXml2)
 
 set_target_properties(${TESTSUITE_TESTLAUNCH_LINK}
                       PROPERTIES COMPILE_DEFINITIONS TESTLIB_DLL_BUILD)
 
-target_link_libraries(testSuite ${CMAKE_DL_LIBS} ${LIBXML2_LIBRARIES})
+target_link_libraries(testSuite ${CMAKE_DL_LIBS} ${LibXml2_LIBRARIES})
 
 add_library(DatabaseOutputDriver SHARED src/DatabaseOutputDriver.C)
 target_link_libraries(DatabaseOutputDriver testSuite)
