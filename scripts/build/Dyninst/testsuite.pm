@@ -95,6 +95,7 @@ sub run {
 		list_unique(split(':', $libs))
 	);
 
+	my $err = undef;
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
@@ -104,12 +105,27 @@ sub run {
 			"./runTests -all -log test.log 1>stdout.log 2>stderr.log"
 		);
 	};
+	$err = $@ if $@;
 
 	# Check if we were killed by the watchdog timer
 	open my $fdIn, '<', "$base_dir/stderr.log";
 	while(<$fdIn>) {
 		return !!0 if m/Process exceeded time limit/;
 	}
+
+	# The run failed for some reason other than the watchdog timer
+	chomp($err);
+	if($err && $err eq '') {
+		# runTest returned a non-zero value, but no actual error
+		# message. Check the log for an error message
+		open my $fdIn, '<', "$base_dir/stderr.log" or die "$!\n";
+		while(<$fdIn>) {
+			if(/\berror\b/i) {
+				return !!0;
+			}
+		}
+	}
+	
 	return !!1;
 }
 
