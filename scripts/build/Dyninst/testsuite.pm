@@ -121,7 +121,7 @@ sub run {
 		open my $fdIn, '<', "$base_dir/stderr.log" or die "$!\n";
 		while(<$fdIn>) {
 			if(/\berror\b/i) {
-				return !!0;
+				die "runTests terminated abnormally";
 			}
 		}
 	}
