@@ -250,8 +250,15 @@ if($args{'purge'}) {
 
 # Upload the results to the dashboard, if requested
 if($args{'upload'}) {
+	use Digest::MD5 qw(md5_hex);
+	my $token = md5_hex($args{'hostname'});
+	
 	eval {
-		Dyninst::utils::execute("curl -F upload=\@$root_dir.results.tar.gz https://bottle.cs.wisc.edu/upload");
+		Dyninst::utils::execute(
+			"curl -F \"upload=\@$root_dir.results.tar.gz\" ".
+			"-F \"token=$token\" ".
+			"https://bottle.cs.wisc.edu/upload"
+		);
 	};
 	if($@) {
 		print "An error occurred when uploading the results\n$@\n";
