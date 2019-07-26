@@ -31,6 +31,8 @@ load_cache(${Dyninst_DIR}
            ElfUtils_INCLUDE_DIRS
            ElfUtils_LIBRARY_DIRS
            STERILE_BUILD
+           USE_GNU_DEMANGLER
+           LibIberty_LIBRARY_DIRS
            )
 
 # Import the include and library directory names
@@ -47,6 +49,10 @@ add_definitions(${TBB_DEFINES})
 
 include_directories(${ElfUtils_INCLUDE_DIRS})
 link_directories(${ElfUtils_LIBRARY_DIRS})
+
+if(NOT ${USE_GNU_DEMANGLER})
+	link_directories(${LibIberty_LIBRARY_DIRS})
+endif
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
