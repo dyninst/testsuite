@@ -52,7 +52,7 @@ link_directories(${ElfUtils_LIBRARY_DIRS})
 
 if(NOT ${USE_GNU_DEMANGLER})
 	link_directories(${LibIberty_LIBRARY_DIRS})
-endif
+endif()
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
