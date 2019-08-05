@@ -22,7 +22,7 @@ sub setup {
 	symlink($args->{'dyninst-src'}, "$base_dir/src");
 	
 	# This is for internal use only
-	$args->{'cmake-cache-dir'} = $build_dir;
+	$args->{'dyninst-cmake-cache-dir'} = $build_dir;
 	
 	my $git_config = Dyninst::git::get_config($args->{'dyninst-src'}, $base_dir);
 	
@@ -39,8 +39,6 @@ sub setup {
 
 sub configure {
 	my ($args, $base_dir, $build_dir) = @_;
-	
-	my $extra_args = $args->{'dyninst-cmake-args'} // '';
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
@@ -48,11 +46,9 @@ sub configure {
 		execute(
 			"cd $build_dir\n" .
 			"cmake -H$base_dir/src -B$build_dir " .
-			"-DElfUtils_ROOT_DIR=$args->{'elfutils-dir'} " .
-			"-DTBB_ROOT_DIR=$args->{'tbb-dir'} " .
-			"-DBoost_ROOT_DIR=$args->{'boost-dir'} " .
+			"$args->{'cmake-args'} " .
+			"$args->{'dyninst-cmake-args'} " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
-			"$extra_args " .
 			"1>config.out 2>config.err "
 		);
 	};

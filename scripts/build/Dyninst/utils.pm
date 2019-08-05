@@ -1,7 +1,7 @@
 package Dyninst::utils;
 
 use base 'Exporter';
-our @EXPORT_OK = qw(execute list_unique parse_cmake_cache);
+our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache);
 
 use Capture::Tiny qw(capture);
 
@@ -41,6 +41,12 @@ sub parse_cmake_cache {
 		$defines{$key} = $value;
 	}
 	return \%defines;
+}
+
+sub load_from_cache {
+	my ($filename, $var_names) = @_;
+	my $cache = parse_cmake_cache($filename);
+	map { split(';', $cache->{$_}); } @{$var_names};
 }
 
 1;

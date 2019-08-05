@@ -17,14 +17,12 @@ use Dyninst::utils;
 	'prefix'				=> cwd(),
 	'dyninst-src'			=> undef,
 	'test-src'				=> undef,
-	'boost-dir'				=> '',
-	'elfutils-dir'			=> '',
-	'tbb-dir'				=> '',
 	'log-file'      		=> undef,
 	'dyninst-pr'			=> undef,
 	'testsuite-pr'			=> undef,
-	'dyninst-cmake-args'	=> undef,
-	'testsuite-cmake-args'	=> undef,
+	'cmake-args'			=> '',
+	'dyninst-cmake-args'	=> '',
+	'testsuite-cmake-args'	=> '',
 	'build-tests'			=> 1,
 	'run-tests'				=> 1,
 	'njobs' 				=> 1,
@@ -38,8 +36,8 @@ use Dyninst::utils;
 
 	GetOptions(\%args,
 		'prefix=s', 'dyninst-src=s', 'test-src=s',
-		'boost-dir=s', 'elfutils-dir=s', 'tbb-dir=s',
 		'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
+		'cmake-args=s',
 		'dyninst-cmake-args=s', 'testsuite-cmake-args=s',
 		'build-tests!', 'run-tests!', 'njobs=i', 'quiet',
 		'purge', 'help', 'restart=s', 'upload!', 'debug-mode'
@@ -57,10 +55,7 @@ use Dyninst::utils;
 	$args{'log-file'} //= "$args{'prefix'}/build.log";
 
 	# Canonicalize user-specified files and directories
-	for my $d ('dyninst-src','test-src','log-file',
-				'boost-dir', 'elfutils-dir', 'tbb-dir',
-				'restart')
-	{
+	for my $d ('dyninst-src','test-src','log-file', 'restart') {
 		# NB: realpath(undef|'') eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d}) && $args{$d} ne '';
 	}
@@ -252,12 +247,10 @@ build [options]
    --prefix                Base directory for the source and build directories (default: pwd)
    --dyninst-src=PATH      Source directory for Dyninst (default: prefix/dyninst)
    --test-src=PATH         Source directory for Testsuite (default: prefix/testsuite)
-   --boost-dir=PATH        Base directory for Boost
-   --elfutils-dir=PATH     Base directory for libelf/libdwarf
-   --tbb-dir=PATH          Base directory for Intel's Threading Building Blocks
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --dyninst-pr            The Dyninst pull request formatted as 'remote/ID' with 'remote' being optional
    --testsuite-pr          The Testsuite pull request formatted as 'remote/ID' with 'remote' being optional
+   --cmake-args            CMake options passed to both Dyninst and the test suite (format '-DVAR=VALUE')
    --dyninst-cmake-args    Additional CMake arguments for Dyninst
    --testsuite-cmake-args  Additional CMake arguments for the Testsuite
    --njobs=N               Number of make jobs (default: N=1)
