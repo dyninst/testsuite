@@ -131,7 +131,9 @@ use Dyninst::utils;
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
 			Dyninst::dyninst::configure(\%args, $base_dir, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
-		
+			
+			Dyninst::utils::save_compiler_config($build_dir, "$base_dir/compilers.conf");
+
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			Dyninst::dyninst::build(\%args, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
@@ -154,6 +156,8 @@ use Dyninst::utils;
 			Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
 			
+			Dyninst::utils::save_compiler_config($build_dir, "$base_dir/compilers.conf");
+
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 			Dyninst::testsuite::build(\%args, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");

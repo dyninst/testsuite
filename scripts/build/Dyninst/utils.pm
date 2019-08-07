@@ -49,4 +49,41 @@ sub load_from_cache {
 	map { split(';', $cache->{$_}); } @{$var_names};
 }
 
+sub save_compiler_config {
+	my ($build_dir, $out_file) = @_;
+	
+	my $log_file = "$build_dir/config.out";
+	open my $fdIn, '<', $log_file or die "Unable to open '$log_file': $!\n";
+	
+	my %compilers = (
+		'cxx' => {'path'=>'', 'version'=>''},
+		'c'   => {'path'=>'', 'version'=>''}
+	);
+
+	while(<$fdIn>) {
+		if(/Check for working CXX compiler: (.+)? -- works/) {
+			$compilers{'cxx'}{'path'} = $1;
+			next;
+		}
+		if(/Check for working C compiler: (.+)? -- works/) {
+			$compilers{'c'}{'path'} = $1;
+			next;
+		}
+		if(/The C compiler identification is (.+)/) {
+			$compilers{'c'}{'version'} = $1;
+		}
+		if(/The CXX compiler identification is (.+)/) {
+			$compilers{'cxx'}{'version'} = $1;
+		}
+	}
+	
+	open my $fdOut, '>', $out_file or die "Couldn't open '$out_file': $!\n";
+	local $, = "\n";
+	print $fdOut
+		"c_path: $compilers{'c'}{'path'}",
+		"c_version: $compilers{'c'}{'version'}",
+		"cxx_path: $compilers{'cxx'}{'path'}",
+		"cxx_version: $compilers{'cxx'}{'version'}";
+}
+
 1;
