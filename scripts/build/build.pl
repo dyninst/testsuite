@@ -30,7 +30,7 @@ use Dyninst::utils;
 	'purge'					=> 0,
 	'help' 					=> 0,
 	'restart'				=> undef,
-	'upload'				=> 1,
+	'upload'				=> 0,
 	'debug-mode'			=> 0	# undocumented debug mode
 	);
 
@@ -259,6 +259,6 @@ build [options]
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
    --restart=ID            Restart the script for run 'ID'
-   --[no-]upload           Upload the results to the Dyninst dashboard (default: yes)
+   --[no-]upload           Upload the results to the Dyninst dashboard (default: no)
    --help                  Print this help message
 =cut
