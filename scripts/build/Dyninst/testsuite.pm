@@ -3,7 +3,7 @@ package Dyninst::testsuite;
 use base 'Exporter';
 our @EXPORT_OK = qw(setup configure build run);
 
-use Dyninst::utils qw(execute list_unique parse_cmake_cache);
+use Dyninst::utils qw(execute list_unique load_from_cache);
 use Dyninst::git;
 use Cwd qw(realpath);
 use File::Path qw(make_path);
@@ -19,6 +19,9 @@ sub setup {
 	my $build_dir = "$base_dir/build";
 	symlink($args->{'test-src'}, "$base_dir/src");
 	symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
+	
+	# This is for internal use only
+	$args->{'testsuite-cmake-cache-dir'} = $build_dir;
 	
 	my $git_config = Dyninst::git::get_config($args->{'test-src'}, $base_dir);
 	
@@ -37,17 +40,16 @@ sub setup {
 sub configure {
 	my ($args, $base_dir, $build_dir) = @_;
 	
-	my $extra_args = $args->{'testsuite-cmake-args'} // '';
-
 	# Configure the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
 	eval {
 		execute(
 			"cd $build_dir\n" .
 			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
+			"$args->{'cmake-args'} " .
+			"$args->{'testsuite-cmake-args'} " .
 			"-DINSTALL_DIR=$base_dir/tests ".
 			"-DDyninst_DIR=../dyninst/lib/cmake/Dyninst ".
-			"$extra_args " .
 			"1>config.out 2>config.err"
 		);
 	};
@@ -82,18 +84,21 @@ sub build {
 sub run {
 	my ($args, $base_dir) = @_;
 
-	# Construct LD_LIBRARY_PATH from the paths in the Dyninst build cache	
-	my $cmake_cache = parse_cmake_cache("$args->{'cmake-cache-dir'}/CMakeCache.txt");
-	my $libs = '';
-	for my $l ('Boost_LIBRARY_DIRS','TBB_LIBRARY_DIRS','ElfUtils_LIBRARY_DIRS') {
-		$cmake_cache->{$l} =~ s/;/\:/g;
-		$libs .= ':' . $cmake_cache->{$l};
-	}
-	my $paths = join(':',
-		$base_dir,
-		realpath("$base_dir/../dyninst/lib"),
-		list_unique(split(':', $libs))
+	# Grab the paths in the Dyninst build cache
+	my @lib_dirs = (
+		'Boost_LIBRARY_DIRS','TBB_LIBRARY_DIRS','ElfUtils_LIBRARY_DIRS',
+		'LibIberty_LIBRARY_DIRS'
 	);
+	my $cache = "$args->{'dyninst-cmake-cache-dir'}/CMakeCache.txt";
+	my @libs = load_from_cache($cache, \@lib_dirs);
+	
+	# Grab the paths in the test suite build cache
+	$cache = "$args->{'testsuite-cmake-cache-dir'}/CMakeCache.txt";
+	@lib_dirs = 'LibXml2_LIBRARY_DIRS';
+	push @libs, load_from_cache($cache, \@lib_dirs);
+	
+	push @libs, ($base_dir, realpath("$base_dir/../dyninst/lib"));
+	my $paths = join(':', list_unique(@libs));
 
 	my $err = undef;
 	# We need an 'eval' here since we are manually piping stderr
