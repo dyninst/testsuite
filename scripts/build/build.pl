@@ -55,7 +55,7 @@ use Dyninst::utils;
 	$args{'log-file'} //= "$args{'prefix'}/build.log";
 
 	# Canonicalize user-specified files and directories
-	for my $d ('dyninst-src','test-src','log-file', 'restart') {
+	for my $d ('dyninst-src','test-src','log-file') {
 		# NB: realpath(undef|'') eq cwd()
 		$args{$d} = realpath($args{$d}) if defined($args{$d}) && $args{$d} ne '';
 	}
