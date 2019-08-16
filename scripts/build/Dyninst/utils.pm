@@ -50,10 +50,9 @@ sub load_from_cache {
 }
 
 sub save_compiler_config {
-	my ($build_dir, $out_file) = @_;
+	my ($cmake_log, $out_file) = @_;
 	
-	my $log_file = "$build_dir/config.out";
-	open my $fdIn, '<', $log_file or die "Unable to open '$log_file': $!\n";
+	open my $fdIn, '<', $cmake_log or die "Unable to open CMake log '$cmake_log': $!\n";
 	
 	my %compilers = (
 		'cxx' => {'path'=>'', 'version'=>''},
