@@ -156,7 +156,7 @@ use Dyninst::utils;
 			Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
 			
-			Dyninst::utils::save_compiler_config($build_dir, "$base_dir/compilers.conf");
+			Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/compilers.conf");
 
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 			Dyninst::testsuite::build(\%args, $build_dir);
