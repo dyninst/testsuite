@@ -76,6 +76,10 @@ sub save_compiler_config {
 		}
 	}
 	
+	unless($compilers{'cxx'}{'path'}) {
+		die "$cmake_log doesn't appear to be a valid CMake log file\n";
+	}
+	
 	open my $fdOut, '>', $out_file or die "Couldn't open '$out_file': $!\n";
 	local $, = "\n";
 	print $fdOut
