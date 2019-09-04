@@ -235,7 +235,12 @@ use Dyninst::utils;
 	
 	# Upload the results to the dashboard, if requested
 	if($args{'upload'}) {
-		Dyninst::utils::execute("curl -F upload=\@$root_dir.results.tar.gz https://bottle.cs.wisc.edu/upload");
+		eval {
+			Dyninst::utils::execute("curl -F upload=\@$root_dir.results.tar.gz https://bottle.cs.wisc.edu/upload");
+		};
+		if($@) {
+			print "An error occurred when uploading the results\n$@\n";
+		}
 	}
 }
 
