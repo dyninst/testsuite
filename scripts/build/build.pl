@@ -89,6 +89,13 @@ use Dyninst::utils;
 			print "The Testsuite in '$args{'restart'}' must be rebuilt\n";
 			exit 1;
 		}
+		
+		# Remove the FAILED files (if present)
+		unlink(
+			"$args{'restart'}/dyninst/Build.FAILED",
+			"$args{'restart'}/testsuite/Build.FAILED",
+			"$args{'restart'}/Tests.FAILED"
+		);
 	} else {
 		if($args{'run-tests'} && !$args{'build-tests'}) {
 			print "The Testsuite must be built before it can be run. ",
