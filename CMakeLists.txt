@@ -30,6 +30,7 @@ load_cache(${Dyninst_DIR}
            TBB_DEFINES
            ElfUtils_INCLUDE_DIRS
            ElfUtils_LIBRARY_DIRS
+           STERILE_BUILD
            )
 
 # Import the include and library directory names
