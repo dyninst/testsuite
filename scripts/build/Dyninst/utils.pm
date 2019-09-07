@@ -4,6 +4,7 @@ use base 'Exporter';
 our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache);
 
 use Capture::Tiny qw(capture);
+use Cwd qw(realpath);
 
 our $debug_mode;
 
@@ -61,11 +62,11 @@ sub save_compiler_config {
 
 	while(<$fdIn>) {
 		if(/Check for working CXX compiler: (.+)? -- works/) {
-			$compilers{'cxx'}{'path'} = $1;
+			$compilers{'cxx'}{'path'} = realpath($1);
 			next;
 		}
 		if(/Check for working C compiler: (.+)? -- works/) {
-			$compilers{'c'}{'path'} = $1;
+			$compilers{'c'}{'path'} = realpath($1);
 			next;
 		}
 		if(/The C compiler identification is (.+)/) {
