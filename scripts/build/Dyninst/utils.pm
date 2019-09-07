@@ -70,9 +70,11 @@ sub save_compiler_config {
 		}
 		if(/The C compiler identification is (.+)/) {
 			$compilers{'c'}{'version'} = $1;
+			next;
 		}
 		if(/The CXX compiler identification is (.+)/) {
 			$compilers{'cxx'}{'version'} = $1;
+			next;
 		}
 	}
 	
