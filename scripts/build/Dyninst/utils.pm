@@ -94,7 +94,7 @@ sub save_compiler_config {
 		"c_path: $compilers{'c'}{'path'}",
 		"c_version: $compilers{'c'}{'version'}",
 		"cxx_path: $compilers{'cxx'}{'path'}",
-		"cxx_version: $compilers{'cxx'}{'version'}";
+		"cxx_version: $compilers{'cxx'}{'version'}\n";
 }
 
 1;
