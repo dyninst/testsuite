@@ -131,7 +131,9 @@ use Dyninst::utils;
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
 			Dyninst::dyninst::configure(\%args, $base_dir, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
-		
+			
+			Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
+
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Dyninst... ");
 			Dyninst::dyninst::build(\%args, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
@@ -154,6 +156,8 @@ use Dyninst::utils;
 			Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
 			
+			Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
+
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Testsuite... ");
 			Dyninst::testsuite::build(\%args, $build_dir);
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
@@ -204,6 +208,7 @@ use Dyninst::utils;
 		"$root_dir/testsuite/Build.FAILED",
 		"$root_dir/Tests.FAILED",
 		"$root_dir/dyninst/git.log",
+		"$root_dir/dyninst/build/compilers.conf",
 		"$root_dir/dyninst/build/config.out",
 		"$root_dir/dyninst/build/config.err",
 		"$root_dir/dyninst/build/build.out",
@@ -211,6 +216,7 @@ use Dyninst::utils;
 		"$root_dir/dyninst/build/build-install.out",
 		"$root_dir/dyninst/build/build-install.err",
 		"$root_dir/testsuite/git.log",
+		"$root_dir/testsuite/build/compilers.conf",
 		"$root_dir/testsuite/build/config.out",
 		"$root_dir/testsuite/build/config.err",
 		"$root_dir/testsuite/build/build.out",
