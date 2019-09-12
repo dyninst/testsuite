@@ -23,6 +23,7 @@ my %args = (
 	'testsuite-cmake-args'	=> '',
 	'build-tests'			=> 1,
 	'run-tests'				=> 1,
+	'tests'					=> 1,
 	'njobs' 				=> 1,
 	'quiet'					=> 0,
 	'purge'					=> 0,
@@ -37,8 +38,9 @@ GetOptions(\%args,
 	'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 	'cmake-args=s', 'dyninst-cmake-args=s',
 	'testsuite-cmake-args=s', 'build-tests!',
-	'run-tests!', 'njobs=i', 'quiet', 'purge',
-	'help', 'restart=s', 'upload!', 'debug-mode'
+	'run-tests!', 'tests!', 'njobs=i', 'quiet',
+	'purge', 'help', 'restart=s', 'upload!',
+	'debug-mode'
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -60,6 +62,13 @@ for my $d ('dyninst-src','test-src','log-file') {
 
 # By default, build Dyninst
 $args{'build-dyninst'} = 1;
+
+# By default, build and run tests
+# --no-tests is an alias for "--no-build-tests --no-run-tests"
+if(!$args{'tests'}) {
+	$args{'build-tests'} = 0;
+	$args{'run-tests'} = 0;
+}
 
 if($args{'restart'}) {
 	if(!-d $args{'restart'}) {
@@ -113,6 +122,7 @@ if($Dyninst::utils::debug_mode) {
 	use Data::Dumper;
 	print Dumper(\%args), "\n";
 }
+
 
 Dyninst::logs::save_system_info(\%args, $fdLog);
 
@@ -270,6 +280,7 @@ build [options]
    --testsuite-cmake-args  Additional CMake arguments for the Testsuite
    --[no-]build-tests      Build the Testsuite (default: yes)
    --[no-]run-tests        Run the Testsuite (default: yes)
+   --[no-]tests            Alias for "--[no-]build-tests --[no-]run-tests"
    --njobs=N               Number of make jobs (default: N=1)
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
