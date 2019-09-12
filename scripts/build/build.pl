@@ -30,6 +30,7 @@ my %args = (
 	'help' 					=> 0,
 	'restart'				=> undef,
 	'upload'				=> 0,
+	'ntestjobs'				=> 1,
 	'debug-mode'			=> 0	# undocumented debug mode
 );
 
@@ -38,8 +39,8 @@ GetOptions(\%args,
 	'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 	'cmake-args=s', 'dyninst-cmake-args=s',
 	'testsuite-cmake-args=s', 'build-tests!',
-	'run-tests!', 'tests!', 'njobs=i', 'quiet',
-	'purge', 'help', 'restart=s', 'upload!',
+	'run-tests!', 'njobs=i', 'quiet', 'purge',
+	'help', 'restart=s', 'upload!', 'ntestjobs=i',
 	'debug-mode'
 ) or pod2usage(-exitval=>2);
 
@@ -286,5 +287,6 @@ build [options]
    --purge                 Remove all files after running testsuite (default: no)
    --restart=ID            Restart the script for run 'ID'
    --[no-]upload           Upload the results to the Dyninst dashboard (default: no)
+   --ntestjobs             Number of tests to run in parallel (default: 1)
    --help                  Print this help message
 =cut
