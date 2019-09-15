@@ -39,7 +39,7 @@ GetOptions(\%args,
 	'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 	'cmake-args=s', 'dyninst-cmake-args=s',
 	'testsuite-cmake-args=s', 'build-tests!',
-	'run-tests!', 'njobs=i', 'quiet', 'purge',
+	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
 	'debug-mode'
 ) or pod2usage(-exitval=>2);
