@@ -69,7 +69,7 @@ sub save_system_info {
 	$nodename =~ s/\d+$//;
 	
 	# Save the hostname so the caller can use it
-	$args{'hostname'} = $nodename;
+	$args->{'hostname'} = $nodename;
 	
 	# Try to get the vendor name
 	my $vendor_name = 'unknown';
