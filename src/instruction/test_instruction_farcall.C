@@ -82,7 +82,7 @@ test_results_t test_instruction_farcall_Mutator::executeTest()
     }
     while(i.isValid());
 #if defined(arch_x86_64_test)
-  if(decodedInsns.empty() || !decodedInsns[0].isValid() || decodedInsns[0].isLegalInsn())
+  if(decodedInsns.empty() || decodedInsns[0].isLegalInsn())
   {
     logerror("FAILED: %s\n", decodedInsns.empty() ? "no instructions decoded" : "first instruction was valid");
     return FAILED;
