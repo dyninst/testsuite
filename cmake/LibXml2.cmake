@@ -66,6 +66,7 @@ else()
     URL_MD5 c04a5a0a042eaa157e8e8c9eabe76bd6
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND
+      CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}
       <SOURCE_DIR>/configure
       	--prefix=${CMAKE_INSTALL_PREFIX} --disable-static --with-pic --without-python
     BUILD_COMMAND make
