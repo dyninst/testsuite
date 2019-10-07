@@ -31,6 +31,7 @@ my %args = (
 	'restart'				=> undef,
 	'upload'				=> 0,
 	'ntestjobs'				=> 1,
+	'nompthreads'			=> 2,
 	'debug-mode'			=> 0	# undocumented debug mode
 );
 
@@ -41,7 +42,7 @@ GetOptions(\%args,
 	'testsuite-cmake-args=s', 'build-tests!',
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
-	'debug-mode'
+	'nompthreads=i', 'debug-mode'
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -123,7 +124,6 @@ if($Dyninst::utils::debug_mode) {
 	use Data::Dumper;
 	print Dumper(\%args), "\n";
 }
-
 
 Dyninst::logs::save_system_info(\%args, $fdLog);
 
@@ -295,5 +295,6 @@ build [options]
    --restart=ID            Restart the script for run 'ID'
    --[no-]upload           Upload the results to the Dyninst dashboard (default: no)
    --ntestjobs             Number of tests to run in parallel (default: 1)
+   --nompthreads           Number of OpenMP threads to use for parallel parsing when running tests (default: 2)
    --help                  Print this help message
 =cut

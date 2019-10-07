@@ -107,6 +107,7 @@ sub run {
 			"cd $base_dir\n" .
 			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n".
 			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
+			"OMP_NUM_THREADS=$args->{'nompthreads'} " .
 			"./runTests -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
 		);
 	};
