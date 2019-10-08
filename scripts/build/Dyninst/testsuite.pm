@@ -7,7 +7,7 @@ use Dyninst::utils qw(execute list_unique load_from_cache);
 use Dyninst::git;
 use Cwd qw(realpath);
 use File::Path qw(make_path);
-
+use Time::HiRes;
 
 sub setup {
 	my ($root_dir, $args, $fdLog) = @_;
@@ -118,7 +118,8 @@ sub run {
 				# Rewriting static PIC is broken on most architectures
 				next if $pic eq 'pic' && $link eq 'staticlink' && $mode eq 'rewriter';
 				
-				print "Running $test_name $gcc $link $mode $pic\n";
+				print "Running $test_name $gcc $link $mode $pic: ";
+				my $start = Time::HiRes::gettimeofday();
 				
 				# We need an 'eval' here since we are manually piping stderr
 				eval {
@@ -130,6 +131,9 @@ sub run {
 						"./test_driver -64 -none -$gcc -$link -$mode -$pic -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
 					);
 				};
+				my $end = Time::HiRes::gettimeofday();
+				printf("%.2f\n", $end - $start);
+				
 				for my $f (['stdout.tmp',$fdOut],['stderr.tmp',$fdErr],['tmp.log',$fdLog]) {
 					if(-f "$base_dir/$f->[0]") {
 						open my $fdIn, '<', "$base_dir/$f->[0]";
