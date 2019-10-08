@@ -33,6 +33,7 @@ my %args = (
 	'ntestjobs'				=> 1,
 	'nompthreads'			=> 2,
 	'single-stepping'		=> 0,
+	'max-attempts'			=> 3,
 	'debug-mode'			=> 0	# undocumented debug mode
 );
 
@@ -43,7 +44,8 @@ GetOptions(\%args,
 	'testsuite-cmake-args=s', 'build-tests!',
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
-	'nompthreads=i', 'single-stepping', 'debug-mode'
+	'nompthreads=i', 'single-stepping', 'max-attempts=i',
+	'debug-mode'
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -186,11 +188,11 @@ eval {
 		my $base_dir = realpath("$root_dir/testsuite/tests");
 
 		Dyninst::logs::write($fdLog, !$args{'quiet'}, "running Testsuite... ");
-		my $max_attempts = 3;
+		my $max_attempts = $args{'max-attempts'};
 		while(!Dyninst::testsuite::run(\%args, $base_dir)) {
 			$max_attempts--;
 			if($max_attempts <= 0) {
-				die "Maximum number of Testsuite retries exceeded\n";
+				die "Maximum number of Testsuite run attempts exceeded\n";
 			}
 			Dyninst::logs::write($fdLog, !$args{'quiet'}, "\nTestsuite killed; restarting... ");
 		}
@@ -298,5 +300,6 @@ build [options]
    --ntestjobs             Number of tests to run in parallel (default: 1)
    --nompthreads           Number of OpenMP threads to use for parallel parsing when running tests (default: 2)
    --single-stepping       Run the tests one at a time (i.e., not in 'group' mode) (default: no)
+   --max-attempts=N        Run the test suite a maximum of N failed attempts before giving up (default: 3)
    --help                  Print this help message
 =cut
