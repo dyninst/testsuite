@@ -100,34 +100,75 @@ sub run {
 	push @libs, ($base_dir, realpath("$base_dir/../dyninst/lib"));
 	my $paths = join(':', list_unique(@libs));
 
-	my $err = undef;
-	# We need an 'eval' here since we are manually piping stderr
-	eval {
-		execute(
-			"cd $base_dir\n" .
-			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
-			"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
-			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-			"./runTests -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
-		);
-	};
-	$err = $@ if $@;
-
-	# Check if we were killed by the watchdog timer
-	open my $fdIn, '<', "$base_dir/stderr.log";
-	while(<$fdIn>) {
-		return !!0 if m/Process exceeded time limit/;
-	}
-
-	# The run failed for some reason other than the watchdog timer
-	chomp($err);
-	if($err && $err eq '') {
-		# runTest returned a non-zero value, but no actual error
-		# message. Check the log for an error message
-		open my $fdIn, '<', "$base_dir/stderr.log" or die "$!\n";
+	if($args->{'single-stepping'}) {
+		my $test_names_file = "$base_dir/../build/test_names.txt";
+		open my $fdTests, '<', $test_names_file or die "Unable to open '$test_names_file': $!\n";
+		open my $fdLog, '>', "$base_dir/test.log" or die "Unable to open '$base_dir/test.log': $!\n";
+		
+		open my $fdOut, '>', "$base_dir/stdout.log";
+		open my $fdErr, '>', "$base_dir/stderr.log";
+		
+		while(my $test_name = <$fdTests>) {
+			chomp($test_name);
+	
+			for my $gcc ('gcc','g++') {
+			for my $link ('dynamiclink','staticlink') {
+			for my $mode ('create','attach','rewriter') {
+			for my $pic ('pic', 'nonpic') {
+				# Rewriting static PIC is broken on most architectures
+				next if $pic eq 'pic' && $link eq 'staticlink' && $mode eq 'rewriter';
+				
+				print "Running $test_name $gcc $link $mode $pic\n";
+				
+				# We need an 'eval' here since we are manually piping stderr
+				eval {
+					execute(
+						"cd $base_dir\n" .
+						"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
+						"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
+						"LD_LIBRARY_PATH=$paths " .
+						"./test_driver -64 -none -$gcc -$link -$mode -$pic -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
+					);
+				};
+				for my $f (['stdout.tmp',$fdOut],['stderr.tmp',$fdErr],['tmp.log',$fdLog]) {
+					if(-f "$base_dir/$f->[0]") {
+						open my $fdIn, '<', "$base_dir/$f->[0]";
+						my $x = $f->[1];
+						print $x (<$fdIn>);
+					}
+				}
+			}}}}
+		}
+	} else {
+		my $err = undef;
+		# We need an 'eval' here since we are manually piping stderr
+		eval {
+			execute(
+				"cd $base_dir\n" .
+				"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
+				"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
+				"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
+				"./runTests -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
+			);
+		};
+		$err = $@ if $@;
+	
+		# Check if we were killed by the watchdog timer
+		open my $fdIn, '<', "$base_dir/stderr.log";
 		while(<$fdIn>) {
-			if(/\berror\b/i) {
-				die "\nrunTests terminated abnormally\n\n\n$err\n";
+			return !!0 if m/Process exceeded time limit/;
+		}
+	
+		# The run failed for some reason other than the watchdog timer
+		chomp($err);
+		if($err && $err eq '') {
+			# runTest returned a non-zero value, but no actual error
+			# message. Check the log for an error message
+			open my $fdIn, '<', "$base_dir/stderr.log" or die "$!\n";
+			while(<$fdIn>) {
+				if(/\berror\b/i) {
+					die "\nrunTests terminated abnormally\n\n\n$err\n";
+				}
 			}
 		}
 	}
