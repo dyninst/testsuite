@@ -11,7 +11,12 @@ use Dyninst::dyninst;
 use Dyninst::testsuite;
 use Dyninst::utils;
 
-my $invocation_args = "@ARGV";
+my $invocation_args = join(' ', 
+	map {
+		my ($l,$r)=split('=',$_,2);
+		$l .= "=\"$r\"" if $r;
+	} @ARGV
+);
 
 my %args = (
 	'prefix'				=> cwd(),
