@@ -903,6 +903,23 @@ test_results_t ProcControlComponent::group_teardown(RunGroup *group, ParameterDi
       return PASSED;
    }
 
+   bool allSkippedTests = true;
+   for (unsigned j=0; j<group->tests.size(); j++) {
+       if (group->tests[j]->results[test_execute_rs] != SKIPPED) {
+           allSkippedTests = false;
+       }
+   }
+
+   if (allSkippedTests) {
+       // If all tests are skipped.
+       // Then the mutatee may be left in attached status forever.
+       // We can simply terminate the mutatees.
+       for (std::vector<Process::ptr>::iterator i = procs.begin(); i != procs.end(); i++) {
+           Process::ptr p = *i;
+           p->terminate();
+       }
+       return SKIPPED;
+   }
    Process::registerEventCallback(EventType(EventType::Post, EventType::Exit), default_on_exit);
    do {
       hasRunningProcs = false;
