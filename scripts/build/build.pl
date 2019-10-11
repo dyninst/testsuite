@@ -11,6 +11,8 @@ use Dyninst::dyninst;
 use Dyninst::testsuite;
 use Dyninst::utils;
 
+my $invocation_args = "@ARGV";
+
 my %args = (
 	'prefix'				=> cwd(),
 	'dyninst-src'			=> undef,
@@ -133,6 +135,9 @@ Dyninst::logs::save_system_info(\%args, $fdLog);
 # Generate a unique name for the current build
 $root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
 Dyninst::logs::write($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
+
+# Display the invocation arguments
+print $fdLog "Invoked using '$invocation_args'\n";
 
 eval {		
 	# Dyninst
