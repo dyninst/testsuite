@@ -41,6 +41,7 @@ my %args = (
 	'nompthreads'			=> 2,
 	'single-stepping'		=> 0,
 	'max-attempts'			=> 3,
+	'auth-token'			=> undef,
 	'debug-mode'			=> 0	# undocumented debug mode
 );
 
@@ -52,11 +53,15 @@ GetOptions(\%args,
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
 	'nompthreads=i', 'single-stepping', 'max-attempts=i',
-	'debug-mode'
+	'auth-token=s', 'debug-mode'
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
 	pod2usage(-exitval => 0, -verbose => 99);
+}
+
+if($args{'upload'} && !$args{'auth-token'}) {
+	die "Must specify authentication token when uploading\n";
 }
 
 $Dyninst::utils::debug_mode = $args{'debug-mode'};
@@ -263,13 +268,10 @@ if($args{'purge'}) {
 
 # Upload the results to the dashboard, if requested
 if($args{'upload'}) {
-	use Digest::MD5 qw(md5_hex);
-	my $token = md5_hex($args{'hostname'});
-	
 	eval {
 		Dyninst::utils::execute(
 			"curl -F \"upload=\@$root_dir.results.tar.gz\" ".
-			"-F \"token=$token\" ".
+			"-F \"token=$args{'auth-token'}\" ".
 			"https://bottle.cs.wisc.edu/upload"
 		);
 	};
@@ -311,5 +313,6 @@ build [options]
    --nompthreads           Number of OpenMP threads to use for parallel parsing when running tests (default: 2)
    --single-stepping       Run the tests one at a time (i.e., not in 'group' mode) (default: no)
    --max-attempts=N        Run the test suite a maximum of N failed attempts before giving up (default: 3)
+   --auth-token=STRING     The authentication token string. Required when uploading the results.
    --help                  Print this help message
 =cut
