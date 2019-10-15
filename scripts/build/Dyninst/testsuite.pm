@@ -152,7 +152,7 @@ sub run {
 				"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
 				"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
 				"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-				"./runTests -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
+				"./runTests -64 -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
 			);
 		};
 		$err = $@ if $@;
