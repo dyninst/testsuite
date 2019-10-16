@@ -15,6 +15,7 @@ my $invocation_args = join(' ',
 	map {
 		my ($l,$r)=split('=',$_,2);
 		$l .= "=\"$r\"" if $r;
+		$l;
 	} @ARGV
 );
 
