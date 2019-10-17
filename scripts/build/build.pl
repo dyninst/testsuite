@@ -10,6 +10,7 @@ use Dyninst::logs;
 use Dyninst::dyninst;
 use Dyninst::testsuite;
 use Dyninst::utils;
+use Archive::Tar;
 
 my $invocation_args = join(' ', 
 	map {
@@ -230,37 +231,47 @@ if(-f "$root_dir/testsuite/tests/stdout.log") {
 }
 
 # Create the exportable tarball of results
-my @log_files = (
-	File::Spec->abs2rel($args{'log-file'}),
-	"$root_dir/dyninst/Build.FAILED",
-	"$root_dir/testsuite/Build.FAILED",
-	"$root_dir/Tests.FAILED",
-	"$root_dir/dyninst/git.log",
-	"$root_dir/dyninst/build/compilers.conf",
-	"$root_dir/dyninst/build/config.out",
-	"$root_dir/dyninst/build/config.err",
-	"$root_dir/dyninst/build/build.out",
-	"$root_dir/dyninst/build/build.err",
-	"$root_dir/dyninst/build/build-install.out",
-	"$root_dir/dyninst/build/build-install.err",
-	"$root_dir/testsuite/git.log",
-	"$root_dir/testsuite/build/compilers.conf",
-	"$root_dir/testsuite/build/config.out",
-	"$root_dir/testsuite/build/config.err",
-	"$root_dir/testsuite/build/build.out",
-	"$root_dir/testsuite/build/build.err",
-	"$root_dir/testsuite/build/build-install.out",
-	"$root_dir/testsuite/build/build-install.err",
-	"$root_dir/testsuite/tests/stdout.log",
-	"$root_dir/testsuite/tests/stderr.log",
-	"$root_dir/testsuite/tests/test.log",
-	$results_log
-);
+{
+	my @log_files = (
+		"$root_dir/dyninst/Build.FAILED",
+		"$root_dir/testsuite/Build.FAILED",
+		"$root_dir/Tests.FAILED",
+		"$root_dir/dyninst/git.log",
+		"$root_dir/dyninst/build/compilers.conf",
+		"$root_dir/dyninst/build/config.out",
+		"$root_dir/dyninst/build/config.err",
+		"$root_dir/dyninst/build/build.out",
+		"$root_dir/dyninst/build/build.err",
+		"$root_dir/dyninst/build/build-install.out",
+		"$root_dir/dyninst/build/build-install.err",
+		"$root_dir/testsuite/git.log",
+		"$root_dir/testsuite/build/compilers.conf",
+		"$root_dir/testsuite/build/config.out",
+		"$root_dir/testsuite/build/config.err",
+		"$root_dir/testsuite/build/build.out",
+		"$root_dir/testsuite/build/build.err",
+		"$root_dir/testsuite/build/build-install.out",
+		"$root_dir/testsuite/build/build-install.err",
+		"$root_dir/testsuite/tests/stdout.log",
+		"$root_dir/testsuite/tests/stderr.log",
+		"$root_dir/testsuite/tests/test.log",
+		$results_log
+	);
 
-# Only add the files that exist
-# Non-existent files indicate an error occurred
-my $files = join(' ', grep {-f $_ } @log_files);
-Dyninst::utils::execute("tar -zcf $root_dir.results.tar.gz $files");
+	my $tar = Archive::Tar->new();
+	
+	# Only add the files that exist
+	# Non-existent files indicate an error occurred
+	$tar->add_files(grep {-f $_ } @log_files);
+	
+	# The dashboard assumes the build log is name 'build.log'
+	# Rename the file accordingly
+	open my $fdBuildLog, '<', File::Spec->abs2rel($args{'log-file'});
+	local $/ = undef;
+	$tar->add_data('build.log', <$fdBuildLog>);
+	
+	$tar->write("$root_dir.results.tar.gz", COMPRESS_GZIP);
+}
 
 # Remove the generated files, if requested
 if($args{'purge'}) {
