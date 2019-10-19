@@ -500,7 +500,7 @@ int waitUntilStopped(BPatch *bpatch, BPatch_process *appProc, int testnum,
     }
 #else
     else if ((appProc->stopSignal() != SIGSTOP) &&
-	     (appProc->stopSignal() != SIGBUS) &&
+	     (appProc->stopSignal() != (SIGRTMIN+4)) &&
 	     (appProc->stopSignal() != SIGHUP)) {
 	logerror("**Failed test #%d (%s)\n", testnum, testname);
  	logerror("    process stopped on signal %d, not SIGSTOP\n", 
