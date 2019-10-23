@@ -48,7 +48,7 @@
 #include <assert.h>
 
 #include "runTests-utils.h"
-#include "error.h"
+#include "test_results.h"
 #include "help.h"
 #include <sys/stat.h>
 #include <sys/types.h>
