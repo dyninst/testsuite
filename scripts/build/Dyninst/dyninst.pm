@@ -40,7 +40,7 @@ sub setup {
 sub configure {
 	my ($args, $base_dir, $build_dir) = @_;
 	
-	my $sterile = $args->{'sterile'} ? '-DSTERILE_BUILD' : '';
+	my $sterile = $args->{'sterile'} ? '-DSTERILE_BUILD=ON' : '';
 
 	# Configure the build
 	# We need an 'eval' here since we are manually piping stderr
