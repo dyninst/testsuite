@@ -44,6 +44,7 @@ my %args = (
 	'single-stepping'		=> 0,
 	'max-attempts'			=> 3,
 	'auth-token'			=> undef,
+	'sterile'				=> 1,
 	'debug-mode'			=> 0	# undocumented debug mode
 );
 
@@ -55,7 +56,7 @@ GetOptions(\%args,
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
 	'nompthreads=i', 'single-stepping', 'max-attempts=i',
-	'auth-token=s', 'debug-mode'
+	'auth-token=s', 'sterile!', 'debug-mode'
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -326,5 +327,6 @@ build [options]
    --single-stepping       Run the tests one at a time (i.e., not in 'group' mode) (default: no)
    --max-attempts=N        Run the test suite a maximum of N failed attempts before giving up (default: 3)
    --auth-token=STRING     The authentication token string. Required when uploading the results.
+   --[no-]sterile          Use a sterile build- don't download dependencies (default: yes)
    --help                  Print this help message
 =cut
