@@ -60,7 +60,7 @@ sub save_system_info {
 	    
 	# Strip trailing digits from the hostname (these are usually from login nodes)
 	$nodename =~ s/\d+$//;
-		
+	
 	# Try to get the vendor name
 	my $vendor_name = 'unknown';
 	
@@ -106,9 +106,6 @@ sub save_system_info {
 	# UTC datetime	
 	$logger->write(POSIX::strftime("date: %Y-%m-%dT%H:%M:%S.\n", gmtime()));
 	$logger->write('*'x20);
-	
-	# Return the hostname so the caller can use it
-	return $nodename;	
 }
 
 sub save_compiler_info {

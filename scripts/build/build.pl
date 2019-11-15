@@ -140,7 +140,7 @@ if($Dyninst::utils::debug_mode) {
 	print Dumper(\%args), "\n";
 }
 
-$args{'hostname'} = Dyninst::logs::save_system_info($logger);
+Dyninst::logs::save_system_info($logger);
 
 # Generate a unique name for the current build
 $root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
