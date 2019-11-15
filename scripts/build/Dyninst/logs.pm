@@ -183,7 +183,7 @@ sub write {
 	print $fd $msg, $eol;
 
 	if(!$self->{'quiet'}) {
-		print $msg;
+		print $msg, "\n";
 	}
 }
 
