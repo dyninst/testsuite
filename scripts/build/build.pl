@@ -131,7 +131,7 @@ if($args{'restart'}) {
 	}
 }
 
-my $logger = Dyninst::logs::new($args{'log-file'}, $args{'quiet'});
+my $logger = Dyninst::logs->new($args{'log-file'}, $args{'quiet'});
 
 my $root_dir = ($args{'restart'}) ? $args{'restart'} : undef;
 
