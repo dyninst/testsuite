@@ -1,10 +1,13 @@
 package Dyninst::logs;
 
 use base 'Exporter';
-our @EXPORT_OK = qw(save_system_info parse write);
+our @EXPORT_OK = qw(new parse save_system_info save_compiler_info);
 
 use POSIX;
 use Dyninst::utils qw(execute);
+use File::Copy qw(move);
+
+# ------------- Module methods -----------------------
 
 sub parse {
 	open my $fdIn, '<', $_[0] or die "$_[0]: $!\n";
@@ -49,28 +52,15 @@ sub parse {
 	return @results;
 }
 
-sub write {
-	my ($fd, $echo_stdout, $msg) = @_;
-
-	print $fd $msg;
-
-	if($echo_stdout) {
-		print $msg;
-	}
-}
-
 sub save_system_info {
-	my ($args, $fdLog) = @_;
+	my ($logger) = @_;
 	
 	# Save some information about the system
 	my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
 	    
 	# Strip trailing digits from the hostname (these are usually from login nodes)
 	$nodename =~ s/\d+$//;
-	
-	# Save the hostname so the caller can use it
-	$args->{'hostname'} = $nodename;
-	
+		
 	# Try to get the vendor name
 	my $vendor_name = 'unknown';
 	
@@ -94,12 +84,12 @@ sub save_system_info {
 		}
 	};
 	
-	Dyninst::logs::write($fdLog, !$args->{'quiet'},
+	$logger->write(
 		"os: $sysname\n" .
 		"hostname: $nodename\n" .
 		"kernel: $release\n" .
 		"version: $version\n" .
-		"arch: $machine/$vendor_name\n"
+		"arch: $machine/$vendor_name"
 	);
 	
 	# Find and save the version of libc
@@ -110,12 +100,91 @@ sub save_system_info {
 	} else {
 		$libc_info = "Unknown";
 	}
-	Dyninst::logs::write($fdLog, !$args->{'quiet'}, "libc: $libc_info\n");
+	
+	$logger->write("libc: $libc_info");
 
 	# UTC datetime	
-	Dyninst::logs::write($fdLog, !$args->{'quiet'}, POSIX::strftime("date: %Y-%m-%dT%H:%M:%S.\n", gmtime()));
+	$logger->write(POSIX::strftime("date: %Y-%m-%dT%H:%M:%S.\n", gmtime()));
+	$logger->write('*'x20);
 	
-	Dyninst::logs::write($fdLog, !$args->{'quiet'}, '*'x20 . "\n");
+	# Return the hostname so the caller can use it
+	return $nodename;	
+}
+
+sub save_compiler_info {
+	my ($cmake_log, $out_file) = @_;
+	
+	open my $fdIn, '<', $cmake_log or die "Unable to open CMake log '$cmake_log': $!\n";
+	
+	my %compilers = (
+		'cxx' => {'path'=>'', 'version'=>''},
+		'c'   => {'path'=>'', 'version'=>''}
+	);
+
+	while(<$fdIn>) {
+		if(/Check for working CXX compiler: (.+)? -- works/) {
+			$compilers{'cxx'}{'path'} = realpath($1);
+			next;
+		}
+		if(/Check for working C compiler: (.+)? -- works/) {
+			$compilers{'c'}{'path'} = realpath($1);
+			next;
+		}
+		if(/The C compiler identification is (.+)/) {
+			$compilers{'c'}{'version'} = $1;
+			next;
+		}
+		if(/The CXX compiler identification is (.+)/) {
+			$compilers{'cxx'}{'version'} = $1;
+			next;
+		}
+	}
+	
+	# Verify we got everything
+	for my $c (keys %compilers) {
+		for my $t (keys %{$compilers{$c}}) {
+			unless($compilers{$c}{$t}) {
+				die "$cmake_log is missing $c/$t\n";
+			}
+		}
+	}
+	
+	open my $fdOut, '>', $out_file or die "Couldn't open '$out_file': $!\n";
+	local $, = "\n";
+	print $fdOut
+		"c_path: $compilers{'c'}{'path'}",
+		"c_version: $compilers{'c'}{'version'}",
+		"cxx_path: $compilers{'cxx'}{'path'}",
+		"cxx_version: $compilers{'cxx'}{'version'}\n";
+}
+
+# ------------- Class methods -------------------------
+
+sub new {
+	my ($class, $filename, $quiet) = @_;
+	
+	open my $fdLog, '>', $filename or die "$filename: $!\n";
+	
+	# Save a backup, if the log file already exists
+	move($filename, "$filename.bak") if -e $filename;
+	
+	bless {
+		'filename' => $filename,
+		'quiet'=> $quiet,
+		'fd' => $fdLog
+	}, $class;
+}
+
+sub write {
+	my ($self, $msg, %opts) = @_;
+
+	my $fd = $self->{'fd'};
+	my $eol = $opts{'eol'} // "\n";
+	print $fd $msg, $eol;
+
+	if(!$self->{'quiet'}) {
+		print $msg;
+	}
 }
 
 1;

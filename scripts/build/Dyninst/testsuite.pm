@@ -10,7 +10,7 @@ use File::Path qw(make_path);
 use Time::HiRes;
 
 sub setup {
-	my ($root_dir, $args, $fdLog) = @_;
+	my ($root_dir, $args) = @_;
 	
 	# Create the build directory
 	make_path("$root_dir/testsuite/build");

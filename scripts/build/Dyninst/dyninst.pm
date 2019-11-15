@@ -9,7 +9,7 @@ use Cwd qw(realpath);
 use File::Path qw(make_path);
 
 sub setup {
-	my ($root_dir, $args, $fdLog) = @_;
+	my ($root_dir, $args) = @_;
 	
 	# Build Dyninst
 	# Create the build directory

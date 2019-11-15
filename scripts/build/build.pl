@@ -131,10 +131,7 @@ if($args{'restart'}) {
 	}
 }
 
-# Save a backup, if the log file already exists
-move($args{'log-file'}, "$args{'log-file'}.bak") if -e $args{'log-file'};
-
-open my $fdLog, '>', $args{'log-file'} or die "$args{'log-file'}: $!\n";
+my $logger = Dyninst::logs::new($args{'log-file'}, $args{'quiet'});
 
 my $root_dir = ($args{'restart'}) ? $args{'restart'} : undef;
 
@@ -143,34 +140,34 @@ if($Dyninst::utils::debug_mode) {
 	print Dumper(\%args), "\n";
 }
 
-Dyninst::logs::save_system_info(\%args, $fdLog);
+$args{'hostname'} = Dyninst::logs::save_system_info($logger);
 
 # Generate a unique name for the current build
 $root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
-Dyninst::logs::write($fdLog, !$args{'quiet'}, "root_dir: $root_dir\n");
+$logger->write("root_dir: $root_dir");
 
 # Display the invocation arguments
-print $fdLog "Invoked using '$invocation_args'\n";
+$logger->write("Invoked using '$invocation_args'");
 
 eval {		
 	# Dyninst
 	# Always set up logs, even if doing a restart
-	my ($base_dir, $build_dir) = Dyninst::dyninst::setup($root_dir, \%args, $fdLog);
+	my ($base_dir, $build_dir) = Dyninst::dyninst::setup($root_dir, \%args);
 
 	if($args{'build-dyninst'}) {
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Dyninst... ");
+		$logger->write("Configuring Dyninst... ", 'eol'=>'');
 		Dyninst::dyninst::configure(\%args, $base_dir, $build_dir);
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
+		$logger->write("done.");
 		
 		Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
 
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Dyninst... ");
+		$logger->write("Building Dyninst... ", 'eol'=>'');
 		Dyninst::dyninst::build(\%args, $build_dir);
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
+		$logger->write("done.");
 	}
 };
 if($@) {
-	Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
+	$logger->write($@);
 	open my $fdOut, '>', "$root_dir/dyninst/Build.FAILED";
 	$args{'build-tests'} = 0;
 	$args{'run-tests'} = 0;
@@ -179,22 +176,22 @@ if($@) {
 eval {
 	# Testsuite
 	# Always set up logs, even if doing a restart
-	my ($base_dir, $build_dir) = Dyninst::testsuite::setup($root_dir, \%args, $fdLog);
+	my ($base_dir, $build_dir) = Dyninst::testsuite::setup($root_dir, \%args);
 	
 	if($args{'build-tests'}) {
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "Configuring Testsuite... ");
+		$logger->write("Configuring Testsuite... ", 'eol'=>'');
 		Dyninst::testsuite::configure(\%args, $base_dir, $build_dir);
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
+		$logger->write("done\n");
 		
 		Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
 
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "Building Testsuite... ");
+		$logger->write("Building Testsuite... ", 'eol'=>'');
 		Dyninst::testsuite::build(\%args, $build_dir);
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "done\n");
+		$logger->write("done\n");
 	}
 };
 if($@) {
-	Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
+	$logger->write($@);
 	open my $fdOut, '>', "$root_dir/testsuite/Build.FAILED";
 	$args{'run-tests'} = 0;
 }
@@ -205,20 +202,20 @@ eval {
 		make_path("$root_dir/testsuite/tests");
 		my $base_dir = realpath("$root_dir/testsuite/tests");
 
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "running Testsuite... ");
+		$logger->write("running Testsuite... ", 'eol'=>'');
 		my $max_attempts = $args{'max-attempts'};
 		while(!Dyninst::testsuite::run(\%args, $base_dir)) {
 			$max_attempts--;
 			if($max_attempts <= 0) {
 				die "Maximum number of Testsuite run attempts exceeded\n";
 			}
-			Dyninst::logs::write($fdLog, !$args{'quiet'}, "\nTestsuite killed; restarting... ");
+			$logger->write("\nTestsuite killed; restarting... ", 'eol'=>'');
 		}
-		Dyninst::logs::write($fdLog, !$args{'quiet'}, "done.\n");
+		$logger->write("done.");
 	}
 };
 if($@) {
-	Dyninst::logs::write($fdLog, !$args{'quiet'}, $@);
+	$logger->write($@);
 	open my $fdOut, '>', "$root_dir/Tests.FAILED";
 }
 
