@@ -255,9 +255,13 @@ if(-f "$root_dir/testsuite/tests/stdout.log") {
 		"$root_dir/testsuite/build/build-install.err",
 		"$root_dir/testsuite/tests/stdout.log",
 		"$root_dir/testsuite/tests/stderr.log",
-		"$root_dir/testsuite/tests/test.log",
 		$results_log
 	);
+	
+	# Single-stepping creates an enormous (>2GB) log file
+	if(!$args{'single-stepping'}) {
+		push @log_files, "$root_dir/testsuite/tests/test.log";
+	}
 
 	my $tar = Archive::Tar->new();
 	
