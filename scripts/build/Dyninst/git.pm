@@ -25,13 +25,14 @@ sub get_config {
 }
 
 sub save_config {
-	my ($base_dir, $branch, $commit) = @_;
+	my ($base_dir, $config) = @_;
 	
 	open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 	local $, = "\n";
 	local $\ = "\n";
-	print $fdOut "branch: $branch",
-				 "commit: $commit";
+	print $fdOut "branch: $config->{'branch'}",
+				 "commit: $config->{'commit'}",
+				 "recent:\n$config->{'recent'}";
 }
 
 sub checkout_pr {
