@@ -16,18 +16,26 @@ sub get_config {
 	# Fetch the commitID for HEAD
 	my $commit = execute("cd $src_dir && git rev-parse HEAD");
 	chomp($commit);
+	
+	# Get the most recent commits
+	# This is useful for seeing the base commits a PR is on top of
+	my $recent = execute("cd $src_dir && git log --oneline -10");
 
-	return {'branch'=>$branch, 'commit'=>$commit};
+	return {'branch'=>$branch, 'commit'=>$commit, 'recent'=>$recent};
 }
+
 sub save_config {
-	my ($base_dir, $branch, $commit) = @_;
+	my ($base_dir, $config) = @_;
+	
+	# Make each output line a standard CSV entry
+	my $recent = join(',', map {s/"/\\"/g; "\"$_\""} split("\n", $config->{'recent'}));
 	
 	open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 	local $, = "\n";
 	local $\ = "\n";
-	print $fdOut "branch: $branch",
-				 "commit: $commit";
-	
+	print $fdOut "branch: $config->{'branch'}",
+				 "commit: $config->{'commit'}",
+				 "recent: $recent";
 }
 
 sub checkout_pr {

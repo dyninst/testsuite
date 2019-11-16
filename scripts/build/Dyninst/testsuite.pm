@@ -31,7 +31,7 @@ sub setup {
 		$git_config = Dyninst::git::get_config($args->{'test-src'}, $base_dir);
 	}
 	
-	Dyninst::git::save_config($base_dir, $git_config->{'branch'},$git_config->{'commit'});
+	Dyninst::git::save_config($base_dir, $git_config);
 	
 	return ($base_dir, $build_dir);
 }
