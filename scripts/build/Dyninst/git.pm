@@ -27,12 +27,15 @@ sub get_config {
 sub save_config {
 	my ($base_dir, $config) = @_;
 	
+	# Make each output line a standard CSV entry
+	my $recent = join(',', map {s/"/\\"/g; "\"$_\""} split("\n", $config->{'recent'}));
+	
 	open my $fdOut, '>', "$base_dir/git.log" or die "$base_dir/git.log: $!";
 	local $, = "\n";
 	local $\ = "\n";
 	print $fdOut "branch: $config->{'branch'}",
 				 "commit: $config->{'commit'}",
-				 "recent:\n$config->{'recent'}";
+				 "recent: $recent";
 }
 
 sub checkout_pr {
