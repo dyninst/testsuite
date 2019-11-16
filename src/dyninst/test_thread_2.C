@@ -36,7 +36,6 @@
  * #Arch: all
  * #Notes:
  */
-
 #include <vector>
 using std::vector;
 #include "BPatch.h"
@@ -48,6 +47,7 @@ using std::vector;
 #include "test12.h"
 
 #include "dyninst_comp.h"
+
 class test_thread_2_Mutator : public DyninstMutator {
 private:
   BPatch *bpatch;
@@ -137,6 +137,12 @@ static void threadCreateCB(BPatch_process * proc, BPatch_thread *thr)
 
 // static bool mutatorTest3and4(int testno, const char *testname)
 test_results_t test_thread_2_Mutator::executeTest() {
+  BPatch_process *appProc = appThread->getProcess();
+  if (appProc && !appProc->supportsUserThreadEvents()) {
+    logerror("System does not support user thread events\n");
+    appThread->getProcess()->terminateExecution();
+    return SKIPPED;
+  }
   test3_threadCreateCounter = 0;
   callback_tids.clear();
 
@@ -169,7 +175,6 @@ test_results_t test_thread_2_Mutator::executeTest() {
 
   int err = 0;
   BPatch_Vector<BPatch_thread *> threads;
-  BPatch_process *appProc = appThread->getProcess();
   assert(appProc);
   appProc->getThreads(threads);
   int active_threads = 11; // FIXME Magic number

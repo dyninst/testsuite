@@ -254,6 +254,13 @@ const char *threadLibName = "libpthread";
 
 // static int mutatorTest(BPatch_thread *appThread, BPatch_image *appImage)
 test_results_t test_thread_5_Mutator::executeTest() {
+  BPatch_process *appProc = appThread->getProcess();
+  if (appProc && !appProc->supportsUserThreadEvents()) {
+    logerror("System does not support user thread events\n");
+    appThread->getProcess()->terminateExecution();
+    return SKIPPED;
+  }
+
   test8done = false;
   test8err = false;
 

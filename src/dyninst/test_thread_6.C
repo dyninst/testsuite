@@ -395,6 +395,12 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
 }
 
 test_results_t test_thread_6_Mutator::executeTest() {
+  BPatch_process *appProc = appThread->getProcess();
+  if (appProc && !appProc->supportsUserThreadEvents()) {
+    logerror("System does not support user thread events\n");
+    appThread->getProcess()->terminateExecution();
+    return SKIPPED;
+  }
 
    test_results_t rv = mutatorTest(bpatch);
 
