@@ -91,11 +91,6 @@ static void sigint_action(int sig, siginfo_t *siginfo, void *context) {
   interrupted = true;
 }
 
-void generateTestArgs(char **exec_args[], bool resume, bool useLog,
-                      bool staticTests, string &logfile, int testLimit,
-                      vector<char *> &child_argv, const char *pidFilename,
-                      std::string hostname);
-
 int CollectTestResults(vector<test_driver_t> &test_drivers, int parallel_copies)
 {
    // Install signal handler for a timer
@@ -197,16 +192,32 @@ int CollectTestResults(vector<test_driver_t> &test_drivers, int parallel_copies)
    return retval;
 }
 
+std::vector<std::string> generateTestArgs(bool resume, bool useLog,
+                      bool staticTests, string logfile, int testLimit,
+                      const char *pidFilename, std::string const& hostname);
+
 test_pid_t RunTest(unsigned int iteration, bool useLog, bool staticTests,
-                   string logfile, int testLimit, vector<char *> child_argv,
-                   const char *pidFilename, std::string hostname)
+                   string logfile, int testLimit, vector<char *> const& child_argv,
+                   const char *pidFilename, std::string const& hostname)
 {
-   int retval = -1;
+	char const** exec_args = nullptr;
 
-   char **exec_args = NULL;
+	{
+		auto args = generateTestArgs(iteration > 0, useLog, staticTests,
+									std::move(logfile), testLimit, pidFilename, hostname);
 
-   generateTestArgs(&exec_args, iteration > 0, useLog, staticTests, logfile,
-                    testLimit, child_argv, pidFilename, hostname);
+		// Append the child args
+		args.insert(std::end(args), std::begin(child_argv), std::end(child_argv));
+
+		// Create a C-style array of C-strings for execvp
+		exec_args = new char const*[args.size() + 1];
+		for(size_t i=0; i<args.size(); i++) {
+			// Heap allocate to avoid dangling pointers from `args`
+			// When `execvp` gets invoked, it _should_ clean up this heap space
+			exec_args[i] = strdup(args[i].c_str());
+		}
+		exec_args[args.size()] = nullptr;
+	}
 
    if (hostname.length())
       sleep(1);
@@ -217,9 +228,9 @@ test_pid_t RunTest(unsigned int iteration, bool useLog, bool staticTests,
       return -4;
    } else if (0 == child_pid) {
       // Child
-      execvp(exec_args[0], exec_args);
+	  execvp(exec_args[0], (char* const*)exec_args);
       std::string newexec = std::string("./") + exec_args[0];
-      execvp(newexec.c_str(), exec_args);
+      execvp(newexec.c_str(), (char* const*)exec_args);
       exit(-4);
    }
 
@@ -228,17 +239,16 @@ test_pid_t RunTest(unsigned int iteration, bool useLog, bool staticTests,
 
 string ReplaceAllWith(const string &in, const string &replace, const string &with);
 
-void generateTestArgs(char **exec_args[], bool resume, bool useLog,
-                      bool staticTests, string &logfile, int testLimit,
-                      vector<char *> &child_argv, const char *pidFilename,
-                      std::string hostname)
+std::vector<std::string> generateTestArgs(bool resume, bool useLog,
+                      bool staticTests, string logfile, int testLimit,
+                      const char *pidFilename, std::string const& hostname)
 {
-  vector<const char *> args;
+  vector<std::string> args;
 
   if (hostname.size())
   {
      args.push_back("ssh");
-     args.push_back(hostname.c_str());
+     args.push_back(hostname);
      assert(scriptname);
      args.push_back(scriptname);
   }
@@ -250,9 +260,7 @@ void generateTestArgs(char **exec_args[], bool resume, bool useLog,
   args.push_back("-under-runtests");
   args.push_back("-enable-resume");
   args.push_back("-group-limit");
-  char *limit_str = new char[12];
-  snprintf(limit_str, 12, "%d", testLimit);
-  args.push_back(limit_str);
+  args.push_back(std::to_string(testLimit));
   if (pidFilename != NULL && strlen(pidFilename)) {
     args.push_back("-pidfile");
     args.push_back(pidFilename);
@@ -263,7 +271,7 @@ void generateTestArgs(char **exec_args[], bool resume, bool useLog,
   if (useLog) {
     args.push_back("-log");
     args.push_back("-logfile");
-    args.push_back(const_cast<char *>(logfile.c_str()));
+    args.push_back(std::move(logfile));
   }
   static bool first_run = true;
   if (!first_run) {
@@ -271,18 +279,7 @@ void generateTestArgs(char **exec_args[], bool resume, bool useLog,
   }
   first_run = false;
 
-  for (unsigned int i = 0; i < child_argv.size(); i++) {
-      args.push_back(child_argv[i]);
-  }
-
-  // Copy the arguments from the vector to a new array
-  // BUG limit_str leaks here.  I'm not sure how to clean up this leak
-  int exec_argc = args.size();
-  *exec_args = new char *[exec_argc + 1];
-  for (unsigned int i = 0; i < args.size(); i++) {
-     (*exec_args)[i] = const_cast<char *>(args[i]);
-  }
-  (*exec_args)[exec_argc] = NULL;
+  return args;
 }
 
 void generateTestString(bool resume, bool useLog, bool staticTests,
