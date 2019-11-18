@@ -62,7 +62,7 @@
 
 #include "ParameterDict.h"
 #include "test_lib.h"
-#include "error.h"
+#include "test_results.h"
 #include "ResumeLog.h"
 #include "TestOutputDriver.h"
 #include "StdOutputDriver.h"

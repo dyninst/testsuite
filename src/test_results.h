@@ -35,7 +35,8 @@ typedef enum test_results_e {
   PASSED,
   FAILED,
   SKIPPED,
-  CRASHED
+  CRASHED,
+  NOTESTS
 } test_results_t;
 
 #endif /* !defined(TEST_RESULTS_H) */

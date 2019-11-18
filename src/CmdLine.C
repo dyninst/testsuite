@@ -44,7 +44,6 @@
 #include "CmdLine.h"
 #include "ResumeLog.h"
 #include "test_info_new.h"
-#include "error.h"
 
 #if !defined(os_windows_test)
 #include <fnmatch.h>
