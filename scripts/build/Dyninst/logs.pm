@@ -160,10 +160,10 @@ sub save_compiler_info {
 sub new {
 	my ($class, $filename, $quiet) = @_;
 	
-	open my $fdLog, '>', $filename or die "$filename: $!\n";
-	
 	# Save a backup, if the log file already exists
 	move($filename, "$filename.bak") if -e $filename;
+	
+	open my $fdLog, '>', $filename or die "$filename: $!\n";
 	
 	bless {
 		'filename' => $filename,
