@@ -17,6 +17,9 @@ sub parse {
 		
 		# Parse the fixed-width format
 		my @x = unpack('a27 a7 a5 a4 a9 a8 a8 a8 a50');
+		
+		# Ignore the header line
+		next if $x[0] =~ /^TEST/;
 
 		# Grab the status field (it's at the end)
 		my $status = pop @x;
