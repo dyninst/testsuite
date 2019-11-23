@@ -5,6 +5,7 @@ our @EXPORT_OK = qw(setup configure build run);
 
 use Dyninst::utils qw(execute list_unique load_from_cache);
 use Dyninst::git;
+use Dyninst::logs;
 use Cwd qw(realpath);
 use File::Path qw(make_path);
 use Time::HiRes;
@@ -108,6 +109,8 @@ sub run {
 		open my $fdOut, '>', "$base_dir/stdout.log";
 		open my $fdErr, '>', "$base_dir/stderr.log";
 		
+		my $hostname = Dyninst::logs::get_system_info()->{'nodename'};
+		
 		while(my $test_name = <$fdTests>) {
 			chomp($test_name);
 	
@@ -117,6 +120,14 @@ sub run {
 			for my $pic ('pic', 'nonpic') {
 				# Rewriting static PIC is broken on most architectures
 				next if $pic eq 'pic' && $link eq 'staticlink' && $mode eq 'rewriter';
+				
+				# This test is broken on Zeroah
+				next if $test_name eq 'test_thread_5' &&
+						$hostname =~ /zeroah/i &&
+						$gcc eq 'g++' &&
+				       	$link eq 'dynamiclink' &&
+				       	$mode eq 'create' &&
+				       	$pic eq 'pic';
 				
 				print "Running $test_name $gcc $link $mode $pic: ";
 				my $start = Time::HiRes::gettimeofday();
