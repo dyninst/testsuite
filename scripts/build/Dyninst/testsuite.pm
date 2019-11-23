@@ -118,9 +118,7 @@ sub run {
 			for my $link ('dynamiclink','staticlink') {
 			for my $mode ('create','attach','rewriter') {
 			for my $pic ('pic', 'nonpic') {
-				# Rewriting static PIC is broken on most architectures
-				next if $pic eq 'pic' && $link eq 'staticlink' && $mode eq 'rewriter';
-				
+
 				# This test is broken on Zeroah
 				next if $test_name eq 'test_thread_5' &&
 						$hostname =~ /zeroah/i &&
