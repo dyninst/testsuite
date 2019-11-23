@@ -55,17 +55,17 @@ sub parse {
 	return @results;
 }
 
-sub save_system_info {
-	my ($logger) = @_;
+sub get_system_info {
+	my %sysinfo = ();
 	
 	# Save some information about the system
-	my ($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
+	@sysinfo{'sysname', 'nodename', 'release', 'version', 'machine'} = POSIX::uname();
 	    
 	# Strip trailing digits from the hostname (these are usually from login nodes)
-	$nodename =~ s/\d+$//;
+	$sysinfo{'nodename'} =~ s/\d+$//;
 	
 	# Try to get the vendor name
-	my $vendor_name = 'unknown';
+	$sysinfo{'vendor'} = 'Unknown';
 	
 	# Use an eval just in case we don't have access to '/proc/cpuinfo'
 	eval {
@@ -75,27 +75,20 @@ sub save_system_info {
 			@lines = grep {/cpu\s+\:/i} split("\n", $cpuinfo);
 		}
 		if(@lines) {
-			(undef, $vendor_name) = split(':', $lines[0]);
+			(undef, $sysinfo{'vendor'}) = split(':', $lines[0]);
 			
 			# On linux, Power has the form 'POWERXX, altivec...'
-			if($vendor_name =~ /power/i) {                
-				$vendor_name = (split(',',$vendor_name))[0];
+			if($sysinfo{'vendor'} =~ /power/i) {                
+				$sysinfo{'vendor'} = (split(',',$sysinfo{'vendor'}))[0];
 			}
 			
 			# Remove all whitespace
-			$vendor_name =~ s/\s//g;
+			$sysinfo{'vendor'} =~ s/\s//g;
 		}
 	};
+
 	
-	$logger->write(
-		"os: $sysname\n" .
-		"hostname: $nodename\n" .
-		"kernel: $release\n" .
-		"version: $version\n" .
-		"arch: $machine/$vendor_name"
-	);
-	
-	# Find and save the version of libc
+	# Find the version of libc
 	my $libc_info = (split("\n", &execute('ldd --version')))[0];
 	if($libc_info =~ /gnu/i || $libc_info =~ /glibc/i) {
 		# We have a GNU libc, the version is at the end
@@ -103,8 +96,24 @@ sub save_system_info {
 	} else {
 		$libc_info = "Unknown";
 	}
+	$sysinfo{'libc'} = $libc_info;
 	
-	$logger->write("libc: $libc_info");
+	return \%sysinfo;
+}
+
+sub save_system_info {
+	my ($logger) = @_;
+	
+	my $sysinfo = get_system_info();
+	
+	$logger->write(
+		"os: $sysinfo->{'sysname'}\n" .
+		"hostname: $sysinfo->{'nodename'}\n" .
+		"kernel: $sysinfo->{'release'}\n" .
+		"version: $sysinfo->{'version'}\n" .
+		"arch: $sysinfo->{'machine'}/$sysinfo->{'vendor'}\n" .
+		"libc: $sysinfo->{'libc'}"		
+	);
 
 	# UTC datetime	
 	$logger->write(POSIX::strftime("date: %Y-%m-%dT%H:%M:%S.\n", gmtime()));
