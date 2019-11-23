@@ -138,7 +138,7 @@ sub run {
 						"cd $base_dir\n" .
 						"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
 						"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
-						"LD_LIBRARY_PATH=$paths " .
+						"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
 						"./test_driver -64 -none -$gcc -$link -$mode -$pic -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
 					);
 				};
