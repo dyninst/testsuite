@@ -34,6 +34,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "test12.h"
+#include "dyninstRTExport.h"
 
 /*
   A library of functions used in test12.  
@@ -41,7 +42,6 @@
 
 
 #define ldprintf if (libraryDebug) fprintf
-extern int DYNINSTuserMessage(void *, unsigned int);
 
 unsigned int nextid = 0;
 int libraryDebug = 0;

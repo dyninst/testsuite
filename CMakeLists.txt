@@ -373,6 +373,7 @@ set_target_properties(testB_static PROPERTIES OUTPUT_NAME testB)
 
 if(UNIX)
   add_library(Test12 SHARED src/dyninst/libTest12.c)
+  target_link_library(Test12 dyninstAPI_RT)
   install(TARGETS Test12
           LIBRARY DESTINATION ${INSTALL_DIR}
           RUNTIME DESTINATION ${INSTALL_DIR}
