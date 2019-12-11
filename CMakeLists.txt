@@ -373,7 +373,6 @@ set_target_properties(testB_static PROPERTIES OUTPUT_NAME testB)
 
 if(UNIX)
   add_library(Test12 SHARED src/dyninst/libTest12.c)
-  message(STATUS "Dyninst_DIR = ${Dyninst_DIR}") 
   add_library(dyninstAPI_RT SHARED IMPORTED)
   set_target_properties(dyninstAPI_RT PROPERTIES IMPORTED_LOCATION "${Dyninst_DIR}/../../libdyninstAPI_RT.so")
   target_link_libraries(Test12 dyninstAPI_RT)
