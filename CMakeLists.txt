@@ -31,6 +31,8 @@ load_cache(${Dyninst_DIR}
            ElfUtils_INCLUDE_DIRS
            ElfUtils_LIBRARY_DIRS
            STERILE_BUILD
+           USE_GNU_DEMANGLER
+           LibIberty_LIBRARY_DIRS
            )
 
 # Import the include and library directory names
@@ -48,6 +50,10 @@ add_definitions(${TBB_DEFINES})
 include_directories(${ElfUtils_INCLUDE_DIRS})
 link_directories(${ElfUtils_LIBRARY_DIRS})
 
+if(NOT ${USE_GNU_DEMANGLER})
+	link_directories(${LibIberty_LIBRARY_DIRS})
+endif()
+
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
     "${PROJECT_SOURCE_DIR}/cmake"
@@ -57,6 +63,7 @@ set(CMAKE_MODULE_PATH
 
 include(c++11.cmake)
 include(LibXml2)
+include(optimization)
 
 include_directories(${LibXml2_INCLUDE_DIRS})
 link_directories(${LibXml2_LIBRARY_DIRS})
@@ -68,22 +75,6 @@ if(NOT ("${USE_CXX11_ABI}" STREQUAL ""))
   else()
     add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
   endif()
-endif()
-
-if(CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-  set(CMAKE_C_FLAGS_DEBUG "-O0 -g")
-  set(CMAKE_C_FLAGS_RELEASE "-O2")
-  set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
-  set(CMAKE_CXX_FLAGS_RELEASE "-O2")
-  set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O2 -g")
-  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
-else(MSVC)
-  set(CMAKE_C_FLAGS_DEBUG "/Od /Zi /MDd /D_DEBUG")
-  set(CMAKE_C_FLAGS_RELEASE "/O2 /MD /D NDEBUG")
-  set(CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /MDd /D_DEBUG")
-  set(CMAKE_CXX_FLAGS_RELEASE "/O2 /MD /D NDEBUG")
-  set(CMAKE_C_FLAGS_RELWITHDEBINFO "/O2 /Zi /MD /D NDEBUG")
-  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/O2 /Zi /MD /D NDEBUG")
 endif()
 
 # CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
