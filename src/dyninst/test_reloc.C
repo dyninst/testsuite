@@ -42,10 +42,10 @@
 #include "BPatch_thread.h"
 #include "BPatch_snippet.h"
 #include "BPatch_point.h"
-
+#include "BPatch_object.h"
 #include "test_lib.h"
-
 #include "dyninst_comp.h"
+#include <string>
 
 class test_reloc_Mutator : public DyninstMutator {
 public:
@@ -79,10 +79,16 @@ test_results_t test_reloc_Mutator::executeTest() {
     // individually. Using insertion set makes sure that we relocate 
     // all functions together.
     appAddrSpace->beginInsertionSet();
-    for(BPatch_Vector<BPatch_function *>::iterator itr = all_funcs->begin(); itr != all_funcs->end(); itr++) {
-        dprintf("Relocation function: %s\n", (*itr)->getName().c_str());
-        (*itr)->relocateFunction();
+    for(BPatch_function *f : *all_funcs) {
+    	std::string const& name = f->getModule()->getObject()->name();
+
+    	// Don't relocate anything in the runtime. It causes unpredictable behavior
+    	if(name.find("libdyninstAPI_RT.so") != std::string::npos) continue;
+
+        dprintf("Relocation function: %s\n", f->getName().c_str());
+        f->relocateFunction();
     }
+
     appAddrSpace->finalizeInsertionSet(false);
 
     dprintf("Relocated all functions.\n");
