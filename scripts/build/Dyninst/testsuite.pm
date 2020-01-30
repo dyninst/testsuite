@@ -114,43 +114,33 @@ sub run {
 		while(my $test_name = <$fdTests>) {
 			chomp($test_name);
 	
-			for my $gcc ('gcc','g++') {
-			for my $link ('dynamiclink','staticlink') {
-			for my $mode ('create','attach','rewriter') {
-			for my $pic ('pic', 'nonpic') {
-
-				# This test is broken on Zeroah
-				next if $test_name eq 'test_thread_5' &&
-						$hostname =~ /zeroah/i &&
-						$gcc eq 'g++' &&
-				       	$link eq 'dynamiclink' &&
-				       	$mode eq 'create' &&
-				       	$pic eq 'pic';
-				
-				print "Running $test_name $gcc $link $mode $pic: ";
-				my $start = Time::HiRes::gettimeofday();
-				
-				# We need an 'eval' here since we are manually piping stderr
-				eval {
-					execute(
-						"cd $base_dir\n" .
-						"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
-						"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
-						"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-						"./test_driver -64 -none -$gcc -$link -$mode -$pic -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
-					);
-				};
-				my $end = Time::HiRes::gettimeofday();
-				printf("%.2f\n", $end - $start);
-				
-				for my $f (['stdout.tmp',$fdOut],['stderr.tmp',$fdErr],['tmp.log',$fdLog]) {
-					if(-f "$base_dir/$f->[0]") {
-						open my $fdIn, '<', "$base_dir/$f->[0]";
-						my $x = $f->[1];
-						print $x (<$fdIn>);
-					}
-				}
-			}}}}
+            # This test is broken on Zeroah
+            next if $test_name eq 'test_thread_5' &&
+                    $hostname =~ /zeroah/i;
+            
+            print "Running $test_name";
+            my $start = Time::HiRes::gettimeofday();
+            
+            # We need an 'eval' here since we are manually piping stderr
+            eval {
+                execute(
+                    "cd $base_dir\n" .
+                    "export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
+                    "export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
+                    "LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
+                    "./runTests -64 -all -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
+                );
+            };
+            my $end = Time::HiRes::gettimeofday();
+            printf("%.2f\n", $end - $start);
+            
+            for my $f (['stdout.tmp',$fdOut],['stderr.tmp',$fdErr],['tmp.log',$fdLog]) {
+                if(-f "$base_dir/$f->[0]") {
+                    open my $fdIn, '<', "$base_dir/$f->[0]";
+                    my $x = $f->[1];
+                    print $x (<$fdIn>);
+                }
+            }
 		}
 	} else {
 		my $err = undef;
