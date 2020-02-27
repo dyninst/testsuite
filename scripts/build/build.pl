@@ -42,7 +42,6 @@ my %args = (
 	'ntestjobs'				=> 1,
 	'nompthreads'			=> 2,
 	'single-stepping'		=> 0,
-	'max-attempts'			=> 3,
 	'auth-token'			=> undef,
 	'sterile'				=> 1,
 	'debug-mode'			=> 0	# undocumented debug mode
@@ -55,8 +54,8 @@ GetOptions(\%args,
 	'testsuite-cmake-args=s', 'build-tests!',
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
-	'nompthreads=i', 'single-stepping', 'max-attempts=i',
-	'auth-token=s', 'sterile!', 'debug-mode'
+	'nompthreads=i', 'single-stepping', 'auth-token=s',
+	'sterile!', 'debug-mode'
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -196,27 +195,14 @@ if($@) {
 	$args{'run-tests'} = 0;
 }
 
-eval {
-	# Run the tests
-	if($args{'run-tests'}) {
-		make_path("$root_dir/testsuite/tests");
-		my $base_dir = realpath("$root_dir/testsuite/tests");
+# Run the tests
+if($args{'run-tests'}) {
+	make_path("$root_dir/testsuite/tests");
+	my $base_dir = realpath("$root_dir/testsuite/tests");
 
-		$logger->write("running Testsuite... ", 'eol'=>'');
-		my $max_attempts = $args{'max-attempts'};
-		while(!Dyninst::testsuite::run(\%args, $base_dir)) {
-			$max_attempts--;
-			if($max_attempts <= 0) {
-				die "Maximum number of Testsuite run attempts exceeded\n";
-			}
-			$logger->write("\nTestsuite killed; restarting... ", 'eol'=>'');
-		}
-		$logger->write("done.");
-	}
-};
-if($@) {
-	$logger->write($@);
-	open my $fdOut, '>', "$root_dir/Tests.FAILED";
+	$logger->write("running Testsuite... ", 'eol'=>'');
+	Dyninst::testsuite::run(\%args, $base_dir, $logger);
+	$logger->write("done.");
 }
 
 my $results_log = "$root_dir/testsuite/tests/results.log";
@@ -252,13 +238,9 @@ if(-f "$root_dir/testsuite/tests/stdout.log") {
 		"$root_dir/testsuite/build/build-install.err",
 		"$root_dir/testsuite/tests/stdout.log",
 		"$root_dir/testsuite/tests/stderr.log",
+		"$root_dir/testsuite/tests/test.log",
 		$results_log
 	);
-	
-	# Single-stepping creates an enormous (>2GB) log file
-	if(!$args{'single-stepping'}) {
-		push @log_files, "$root_dir/testsuite/tests/test.log";
-	}
 
 	my $tar = Archive::Tar->new();
 	
@@ -326,7 +308,6 @@ build [options]
    --ntestjobs             Number of tests to run in parallel (default: 1)
    --nompthreads           Number of OpenMP threads to use for parallel parsing when running tests (default: 2)
    --single-stepping       Run the tests one at a time (i.e., not in 'group' mode) (default: no)
-   --max-attempts=N        Run the test suite a maximum of N failed attempts before giving up (default: 3)
    --auth-token=STRING     The authentication token string. Required when uploading the results.
    --[no-]sterile          Use a sterile build- don't download dependencies (default: yes)
    --help                  Print this help message
