@@ -200,7 +200,7 @@ if($args{'run-tests'}) {
 	make_path("$root_dir/testsuite/tests");
 	my $base_dir = realpath("$root_dir/testsuite/tests");
 	
-	my $run_log = Dyninst::logs->new("$base_dir/testsuite/tests/run.log");
+	my $run_log = Dyninst::logs->new("$base_dir/run.log");
 
 	$logger->write("running Testsuite... ", 'eol'=>'');
 	Dyninst::testsuite::run(\%args, $base_dir, $run_log);
