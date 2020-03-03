@@ -9,6 +9,14 @@ use File::Copy qw(move);
 
 # ------------- Module methods -----------------------
 
+sub append_result {
+	my ($log_file, $test_name) = @_;
+	open my $fdOut, '>>', $log_file or die "$log_file: $!\n";
+	print $fdOut
+		pack('A27 A7 A5 A4 A9 A8 A8 A8 A50',
+			$test_name, '', '', '', '', '', '', 'HANGED', '');
+}
+
 sub parse {
 	open my $fdIn, '<', $_[0] or die "$_[0]: $!\n";
 	my @results;
