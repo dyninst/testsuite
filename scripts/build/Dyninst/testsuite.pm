@@ -170,7 +170,7 @@ sub run {
 	# If user explicitly requests single-stepping, then only run that mode
 	if($args->{'single-stepping'}) {
 		_run_single($paths, $args, $base_dir, $build_log);
-		return;		
+		return;
 	}
 
 	# By default, run the tests in group mode
