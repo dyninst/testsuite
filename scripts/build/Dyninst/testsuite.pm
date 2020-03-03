@@ -128,7 +128,10 @@ sub _run_single {
 		};
 		
 		my $end = Time::HiRes::gettimeofday();
-		$build_log->write(sprintf("Running $test_name took %.2f seconds", $end - $start));
+		
+		if($Dyninst::utils::debug_mode) {
+			$build_log->write(sprintf("$test_name took %.2f seconds", $end - $start));
+		}
 		
 		if(_killed_by_watchdog("$base_dir/stderr.tmp")) {
 			$build_log->write("$test_name exceeded time limit");
