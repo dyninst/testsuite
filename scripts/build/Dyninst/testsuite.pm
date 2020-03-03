@@ -127,9 +127,8 @@ sub _run_single {
 			print $fdErr "\n$test_name failed in testsuite::run", '-'x10, "\n";
 		};
 		
-		my $end = Time::HiRes::gettimeofday();
-		
 		if($Dyninst::utils::debug_mode) {
+			my $end = Time::HiRes::gettimeofday();
 			$run_log->write(sprintf("$test_name took %.2f seconds", $end - $start));
 		}
 		
