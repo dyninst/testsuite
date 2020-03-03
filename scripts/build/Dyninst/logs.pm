@@ -179,7 +179,7 @@ sub new {
 	
 	bless {
 		'filename' => $filename,
-		'quiet'=> $quiet,
+		'quiet'=> $quiet // 1,
 		'fd' => $fdLog
 	}, $class;
 }
