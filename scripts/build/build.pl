@@ -199,9 +199,11 @@ if($@) {
 if($args{'run-tests'}) {
 	make_path("$root_dir/testsuite/tests");
 	my $base_dir = realpath("$root_dir/testsuite/tests");
+	
+	my $run_log = Dyninst::logs->new("$base_dir/testsuite/tests/run.log");
 
 	$logger->write("running Testsuite... ", 'eol'=>'');
-	Dyninst::testsuite::run(\%args, $base_dir, $logger);
+	Dyninst::testsuite::run(\%args, $base_dir, $run_log);
 	$logger->write("done.");
 }
 
@@ -239,6 +241,7 @@ if(-f "$root_dir/testsuite/tests/stdout.log") {
 		"$root_dir/testsuite/tests/stdout.log",
 		"$root_dir/testsuite/tests/stderr.log",
 		"$root_dir/testsuite/tests/test.log",
+		"$root_dir/testsuite/tests/run.log",
 		$results_log
 	);
 

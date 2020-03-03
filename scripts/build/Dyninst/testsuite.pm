@@ -98,7 +98,7 @@ sub _killed_by_watchdog {
 }
 
 sub _run_single {
-	my ($paths, $args, $base_dir, $build_log) = @_;
+	my ($paths, $args, $base_dir, $run_log) = @_;
 	
 	my $test_names_file = "$base_dir/../build/test_names.txt";
 	open my $fdTests, '<', $test_names_file or die "Unable to open '$test_names_file': $!\n";
@@ -130,11 +130,11 @@ sub _run_single {
 		my $end = Time::HiRes::gettimeofday();
 		
 		if($Dyninst::utils::debug_mode) {
-			$build_log->write(sprintf("$test_name took %.2f seconds", $end - $start));
+			$run_log->write(sprintf("$test_name took %.2f seconds", $end - $start));
 		}
 		
 		if(_killed_by_watchdog("$base_dir/stderr.tmp")) {
-			$build_log->write("$test_name exceeded time limit");
+			$run_log->write("$test_name exceeded time limit");
 		}
 		
 		# Concatenate the temporary logs with the permanent ones
@@ -149,7 +149,7 @@ sub _run_single {
 }
 
 sub run {
-	my ($args, $base_dir, $build_log) = @_;
+	my ($args, $base_dir, $run_log) = @_;
 
 	# Grab the paths in the Dyninst build cache
 	my @lib_dirs = (
@@ -169,7 +169,7 @@ sub run {
 	
 	# If user explicitly requests single-stepping, then only run that mode
 	if($args->{'single-stepping'}) {
-		_run_single($paths, $args, $base_dir, $build_log);
+		_run_single($paths, $args, $base_dir, $run_log);
 		return;
 	}
 
@@ -188,8 +188,8 @@ sub run {
 		# check it here explicitly just to be sure
 		die if _killed_by_watchdog("$base_dir/stderr.log");
 	} catch {
-		$build_log->write("Running in group mode failed. Running single-step mode.\n");
-		_run_single($paths, $args, $base_dir, $build_log);
+		$run_log->write("Running in group mode failed. Running single-step mode.\n");
+		_run_single($paths, $args, $base_dir, $run_log);
 	};
 }
 
