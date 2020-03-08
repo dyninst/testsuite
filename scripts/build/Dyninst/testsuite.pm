@@ -134,7 +134,7 @@ sub _run_single {
 		
 		if(_killed_by_watchdog("$base_dir/stderr.tmp")) {
 			$run_log->write("$test_name exceeded time limit");
-			Dyninst::logs::append_result("$base_dir/stdout.tmp", $test_name);
+			Dyninst::logs::append_result("$base_dir/stdout.tmp", $test_name, 'HANGED');
 		}
 		
 		# Concatenate the temporary logs with the permanent ones
