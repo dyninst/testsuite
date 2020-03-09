@@ -9,6 +9,7 @@ use Dyninst::logs;
 use Cwd qw(realpath);
 use File::Path qw(make_path);
 use Time::HiRes;
+use Try::Tiny;
 
 sub setup {
 	my ($root_dir, $args) = @_;
@@ -82,8 +83,73 @@ sub build {
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
 }
+
+sub _killed_by_watchdog {
+	my ($file) = @_;
+	
+	# Check if we were killed by the watchdog timer
+	if(-f $file){
+		open my $fdIn, '<', $file;
+		while(<$fdIn>) {
+			return 1 if m/Process exceeded time limit/;
+		}
+	}
+	return 0;
+}
+
+sub _run_single {
+	my ($paths, $args, $base_dir, $run_log) = @_;
+	
+	my $test_names_file = "$base_dir/../build/test_names.txt";
+	open my $fdTests, '<', $test_names_file or die "Unable to open '$test_names_file': $!\n";
+	open my $fdLog, '>', "$base_dir/test.log" or die "Unable to open '$base_dir/test.log': $!\n";
+
+	open my $fdOut, '>', "$base_dir/stdout.log";
+	open my $fdErr, '>', "$base_dir/stderr.log";
+
+	while(my $test_name = <$fdTests>) {
+		chomp($test_name);
+
+		# Put a marker in the stderr log
+		print $fdErr "++Running $test_name\n";
+		
+		my $start = Time::HiRes::gettimeofday();
+		
+		try {
+			execute(
+				"cd $base_dir\n" .
+				"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
+				"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
+				"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
+				"./runTests -64 -all -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
+			);
+		} catch {
+			print $fdErr "\n$test_name failed in testsuite::run", '-'x10, "\n";
+		};
+		
+		if($Dyninst::utils::debug_mode) {
+			my $end = Time::HiRes::gettimeofday();
+			$run_log->write(sprintf("$test_name took %.2f seconds", $end - $start));
+		}
+		
+		if(_killed_by_watchdog("$base_dir/stderr.tmp")) {
+			$run_log->write("$test_name exceeded time limit");
+			Dyninst::logs::append_result("$base_dir/stdout.tmp", $test_name, 'HANGED');
+		}
+		
+		# Concatenate the temporary logs with the permanent ones
+		for my $f (['stdout.tmp',$fdOut],['stderr.tmp',$fdErr],['tmp.log',$fdLog]) {
+			if(-f "$base_dir/$f->[0]") {
+				open my $fdIn, '<', "$base_dir/$f->[0]";
+				my $x = $f->[1];
+				print $x (<$fdIn>);
+			}
+		}
+	}
+}
+
 sub run {
-	my ($args, $base_dir) = @_;
+	my ($args, $base_dir, $run_log) = @_;
 
 	# Grab the paths in the Dyninst build cache
 	my @lib_dirs = (
@@ -100,83 +166,31 @@ sub run {
 	
 	push @libs, ($base_dir, realpath("$base_dir/../dyninst/lib"));
 	my $paths = join(':', list_unique(@libs));
-
+	
+	# If user explicitly requests single-stepping, then only run that mode
 	if($args->{'single-stepping'}) {
-		my $test_names_file = "$base_dir/../build/test_names.txt";
-		open my $fdTests, '<', $test_names_file or die "Unable to open '$test_names_file': $!\n";
-		open my $fdLog, '>', "$base_dir/test.log" or die "Unable to open '$base_dir/test.log': $!\n";
-		
-		open my $fdOut, '>', "$base_dir/stdout.log";
-		open my $fdErr, '>', "$base_dir/stderr.log";
-		
-		my $hostname = Dyninst::logs::get_system_info()->{'nodename'};
-		
-		while(my $test_name = <$fdTests>) {
-			chomp($test_name);
-	
-            # This test is broken on Zeroah
-            next if $test_name eq 'test_thread_5' &&
-                    $hostname =~ /zeroah/i;
-            
-            print "Running $test_name";
-            my $start = Time::HiRes::gettimeofday();
-            
-            # We need an 'eval' here since we are manually piping stderr
-            eval {
-                execute(
-                    "cd $base_dir\n" .
-                    "export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
-                    "export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
-                    "LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-                    "./runTests -64 -all -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
-                );
-            };
-            my $end = Time::HiRes::gettimeofday();
-            printf("%.2f\n", $end - $start);
-            
-            for my $f (['stdout.tmp',$fdOut],['stderr.tmp',$fdErr],['tmp.log',$fdLog]) {
-                if(-f "$base_dir/$f->[0]") {
-                    open my $fdIn, '<', "$base_dir/$f->[0]";
-                    my $x = $f->[1];
-                    print $x (<$fdIn>);
-                }
-            }
-		}
-	} else {
-		my $err = undef;
-		# We need an 'eval' here since we are manually piping stderr
-		eval {
-			execute(
-				"cd $base_dir\n" .
-				"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
-				"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
-				"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-				"./runTests -64 -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
-			);
-		};
-		$err = $@ if $@;
-	
-		# Check if we were killed by the watchdog timer
-		open my $fdIn, '<', "$base_dir/stderr.log";
-		while(<$fdIn>) {
-			return !!0 if m/Process exceeded time limit/;
-		}
-	
-		# The run failed for some reason other than the watchdog timer
-		chomp($err);
-		if($err && $err eq '') {
-			# runTest returned a non-zero value, but no actual error
-			# message. Check the log for an error message
-			open my $fdIn, '<', "$base_dir/stderr.log" or die "$!\n";
-			while(<$fdIn>) {
-				if(/\berror\b/i) {
-					die "\nrunTests terminated abnormally\n\n\n$err\n";
-				}
-			}
-		}
+		_run_single($paths, $args, $base_dir, $run_log);
+		return;
 	}
-	
-	return !!1;
+
+	# By default, run the tests in group mode
+	# If that fails, fall back to single-stepping mode
+	try {
+		execute(
+			"cd $base_dir\n" .
+			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
+			"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
+			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
+			"./runTests -64 -all -log test.log 1>stdout.log 2>stderr.log"
+		);
+		
+		# Being killed by the watchdog timer _should_ cause 'execute' to throw, but
+		# check it here explicitly just to be sure
+		die if _killed_by_watchdog("$base_dir/stderr.log");
+	} catch {
+		$run_log->write("Running in group mode failed. Running single-step mode.\n");
+		_run_single($paths, $args, $base_dir, $run_log);
+	};
 }
 
 1;
