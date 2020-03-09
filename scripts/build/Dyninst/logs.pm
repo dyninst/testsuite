@@ -13,7 +13,7 @@ sub append_result {
 	my ($log_file, $test_name, $result) = @_;
 	open my $fdOut, '>>', $log_file or die "$log_file: $!\n";
 	print $fdOut
-		pack('A27 A7 A5 A4 A9 A8 A8 A8 A50',
+		pack('A27 A7 A5 A4 A9 A8 A8 A8 A' . length($result),
 			$test_name, '', '', '', '', '', '', '', $result),
 		"\n";
 }
@@ -33,7 +33,7 @@ sub parse {
 		# Grab the status field (it's at the end)
 		my $status = pop @x;
 		my $failed = 0;
-		for my $s ('FAILED','CRASHED', 'HANGED') {
+		for my $s ('FAILED','CRASHED') {
 			# Split the status from the reason
 			# The format is 'FAILED (reason)'
 			if ($status =~ /$s\s*\((.+)\)\s*$/) {
