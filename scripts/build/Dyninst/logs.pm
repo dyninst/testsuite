@@ -14,7 +14,8 @@ sub append_result {
 	open my $fdOut, '>>', $log_file or die "$log_file: $!\n";
 	print $fdOut
 		pack('A27 A7 A5 A4 A9 A8 A8 A8 A50',
-			$test_name, '', '', '', '', '', '', '', $result);
+			$test_name, '', '', '', '', '', '', '', $result),
+		"\n";
 }
 
 sub parse {
