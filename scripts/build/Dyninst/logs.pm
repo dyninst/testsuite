@@ -32,7 +32,7 @@ sub parse {
 		# Grab the status field (it's at the end)
 		my $status = pop @x;
 		my $failed = 0;
-		for my $s ('FAILED','CRASHED') {
+		for my $s ('FAILED','CRASHED', 'HANGED') {
 			# Split the status from the reason
 			# The format is 'FAILED (reason)'
 			if ($status =~ /$s\s*\((.+)\)\s*$/) {
