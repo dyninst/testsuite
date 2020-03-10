@@ -71,6 +71,7 @@ test_results_t test_instruction_profile_Mutator::executeTest()
   }
 
   libc_paths.push_back("/lib/libc.so.6");
+  libc_paths.push_back("/lib/aarch64-linux-gnu/libc.so.6");
 #endif
 
   for (unsigned i = 0; i < libc_paths.size(); ++i) {
@@ -97,14 +98,24 @@ test_results_t test_instruction_profile_Mutator::executeTest()
     
     std::vector<Instruction > decodedInsns;
     Instruction i;
-    InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_x86);
+#if defined(arch_x86_64_test) || defined(arch_x86_test)
+    InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_x86_64);
+#elif defined(arch_power_test)
+    InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_ppc64);
+#elif defined(arch_aarch64_test)
+    InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_aarch64);
+#elif
+    InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_none);
+    return SKIPPED;
+#endif
+
     long offset = 0;
     
     // simulate parsing via vector-per-basic-block
     while(offset < (*curReg)->getDiskSize() - InstructionDecoder::maxInstructionLength)
     {
       i = d.decode(decodeBase + offset);
-      //cout << endl << "\t\t" << i->format() << std::endl;
+      //cout << endl << "\t\t" << i.format() << std::endl;
       total_count++;
       decodedInsns.push_back(i);
       if(i.isValid()) {
