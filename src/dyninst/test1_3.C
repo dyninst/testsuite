@@ -134,7 +134,7 @@ test_results_t test1_3_Mutator::executeTest()
 	}
 
 	// see if we can find the address
-	if (expr3_1->getBaseAddr() <= 0) 
+	if (!expr3_1->getBaseAddr())
 	{
 		logerror("*Error*: address %p for %s is not valid\n",
 				expr3_1->getBaseAddr(), globalVar);
