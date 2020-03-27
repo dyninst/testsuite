@@ -56,6 +56,10 @@ extern "C" DLLEXPORT TestMutator* test_instruction_read_write_factory()
 
 test_results_t test_instruction_read_write_Mutator::executeTest()
 {
+#if defined(arch_power_test) || defined(arch_aarch64_test)
+    return SKIPPED;
+#endif
+
   const unsigned char buffer[] = 
   {
     0x05, 0xef, 0xbe, 0xad, 0xde, // ADD eAX, 0xDEADBEEF
