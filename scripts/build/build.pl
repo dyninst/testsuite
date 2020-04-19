@@ -314,5 +314,6 @@ build [options]
    --single-stepping       Run the tests one at a time (i.e., not in 'group' mode) (default: no)
    --auth-token=STRING     The authentication token string. Required when uploading the results.
    --[no-]sterile          Use a sterile build- don't download dependencies (default: yes)
+   --hostname              Override the hostname provided by `uname`
    --help                  Print this help message
 =cut
