@@ -111,9 +111,14 @@ sub get_system_info {
 }
 
 sub save_system_info {
-	my ($logger) = @_;
+	my ($logger, $hostname) = @_;
 	
 	my $sysinfo = get_system_info();
+	
+	# Allow user to override the hostname
+	if(defined $hostname) {
+		$sysinfo->{'nodename'} = $hostname;
+	}
 	
 	$logger->write(
 		"os: $sysinfo->{'sysname'}\n" .
