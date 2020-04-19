@@ -44,6 +44,7 @@ my %args = (
 	'single-stepping'		=> 0,
 	'auth-token'			=> undef,
 	'sterile'				=> 1,
+	'hostname'				=> undef,
 	'debug-mode'			=> 0	# undocumented debug mode
 );
 
@@ -55,7 +56,7 @@ GetOptions(\%args,
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
 	'nompthreads=i', 'single-stepping', 'auth-token=s',
-	'sterile!', 'debug-mode'
+	'sterile!', 'hostname=s', 'debug-mode'
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -139,7 +140,7 @@ if($Dyninst::utils::debug_mode) {
 	print Dumper(\%args), "\n";
 }
 
-Dyninst::logs::save_system_info($logger);
+Dyninst::logs::save_system_info($logger, $args{'hostname'});
 
 # Generate a unique name for the current build
 $root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
