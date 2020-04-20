@@ -61,11 +61,11 @@ sub save_compiler_config {
 	);
 
 	while(<$fdIn>) {
-		if(/Check for working CXX compiler: (.+)? -- works/) {
+		if(/Check for working CXX compiler:\s*(.+)?\s*[-]+\s*works/) {
 			$compilers{'cxx'}{'path'} = realpath($1);
 			next;
 		}
-		if(/Check for working C compiler: (.+)? -- works/) {
+		if(/Check for working C compiler:\s*(.+)?\s*[-]+\s*works/) {
 			$compilers{'c'}{'path'} = realpath($1);
 			next;
 		}
