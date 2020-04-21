@@ -134,53 +134,6 @@ sub save_system_info {
 	$logger->write('*'x20);
 }
 
-sub save_compiler_info {
-	my ($cmake_log, $out_file) = @_;
-	
-	open my $fdIn, '<', $cmake_log or die "Unable to open CMake log '$cmake_log': $!\n";
-	
-	my %compilers = (
-		'cxx' => {'path'=>'', 'version'=>''},
-		'c'   => {'path'=>'', 'version'=>''}
-	);
-
-	while(<$fdIn>) {
-		if(/Check for working CXX compiler: (.+)? -- works/) {
-			$compilers{'cxx'}{'path'} = realpath($1);
-			next;
-		}
-		if(/Check for working C compiler: (.+)? -- works/) {
-			$compilers{'c'}{'path'} = realpath($1);
-			next;
-		}
-		if(/The C compiler identification is (.+)/) {
-			$compilers{'c'}{'version'} = $1;
-			next;
-		}
-		if(/The CXX compiler identification is (.+)/) {
-			$compilers{'cxx'}{'version'} = $1;
-			next;
-		}
-	}
-	
-	# Verify we got everything
-	for my $c (keys %compilers) {
-		for my $t (keys %{$compilers{$c}}) {
-			unless($compilers{$c}{$t}) {
-				die "$cmake_log is missing $c/$t\n";
-			}
-		}
-	}
-	
-	open my $fdOut, '>', $out_file or die "Couldn't open '$out_file': $!\n";
-	local $, = "\n";
-	print $fdOut
-		"c_path: $compilers{'c'}{'path'}",
-		"c_version: $compilers{'c'}{'version'}",
-		"cxx_path: $compilers{'cxx'}{'path'}",
-		"cxx_version: $compilers{'cxx'}{'version'}\n";
-}
-
 # ------------- Class methods -------------------------
 
 sub new {
