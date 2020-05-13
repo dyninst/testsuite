@@ -153,6 +153,7 @@ ModeGroup mode_args[] = {
 
 static std::vector<char *> mutatee_list;
 static std::vector<char *> test_list; 
+static std::vector<char *> exclude_list; 
 
 static bool useHumanLog = true;
 static bool shouldDebugBreak = false;
@@ -170,6 +171,7 @@ static int next_resume_test = -1;
 static bool no_header = false;
 static bool measureMEMCPU = false;
 static bool junit = false;
+static bool dry_run = false;
 static char *humanlog_name = NULL;
 static char *logfilename = NULL;
 static char *dbfilename = NULL;
@@ -221,7 +223,8 @@ void setupArgDictionary(ParameterDict &params)
    params["no_header"] = new ParamInt((int) no_header);
    params["measureMEMCPU"] = new ParamInt((int) measureMEMCPU);
    params["junit"] = new ParamInt((int) junit);
-   
+   params["dry_run"] = new ParamInt((int) dry_run);
+
    if (!logfilename)
       logfilename = const_cast<char *>(DEFAULT_LOGNAME);
    if (!humanlog_name)
@@ -295,6 +298,30 @@ static int handleArgs(int argc, char *argv[])
             }
          }
       }
+      else if ( strcmp(argv[i], "-exclude") == 0)
+	{
+	  char *tests;
+	  char *name;
+
+	  if ( i + 1 >= argc )
+	    {
+	      fprintf(stderr, "-exclude must be followed by a testname\n");
+	      return NOTESTS;
+	    }
+
+	  tests = strdup(argv[++i]);
+
+	  name = strtok(tests, ",");
+	  exclude_list.push_back(name);
+	  while ( name != NULL )
+	    {
+	      name = strtok(NULL, ",");
+	      if ( name != NULL )
+		{
+		  exclude_list.push_back(name);
+		}
+	    }
+	}
       else if ( strcmp(argv[i], "-run") == 0)
       {
          int j;
@@ -559,6 +586,8 @@ static int handleArgs(int argc, char *argv[])
          junit = true;
          measureMEMCPU = true;
       }
+      else if(strcmp(argv[i], "-dry-run") == 0)
+	dry_run = true;
    }
 
    
@@ -788,6 +817,13 @@ static void disableUnwantedTests(std::vector<RunGroup *> &groups)
       for (unsigned j=0; j<groups[i]->tests.size(); j++) 
       {
          if (!test_list.empty() && !testListContains(groups[i]->tests[j], test_list)) 
+         {
+            groups[i]->tests[j]->disabled = true;
+         }
+      }
+      for (unsigned j=0; j<groups[i]->tests.size(); j++) 
+      {
+         if (!exclude_list.empty() && testListContains(groups[i]->tests[j], exclude_list)) 
          {
             groups[i]->tests[j]->disabled = true;
          }

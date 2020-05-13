@@ -643,6 +643,14 @@ void startAllTests(std::vector<RunGroup *> &groups, ParameterDict &param)
    Module *currentMod = groups[0]->mod;
    RunGroup *lastGroup = groups[0];
 
+   // Only want the header printed once
+   if (param["dry_run"]->getInt() && (!param["under_runtests"]->getInt() || !groups[1]->disabled)) {
+     printf("%-19s %-3s %-3s %-8s %-7s %-3s", "TEST", "OPT", "ABI", "MODE", "LINK", "PIC");
+     if (param["debugPrint"]->getInt())
+       printf(" %-4s %-23s %s", "Group", "Mutator", "Mutatee");
+     puts("");
+   }
+
    for (i = 0; i < groups.size(); i++) {
       if (groups[i]->disabled) {
          continue;
@@ -657,6 +665,26 @@ void startAllTests(std::vector<RunGroup *> &groups, ParameterDict &param)
          }
       }
 
+      if (param["dry_run"]->getInt()) 
+	{
+	  // StdOutputDriver does the results display
+	  for (int gti = 0; gti < groups[i]->tests.size(); gti++) {
+	    TestInfo *test = groups[i]->tests[gti];
+	    const char *mode_str [] = { "create", "attach","rewriter","" };
+	    const char *link_str [] = { "static", "dynamic" };
+	    const char *pic_str [] = { "", "pic" };
+	    std::map<string,int> optmap = {{"none",0}, {"low",1}, {"high",2}, {"max",3}};
+	    printf("%-20s O%d %-3s %-8s %-7s %-3s",
+		   test->name, optmap[groups[i]->optlevel], groups[i]->abi, mode_str[groups[i]->createmode], 
+		   link_str[groups[i]->linktype], pic_str[groups[i]->pic]);
+	    if (param["debugPrint"]->getInt()) 
+	      printf(" %-4d lib%-20s %s", i, test->soname, groups[i]->mutatee);
+	    test->disabled = true;
+	    puts("");
+	  }
+	  continue;
+	}
+	    
       // Print mutatee (run group) header
       printLogMutateeHeader(groups[i]->mutatee, groups[i]->linktype);
 
