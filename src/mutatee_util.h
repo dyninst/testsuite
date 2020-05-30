@@ -79,6 +79,7 @@ typedef pthread_barrier_t testbarrier_t;
 #endif
 
 #include <stdarg.h>
+#include <unistd.h>
 
 #define TRUE 1
 #define FALSE 0

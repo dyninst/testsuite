@@ -21,6 +21,9 @@ set (CMAKE_MODULE_PATH "${Dyninst_DIR}" "${Dyninst_DIR}/Modules" ${CMAKE_MODULE_
 # Set the C and C++ language API and ABI standards
 include(LanguageStandards)
 
+# Allow usage of GNU library extensions to ISOC99
+add_definitions(-D_GNU_SOURCE)
+
 # Import the system threads library
 find_package(Threads)
 
