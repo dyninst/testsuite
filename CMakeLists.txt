@@ -16,6 +16,14 @@ endif()
 
 set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
 
+set (CMAKE_MODULE_PATH "${Dyninst_DIR}" "${Dyninst_DIR}/Modules" ${CMAKE_MODULE_PATH})
+
+# Set the C and C++ language API and ABI standards
+include(LanguageStandards)
+
+# Allow usage of GNU library extensions to ISOC99
+add_definitions(-D_GNU_SOURCE)
+
 # Import the system threads library
 find_package(Threads)
 
@@ -61,21 +69,11 @@ set(CMAKE_MODULE_PATH
     "${Dyninst_DIR}"
     "${Dyninst_DIR}/Modules")
 
-include(c++11.cmake)
 include(LibXml2)
 include(optimization)
 
 include_directories(${LibXml2_INCLUDE_DIRS})
 link_directories(${LibXml2_LIBRARY_DIRS})
-
-set(USE_CXX11_ABI "" CACHE STRING "Override the default GNU C++11 ABI setting")
-if(NOT ("${USE_CXX11_ABI}" STREQUAL ""))
-  if(${USE_CXX11_ABI})
-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-  else()
-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
-  endif()
-endif()
 
 # CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
 # this variable should fix.
