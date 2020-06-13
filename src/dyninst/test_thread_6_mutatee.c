@@ -77,14 +77,18 @@ int test_thread_6_mutatee() {
 	done = 1;
 	testUnlock(&done_lock);
 
+	logstatus("[%s:%d]: stage 3 - atomic flag set\n", __FILE__, __LINE__);
+
 	for(int i=0; i<NUM_THREADS; i++) {
 		joinThread(thread_ids[i]);
 	}
 
-	logstatus("[%s:%d]: stage 3 - all threads joined\n", __FILE__, __LINE__);
+	logstatus("[%s:%d]: stage 4 - all threads joined\n", __FILE__, __LINE__);
 
 	testDestroyLock(&done_lock);
 	testBarrierDestroy(&startup_barrier);
+
+	logstatus("[%s:%d]: stage 5 - synchronization cleanup complete\n", __FILE__, __LINE__);
 
 	return 0;
 }
