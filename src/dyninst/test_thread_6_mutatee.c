@@ -27,70 +27,63 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include <sys/types.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "mutatee_util.h"
 #include "solo_mutatee_boilerplate.h"
 
-#if !defined(os_windows_test)
-#include <unistd.h>
-#else
-#include <windows.h>
-#endif
+// This is modified by the mutator
+volatile int proc_current_state = 0;
 
-#define NTHRD 4
+// We only require C99, so we have to create our own "atomic"
+volatile int done = 0;
+testlock_t done_lock;
 
-volatile int done;
-volatile int proc_current_state;
-volatile int threads_running[NTHRD];
+// Barrier to synchronize thread startup
+testbarrier_t startup_barrier;
 
-void *init_func(void *arg)
+static void* init_func(void *arg)
 {
-   threads_running[(int) (long) arg] = 1;
-   while (!done);
-   return arg;
+	waitTestBarrier(&startup_barrier);
+	while(!done);
+	return arg;
 }
 
-/* int main(int argc, char *argv[]) */
 int test_thread_6_mutatee() {
-   unsigned i;
-   thread_t threads[NTHRD];
-   int startedall = 0;
+	const int NUM_THREADS = 4;
 
-   /* initThreads() has an empty function body? */
-   initThreads();
+	initBarrier(&startup_barrier, NUM_THREADS);
+	initLock(&done_lock);
+	initThreads();
 
-   for (i=0; i<NTHRD; i++)  {
-      threads[i] = spawnNewThread((void *) init_func, (void *) (long) i);
-   }
+	thread_t thread_ids[NUM_THREADS];
 
-   while (!startedall) {
-      for (i=0; i<NTHRD; i++) {
-         startedall = 1;
-         if (!threads_running[i]) {
-            startedall = 0;
-            P_sleep(1);
-            break;
-         }
-      }
-   }
+	for (int i=0; i<NUM_THREADS; i++) {
+		thread_ids[i] = spawnNewThread((void*)init_func, NULL);
+	}
 
-   handleAttach();
+	// Wait for mutator to attach (if in attach mode)
+	handleAttach();
 
-   logstatus("[%s:%d]: stage 1 - all threads created\n", __FILE__, __LINE__);
-   while (proc_current_state == 0) {
-     /* Do nothing */
-   }
-   logstatus("[%s:%d]: stage 2 - allowing threads to exit\n", __FILE__, __LINE__);
-   done = 1;
-   for (i=0; i<NTHRD; i++)
-   {
-      joinThread(threads[i]);
-   }
-   logstatus("[%s:%d]: stage 3 - all threads joined\n", __FILE__, __LINE__);
-   /* Is the return value of this mutatee checked?  Doesn't look like it */
-   return 0;
+	logstatus("[%s:%d]: stage 1 - all threads created\n", __FILE__, __LINE__);
+
+	// Wait until mutator has modified our state
+	while(proc_current_state == 0);
+
+	logstatus("[%s:%d]: stage 2 - allowing threads to exit\n", __FILE__, __LINE__);
+
+	// Flag all the threads to complete
+	testLock(&done_lock);
+	done = 1;
+	testUnlock(&done_lock);
+
+	for(int i=0; i<NUM_THREADS; i++) {
+		joinThread(thread_ids[i]);
+	}
+
+	logstatus("[%s:%d]: stage 3 - all threads joined\n", __FILE__, __LINE__);
+
+	testDestroyLock(&done_lock);
+	testBarrierDestroy(&startup_barrier);
+
+	return 0;
 }
