@@ -41,7 +41,8 @@ testlock_t done_lock;
 // Barrier to synchronize thread startup
 testbarrier_t startup_barrier;
 
-static void* init_func(void *arg)
+// This must have external linkage so that the mutator can find the symbol
+void* init_func(void *arg)
 {
 	waitTestBarrier(&startup_barrier);
 	while(!done);
