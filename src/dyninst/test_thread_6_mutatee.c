@@ -52,7 +52,8 @@ void* init_func(void *arg)
 int test_thread_6_mutatee() {
 	const int NUM_THREADS = 4;
 
-	initBarrier(&startup_barrier, NUM_THREADS);
+	// We need all of the threads _and_ the main thread to wait on the barrier
+	initBarrier(&startup_barrier, NUM_THREADS + 1);
 	initLock(&done_lock);
 	initThreads();
 
@@ -61,6 +62,9 @@ int test_thread_6_mutatee() {
 	for (int i=0; i<NUM_THREADS; i++) {
 		thread_ids[i] = spawnNewThread((void*)init_func, NULL);
 	}
+
+	// Make sure all of the threads have spooled up before proceeding
+	waitTestBarrier(&startup_barrier);
 
 	// Wait for mutator to attach (if in attach mode)
 	handleAttach();
