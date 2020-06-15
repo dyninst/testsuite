@@ -34,9 +34,15 @@
 // This is modified by the mutator
 volatile int proc_current_state = 0;
 
-// We only require C99, so we have to create our own "atomic"
+/*
+ * Flag to tell the created threads to stop running
+ *
+ * Because this is only written to from the main thread,
+ * we don't need strong memory consistency. Making it 'volatile'
+ * is enough to prevent the compiler from removing the check
+ * in 'init_func'
+*/
 volatile int done = 0;
-testlock_t done_lock;
 
 // Barrier to synchronize thread startup
 testbarrier_t startup_barrier;
@@ -54,7 +60,6 @@ int test_thread_6_mutatee() {
 
 	// We need all of the threads _and_ the main thread to wait on the barrier
 	initBarrier(&startup_barrier, NUM_THREADS + 1);
-	initLock(&done_lock);
 	initThreads();
 
 	thread_t thread_ids[NUM_THREADS];
@@ -77,9 +82,7 @@ int test_thread_6_mutatee() {
 	logstatus("[%s:%d]: stage 2 - allowing threads to exit\n", __FILE__, __LINE__);
 
 	// Flag all the threads to complete
-	testLock(&done_lock);
 	done = 1;
-	testUnlock(&done_lock);
 
 	logstatus("[%s:%d]: stage 3 - atomic flag set\n", __FILE__, __LINE__);
 
@@ -89,7 +92,6 @@ int test_thread_6_mutatee() {
 
 	logstatus("[%s:%d]: stage 4 - all threads joined\n", __FILE__, __LINE__);
 
-	testDestroyLock(&done_lock);
 	testBarrierDestroy(&startup_barrier);
 
 	logstatus("[%s:%d]: stage 5 - synchronization cleanup complete\n", __FILE__, __LINE__);
