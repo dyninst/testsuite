@@ -261,12 +261,6 @@ void test_thread_6_Mutator::upgrade_mutatee_state()
    dprintf("%s[%d]:  upgrade_mutatee_state: continued after write, val = %d\n", __FILE__, __LINE__, val);
 }
 
-#define MAX_ARGS 32
-static const char *filename = "test13.mutatee_gcc";
-static const char *args[MAX_ARGS];
-static const char *create_arg = "-create";
-static unsigned num_args = 0; 
-
 // This method creates (or attaches to?) the mutatee process and returns a
 // handle for it
 BPatch_process *test_thread_6_Mutator::getProcess()
@@ -423,7 +417,6 @@ test_results_t test_thread_6_Mutator::executeTest() {
 test_results_t test_thread_6_Mutator::setup(ParameterDict &param) {
    /* Grab info from param */
    bpatch = (BPatch *)(param["bpatch"]->getPtr());
-   filename = param["pathname"]->getString();
    logfilename = param["logfilename"]->getString();
    
    thread_count.store(0U);
