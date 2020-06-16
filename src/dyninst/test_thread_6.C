@@ -67,8 +67,6 @@ static int our_tid_max = 0;
 static int thread_mapping[NUM_THREADS];
 static int deleted_threads;
 
-static unsigned long stack_addrs[NUM_THREADS];
-
 static bool debug_flag = false;
 
 template <typename... Args>
@@ -170,49 +168,7 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr)
        // we won't have enough expected threads and so check it later.
       dprintf("[%s:%d] - Thread %d has unexpected initial function '%s'; ignoring\n",
               __FILE__, __LINE__, thr->getBPatchID(), name);
-      //      error13 = 1; // This shouldn't be an error, according to the comment above.
-      BPatch_Vector<BPatch_frame> stack;
-      thr->getCallStack(stack);
    }
-
-   //Stacks should be unique and non-zero
-   // Moving this variable to global scope
-   //static unsigned long stack_addrs[NUM_THREADS];
-   unsigned long my_stack = thr->getStackTopAddr();
-   if (!my_stack)
-   {
-      dprintf("[%s:%d] - WARNING: Thread %d has no stack\n",
-              __FILE__, __LINE__, my_dyn_id);
-
-        // For debugging, dump the stack
-        BPatch_Vector<BPatch_frame> stack;
-	thr->getCallStack(stack);
-
-        dprintf("Stack dump\n");
-        for( unsigned i = 0; i < stack.size(); i++) {
-                char name[256];
-                BPatch_function *func = stack[i].findFunction();
-                if (func == NULL)
-                        strcpy(name, "[UNKNOWN]");
-                else
-                        func->getName(name, 256);
-                dprintf("  %10p: %s, fp = %p\n",
-                                stack[i].getPC(),
-                                name,
-                                stack[i].getFP());
-        }
-        dprintf("End of stack dump.\n");
-   }
-   else
-   {
-      for (unsigned i=0; i<NUM_THREADS; i++)
-         if (stack_addrs[i] == my_stack)
-         {
-            dprintf("[%s:%d] - WARNING: Thread %d and %d share a stack at %lx\n",
-                    __FILE__, __LINE__, my_dyn_id, i, my_stack);
-         }
-   }
-   stack_addrs[my_dyn_id] = my_stack;
 
    //Thread IDs should be unique
    // FIXME Make sure this static variable works correctly.  Maybe push it out
@@ -272,7 +228,6 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
    our_tid_max = 0;
    memset(thread_mapping, -1, sizeof(thread_mapping));
    deleted_threads = 0;
-   memset(stack_addrs, 0, sizeof(stack_addrs));
 
    proc = NULL;
    proc = getProcess();
