@@ -39,26 +39,19 @@
 
 class test_thread_6_Mutator : public DyninstMutator {
 protected:
-  char *logfilename;
   BPatch *bpatch;
-  bool create_proc;
 
   void upgrade_mutatee_state();
   BPatch_process *getProcess();
   test_results_t mutatorTest(BPatch *bpatch);
 
 public:
-  test_thread_6_Mutator();
-  virtual bool hasCustomExecutionPath() { return true; }
-  virtual test_results_t setup(ParameterDict &param);
-  virtual test_results_t executeTest();
+  bool hasCustomExecutionPath() override { return true; }
+  test_results_t setup(ParameterDict &param) override;
+  test_results_t executeTest() override;
 };
 extern "C" DLLEXPORT TestMutator *test_thread_6_factory() {
   return new test_thread_6_Mutator();
-}
-
-test_thread_6_Mutator::test_thread_6_Mutator()
-  : logfilename(NULL), bpatch(NULL), create_proc(true) {
 }
 
 #define NUM_THREADS 5
@@ -416,7 +409,6 @@ test_results_t test_thread_6_Mutator::executeTest() {
 test_results_t test_thread_6_Mutator::setup(ParameterDict &param) {
    /* Grab info from param */
    bpatch = (BPatch *)(param["bpatch"]->getPtr());
-   logfilename = param["logfilename"]->getString();
    
    thread_count.store(0U);
 
@@ -424,14 +416,8 @@ test_results_t test_thread_6_Mutator::setup(ParameterDict &param) {
        debug_flag = true;
    }
    
-   if ( param["createmode"]->getInt() != CREATE )
-   {
-      create_proc = false;
-   }
-   if (!bpatch->registerThreadEventCallback(BPatch_threadCreateEvent,
-					    newthr) ||
-       !bpatch->registerThreadEventCallback(BPatch_threadDestroyEvent,
-					    deadthr))
+   if (!bpatch->registerThreadEventCallback(BPatch_threadCreateEvent, newthr) ||
+       !bpatch->registerThreadEventCallback(BPatch_threadDestroyEvent, deadthr))
    {
       dprintf("%s[%d]:  failed to register thread callback\n",
 	      __FILE__, __LINE__);
