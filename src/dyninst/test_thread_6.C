@@ -105,7 +105,7 @@ static void deadthr(BPatch_process *my_proc, BPatch_thread *thr)
 
    if (my_proc != proc)
    {
-      logerror("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__,
+      dprintf(stdout, "[%s:%u] - Got invalid process: %p vs %p\n", __FILE__,
 	      __LINE__, my_proc, proc);
       error13 = 1;
    }
@@ -122,13 +122,13 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr)
 
    if (my_proc != proc && proc != NULL && my_proc != NULL)
    {
-      logerror("[%s:%u] - Got invalid process: %p vs %p\n", 
+      dprintf(stdout, "[%s:%u] - Got invalid process: %p vs %p\n",
               __FILE__, __LINE__, my_proc, proc);
       error13 = 1;
    }
 
    if (thr->isDeadOnArrival()) {
-      logerror("[%s:%u] - Got a dead on arival thread\n", 
+      dprintf(stdout, "[%s:%u] - Got a dead on arival thread\n",
               __FILE__, __LINE__);
       error13 = 1;
       return;
@@ -136,7 +136,7 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr)
 
    unsigned my_dyn_id = our_tid_max; our_tid_max++;
    if (bpindex_to_myindex(thr->getBPatchID()) != -1) {
-      logerror("[%s:%d] - WARNING: Thread %d called in callback twice\n",
+      dprintf(stdout, "[%s:%d] - WARNING: Thread %d called in callback twice\n",
               __FILE__, __LINE__, thr->getBPatchID());
       error13 = 1;
       return;
@@ -170,7 +170,7 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr)
        // We can get unexpected threads with different initial functions; do not include
        // them (but don't consider it an error). If we don't walk the stack right, then
        // we won't have enough expected threads and so check it later.
-      logerror("[%s:%d] - Thread %d has unexpected initial function '%s'; ignoring\n",
+      dprintf(stdout, "[%s:%d] - Thread %d has unexpected initial function '%s'; ignoring\n",
               __FILE__, __LINE__, thr->getBPatchID(), name);
       //      error13 = 1; // This shouldn't be an error, according to the comment above.
       BPatch_Vector<BPatch_frame> stack;
@@ -436,7 +436,7 @@ test_results_t test_thread_6_Mutator::setup(ParameterDict &param) {
        !bpatch->registerThreadEventCallback(BPatch_threadDestroyEvent,
 					    deadthr))
    {
-      logerror("%s[%d]:  failed to register thread callback\n",
+      dprintf(stdout, "%s[%d]:  failed to register thread callback\n",
 	      __FILE__, __LINE__);
       return FAILED;
    }
