@@ -359,9 +359,8 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
    num_attempts = 0;
    while(deleted_threads != NUM_THREADS && num_attempts != TIMEOUT) {
       num_attempts++;
-	  std::cerr << "Deleted " << deleted_threads << " and expected " << NUM_THREADS << std::endl;
+	  dprintf("%s[%d]: Deleted %d and expected %d\n", __FILE__, __LINE__, deleted_threads, NUM_THREADS);
 	  P_sleep(1);
-
    }
 
    for (unsigned i=1; i<NUM_THREADS; i++)
