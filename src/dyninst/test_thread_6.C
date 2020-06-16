@@ -33,8 +33,9 @@
 #include <BPatch_thread.h>
 #include <BPatch_function.h>
 #include "test_lib.h"
-
 #include "dyninst_comp.h"
+#include <atomic>
+
 class test_thread_6_Mutator : public DyninstMutator {
 protected:
   char *logfilename;
@@ -64,7 +65,7 @@ test_thread_6_Mutator::test_thread_6_Mutator()
 
 static BPatch_process *proc;
 static unsigned error13 = 0;
-static unsigned thread_count;
+static std::atomic<unsigned> thread_count;
 static char dyn_tids[NUM_THREADS];
 static char deleted_tids[NUM_THREADS];
 // We can get extra threads; add a layer of indirection. Yay.
@@ -274,7 +275,6 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
    bool missing_threads = false;
 
    error13 = 0;
-   thread_count = 0;
    memset(dyn_tids, 0, sizeof(dyn_tids));
    memset(deleted_tids, 0, sizeof(deleted_tids));
    our_tid_max = 0;
@@ -301,7 +301,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
    }
 
    // Wait for NUM_THREADS new thread callbacks to run
-   while (thread_count < NUM_THREADS) {
+   while (thread_count.load() < NUM_THREADS) {
       dprintf(stderr, "Going into waitForStatusChange...\n");
       bpatch->waitForStatusChange();
       dprintf(stderr, "Back from waitForStatusChange...\n");
@@ -316,7 +316,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
          logerror("[%s:%d] - Timed out waiting for threads\n", 
                  __FILE__, __LINE__);
          logerror("[%s:%d] - Only have %u threads, expected %u!\n",
-              __FILE__, __LINE__, thread_count, NUM_THREADS);
+              __FILE__, __LINE__, thread_count.load(), NUM_THREADS);
          return FAILED;
       }
       P_sleep(1);
@@ -421,6 +421,8 @@ test_results_t test_thread_6_Mutator::setup(ParameterDict &param) {
    filename = param["pathname"]->getString();
    logfilename = param["logfilename"]->getString();
    
+   thread_count.store(0U);
+
    if ( param["debugPrint"]->getInt() != 0 ) {
        debug_flag = true;
    }
