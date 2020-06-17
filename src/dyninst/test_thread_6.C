@@ -143,21 +143,23 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr)
    dyn_tids[my_dyn_id] = 1;
 
    dprintf("%s[%d]:  newthr: BPatchID = %d\n", __FILE__, __LINE__, thr->getBPatchID());
-   //Check initial function
-   // BUG(?) Make sure this variable gets initialized properly!
-   static char name[1024];
-   BPatch_function *f = thr->getInitialFunc();   
-   if (f) f->getName(name, 1024);
-   else strcpy(name, "<NONE>");
 
-   int found_name = 0;
-   for (unsigned i=0; i<NUM_FUNCS; i++)
-      if (!strcmp(name, initial_funcs[i]))
-      {
-         found_name = 1;
-         break;
-      }
-   dprintf("%s[%d]:  newthr: %s\n", __FILE__, __LINE__, name);
+	char name[128];
+	BPatch_function *f = thr->getInitialFunc();
+	if (f)
+		f->getName(name, sizeof(name));
+	else
+		strcpy(name, "<NONE>");
+	
+	dprintf("%s[%d]:  newthr: %s\n", __FILE__, __LINE__, name);
+
+	int found_name = 0;
+	for (unsigned i = 0; i < NUM_FUNCS; i++) {
+		if (!strcmp(name, initial_funcs[i])) {
+			found_name = 1;
+			break;
+		}
+	}
 
    //Initial thread function detection is proving VERY difficult on Windows,
    //currently leaving disabled.
