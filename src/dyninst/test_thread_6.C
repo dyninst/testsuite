@@ -112,37 +112,36 @@ static void deadthr(BPatch_process *my_proc, BPatch_thread *thr)
 
 // Globals: dyn_tids, error13, initial_funcs(?), our_tid_max, proc,
 // stack_addrs, thread_count, thread_mapping
-static void newthr(BPatch_process *my_proc, BPatch_thread *thr)
-{
-   dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__, error13);
+static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
+	dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__, error13);
 
-   if (my_proc != proc && proc != NULL && my_proc != NULL)
-   {
-      dprintf("[%s:%u] - Got invalid process: %p vs %p\n",
-              __FILE__, __LINE__, my_proc, proc);
-      error13 = 1;
-   }
+	if (my_proc != proc && proc != NULL && my_proc != NULL) {
+		dprintf("[%s:%u] - Got invalid process: %p vs %p\n",
+				__FILE__, __LINE__, my_proc, proc);
+		error13 = 1;
+	}
 
-   if (thr->isDeadOnArrival()) {
-      dprintf("[%s:%u] - Got a dead on arival thread\n",
-              __FILE__, __LINE__);
-      error13 = 1;
-      return;
-   }
+	if (thr->isDeadOnArrival()) {
+		dprintf("[%s:%u] - Got a dead on arival thread\n",
+				__FILE__, __LINE__);
+		error13 = 1;
+		return;
+	}
 
-   unsigned my_dyn_id = our_tid_max; our_tid_max++;
-   if (bpindex_to_myindex(thr->getBPatchID()) != -1) {
-      dprintf("[%s:%d] - WARNING: Thread %d called in callback twice\n",
-              __FILE__, __LINE__, thr->getBPatchID());
-      error13 = 1;
-      return;
-   }
+	unsigned my_dyn_id = our_tid_max;
+	our_tid_max++;
+	if (bpindex_to_myindex(thr->getBPatchID()) != -1) {
+		dprintf("[%s:%d] - WARNING: Thread %d called in callback twice\n",
+				__FILE__, __LINE__, thr->getBPatchID());
+		error13 = 1;
+		return;
+	}
 
-   thread_mapping[my_dyn_id] = thr->getBPatchID();
-   thread_count++;
-   dyn_tids[my_dyn_id] = 1;
+	thread_mapping[my_dyn_id] = thr->getBPatchID();
+	thread_count++;
+	dyn_tids[my_dyn_id] = 1;
 
-   dprintf("%s[%d]:  newthr: BPatchID = %d\n", __FILE__, __LINE__, thr->getBPatchID());
+	dprintf("%s[%d]:  newthr: BPatchID = %d\n", __FILE__, __LINE__, thr->getBPatchID());
 
 	char name[128];
 	BPatch_function *f = thr->getInitialFunc();
@@ -161,39 +160,34 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr)
 		}
 	}
 
-   //Initial thread function detection is proving VERY difficult on Windows,
-   //currently leaving disabled.
-   if (!found_name)
-   {
-       // We can get unexpected threads with different initial functions; do not include
-       // them (but don't consider it an error). If we don't walk the stack right, then
-       // we won't have enough expected threads and so check it later.
-      dprintf("[%s:%d] - Thread %d has unexpected initial function '%s'; ignoring\n",
-              __FILE__, __LINE__, thr->getBPatchID(), name);
-   }
+	//Initial thread function detection is proving VERY difficult on Windows,
+	//currently leaving disabled.
+	if (!found_name) {
+		// We can get unexpected threads with different initial functions; do not include
+		// them (but don't consider it an error). If we don't walk the stack right, then
+		// we won't have enough expected threads and so check it later.
+		dprintf("[%s:%d] - Thread %d has unexpected initial function '%s'; ignoring\n",
+				__FILE__, __LINE__, thr->getBPatchID(), name);
+	}
 
-   //Thread IDs should be unique
-   // FIXME Make sure this static variable works correctly.  Maybe push it out
-   // to a regular global variable..
-   static long pthread_ids[NUM_THREADS];
-   long mytid = (long)(thr->getTid());
-   if (mytid == -1)
-   {
-      dprintf("[%s:%d] - WARNING: Thread %d has a tid of -1\n",
-              __FILE__, __LINE__, my_dyn_id);
-   }
-   dprintf("%s[%d]:  newthr: tid = %lu\n",
-           __FILE__, __LINE__,  (unsigned long)mytid);
-   for (unsigned i=0; i<NUM_THREADS; i++)
-      if (i != my_dyn_id && dyn_tids[i] && mytid == pthread_ids[i])
-      {
-            dprintf("[%s:%d] - WARNING: Thread %d and %d share a tid of %lu\n",
-                    __FILE__, __LINE__, my_dyn_id, i, mytid);
-            error13 = 1;
-      }
-   pthread_ids[my_dyn_id] = mytid;
+	//Thread IDs should be unique
+	// FIXME Make sure this static variable works correctly.  Maybe push it out
+	// to a regular global variable..
+	static long pthread_ids[NUM_THREADS];
+	long mytid = (long) (thr->getTid());
+	if (mytid == -1) {
+		dprintf("[%s:%d] - WARNING: Thread %d has a tid of -1\n", __FILE__, __LINE__, my_dyn_id);
+	}
+	dprintf("%s[%d]:  newthr: tid = %lu\n", __FILE__, __LINE__, (unsigned long) mytid);
+	for (unsigned i = 0; i < NUM_THREADS; i++)
+		if (i != my_dyn_id && dyn_tids[i] && mytid == pthread_ids[i]) {
+			dprintf("[%s:%d] - WARNING: Thread %d and %d share a tid of %lu\n", __FILE__,
+					__LINE__, my_dyn_id, i, mytid);
+			error13 = 1;
+		}
+	pthread_ids[my_dyn_id] = mytid;
 
-   dprintf("%s[%d]:  leaving newthr: error13 = %d\n", __FILE__, __LINE__, error13);
+	dprintf("%s[%d]:  leaving newthr: error13 = %d\n", __FILE__, __LINE__, error13);
 }
 
 void test_thread_6_Mutator::upgrade_mutatee_state()
