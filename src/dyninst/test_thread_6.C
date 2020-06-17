@@ -65,7 +65,7 @@ static char deleted_tids[NUM_THREADS];
 // We can get extra threads; add a layer of indirection. Yay.
 static int our_tid_max = 0;
 static int thread_mapping[NUM_THREADS];
-static int deleted_threads;
+static std::atomic<unsigned> deleted_threads;
 
 static bool debug_flag = false;
 
@@ -107,7 +107,7 @@ static void deadthr(BPatch_process *my_proc, BPatch_thread *thr)
    }
    deleted_tids[my_dyn_id] = 1;
    deleted_threads++;
-   dprintf("%s[%d]:  leaving to deadthr, %d is dead, %d total dead threads\n", __FILE__, __LINE__, my_dyn_id, deleted_threads);
+   dprintf("%s[%d]:  leaving to deadthr, %d is dead, %d total dead threads\n", __FILE__, __LINE__, my_dyn_id, deleted_threads.load());
 }
 
 // Globals: dyn_tids, error13, initial_funcs(?), our_tid_max, proc,
@@ -227,7 +227,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
    memset(deleted_tids, 0, sizeof(deleted_tids));
    our_tid_max = 0;
    memset(thread_mapping, -1, sizeof(thread_mapping));
-   deleted_threads = 0;
+   deleted_threads.store(0U);
 
    proc = NULL;
    proc = getProcess();
@@ -307,7 +307,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
    num_attempts = 0;
    while(deleted_threads != NUM_THREADS && num_attempts != TIMEOUT) {
       num_attempts++;
-	  dprintf("%s[%d]: Deleted %d and expected %d\n", __FILE__, __LINE__, deleted_threads, NUM_THREADS);
+	  dprintf("%s[%d]: Deleted %d and expected %d\n", __FILE__, __LINE__, deleted_threads.load(), NUM_THREADS);
 	  P_sleep(1);
    }
 
@@ -321,10 +321,10 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
       }
    }
 
-   if (deleted_threads != NUM_THREADS || !deleted_tids[0])
+   if (deleted_threads.load() != NUM_THREADS || !deleted_tids[0])
    {
       dprintf("[%s:%d] - %d threads deleted at termination."
-           "  Expected %d\n", __FILE__, __LINE__, deleted_threads, NUM_THREADS);
+           "  Expected %d\n", __FILE__, __LINE__, deleted_threads.load(), NUM_THREADS);
       error13 = 1;
    }
 
