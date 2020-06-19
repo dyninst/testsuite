@@ -1,41 +1,42 @@
 /*
  * See the dyninst/COPYRIGHT file for copyright information.
- * 
+ *
  * We provide the Paradyn Tools (below described as "Paradyn")
  * on an AS IS basis, and do not warrant its validity or performance.
  * We reserve the right to update, modify, or discontinue this
  * software at any time.  We shall have no obligation to supply such
  * updates or modifications or any other form of support to you.
- * 
+ *
  * By your use of Paradyn, you understand and agree that we (or any
  * other person or entity with proprietary rights in Paradyn) are
  * under no obligation to provide either maintenance services,
  * update services, notices of latent defects, or correction of
  * defects for Paradyn.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#include "dyninst_comp.h"
+#include "test_lib.h"
 #include <BPatch.h>
+#include <BPatch_function.h>
 #include <BPatch_process.h>
 #include <BPatch_thread.h>
-#include <BPatch_function.h>
-#include "test_lib.h"
-#include "dyninst_comp.h"
 #include <atomic>
 #include <cstdio>
+#include <unordered_map>
 
 class test_thread_6_Mutator : public DyninstMutator {
 protected:
@@ -54,286 +55,279 @@ extern "C" DLLEXPORT TestMutator *test_thread_6_factory() {
   return new test_thread_6_Mutator();
 }
 
-#define NUM_THREADS 5
-#define TIMEOUT 20
+namespace {
+  BPatch_process *proc;
+  std::atomic<unsigned> thread_count;
 
-static BPatch_process *proc;
-static unsigned error13 = 0;
-static std::atomic<unsigned> thread_count;
-static char dyn_tids[NUM_THREADS];
-static char deleted_tids[NUM_THREADS];
-// We can get extra threads; add a layer of indirection. Yay.
-static int our_tid_max = 0;
-static int thread_mapping[NUM_THREADS];
-static std::atomic<unsigned> deleted_threads;
+  // Map the BPatchID to the tid
+  std::unordered_map<unsigned, dynthread_t> tids;
+  std::mutex tids_mtx;
 
-static bool debug_flag = false;
+  std::atomic<unsigned> deleted_threads;
 
-template <typename... Args>
-static void dprintf(char const* fmt, Args... args) {
-	if(debug_flag) fprintf(stdout, fmt, args...);
+  std::atomic<unsigned> error13;
+
+  bool debug_flag = false;
+
+  constexpr auto NUM_THREADS = 5;
+  constexpr auto TIMEOUT = 20;
 }
 
-#define NUM_FUNCS 6
-static char initial_funcs[NUM_FUNCS][25] = {"init_func", "main", "_start", "__start", "__libc_start_main", "mainCRTStartup"};
-
-// Globals: our_tid_max, thread_mapping
-static int bpindex_to_myindex(int index) {
-    for (unsigned i = 0; i < our_tid_max; i++) {
-        if (thread_mapping[i] == index) return i;
-    }
-    return -1;
+template <typename... Args> static void dprintf(char const *fmt, Args... args) {
+  if (debug_flag)
+    fprintf(stdout, fmt, args...);
 }
 
-// Globals: deleted_threads, deleted_tids, error13, proc
-static void deadthr(BPatch_process *my_proc, BPatch_thread *thr)
-{
-   dprintf("%s[%d]:  welcome to deadthr\n", __FILE__, __LINE__);
-   if (!thr) {
-     dprintf("%s[%d]:  deadthr called without valid ptr to thr\n",
-            __FILE__, __LINE__);
-     return;
-   }
-   unsigned my_dyn_id = bpindex_to_myindex(thr->getBPatchID());
-   if (-1 == my_dyn_id) {
-      return;
-   }
-
-   if (my_proc != proc)
-   {
-      dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__,
-	      __LINE__, my_proc, proc);
-      error13 = 1;
-   }
-   deleted_tids[my_dyn_id] = 1;
-   deleted_threads++;
-   dprintf("%s[%d]:  leaving to deadthr, %d is dead, %d total dead threads\n", __FILE__, __LINE__, my_dyn_id, deleted_threads.load());
+template <typename Container, typename Value>
+bool exists(Container const &c, std::mutex &m, Value v) {
+  std::lock_guard<std::mutex> l{m};
+  return c.count(v) > 0U;
+}
+template <typename Container, typename Value>
+void remove(Container &c, std::mutex &m, Value v) {
+  std::lock_guard<std::mutex> l{m};
+  c.erase(v);
+}
+template <typename Container, typename Key, typename Value>
+void insert(Container &c, std::mutex &m, Key k, Value v) {
+  std::lock_guard<std::mutex> l{m};
+  c[k] = v;
+}
+template <typename Container>
+void clear(Container &c, std::mutex &m) {
+  std::lock_guard<std::mutex> l{m};
+  c.clear();
 }
 
-// Globals: dyn_tids, error13, initial_funcs(?), our_tid_max, proc,
-// stack_addrs, thread_count, thread_mapping
+static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
+  dprintf("%s[%d]:  welcome to deadthr\n", __FILE__, __LINE__);
+  if (!thr) {
+    dprintf("%s[%d]:  deadthr called without valid ptr to thr\n", __FILE__,
+            __LINE__);
+    return;
+  }
+
+  const auto thr_bp_id = thr->getBPatchID();
+  if (!exists(tids, tids_mtx, thr_bp_id)) {
+    dprintf("%s[%d]:  deadthr called on unknown thread %u\n", __FILE__,
+            __LINE__, thr_bp_id);
+    return;
+  }
+
+  if (my_proc != proc) {
+    dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
+            my_proc, proc);
+    error13.store(1);
+  }
+  remove(tids, tids_mtx, thr_bp_id);
+  deleted_threads++;
+  dprintf("%s[%d]:  leaving to deadthr, %d is dead, %d total dead threads\n",
+          __FILE__, __LINE__, thr_bp_id, deleted_threads.load());
+}
+
 static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
-	dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__, error13);
+  dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__,
+          error13.load());
 
-	if (my_proc != proc && proc != NULL && my_proc != NULL) {
-		dprintf("[%s:%u] - Got invalid process: %p vs %p\n",
-				__FILE__, __LINE__, my_proc, proc);
-		error13 = 1;
-	}
+  if (my_proc != proc && proc != NULL && my_proc != NULL) {
+    dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
+            my_proc, proc);
+    error13.store(1);
+  }
 
-	if (thr->isDeadOnArrival()) {
-		dprintf("[%s:%u] - Got a dead on arival thread\n",
-				__FILE__, __LINE__);
-		error13 = 1;
-		return;
-	}
+  if (thr->isDeadOnArrival()) {
+    dprintf("[%s:%u] - Got a dead on arival thread\n", __FILE__, __LINE__);
+    error13.store(1);
+    return;
+  }
 
-	unsigned my_dyn_id = our_tid_max;
-	our_tid_max++;
-	if (bpindex_to_myindex(thr->getBPatchID()) != -1) {
-		dprintf("[%s:%d] - WARNING: Thread %d called in callback twice\n",
-				__FILE__, __LINE__, thr->getBPatchID());
-		error13 = 1;
-		return;
-	}
+  const auto thr_bp_id = thr->getBPatchID();
+  dprintf("%s[%d]:  newthr: BPatchID = %u\n", __FILE__, __LINE__, thr_bp_id);
 
-	thread_mapping[my_dyn_id] = thr->getBPatchID();
-	thread_count++;
-	dyn_tids[my_dyn_id] = 1;
+  const auto mytid = thr->getTid();
+  dprintf("%s[%d]:  newthr: tid = %lu\n", __FILE__, __LINE__,
+          static_cast<unsigned long>(mytid));
 
-	dprintf("%s[%d]:  newthr: BPatchID = %d\n", __FILE__, __LINE__, thr->getBPatchID());
+  // Each thread should only cause the callback to be invoked once
+  if (exists(tids, tids_mtx, thr_bp_id)) {
+    dprintf("[%s:%d] - WARNING: Thread %u called in callback twice\n", __FILE__,
+            __LINE__, thr_bp_id);
+    error13.store(1);
+    return;
+  }
 
-	char name[128];
-	BPatch_function *f = thr->getInitialFunc();
-	if (f)
-		f->getName(name, sizeof(name));
-	else
-		strcpy(name, "<NONE>");
-	
-	dprintf("%s[%d]:  newthr: %s\n", __FILE__, __LINE__, name);
+  //  if(exists(tids, tids_mtx, thr_bp_id)) {
+  //	dprintf("[%s:%d] - WARNING: Thread %u and %d share a tid of %lu\n",
+  //			__FILE__, __LINE__, my_dyn_id, i, mytid);
+  //	error13 = 1;
+  //	return;
+  //  }
 
-	int found_name = 0;
-	for (unsigned i = 0; i < NUM_FUNCS; i++) {
-		if (!strcmp(name, initial_funcs[i])) {
-			found_name = 1;
-			break;
-		}
-	}
+  insert(tids, tids_mtx, thr_bp_id, mytid);
+  thread_count++;
 
-	//Initial thread function detection is proving VERY difficult on Windows,
-	//currently leaving disabled.
-	if (!found_name) {
-		// We can get unexpected threads with different initial functions; do not include
-		// them (but don't consider it an error). If we don't walk the stack right, then
-		// we won't have enough expected threads and so check it later.
-		dprintf("[%s:%d] - Thread %d has unexpected initial function '%s'; ignoring\n",
-				__FILE__, __LINE__, thr->getBPatchID(), name);
-	}
+  char name[24];
+  BPatch_function *f = thr->getInitialFunc();
+  if (f)
+    f->getName(name, sizeof(name));
+  else
+    strcpy(name, "<NONE>");
 
-	//Thread IDs should be unique
-	// FIXME Make sure this static variable works correctly.  Maybe push it out
-	// to a regular global variable..
-	static long pthread_ids[NUM_THREADS];
-	long mytid = (long) (thr->getTid());
-	if (mytid == -1) {
-		dprintf("[%s:%d] - WARNING: Thread %d has a tid of -1\n", __FILE__, __LINE__, my_dyn_id);
-	}
-	dprintf("%s[%d]:  newthr: tid = %lu\n", __FILE__, __LINE__, (unsigned long) mytid);
-	for (unsigned i = 0; i < NUM_THREADS; i++)
-		if (i != my_dyn_id && dyn_tids[i] && mytid == pthread_ids[i]) {
-			dprintf("[%s:%d] - WARNING: Thread %d and %d share a tid of %lu\n", __FILE__,
-					__LINE__, my_dyn_id, i, mytid);
-			error13 = 1;
-		}
-	pthread_ids[my_dyn_id] = mytid;
+  dprintf("%s[%d]:  newthr initial function name: %s\n", __FILE__, __LINE__,
+          name);
 
-	dprintf("%s[%d]:  leaving newthr: error13 = %d\n", __FILE__, __LINE__, error13);
+  char const *initial_funcs[] = {
+      "init_func",         "main",          "_start", "__start",
+      "__libc_start_main", "mainCRTStartup"};
+
+  const bool found_name =
+      std::find(std::begin(initial_funcs), std::end(initial_funcs), name) ==
+      std::end(initial_funcs);
+
+  // Initial thread function detection is proving VERY difficult on Windows,
+  // currently leaving disabled.
+  if (!found_name) {
+    // We can get unexpected threads with different initial functions; do not
+    // include them (but don't consider it an error). If we don't walk the
+    // stack right, then we won't have enough expected threads and so check
+    // it later.
+    dprintf(
+        "[%s:%d] - Thread %u has unexpected initial function '%s'; ignoring\n",
+        __FILE__, __LINE__, thr_bp_id, name);
+  }
+
+  dprintf("%s[%d]:  leaving newthr: error13 = %d\n", __FILE__, __LINE__,
+          error13.load());
 }
 
-void test_thread_6_Mutator::upgrade_mutatee_state()
-{
-   dprintf("%s[%d]:  welcome to upgrade_mutatee_state\n", __FILE__, __LINE__);
-   BPatch_variableExpr *var;
-   BPatch_image *img = proc->getImage();
-	var = img->findVariable("proc_current_state");
-	dprintf("%s[%d]: upgrade_mutatee_state: stopping for read...\n", __FILE__, __LINE__);
-   proc->stopExecution();
-   int val = 0;
-   var->readValue(&val);
-   val++;
-   var->writeValue(&val);
-   proc->continueExecution();
-   dprintf("%s[%d]:  upgrade_mutatee_state: continued after write, val = %d\n", __FILE__, __LINE__, val);
+void test_thread_6_Mutator::upgrade_mutatee_state() {
+  dprintf("%s[%d]:  welcome to upgrade_mutatee_state\n", __FILE__, __LINE__);
+  BPatch_variableExpr *var;
+  BPatch_image *img = proc->getImage();
+  var = img->findVariable("proc_current_state");
+  dprintf("%s[%d]: upgrade_mutatee_state: stopping for read...\n", __FILE__,
+          __LINE__);
+  proc->stopExecution();
+  int val = 0;
+  var->readValue(&val);
+  val++;
+  var->writeValue(&val);
+  proc->continueExecution();
+  dprintf("%s[%d]:  upgrade_mutatee_state: continued after write, val = %d\n",
+          __FILE__, __LINE__, val);
 }
 
-// This method creates (or attaches to?) the mutatee process and returns a
-// handle for it
-BPatch_process *test_thread_6_Mutator::getProcess()
-{
-   return appProc;
-}
+BPatch_process *test_thread_6_Mutator::getProcess() { return appProc; }
 
-test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch)
-{
-   unsigned num_attempts = 0;
-   bool missing_threads = false;
+test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
+  proc->continueExecution();
 
-   error13 = 0;
-   memset(dyn_tids, 0, sizeof(dyn_tids));
-   memset(deleted_tids, 0, sizeof(deleted_tids));
-   our_tid_max = 0;
-   memset(thread_mapping, -1, sizeof(thread_mapping));
-   deleted_threads.store(0U);
+  newthr(appProc, appThread);
 
-   proc = NULL;
-   proc = getProcess();
-   if (!proc)
+  // For the attach case, we may already have the threads in existence; if so,
+  // manually trigger them here.
+  {
+    std::vector<BPatch_thread *> threads;
+    appProc->getThreads(threads);
+    for (auto *t : threads) {
+      if (t == appThread)
+        continue;
+      newthr(appProc, t);
+    }
+  }
+  unsigned num_attempts = 0;
+  // Wait for NUM_THREADS new thread callbacks to run
+  while (thread_count.load() < NUM_THREADS) {
+    dprintf("Going into waitForStatusChange...\n");
+    bpatch->waitForStatusChange();
+    dprintf("Back from waitForStatusChange...\n");
+    if (proc->isTerminated()) {
+      dprintf("[%s:%d] - App exited early\n", __FILE__, __LINE__);
+      error13.store(1);
+      break;
+    }
+    if (num_attempts++ == TIMEOUT) {
+      dprintf("[%s:%d] - Timed out waiting for threads\n", __FILE__, __LINE__);
+      dprintf("[%s:%d] - Only have %u threads, expected %u!\n", __FILE__,
+              __LINE__, thread_count.load(), NUM_THREADS);
       return FAILED;
+    }
+    P_sleep(1);
+  }
 
-   proc->continueExecution();
+  dprintf("%s[%d]:  done waiting for thread creations, error13 = %d\n",
+          __FILE__, __LINE__, error13.load());
 
-   newthr(appProc, appThread);
+  {
+    BPatch_Vector<BPatch_thread *> thrds;
+    proc->getThreads(thrds);
+    if (thrds.size() != NUM_THREADS) {
+      dprintf("[%s:%d] - Have %u threads, expected %u!\n", __FILE__, __LINE__,
+              thrds.size(), NUM_THREADS);
+      error13.store(1);
+    }
+  }
 
-   // For the attach case, we may already have the threads in existence; if so, 
-   // manually trigger them here. 
-   std::vector<BPatch_thread *> threads;
-   appProc->getThreads(threads);
-   for (unsigned i = 0; i < threads.size(); ++i) {
-	   if (threads[i] == appThread) continue;
-	   newthr(appProc, threads[i]);
-   }
+  bool missing_threads = false;
+  //  for (unsigned i = 0; i < NUM_THREADS; i++) {
+  //    if (!dyn_tids[i]) {
+  //      dprintf("[%s:%d] - Thread %u was never created!\n", __FILE__,
+  //      __LINE__,
+  //              i);
+  //      missing_threads = true;
+  //    }
+  //  }
 
-   // Wait for NUM_THREADS new thread callbacks to run
-   while (thread_count.load() < NUM_THREADS) {
-      dprintf("Going into waitForStatusChange...\n");
-      bpatch->waitForStatusChange();
-      dprintf("Back from waitForStatusChange...\n");
-      if (proc->isTerminated())
-      {
-         dprintf("[%s:%d] - App exited early\n", __FILE__, __LINE__);
-         error13 = 1;
-         break;
-      }
-      if (num_attempts++ == TIMEOUT)
-      {
-         dprintf("[%s:%d] - Timed out waiting for threads\n",
-                 __FILE__, __LINE__);
-         dprintf("[%s:%d] - Only have %u threads, expected %u!\n",
-              __FILE__, __LINE__, thread_count.load(), NUM_THREADS);
-         return FAILED;
-      }
-      P_sleep(1);
-   }
+  if (error13.load() || missing_threads) {
+    dprintf("%s[%d]: ERROR during thread create stage, exiting\n", __FILE__,
+            __LINE__);
+    dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
+    if (proc && !proc->isTerminated())
+      proc->terminateExecution();
+    return FAILED;
+  }
 
-   dprintf("%s[%d]:  done waiting for thread creations, error13 = %d\n", __FILE__, __LINE__, error13);
+  upgrade_mutatee_state();
+  dprintf("%s[%d]:  Now waiting for application to exit.\n", __FILE__,
+          __LINE__);
 
-   BPatch_Vector<BPatch_thread *> thrds;
-   proc->getThreads(thrds);
-   if (thrds.size() != NUM_THREADS)
-   {
-      dprintf("[%s:%d] - Have %u threads, expected %u!\n",
-              __FILE__, __LINE__, thrds.size(), NUM_THREADS);
-      error13 = 1;
-   }
+  while (!proc->isTerminated()) {
+    proc->continueExecution();
+    bpatch->waitForStatusChange();
+  }
+  num_attempts = 0;
+  while (num_attempts != TIMEOUT) {
+    const auto cnt = deleted_threads.load();
+    if(cnt == NUM_THREADS) break;
+    num_attempts++;
+    dprintf("%s[%d]: Deleted %d and expected %d\n", __FILE__, __LINE__, cnt,
+            NUM_THREADS);
+    P_sleep(1);
+  }
 
-   for (unsigned i=0; i<NUM_THREADS; i++)
-   {
-      if (!dyn_tids[i])
-      {
-         dprintf("[%s:%d] - Thread %u was never created!\n",
-                 __FILE__, __LINE__, i);
-         missing_threads = true;
-      }
-   }
-   if(error13 || missing_threads) {
-      dprintf("%s[%d]: ERROR during thread create stage, exiting\n", __FILE__, __LINE__);
-      dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
-      if(proc && !proc->isTerminated())
-         proc->terminateExecution();
-      return FAILED;
-   }
+  //  for (unsigned i = 1; i < NUM_THREADS; i++) {
+  //    if (!deleted_tids[i]) {
+  //      dprintf("[%s:%d] - Thread %d wasn't deleted\n", __FILE__, __LINE__,
+  //      i);
+  //      error13 = 1;
+  //    }
+  //  }
 
-   upgrade_mutatee_state();
-   dprintf("%s[%d]:  Now waiting for application to exit.\n", __FILE__, __LINE__);
+  if (deleted_threads.load() != NUM_THREADS /* || !deleted_tids[0]*/) {
+    dprintf("[%s:%d] - %d threads deleted at termination."
+            "  Expected %d\n",
+            __FILE__, __LINE__, deleted_threads.load(), NUM_THREADS);
+    error13.store(1);
+  }
 
-   while (!proc->isTerminated()) {
-	   proc->continueExecution();
-      bpatch->waitForStatusChange();
-   }
-   num_attempts = 0;
-   while(deleted_threads != NUM_THREADS && num_attempts != TIMEOUT) {
-      num_attempts++;
-	  dprintf("%s[%d]: Deleted %d and expected %d\n", __FILE__, __LINE__, deleted_threads.load(), NUM_THREADS);
-	  P_sleep(1);
-   }
+  if (error13.load()) {
+    dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
+    return FAILED;
+  }
 
-   for (unsigned i=1; i<NUM_THREADS; i++)
-   {
-      if (!deleted_tids[i])
-      {
-         dprintf("[%s:%d] - Thread %d wasn't deleted\n",
-                 __FILE__, __LINE__, i);
-         error13 = 1;
-      }
-   }
-
-   if (deleted_threads.load() != NUM_THREADS || !deleted_tids[0])
-   {
-      dprintf("[%s:%d] - %d threads deleted at termination."
-           "  Expected %d\n", __FILE__, __LINE__, deleted_threads.load(), NUM_THREADS);
-      error13 = 1;
-   }
-
-
-   if (error13)
-   {
-       dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
-   } else {
-       dprintf("Passed test_thread_6 (Threading Callbacks)\n");
-       dprintf("Test completed without errors\n");
-       return PASSED;
-   }
-   return FAILED;
+  dprintf("Passed test_thread_6 (Threading Callbacks)\n");
+  dprintf("Test completed without errors\n");
+  return PASSED;
 }
 
 test_results_t test_thread_6_Mutator::executeTest() {
@@ -344,39 +338,44 @@ test_results_t test_thread_6_Mutator::executeTest() {
     return SKIPPED;
   }
 
-   test_results_t rv = mutatorTest(bpatch);
+  proc = getProcess();
+  if (!proc)
+    return FAILED;
 
-   if (!bpatch->removeThreadEventCallback(BPatch_threadCreateEvent, newthr) ||
-       !bpatch->removeThreadEventCallback(BPatch_threadDestroyEvent, deadthr))
-   {
-      dprintf("%s[%d]:  failed to remove thread callback\n",
-	      __FILE__, __LINE__);
-      return FAILED;
-   }
+  thread_count.store(0U);
+  deleted_threads.store(0U);
+  error13.store(0U);
+  clear(tids, tids_mtx);
 
-   return rv;
+  test_results_t rv = mutatorTest(bpatch);
+
+  if (!bpatch->removeThreadEventCallback(BPatch_threadCreateEvent, newthr) ||
+      !bpatch->removeThreadEventCallback(BPatch_threadDestroyEvent, deadthr)) {
+    dprintf("%s[%d]:  failed to remove thread callback\n", __FILE__, __LINE__);
+    return FAILED;
+  }
+
+  return rv;
 }
 
 test_results_t test_thread_6_Mutator::setup(ParameterDict &param) {
-   /* Grab info from param */
-   bpatch = (BPatch *)(param["bpatch"]->getPtr());
-   
-   thread_count.store(0U);
+  bpatch = (BPatch *)(param["bpatch"]->getPtr());
 
-   if ( param["debugPrint"]->getInt() != 0 ) {
-       debug_flag = true;
-   }
-   
-   if (!bpatch->registerThreadEventCallback(BPatch_threadCreateEvent, newthr) ||
-       !bpatch->registerThreadEventCallback(BPatch_threadDestroyEvent, deadthr))
-   {
-      dprintf("%s[%d]:  failed to register thread callback\n",
-	      __FILE__, __LINE__);
-      return FAILED;
-   }
+  if (param["debugPrint"]->getInt() != 0) {
+    debug_flag = true;
+  }
 
-   appProc = (BPatch_process *)(param["appProcess"]->getPtr());
-   if (appProc) appImage = appProc->getImage();
-   
-   return DyninstMutator::setup(param);
+  if (!bpatch->registerThreadEventCallback(BPatch_threadCreateEvent, newthr) ||
+      !bpatch->registerThreadEventCallback(BPatch_threadDestroyEvent,
+                                           deadthr)) {
+    dprintf("%s[%d]:  failed to register thread callback\n", __FILE__,
+            __LINE__);
+    return FAILED;
+  }
+
+  appProc = (BPatch_process *)(param["appProcess"]->getPtr());
+  if (appProc)
+    appImage = appProc->getImage();
+
+  return DyninstMutator::setup(param);
 }
