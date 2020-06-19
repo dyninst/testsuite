@@ -191,7 +191,7 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
       "__libc_start_main", "mainCRTStartup"};
 
   const bool found_name =
-      std::find(std::begin(initial_funcs), std::end(initial_funcs), name) ==
+      std::find(std::begin(initial_funcs), std::end(initial_funcs), name) !=
       std::end(initial_funcs);
 
   // Initial thread function detection is proving VERY difficult on Windows,
