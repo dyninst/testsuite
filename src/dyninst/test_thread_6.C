@@ -282,6 +282,12 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
     dprintf("%s[%d]: ERROR during thread create stage, exiting\n", __FILE__,
             __LINE__);
     dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
+
+    // Be sure to have the threads in the mutatee resume so they aren't
+    // blocking on the barrier
+    upgrade_mutatee_state();
+
+    // Terminate the mutatee
     if (proc && !proc->isTerminated())
       proc->terminateExecution();
     return FAILED;
