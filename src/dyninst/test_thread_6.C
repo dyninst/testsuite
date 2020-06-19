@@ -68,14 +68,18 @@ namespace {
   std::atomic<unsigned> error13;
 
   bool debug_flag = false;
+  std::mutex print_mtx;
 
   constexpr auto NUM_THREADS = 5;
   constexpr auto TIMEOUT = 20;
 }
 
 template <typename... Args> static void dprintf(char const *fmt, Args... args) {
-  if (debug_flag)
+  if (debug_flag) {
+	std::lock_guard<std::mutex> l{print_mtx};
     fprintf(stdout, fmt, args...);
+    fflush(stdout);
+  }
 }
 
 template <typename Container, typename Value>
