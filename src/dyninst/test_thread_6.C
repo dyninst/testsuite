@@ -194,9 +194,14 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
       "init_func",         "main",          "_start", "__start",
       "__libc_start_main", "mainCRTStartup"};
 
+  // clang-format off
   const bool found_name =
-      std::find(std::begin(initial_funcs), std::end(initial_funcs), name) !=
-      std::end(initial_funcs);
+      std::find_if(
+        std::begin(initial_funcs),
+		std::end(initial_funcs),
+        [&name](char const *n) { return strcmp(name, n) == 0; }
+      ) != std::end(initial_funcs);
+  // clang-format on
 
   // Initial thread function detection is proving VERY difficult on Windows,
   // currently leaving disabled.
