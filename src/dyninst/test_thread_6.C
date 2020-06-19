@@ -76,7 +76,7 @@ namespace {
 
 template <typename... Args> static void dprintf(char const *fmt, Args... args) {
   if (debug_flag) {
-	std::lock_guard<std::mutex> l{print_mtx};
+    std::lock_guard<std::mutex> l{print_mtx};
     fprintf(stdout, fmt, args...);
     fflush(stdout);
   }
@@ -97,20 +97,19 @@ void insert(Container &c, std::mutex &m, Key k, Value v) {
   std::lock_guard<std::mutex> l{m};
   c[k] = v;
 }
-template <typename Container>
-void clear(Container &c, std::mutex &m) {
+template <typename Container> void clear(Container &c, std::mutex &m) {
   std::lock_guard<std::mutex> l{m};
   c.clear();
 }
 template <typename Container, typename Value>
-bool has_value(Container const& c, std::mutex &m, Value v) {
-	std::lock_guard<std::mutex> l{m};
-	for(auto const& p : tids) {
-		if(p.second == v) {
-			return true;
-		}
-	}
-	return false;
+bool has_value(Container const &c, std::mutex &m, Value v) {
+  std::lock_guard<std::mutex> l{m};
+  for (auto const &p : tids) {
+    if (p.second == v) {
+      return true;
+    }
+  }
+  return false;
 }
 
 static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
@@ -170,11 +169,11 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
     return;
   }
 
-  if(has_value(tids, tids_mtx, mytid)) {
-  	dprintf("[%s:%d] - WARNING: Thread %u has a duplicate tid (%d)\n",
-  			__FILE__, __LINE__, thr_bp_id, static_cast<int>(mytid));
-  	error13.store(1);
-  	return;
+  if (has_value(tids, tids_mtx, mytid)) {
+    dprintf("[%s:%d] - WARNING: Thread %u has a duplicate tid (%d)\n", __FILE__,
+            __LINE__, thr_bp_id, static_cast<int>(mytid));
+    error13.store(1);
+    return;
   }
 
   insert(tids, tids_mtx, thr_bp_id, mytid);
@@ -311,7 +310,8 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   num_attempts = 0;
   while (num_attempts != TIMEOUT) {
     const auto cnt = deleted_threads.load();
-    if(cnt == NUM_THREADS) break;
+    if (cnt == NUM_THREADS)
+      break;
     num_attempts++;
     dprintf("%s[%d]: Deleted %d and expected %d\n", __FILE__, __LINE__, cnt,
             NUM_THREADS);
@@ -319,11 +319,12 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   }
 
   {
-	  std::lock_guard<std::mutex> l{tids_mtx};
-	  for(auto const& p : tids) {
-		  dprintf("Thread %u:%d wasn't deleted\n", p.first, static_cast<int>(p.second));
-		  error13.store(1);
-	  }
+    std::lock_guard<std::mutex> l{tids_mtx};
+    for (auto const &p : tids) {
+      dprintf("Thread %u:%d wasn't deleted\n", p.first,
+              static_cast<int>(p.second));
+      error13.store(1);
+    }
   }
 
   if (deleted_threads.load() != NUM_THREADS) {
