@@ -203,8 +203,6 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
       ) != std::end(initial_funcs);
   // clang-format on
 
-  // Initial thread function detection is proving VERY difficult on Windows,
-  // currently leaving disabled.
   if (!found_name) {
     // We can get unexpected threads with different initial functions; do not
     // include them (but don't consider it an error). If we don't walk the
