@@ -98,6 +98,16 @@ void clear(Container &c, std::mutex &m) {
   std::lock_guard<std::mutex> l{m};
   c.clear();
 }
+template <typename Container, typename Value>
+bool has_value(Container const& c, std::mutex &m, Value v) {
+	std::lock_guard<std::mutex> l{m};
+	for(auto const& p : tids) {
+		if(p.second == v) {
+			return true;
+		}
+	}
+	return false;
+}
 
 static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
   dprintf("%s[%d]:  welcome to deadthr\n", __FILE__, __LINE__);
@@ -156,12 +166,12 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
     return;
   }
 
-  //  if(exists(tids, tids_mtx, thr_bp_id)) {
-  //	dprintf("[%s:%d] - WARNING: Thread %u and %d share a tid of %lu\n",
-  //			__FILE__, __LINE__, my_dyn_id, i, mytid);
-  //	error13 = 1;
-  //	return;
-  //  }
+  if(has_value(tids, tids_mtx, mytid)) {
+  	dprintf("[%s:%d] - WARNING: Thread %u has a duplicate tid (%d)\n",
+  			__FILE__, __LINE__, thr_bp_id, static_cast<int>(mytid));
+  	error13.store(1);
+  	return;
+  }
 
   insert(tids, tids_mtx, thr_bp_id, mytid);
   thread_count++;
@@ -268,17 +278,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
     }
   }
 
-  bool missing_threads = false;
-  //  for (unsigned i = 0; i < NUM_THREADS; i++) {
-  //    if (!dyn_tids[i]) {
-  //      dprintf("[%s:%d] - Thread %u was never created!\n", __FILE__,
-  //      __LINE__,
-  //              i);
-  //      missing_threads = true;
-  //    }
-  //  }
-
-  if (error13.load() || missing_threads) {
+  if (error13.load() || thread_count.load() != NUM_THREADS) {
     dprintf("%s[%d]: ERROR during thread create stage, exiting\n", __FILE__,
             __LINE__);
     dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
@@ -305,15 +305,15 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
     P_sleep(1);
   }
 
-  //  for (unsigned i = 1; i < NUM_THREADS; i++) {
-  //    if (!deleted_tids[i]) {
-  //      dprintf("[%s:%d] - Thread %d wasn't deleted\n", __FILE__, __LINE__,
-  //      i);
-  //      error13 = 1;
-  //    }
-  //  }
+  {
+	  std::lock_guard<std::mutex> l{tids_mtx};
+	  for(auto const& p : tids) {
+		  dprintf("Thread %u:%d wasn't deleted\n", p.first, static_cast<int>(p.second));
+		  error13.store(1);
+	  }
+  }
 
-  if (deleted_threads.load() != NUM_THREADS /* || !deleted_tids[0]*/) {
+  if (deleted_threads.load() != NUM_THREADS) {
     dprintf("[%s:%d] - %d threads deleted at termination."
             "  Expected %d\n",
             __FILE__, __LINE__, deleted_threads.load(), NUM_THREADS);
