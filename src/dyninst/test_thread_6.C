@@ -56,7 +56,7 @@ extern "C" DLLEXPORT TestMutator *test_thread_6_factory() {
 }
 
 namespace {
-  BPatch_process *proc;
+  BPatch_process *mutatee_process;
   std::atomic<unsigned> thread_count;
 
   // Map the BPatchID to the tid
@@ -127,9 +127,9 @@ static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
     return;
   }
 
-  if (my_proc != proc) {
+  if (my_proc != mutatee_process) {
     dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
-            my_proc, proc);
+            my_proc, mutatee_process);
     error13.store(1);
   }
   remove(tids, tids_mtx, thr_bp_id);
@@ -142,9 +142,9 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
   dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__,
           error13.load());
 
-  if (my_proc != proc && proc != NULL && my_proc != NULL) {
+  if (my_proc != mutatee_process && mutatee_process != NULL && my_proc != NULL) {
     dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
-            my_proc, proc);
+            my_proc, mutatee_process);
     error13.store(1);
   }
 
@@ -219,16 +219,16 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
 void test_thread_6_Mutator::upgrade_mutatee_state() {
   dprintf("%s[%d]:  welcome to upgrade_mutatee_state\n", __FILE__, __LINE__);
   BPatch_variableExpr *var;
-  BPatch_image *img = proc->getImage();
+  BPatch_image *img = mutatee_process->getImage();
   var = img->findVariable("proc_current_state");
   dprintf("%s[%d]: upgrade_mutatee_state: stopping for read...\n", __FILE__,
           __LINE__);
-  proc->stopExecution();
+  mutatee_process->stopExecution();
   int val = 0;
   var->readValue(&val);
   val++;
   var->writeValue(&val);
-  proc->continueExecution();
+  mutatee_process->continueExecution();
   dprintf("%s[%d]:  upgrade_mutatee_state: continued after write, val = %d\n",
           __FILE__, __LINE__, val);
 }
@@ -236,7 +236,7 @@ void test_thread_6_Mutator::upgrade_mutatee_state() {
 BPatch_process *test_thread_6_Mutator::getProcess() { return appProc; }
 
 test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
-  proc->continueExecution();
+  mutatee_process->continueExecution();
 
   newthr(appProc, appThread);
 
@@ -257,7 +257,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
     dprintf("Going into waitForStatusChange...\n");
     bpatch->waitForStatusChange();
     dprintf("Back from waitForStatusChange...\n");
-    if (proc->isTerminated()) {
+    if (mutatee_process->isTerminated()) {
       dprintf("[%s:%d] - App exited early\n", __FILE__, __LINE__);
       error13.store(1);
       break;
@@ -276,7 +276,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
 
   {
     BPatch_Vector<BPatch_thread *> thrds;
-    proc->getThreads(thrds);
+    mutatee_process->getThreads(thrds);
     if (thrds.size() != NUM_THREADS) {
       dprintf("[%s:%d] - Have %u threads, expected %u!\n", __FILE__, __LINE__,
               thrds.size(), NUM_THREADS);
@@ -294,8 +294,8 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
     upgrade_mutatee_state();
 
     // Terminate the mutatee
-    if (proc && !proc->isTerminated())
-      proc->terminateExecution();
+    if (mutatee_process && !mutatee_process->isTerminated())
+      mutatee_process->terminateExecution();
     return FAILED;
   }
 
@@ -303,8 +303,8 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   dprintf("%s[%d]:  Now waiting for application to exit.\n", __FILE__,
           __LINE__);
 
-  while (!proc->isTerminated()) {
-    proc->continueExecution();
+  while (!mutatee_process->isTerminated()) {
+    mutatee_process->continueExecution();
     bpatch->waitForStatusChange();
   }
   num_attempts = 0;
@@ -352,8 +352,8 @@ test_results_t test_thread_6_Mutator::executeTest() {
     return SKIPPED;
   }
 
-  proc = getProcess();
-  if (!proc)
+  mutatee_process = getProcess();
+  if (!mutatee_process)
     return FAILED;
 
   thread_count.store(0U);
