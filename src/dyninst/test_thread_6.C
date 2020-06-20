@@ -204,6 +204,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   {
     std::vector<BPatch_thread *> threads;
     appProc->getThreads(threads);
+    dprintf("Found %z mutator threads\n", threads.size());
     for (auto *t : threads) {
       if (t == appThread)
         continue;
@@ -236,6 +237,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   {
     BPatch_Vector<BPatch_thread *> thrds;
     mutatee_process->getThreads(thrds);
+    dprintf("Found %z mutatee threads\n", thrds.size());
     if (thrds.size() != NUM_THREADS) {
       dprintf("[%s:%d] - Have %u threads, expected %u!\n", __FILE__, __LINE__,
               thrds.size(), NUM_THREADS);
