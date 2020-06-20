@@ -140,7 +140,7 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
   dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__,
           error13.load());
 
-  if (my_proc != mutatee_process && mutatee_process != NULL && my_proc != NULL) {
+  if (my_proc != mutatee_process) {
     dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
             my_proc, mutatee_process);
     error13.store(1);
@@ -194,23 +194,23 @@ void test_thread_6_Mutator::upgrade_mutatee_state() {
 
 BPatch_process *test_thread_6_Mutator::getProcess() { return appProc; }
 
-test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
-  mutatee_process->continueExecution();
-
-  newthr(appProc, appThread);
-
+static void register_mutator_threads(
+    BPatch_process *appProc /*, BPatch_thread *appThread*/) {
   // For the attach case, we may already have the threads in existence; if so,
   // manually trigger them here.
-  {
-    std::vector<BPatch_thread *> threads;
-    appProc->getThreads(threads);
-    dprintf("Found %uz mutator threads\n", threads.size());
-    for (auto *t : threads) {
-      if (t == appThread)
-        continue;
-      newthr(appProc, t);
-    }
+  std::vector<BPatch_thread *> threads;
+  appProc->getThreads(threads);
+  dprintf("Found %zu mutator threads\n", threads.size());
+  for (auto *t : threads) {
+    //	  if (t == appThread)
+    //		continue;
+    newthr(appProc, t);
   }
+
+  //	newthr(appProc, appThread);
+}
+
+static bool wait_mutatee_threads(BPatch *bpatch) {
   unsigned num_attempts = 0;
   // Wait for NUM_THREADS new thread callbacks to run
   while (thread_count.load() < NUM_THREADS) {
@@ -223,10 +223,11 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
       break;
     }
     if (num_attempts++ == TIMEOUT) {
-      dprintf("[%s:%d] - Timed out waiting for threads\n", __FILE__, __LINE__);
+      dprintf("[%s:%d] - Timed out waiting for mutatee threads\n", __FILE__,
+              __LINE__);
       dprintf("[%s:%d] - Only have %u threads, expected %u!\n", __FILE__,
               __LINE__, thread_count.load(), NUM_THREADS);
-      return FAILED;
+      return false;
     }
     P_sleep(1);
   }
@@ -234,73 +235,136 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   dprintf("%s[%d]:  done waiting for thread creations, error13 = %d\n",
           __FILE__, __LINE__, error13.load());
 
-  {
-    BPatch_Vector<BPatch_thread *> thrds;
-    mutatee_process->getThreads(thrds);
-    dprintf("Found %uz mutatee threads\n", thrds.size());
-    if (thrds.size() != NUM_THREADS) {
-      dprintf("[%s:%d] - Have %u threads, expected %u!\n", __FILE__, __LINE__,
-              thrds.size(), NUM_THREADS);
-      error13.store(1);
+  return true;
+}
+
+static bool check_mutatee_thread_count() {
+  BPatch_Vector<BPatch_thread *> thrds;
+  mutatee_process->getThreads(thrds);
+  dprintf("Found %zu mutatee threads\n", thrds.size());
+
+  if (thrds.size() != NUM_THREADS) {
+    dprintf("Have %u mutatee threads, expected %u!\n", thrds.size(),
+            NUM_THREADS);
+    return false;
+  }
+  return true;
+}
+
+static bool wait_mutatee_completion(BPatch *bpatch) {
+  dprintf("Waiting for mutatee to complete.\n");
+
+  auto num_attempts = 0;
+  while (!mutatee_process->isTerminated()) {
+    mutatee_process->continueExecution();
+    bpatch->waitForStatusChange();
+    if (++num_attempts >= TIMEOUT) {
+      dprintf("Timed out waiting for mutatee to complete\n");
+      return false;
     }
   }
+  dprintf("Mutatee is complete.\n");
+  return true;
+}
 
-  if (error13.load() || thread_count.load() != NUM_THREADS) {
-    dprintf("%s[%d]: ERROR during thread create stage, exiting\n", __FILE__,
-            __LINE__);
-    dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
+static bool check_deleted_thread_count() {
+  const auto cnt = deleted_threads.load();
+  if (cnt != 0U) {
+    dprintf("ERROR: %zu threads terminated early\n", cnt);
+    return false;
+  }
+  return true;
+}
 
+static bool wait_thread_termination() {
+  auto num_attempts = 0;
+  do {
+    const auto cnt = deleted_threads.load();
+    if (cnt == NUM_THREADS)
+      return true;
+    if (++num_attempts >= TIMEOUT) {
+      dprintf("Detecting deleted threads timed out: Got %u, but expected %d\n",
+              cnt, NUM_THREADS);
+      return false;
+    }
+    P_sleep(1);
+  } while (1);
+  return true;
+}
+
+test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
+  mutatee_process->continueExecution();
+
+  // Register callbacks for threads in this process
+  register_mutator_threads(this->appProc);
+
+  auto terminate_mutatee = [this] {
     // Be sure to have the threads in the mutatee resume so they aren't
     // blocking on the barrier
     upgrade_mutatee_state();
 
     // Terminate the mutatee
-    if (mutatee_process && !mutatee_process->isTerminated())
+    if (!mutatee_process->isTerminated())
       mutatee_process->terminateExecution();
+  };
+
+  // Wait for the mutatee threads to invoke their callbacks
+  if (!wait_mutatee_threads(this->bpatch)) {
+    terminate_mutatee();
     return FAILED;
   }
 
+  // Make sure we got the expected number of threads
+  if (!check_mutatee_thread_count()) {
+    terminate_mutatee();
+    return FAILED;
+  }
+
+  // Check for errors encountered by the callbacks
+  if (error13.load()) {
+    dprintf("ERROR during thread create stage, exiting\n");
+    dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
+    terminate_mutatee();
+    return FAILED;
+  }
+
+  // All threads should be alive here
+  if (!check_deleted_thread_count()) {
+    terminate_mutatee();
+    return FAILED;
+  }
+
+  // If the intialization was successful, change the mutatee state
+  // to allow its threads to complete
   upgrade_mutatee_state();
-  dprintf("%s[%d]:  Now waiting for application to exit.\n", __FILE__,
-          __LINE__);
 
-  while (!mutatee_process->isTerminated()) {
-    mutatee_process->continueExecution();
-    bpatch->waitForStatusChange();
+  // Wait for the mutatee to complete
+  if (!wait_mutatee_completion(this->bpatch)) {
+    terminate_mutatee();
+    return FAILED;
   }
 
-  {
-	auto num_attempts = 0;
-	do {
-		const auto cnt = deleted_threads.load();
-		if (cnt == NUM_THREADS) break;
-		if(++num_attempts >= TIMEOUT) {
-			dprintf("Detecting deleted threads timed out: Got %u, but expected %d\n", cnt, NUM_THREADS);
-			error13.store(1);
-			break;
-		}
-		P_sleep(1);
-	} while(1);
-  }
-
-  {
+  // Wait for all threads (except this one) to terminate
+  if (!wait_thread_termination()) {
+    // Print the threads not deleted
+    // NOTE: It is possible there are no threads here because they
+    //	   terminated between the check in
+    //	   `wait_thread_termination` and locking the mutex here
     std::lock_guard<std::mutex> l{tids_mtx};
     for (auto const &p : tids) {
       dprintf("Thread %u:%d wasn't deleted\n", p.first,
               static_cast<int>(p.second));
-      error13.store(1);
     }
+
+    terminate_mutatee();
+    return FAILED;
   }
 
-  if (deleted_threads.load() != NUM_THREADS) {
-    dprintf("[%s:%d] - %d threads deleted at termination."
-            "  Expected %d\n",
-            __FILE__, __LINE__, deleted_threads.load(), NUM_THREADS);
-    error13.store(1);
-  }
-
+  // Check for errors encountered by the callbacks
   if (error13.load()) {
+    dprintf("ERROR during thread termination stage, exiting\n");
     dprintf("*** Failed test_thread_6 (Threading Callbacks)\n");
+    terminate_mutatee();
     return FAILED;
   }
 
