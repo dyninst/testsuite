@@ -268,15 +268,19 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
     mutatee_process->continueExecution();
     bpatch->waitForStatusChange();
   }
-  num_attempts = 0;
-  while (num_attempts != TIMEOUT) {
-    const auto cnt = deleted_threads.load();
-    if (cnt == NUM_THREADS)
-      break;
-    num_attempts++;
-    dprintf("%s[%d]: Deleted %d and expected %d\n", __FILE__, __LINE__, cnt,
-            NUM_THREADS);
-    P_sleep(1);
+
+  {
+	auto num_attempts = 0;
+	do {
+		const auto cnt = deleted_threads.load();
+		if (cnt == NUM_THREADS) break;
+		if(++num_attempts >= TIMEOUT) {
+			dprintf("Detecting deleted threads timed out: Got %u, but expected %d\n", cnt, NUM_THREADS);
+			error13.store(1);
+			break;
+		}
+		P_sleep(1);
+	} while(1);
   }
 
   {
