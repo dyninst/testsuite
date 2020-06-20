@@ -173,42 +173,6 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
 
   insert(tids, tids_mtx, thr_bp_id, mytid);
   thread_count++;
-
-  char name[24];
-  BPatch_function *f = thr->getInitialFunc();
-  if (f)
-    f->getName(name, sizeof(name));
-  else
-    strcpy(name, "<NONE>");
-
-  dprintf("%s[%d]:  newthr initial function name: %s\n", __FILE__, __LINE__,
-          name);
-
-  char const *initial_funcs[] = {
-      "init_func",         "main",          "_start", "__start",
-      "__libc_start_main", "mainCRTStartup"};
-
-  // clang-format off
-  const bool found_name =
-      std::find_if(
-        std::begin(initial_funcs),
-		std::end(initial_funcs),
-        [&name](char const *n) { return strcmp(name, n) == 0; }
-      ) != std::end(initial_funcs);
-  // clang-format on
-
-  if (!found_name) {
-    // We can get unexpected threads with different initial functions; do not
-    // include them (but don't consider it an error). If we don't walk the
-    // stack right, then we won't have enough expected threads and so check
-    // it later.
-    dprintf(
-        "[%s:%d] - Thread %u has unexpected initial function '%s'; ignoring\n",
-        __FILE__, __LINE__, thr_bp_id, name);
-  }
-
-  dprintf("%s[%d]:  leaving newthr: error13 = %d\n", __FILE__, __LINE__,
-          error13.load());
 }
 
 void test_thread_6_Mutator::upgrade_mutatee_state() {
