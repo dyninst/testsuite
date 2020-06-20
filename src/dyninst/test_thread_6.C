@@ -117,14 +117,12 @@ static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
   if (!thr) {
     dprintf("%s[%d]:  deadthr called without valid ptr to thr\n", __FILE__,
             __LINE__);
-    return;
   }
 
   const auto thr_bp_id = thr->getBPatchID();
   if (!exists(tids, tids_mtx, thr_bp_id)) {
     dprintf("%s[%d]:  deadthr called on unknown thread %u\n", __FILE__,
             __LINE__, thr_bp_id);
-    return;
   }
 
   if (my_proc != mutatee_process) {
@@ -151,7 +149,6 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
   if (thr->isDeadOnArrival()) {
     dprintf("[%s:%u] - Got a dead on arival thread\n", __FILE__, __LINE__);
     error13.store(1);
-    return;
   }
 
   const auto thr_bp_id = thr->getBPatchID();
@@ -166,14 +163,12 @@ static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
     dprintf("[%s:%d] - WARNING: Thread %u called in callback twice\n", __FILE__,
             __LINE__, thr_bp_id);
     error13.store(1);
-    return;
   }
 
   if (has_value(tids, tids_mtx, mytid)) {
     dprintf("[%s:%d] - WARNING: Thread %u has a duplicate tid (%d)\n", __FILE__,
             __LINE__, thr_bp_id, static_cast<int>(mytid));
     error13.store(1);
-    return;
   }
 
   insert(tids, tids_mtx, thr_bp_id, mytid);
