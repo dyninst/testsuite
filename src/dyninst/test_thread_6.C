@@ -194,20 +194,13 @@ void test_thread_6_Mutator::upgrade_mutatee_state() {
 
 BPatch_process *test_thread_6_Mutator::getProcess() { return appProc; }
 
-static void register_mutator_threads(
-    BPatch_process *appProc /*, BPatch_thread *appThread*/) {
-  // For the attach case, we may already have the threads in existence; if so,
-  // manually trigger them here.
+static void register_mutator_threads(BPatch_process *appProc) {
   std::vector<BPatch_thread *> threads;
   appProc->getThreads(threads);
   dprintf("Found %zu mutator threads\n", threads.size());
   for (auto *t : threads) {
-    //	  if (t == appThread)
-    //		continue;
     newthr(appProc, t);
   }
-
-  //	newthr(appProc, appThread);
 }
 
 static bool wait_mutatee_threads(BPatch *bpatch) {
