@@ -61,10 +61,6 @@
 
 #if !defined(os_windows_test)
 #include <poll.h>
-
-static unsigned int gettid(){
-    return (unsigned int)pthread_self();
-}
 #endif
 
 thread_t threads[MAX_POSSIBLE_THREADS];
@@ -142,7 +138,6 @@ int MultiThreadInit(int (*init_func)(int, void*), void *thread_data)
       }
    }
 
-   //fprintf(stdout, "[Mutatee-MultiThreadInit] before lock.(%u/%d)\n", gettid(),getpid());
    if (is_mt && num_threads) {
       initLock(&thread_startup_lock);
       testLock(&thread_startup_lock);
@@ -156,7 +151,6 @@ int MultiThreadInit(int (*init_func)(int, void*), void *thread_data)
 #endif
 		 data->func = init_func;
          data->data = thread_data;
-         //fprintf(stdout, "[Mutatee-MultiThreadInit] before spawn thread[%d].(%u/%d)\n", j, gettid(),getpid());
          threads[j] = spawnNewThread((void *) ThreadTrampoline, (void *) data);
       }
    }
@@ -282,18 +276,15 @@ int initProcControlTest(int (*init_func)(int, void*), void *thread_data)
       return -1;
    }
 
-   //fprintf(stdout, "[Mutatee-initProcTest] Ping signal FD.(%d/%d)\n",gettid(), getpid() );
    pingSignalFD(signal_fd);
    getSocketInfo();
 
-   //fprintf(stdout, "[Mutatee-initProcTest] init mutator connection.(%d/%d)\n",gettid(), getpid());
    result = initMutatorConnection();
    if (result != 0) {
       fprintf(stderr, "Error initializing connection to mutator\n");
       return -1;
    }
 
-   //fprintf(stdout, "[Mutatee-initProcTest] hand shake with server.(%d/%d)\n", gettid(),getpid());
    result = handshakeWithServer();
    if (result != 0) {
       fprintf(stderr, "Could not handshake with server\n");
