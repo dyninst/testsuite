@@ -38,6 +38,8 @@
 #include <cstdio>
 #include <unordered_map>
 
+#include <pthread.h>
+
 class test_thread_6_Mutator : public DyninstMutator {
 protected:
   BPatch *bpatch;
@@ -114,6 +116,8 @@ bool has_value(Container const &c, std::mutex &m, Value v) {
 
 static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
   dprintf("%s[%d]:  welcome to deadthr\n", __FILE__, __LINE__);
+  dprintf("deadthr: pthread tid is %u\n", pthread_self());
+  dprintf("In newthr, appProc=%x\n", my_proc);
   if (!thr) {
     dprintf("%s[%d]:  deadthr called without valid ptr to thr\n", __FILE__,
             __LINE__);
@@ -139,6 +143,8 @@ static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
 static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
   dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__,
           error13.load());
+  dprintf("newthr: pthread tid is %u\n", pthread_self());
+  dprintf("In newthr, appProc=%x\n", my_proc);
 
   if (my_proc != mutatee_process) {
     dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
@@ -383,6 +389,10 @@ test_results_t test_thread_6_Mutator::executeTest() {
   error13.store(0U);
   clear(tids, tids_mtx);
 
+  dprintf("In executeTest, this->appProc=%x, appProc=%x, mutatee_process=%x\n",
+		  this->appProc, appProc, mutatee_process);
+  dprintf("executeTest: pthread tid is %u\n", pthread_self());
+
   test_results_t rv = mutatorTest(bpatch);
 
   if (!bpatch->removeThreadEventCallback(BPatch_threadCreateEvent, newthr) ||
@@ -412,6 +422,9 @@ test_results_t test_thread_6_Mutator::setup(ParameterDict &param) {
   appProc = (BPatch_process *)(param["appProcess"]->getPtr());
   if (appProc)
     appImage = appProc->getImage();
+
+  dprintf("In setup, appProc = %x\n", appProc);
+  dprintf("setup: pthread tid is %u\n", pthread_self());
 
   return DyninstMutator::setup(param);
 }
