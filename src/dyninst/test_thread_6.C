@@ -56,7 +56,6 @@ extern "C" DLLEXPORT TestMutator *test_thread_6_factory() {
 }
 
 namespace {
-  BPatch_process *mutatee_process;
   std::atomic<unsigned> thread_count;
 
   // Map the BPatchID to the tid
@@ -168,39 +167,37 @@ static void newthr(BPatch_process *, BPatch_thread *thr) {
 void test_thread_6_Mutator::upgrade_mutatee_state() {
   dprintf("%s[%d]:  welcome to upgrade_mutatee_state\n", __FILE__, __LINE__);
   BPatch_variableExpr *var;
-  BPatch_image *img = mutatee_process->getImage();
+  BPatch_image *img = this->appProc->getImage();
   var = img->findVariable("proc_current_state");
   dprintf("%s[%d]: upgrade_mutatee_state: stopping for read...\n", __FILE__,
           __LINE__);
-  mutatee_process->stopExecution();
+  this->appProc->stopExecution();
   int val = 0;
   var->readValue(&val);
   val++;
   var->writeValue(&val);
-  mutatee_process->continueExecution();
+  this->appProc->continueExecution();
   dprintf("%s[%d]:  upgrade_mutatee_state: continued after write, val = %d\n",
           __FILE__, __LINE__, val);
 }
 
-BPatch_process *test_thread_6_Mutator::getProcess() { return appProc; }
-
-static void register_mutator_threads(BPatch_process *appProc) {
+static void register_threads(BPatch_process *appProc) {
   std::vector<BPatch_thread *> threads;
   appProc->getThreads(threads);
-  dprintf("Found %zu mutator threads\n", threads.size());
+  dprintf("Registering %zu threads\n", threads.size());
   for (auto *t : threads) {
     newthr(appProc, t);
   }
 }
 
-static bool wait_mutatee_threads(BPatch *bpatch) {
+static bool wait_mutatee_threads(BPatch *bpatch, BPatch_process *proc) {
   unsigned num_attempts = 0;
   // Wait for NUM_THREADS new thread callbacks to run
   while (thread_count.load() < NUM_THREADS) {
     dprintf("Going into waitForStatusChange...\n");
     bpatch->waitForStatusChange();
     dprintf("Back from waitForStatusChange...\n");
-    if (mutatee_process->isTerminated()) {
+    if (proc->isTerminated()) {
       dprintf("[%s:%d] - App exited early\n", __FILE__, __LINE__);
       error13.store(1);
       break;
@@ -221,9 +218,9 @@ static bool wait_mutatee_threads(BPatch *bpatch) {
   return true;
 }
 
-static bool check_mutatee_thread_count() {
+static bool check_mutatee_thread_count(BPatch_process *proc) {
   BPatch_Vector<BPatch_thread *> thrds;
-  mutatee_process->getThreads(thrds);
+  proc->getThreads(thrds);
   dprintf("Found %zu mutatee threads\n", thrds.size());
 
   if (thrds.size() != NUM_THREADS) {
@@ -234,12 +231,12 @@ static bool check_mutatee_thread_count() {
   return true;
 }
 
-static bool wait_mutatee_completion(BPatch *bpatch) {
+static bool wait_mutatee_completion(BPatch *bpatch, BPatch_process *proc) {
   dprintf("Waiting for mutatee to complete.\n");
 
   auto num_attempts = 0;
-  while (!mutatee_process->isTerminated()) {
-    mutatee_process->continueExecution();
+  while (!proc->isTerminated()) {
+	  proc->continueExecution();
     bpatch->waitForStatusChange();
     if (++num_attempts >= TIMEOUT) {
       dprintf("Timed out waiting for mutatee to complete\n");
@@ -276,29 +273,28 @@ static bool wait_thread_termination() {
 }
 
 test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
-  mutatee_process->continueExecution();
+  this->appProc->continueExecution();
 
   // Register callbacks for threads in this process
-  register_mutator_threads(this->appProc);
+  register_threads(this->appProc);
 
   auto terminate_mutatee = [this] {
     // Be sure to have the threads in the mutatee resume so they aren't
     // blocking on the barrier
     upgrade_mutatee_state();
-
-    // Terminate the mutatee
-    if (!mutatee_process->isTerminated())
-      mutatee_process->terminateExecution();
+    
+    if (!this->appProc->isTerminated())
+    	this->appProc->terminateExecution();
   };
 
   // Wait for the mutatee threads to invoke their callbacks
-  if (!wait_mutatee_threads(this->bpatch)) {
+  if (!wait_mutatee_threads(this->bpatch, this->appProc)) {
     terminate_mutatee();
     return FAILED;
   }
 
   // Make sure we got the expected number of threads
-  if (!check_mutatee_thread_count()) {
+  if (!check_mutatee_thread_count(this->appProc)) {
     terminate_mutatee();
     return FAILED;
   }
@@ -322,7 +318,7 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   upgrade_mutatee_state();
 
   // Wait for the mutatee to complete
-  if (!wait_mutatee_completion(this->bpatch)) {
+  if (!wait_mutatee_completion(this->bpatch, this->appProc)) {
     terminate_mutatee();
     return FAILED;
   }
@@ -357,16 +353,11 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
 }
 
 test_results_t test_thread_6_Mutator::executeTest() {
-  BPatch_process *appProc = appThread->getProcess();
-  if (appProc && !appProc->supportsUserThreadEvents()) {
+  if (!this->appProc->supportsUserThreadEvents()) {
     dprintf("System does not support user thread events\n");
     appThread->getProcess()->terminateExecution();
     return SKIPPED;
   }
-
-  mutatee_process = getProcess();
-  if (!mutatee_process)
-    return FAILED;
 
   thread_count.store(0U);
   deleted_threads.store(0U);
