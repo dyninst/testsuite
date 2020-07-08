@@ -112,7 +112,7 @@ bool has_value(Container const &c, std::mutex &m, Value v) {
   return false;
 }
 
-static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
+static void deadthr(BPatch_process *, BPatch_thread *thr) {
   dprintf("%s[%d]:  welcome to deadthr\n", __FILE__, __LINE__);
 
   if (!thr) {
@@ -126,26 +126,15 @@ static void deadthr(BPatch_process *my_proc, BPatch_thread *thr) {
             __LINE__, thr_bp_id);
   }
 
-  if (my_proc != mutatee_process) {
-    dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
-            my_proc, mutatee_process);
-    error13.store(1);
-  }
   remove(tids, tids_mtx, thr_bp_id);
   deleted_threads++;
   dprintf("%s[%d]:  leaving to deadthr, %d is dead, %d total dead threads\n",
           __FILE__, __LINE__, thr_bp_id, deleted_threads.load());
 }
 
-static void newthr(BPatch_process *my_proc, BPatch_thread *thr) {
+static void newthr(BPatch_process *, BPatch_thread *thr) {
   dprintf("%s[%d]:  welcome to newthr, error13 = %d\n", __FILE__, __LINE__,
           error13.load());
-
-  if (my_proc != mutatee_process) {
-    dprintf("[%s:%u] - Got invalid process: %p vs %p\n", __FILE__, __LINE__,
-            my_proc, mutatee_process);
-    error13.store(1);
-  }
 
   if (thr->isDeadOnArrival()) {
     dprintf("[%s:%u] - Got a dead on arival thread\n", __FILE__, __LINE__);
