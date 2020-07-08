@@ -279,10 +279,6 @@ test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
   register_threads(this->appProc);
 
   auto terminate_mutatee = [this] {
-    // Be sure to have the threads in the mutatee resume so they aren't
-    // blocking on the barrier
-    upgrade_mutatee_state();
-    
     if (!this->appProc->isTerminated())
     	this->appProc->terminateExecution();
   };
