@@ -79,22 +79,20 @@ int test_thread_6_mutatee() {
 	// Wait until mutator has modified our state
 	while(proc_current_state == 0);
 
-	logstatus("[%s:%d]: stage 2 - allowing threads to exit\n", __FILE__, __LINE__);
+	logstatus("[%s:%d]: stage 2 - State changed by mutator; threads exiting\n", __FILE__, __LINE__);
 
 	// Flag all the threads to complete
 	done = 1;
-
-	logstatus("[%s:%d]: stage 3 - atomic flag set\n", __FILE__, __LINE__);
 
 	for(int i=0; i<NUM_THREADS; i++) {
 		joinThread(thread_ids[i]);
 	}
 
-	logstatus("[%s:%d]: stage 4 - all threads joined\n", __FILE__, __LINE__);
+	logstatus("[%s:%d]: stage 3 - all threads joined\n", __FILE__, __LINE__);
 
 	testBarrierDestroy(&startup_barrier);
 
-	logstatus("[%s:%d]: stage 5 - synchronization cleanup complete\n", __FILE__, __LINE__);
+	logstatus("[%s:%d]: stage 4 - synchronization cleanup complete\n", __FILE__, __LINE__);
 
 	return 0;
 }
