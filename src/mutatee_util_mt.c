@@ -145,6 +145,10 @@ void initLock(testlock_t *newlock) {
    pthread_mutex_init((pthread_mutex_t *) newlock, NULL);
 }
 
+void testDestroyLock(testlock_t *lck) {
+	pthread_mutex_destroy((pthread_mutex_t*)lck);
+}
+
 void testLock(testlock_t *lck) {
    pthread_mutex_lock((pthread_mutex_t *) lck);
 }
@@ -164,6 +168,10 @@ void waitTestBarrier(testbarrier_t *barrier) {
 #else
 void initBarrier(testbarrier_t *barrier, unsigned int count) {
     pthread_barrier_init((pthread_barrier_t *)barrier, NULL, count);
+}
+
+void testBarrierDestroy(testbarrier_t *b) {
+	pthread_barrier_destroy((pthread_barrier_t*)b);
 }
 
 void waitTestBarrier(testbarrier_t *barrier) {

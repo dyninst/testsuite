@@ -203,9 +203,11 @@ extern int threads_equal(thread_t a, thread_t b);
 extern void initThreads();
 
 extern void initLock(testlock_t *newlock);
+extern void testDestroyLock(testlock_t *);
 extern void testLock(testlock_t *lck);
 extern void testUnlock(testlock_t *lck);
 extern void initBarrier(testbarrier_t *barrier, unsigned int count);
+extern void testBarrierDestroy(testbarrier_t *);
 extern void waitTestBarrier(testbarrier_t *barrier);
 extern thread_t threadSelf();
 extern unsigned long thread_int(thread_t a);
