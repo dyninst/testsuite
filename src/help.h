@@ -62,6 +62,8 @@ static void print_help()
    fprintf(stderr, "Tests\n");
    fprintf(stderr, "  -test <test>,<test>,...           specifies test mutators to run.\n");
    fprintf(stderr, "                                    Wildcards are valid in the test name.\n");
+   fprintf(stderr, "  -exclude <test>,<test>,...        specifies test mutators to not run.\n");
+   fprintf(stderr, "                                    Wildcards are valid in the test name.\n");
    fprintf(stderr, "  -mutatee <mutatee>,<mutatee>,...  specifies test mutatees to run\n");
    fprintf(stderr, "                                    Wildcards are valid in the mutatee name.\n");
    fprintf(stderr, "\n");
@@ -125,6 +127,9 @@ static void print_help()
    fprintf(stderr, "                                    is suitable for submission to a database.\n");
    fprintf(stderr, "  -memcpu                           Gather memory usage and cpu elapsed time\n");
    fprintf(stderr, "                                    information for each test.\n");
+   fprintf(stderr, "  -dry-run                          Print the tests that would be run without\n");
+   fprintf(stderr, "                                    actually running them. Use the -v option\n");
+   fprintf(stderr, "                                    to display additional info.\n");
    fprintf(stderr, "\n");
    fprintf(stderr, "Running Tests in Parallel\n");
    fprintf(stderr, "-------------------------\n");
