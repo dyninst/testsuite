@@ -181,7 +181,7 @@ sub run {
 			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
 			"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
 			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-			"./runTests -64 -all -log test.log 1>stdout.log 2>stderr.log"
+			"./runTests -64 -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
 		);
 		
 		# Being killed by the watchdog timer _should_ cause 'execute' to throw, but
