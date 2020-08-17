@@ -252,7 +252,7 @@ int main(int argc, char *argv[])
 
    setLibPath();
    int numFailed = 0;
-   int result = 0;
+   bool failed = false;
    int invocation = 0;
 
    // Create a PIDs file, to track mutatee PIDs
@@ -367,6 +367,7 @@ int main(int argc, char *argv[])
          // TODO Make sure this is portable to Windows
          fprintf(stderr, "Press ctrl-c again within 2 seconds to abort runTests.\n");
          sleep(2);
+         failed = true;
       }
       if (driver == -2) {
           // We apparently have no children.  This may not be a possibility
@@ -381,15 +382,18 @@ int main(int argc, char *argv[])
           for (int idx=0; idx < parallel_copies; idx++) {
              test_drivers[idx].last_result = -1;
           }
+          failed = true;
 		  break;
       }
       if (test_drivers[driver].last_result == -4) {
          //Exec error
          fprintf(stderr, "Failed to exec test_driver\n");
+         failed = true;
          break;
       }
       if (test_drivers[driver].last_result == -5) {
          //Help
+    	 failed = true;
          break;
       }
 
@@ -398,9 +402,11 @@ int main(int argc, char *argv[])
          FILE *f = fopen(test_drivers[driver].outputlog.c_str(), "r");
          if (f) {
             for (;;) {
-               int result = (int) getline(&line, &line_size, f);
-               if (result == -1)
+               int ret = getline(&line, &line_size, f);
+               if (ret == -1) {
+            	  failed = true;
                   break;
+               }
                fprintf(outputlog_file, "%s", line);
             }
             fclose(f);
@@ -431,7 +437,5 @@ int main(int argc, char *argv[])
 
    clear_resumelog();
 
-   return 0;
+   return failed;
 }
-
-
