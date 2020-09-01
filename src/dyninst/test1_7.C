@@ -321,7 +321,6 @@ test_results_t test1_7_Mutator::executeTest()
 
 	dprintf("relops test vector length is %d\n", vect7_1.size());
 
-	checkCost(BPatch_sequence(vect7_1));
 	if(!appAddrSpace->insertSnippet( BPatch_sequence(vect7_1), *point7_1))
         return FAILED;
 

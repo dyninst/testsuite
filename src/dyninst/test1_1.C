@@ -102,8 +102,6 @@ test_results_t test1_1_Mutator::executeTest() {
   BPatch_Vector<BPatch_snippet *> call1_args;
   BPatch_funcCallExpr call1Expr(*call1_func, call1_args);
 
-  checkCost(call1Expr);
-
   if(!appAddrSpace->insertSnippet(call1Expr, *point1_1))
       return FAILED;
 

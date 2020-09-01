@@ -156,7 +156,6 @@ int test1_12_Mutator::mutatorTesta()
 	BPatch_Vector<BPatch_snippet *> nullArgs;
 	BPatch_funcCallExpr call12_1Expr(*call12_1_func, nullArgs);
 
-	checkCost(call12_1Expr);
     snippetHandle12_1 = appProc->insertSnippet(call12_1Expr, *point12_2);
 
 	if (!snippetHandle12_1) 

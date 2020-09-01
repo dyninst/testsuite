@@ -63,8 +63,6 @@ COMPLIB_DLL_EXPORT int waitUntilStopped(BPatch *, BPatch_process *appThread,
                       int testnum, const char *testname);
 COMPLIB_DLL_EXPORT bool signalAttached(BPatch_image *appImage);
 
-COMPLIB_DLL_EXPORT void checkCost(BPatch_snippet snippet);
-
 // Wrapper function to find variables
 // For Fortran, will look for lowercase variable, if mixed case not found
 COMPLIB_DLL_EXPORT BPatch_variableExpr *findVariable(BPatch_image *appImage, 

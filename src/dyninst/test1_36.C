@@ -187,9 +187,7 @@ test_results_t test1_36_Mutator::executeTest()
 	snippet_seq.push_back(makeTest36paramExpr(expr36_9, 8));
 	snippet_seq.push_back(makeTest36paramExpr(expr36_10, 9));
 	
-    BPatch_sequence seqExpr(snippet_seq);
-
-	checkCost(seqExpr);
+	BPatch_sequence seqExpr(snippet_seq);
 	appAddrSpace->insertSnippet(seqExpr, *point36_1);
 
 	return PASSED;

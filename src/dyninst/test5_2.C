@@ -173,7 +173,6 @@ test_results_t test5_2_Mutator::executeTest() {
     call2_args.push_back(&expr2_0);
     BPatch_funcCallExpr call2Expr(*call2_func, call2_args);
 
-    checkCost(call2Expr);
     if (appAddrSpace->insertSnippet(call2Expr, *point2_3) == NULL) {
     }
     return PASSED;

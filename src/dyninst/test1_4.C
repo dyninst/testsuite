@@ -106,7 +106,6 @@ test_results_t test1_4_Mutator::executeTest()
 	vect4_1.push_back(&expr4_3);
 
 	BPatch_sequence expr4_4(vect4_1);
-	checkCost(expr4_4);
 	if(!appAddrSpace->insertSnippet(expr4_4, *point4_1))
         return FAILED;
 

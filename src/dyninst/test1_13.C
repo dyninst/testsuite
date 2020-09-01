@@ -105,12 +105,10 @@ test_results_t test1_13_Mutator::executeTest()
 	funcArgs.push_back(new BPatch_paramExpr(4));
 	BPatch_funcCallExpr call13_1Expr(*call13_1_func, funcArgs);
 
-	checkCost(call13_1Expr);
 	if(!appAddrSpace->insertSnippet(call13_1Expr, *point13_1))
         return FAILED;
 
 	BPatch_nullExpr call13_2Expr;
-	checkCost(call13_2Expr);
 	if(!appAddrSpace->insertSnippet(call13_2Expr, *point13_1))
         return FAILED;
 
@@ -176,7 +174,6 @@ test_results_t test1_13_Mutator::executeTest()
 
 	BPatch_funcCallExpr call13_3Expr(*call13_2_func, funcArgs2);
 
-	checkCost(call13_1Expr);
 	BPatchSnippetHandle* goodRetExpr = appAddrSpace->insertSnippet(call13_3Expr, 
             *point13_2, BPatch_callAfter, BPatch_lastSnippet);
 	if(!goodRetExpr) {

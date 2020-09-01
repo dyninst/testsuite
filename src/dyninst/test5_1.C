@@ -123,7 +123,6 @@ test_results_t test5_1_Mutator::executeTest() {
    }
 
    BPatch_arithExpr expr1_1(BPatch_assign, *arg3, BPatch_constExpr(1));
-   checkCost(expr1_1);
    appAddrSpace->insertSnippet(expr1_1, *point1_1);
 
    // pass a paramter to a class member function
@@ -168,7 +167,6 @@ test_results_t test5_1_Mutator::executeTest() {
    call1_args.push_back(&expr1_3);
    BPatch_funcCallExpr call1Expr(*call1_func, call1_args);
 
-   checkCost(call1Expr);
    appAddrSpace->insertSnippet(call1Expr, *point1_2);
    return PASSED;
 }

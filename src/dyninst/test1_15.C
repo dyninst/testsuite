@@ -170,7 +170,6 @@ test_results_t test1_15_Mutator::executeTest()
 	vect15_1.push_back(&whileexpr15_5);
 
 	BPatch_sequence seexpr15_1(vect15_1);
-	checkCost(seexpr15_1);
 	if(!appAddrSpace->insertSnippet(seexpr15_1, *point15_1))
         return FAILED;
 
