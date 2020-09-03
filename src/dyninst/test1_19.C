@@ -98,7 +98,6 @@ test_results_t test1_19_Mutator::executeTest()
 
     BPatch_Vector<BPatch_snippet *> nullArgs;
     BPatch_funcCallExpr call19_1Expr(*call19_1_func, nullArgs);
-    checkCost(call19_1Expr);
 
     appProc->oneTimeCode(call19_1Expr);
 
@@ -125,7 +124,6 @@ test_results_t test1_19_Mutator::executeTest()
     BPatch_function *call19_2_func = bpfv[0];
 
     BPatch_funcCallExpr call19_2Expr(*call19_2_func, nullArgs);
-    checkCost(call19_2Expr);
 
     int callbackFlag = 0;
 

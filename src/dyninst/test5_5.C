@@ -170,7 +170,6 @@ test_results_t test5_5_Mutator::executeTest() {
          BPatch_arithExpr expr5_0(BPatch_addr, *this5);
          call5_args.push_back(&expr5_0);
          BPatch_funcCallExpr call5Expr(*call5_func, call5_args);
-         checkCost(call5Expr);
          appAddrSpace->insertSnippet(call5Expr, *point5_1);
          return PASSED;
       }

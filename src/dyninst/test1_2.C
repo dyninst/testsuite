@@ -150,7 +150,6 @@ test_results_t DLLEXPORT test1_2_Mutator::executeTest()
 	BPatch_funcCallExpr call2Expr(*call2_func, call2_args);
 
 	dprintf("Inserted snippet2\n");
-	checkCost(call2Expr);
 	if(!appAddrSpace->insertSnippet(call2Expr, *point2_1, BPatch_callBefore, BPatch_lastSnippet))
         return FAILED;
 

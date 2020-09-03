@@ -81,7 +81,6 @@ test_results_t test1_20_Mutator::executeTest()
 
 	BPatch_Vector<BPatch_snippet *> nullArgs;
 	BPatch_funcCallExpr call20_1Expr(*call20_1_func, nullArgs);
-	checkCost(call20_1Expr);
 
 	bpfv.clear();
 	const char *fn2 = "test1_20_func2";

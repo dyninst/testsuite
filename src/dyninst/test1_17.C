@@ -125,7 +125,6 @@ test_results_t test1_17_Mutator::executeTest()
 	funcArgs.push_back (&constExpr17_1);
 
 	BPatch_funcCallExpr call17_1Expr(*call17_1_func, funcArgs);
-	checkCost(call17_1Expr);
 	appAddrSpace->insertSnippet(call17_1Expr, *point17_1, BPatch_callAfter, BPatch_lastSnippet);
 
 	// Find the exit point to the procedure "func17_2"
@@ -184,7 +183,6 @@ test_results_t test1_17_Mutator::executeTest()
 	funcArgs2.push_back (&constExpr17_2);
 
 	BPatch_funcCallExpr call17_2Expr(*call17_2_func, funcArgs2);
-	checkCost(call17_2Expr);
 
 	// test interface to call into insertSnippet with only one parameter
 	BPatch_point &aPoint = *(*point17_2)[0];

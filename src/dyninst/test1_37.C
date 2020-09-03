@@ -190,7 +190,6 @@ static int instrumentFuncLoopsWithCall(BPatch_addressSpace *appAddrSpace,
 	// create func expr for incVar
 	BPatch_Vector<BPatch_snippet *> nullArgs;
 	BPatch_funcCallExpr callInc(*incVar, nullArgs);
-	checkCost(callInc);
 
 	// instrument the function's loops
 	BPatch_flowGraph *cfg = func->getCFG();

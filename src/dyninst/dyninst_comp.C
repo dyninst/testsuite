@@ -532,24 +532,6 @@ bool signalAttached(BPatch_image *appImage)
     return true;
 }
 
-void checkCost(BPatch_snippet snippet)
-{
-   float cost;
-   BPatch_snippet copy;
-
-   // test copy constructor too.
-   copy = snippet;
-
-   cost = snippet.getCost();
-   dprintf("Snippet cost=%g\n", cost);
-    if (cost < 0.0) {
-        fprintf(stderr, "*Error*: negative snippet cost\n");
-    } else if (cost > 0.01) {
-        fprintf(stderr, "*Error*: snippet cost of %f, exceeds max expected of 0.1",
-            cost);
-    }
-}
-
 // Wrapper function to find variables
 // For Fortran, will look for lowercase variable, if mixed case not found
 BPatch_variableExpr *findVariable(BPatch_image *appImage, const char* var,
@@ -743,7 +725,6 @@ BPatchSnippetHandle *insertSnippetAt(BPatch_addressSpace *appAddrSpace,
         return NULL;
     }
 
-    checkCost(snippet);
     return appAddrSpace->insertSnippet(snippet, *points);
 }
 
@@ -1621,7 +1602,6 @@ int instrumentToCallZeroArg(BPatch_process *appThread, BPatch_image *appImage, c
 	BPatch_funcCallExpr call1Expr(*call1_func, call1_args);
 
 	dprintf("Inserted snippet2\n");
-	checkCost(call1Expr);
 	appThread->insertSnippet(call1Expr, *point1_1);
 
 	return 0;

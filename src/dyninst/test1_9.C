@@ -189,7 +189,6 @@ test_results_t test1_9_Mutator::executeTest()
 
 	BPatch_funcCallExpr call9Expr(*call9_func, call9_args);
 
-	checkCost(call9Expr);
 	if(!appAddrSpace->insertSnippet(call9Expr, *point9_1, BPatch_callBefore, BPatch_lastSnippet))
         return FAILED;
 

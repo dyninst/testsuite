@@ -112,7 +112,6 @@ test_results_t test1_8_Mutator::executeTest()
 						BPatch_constExpr(88)))));
 	vect8_1.push_back(&arith8_1);
 
-	checkCost(BPatch_sequence(vect8_1));
 	if(!appAddrSpace->insertSnippet( BPatch_sequence(vect8_1), *point8_1))
         return FAILED;
 

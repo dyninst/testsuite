@@ -108,8 +108,7 @@ test_results_t test1_30_Mutator::executeTest() {
 	BPatch_Vector<BPatch_snippet *> nullArgs;
 	BPatch_funcCallExpr call30_1Expr(*call30_1func, nullArgs);
 
-	checkCost(call30_1Expr);
-    	appAddrSpace->insertSnippet(call30_1Expr, *point30_1);
+	appAddrSpace->insertSnippet(call30_1Expr, *point30_1);
 
 	//get the line number of the function call30_1
 	BPatch_variableExpr *expr30_7 = 
