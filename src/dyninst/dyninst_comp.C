@@ -46,6 +46,7 @@
 #include "dyninst_comp.h"
 #include "MutateeStart.h"
 #include "UsageMonitor.h"
+#include "dyntypes.h"
 
 using namespace std;
 
@@ -1483,23 +1484,23 @@ bool checkStack(BPatch_thread *appThread,
 				func->getName(name, name_max);
 
 			BPatch_function *func2 =
-                                appThread->getProcess()->findFunctionByAddr(stack[j].getPC());
+                                appThread->getProcess()->findFunctionByEntry(reinterpret_cast<Dyninst::Address>(stack[j].getPC()));
 			if (func2 != NULL)
 				func2->getName(name2, name_max);
 
 			if ((func == NULL && func2 != NULL) ||
 					(func != NULL && func2 == NULL)) {
 				logerror("**Failed** test %d (%s)\n", test_num, test_name);
-				logerror("    frame->findFunction() disagrees with thread->findFunctionByAddr()\n");
+				logerror("    frame->findFunction() disagrees with thread->findFunctionByEntry()\n");
 				logerror("    frame->findFunction() returns %s\n",
 						name);
-				logerror("    thread->findFunctionByAddr() return %s\n",
+				logerror("    thread->findFunctionByEntry() return %s\n",
 						name2);
 				failed = true;
 				break;
 			} else if (func!=NULL && func2!=NULL && strcmp(name, name2)!=0) {
 				logerror("**Failed** test %d (%s)\n", test_num, test_name);
-				logerror("    BPatch_frame::findFunction disagrees with BPatch_thread::findFunctionByAddr\n");
+				logerror("    BPatch_frame::findFunction disagrees with BPatch_thread::findFunctionByEntry\n");
 				failed = true;
 				break;
 			}
