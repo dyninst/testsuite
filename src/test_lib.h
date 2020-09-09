@@ -156,7 +156,7 @@ class LocErr
 			const int __line__,
 			const std::string msg); 
 
-	TESTLIB_DLL_EXPORT virtual ~LocErr() THROW; 
+	TESTLIB_DLL_EXPORT virtual ~LocErr();
 
 	TESTLIB_DLL_EXPORT std::string file() const;
 

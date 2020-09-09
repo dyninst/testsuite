@@ -110,7 +110,7 @@ LocErr::LocErr(const char *__file__, const int __line__, const std::string msg) 
 	line__(__line__)
 {}
 
-LocErr::~LocErr() THROW
+LocErr::~LocErr()
 {}
 
 std::string LocErr::file() const
