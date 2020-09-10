@@ -20,9 +20,35 @@ DEPRECATED_SUBDIRS= \
 ## BLANK ABOVE
 
 
+## The test specification directory
 TO_SPEC = src/specification
-PROLOG_FILES = $(TO_SPEC)/spec-grouped.pl $(TO_SPEC)/util.pl $(TO_SPEC)/test.pl
-PYTHON_FILES = $(TO_SPEC)/cmake_mutatees.py $(TO_SPEC)/cmake_mutators.py $(TO_SPEC)/generate.py $(TO_SPEC)/group_boilerplate.py $(TO_SPEC)/parse.py $(TO_SPEC)/test_info_new_gen.py $(TO_SPEC)/tuples.py $(TO_SPEC)/utils.py
+
+## The GNU prolog files and test spec
+## The default is to use the grouped specification, which
+## decreases testing time considerably.
+## The "ungrouped" spec seems to be historical;, and as of 2020 doesn't work.
+##	it is left here for consideration, and to not lose info.
+
+SPEC=spec-ungrouped.pl
+SPEC=spec-grouped.pl
+PROLOG_FILES = \
+	$(TO_SPEC)/$(SPEC)	\
+	$(TO_SPEC)/util.pl	\
+	$(TO_SPEC)/test.pl	\
+
+## BLANK ABOVE
+
+PYTHON_FILES = \
+	$(TO_SPEC)/cmake_mutatees.py	\
+	$(TO_SPEC)/cmake_mutators.py	\
+	$(TO_SPEC)/generate.py		\
+	$(TO_SPEC)/group_boilerplate.py	\
+	$(TO_SPEC)/parse.py		\
+	$(TO_SPEC)/test_info_new_gen.py	\
+	$(TO_SPEC)/tuples.py 		\
+	$(TO_SPEC)/utils.py		\
+
+## BLANK ABOVE
 
 .PHONY: usage gen-all echo $(SUBDIRS) $(SUBDIR_WINDOWS)
 
