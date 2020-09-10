@@ -1,4 +1,23 @@
-SUBDIRS = i386-unknown-linux2.4 x86_64-unknown-linux2.4 ppc32_linux ppc64_linux i386-unknown-freebsd7.2 amd64-unknown-freebsd7.2 ppc64_bgq_ion i386-unknown-nt4.0 aarch64-unknown-linux
+## Thse are the DynInst "platforms" (arch+os) that are the tests built for.
+## The order of entries is historical... aka what was here!
+
+SUBDIRS = \
+	i386-unknown-linux2.4		\
+	x86_64-unknown-linux2.4		\
+	ppc32_linux			\
+	ppc64_linux			\
+	i386-unknown-freebsd7.2		\
+	amd64-unknown-freebsd7.2	\
+	ppc64_bgq_ion			\
+	i386-unknown-nt4.0		\
+	aarch64-unknown-linux		\
+
+## BLANK ABOVE
+
+DEPRECATED_SUBDIRS= \
+	arm64-unknown-linux		\
+
+## BLANK ABOVE
 
 
 TO_SPEC = src/specification
