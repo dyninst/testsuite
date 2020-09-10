@@ -59,7 +59,7 @@ usage:
 	@echo "platforms"
 	@echo "Use target PLATFORM to make for a specific platform"
 
-ONE_GENERATED_FILE = cmake-mutatees.txt
+ONE_GENERATED_FILE = tuples tuples.gz cmake-mutatees.txt .gitignore
 ALL_GENERATED_FILES = $(foreach dir,$(SUBDIRS),$(ONE_GENERATED_FILE:%=$(dir)/%))
 
 gen-all: $(ALL_GENERATED_FILES)
@@ -93,3 +93,46 @@ $(SUBDIRS:%=%/cmake-mutatees.txt): %/cmake-mutatees.txt: $(PYTHON_FILES) %/tuple
 
 $(SUBDIRS:%=%): %:%/cmake-mutatees.txt
 
+## Generate common .gitignore files across platforms.
+## Basically Unix, except for the NT platforms
+
+## XXX could use filter/filter-out, or put this in a script, leave it for now.
+
+$(SUBDIRS:%=%/.gitignore): Makefile.genspec
+	@echo Generating $@
+	@case $@ in \
+	i386-unknown-nt4.0*)		  \
+		(			  \
+		echo Debug 		; \
+		echo resumelog	 	; \
+		echo mutatee_resumelog	; \
+		echo binaries/		; \
+		echo '*.obj'		; \
+		echo '*.pdb'		; \
+		echo '*.exe'		; \
+		echo '*.manifest'	; \
+		echo '*.ilk'		; \
+		echo '*.dll'		; \
+		echo '*.lib'		; \
+		echo '*.exp'		; \
+		) >$@			; \
+		;;			  \
+	*)				  \
+		(			  \
+		echo depends/		; \
+		echo runTests		; \
+		echo test_driver	; \
+		echo testdriver_wrapper	; \
+		echo resumelog		; \
+		echo mutatee_resumelog	; \
+		echo binaries/		; \
+		echo '*.a'		; \
+		echo '*.o'		; \
+		echo '*.so'		; \
+		echo '*_none'		; \
+		echo '*_low'		; \
+		echo '*_high'		; \
+		echo '*_max'		; \
+		) >$@			; \
+		;;			  \
+	esac
