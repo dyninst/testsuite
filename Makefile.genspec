@@ -67,18 +67,25 @@ gen-all: $(ALL_GENERATED_FILES)
 gen-clean:
 	-rm -f $(ALL_GENERATED_FILES)
 
+## gzip
+## -f force compression
+## -c keep tuples around for comparison
+## -n don't embed timestamp, so identical contents have identical compressed
+## This makes a rebuild not be a git change, unless actual changes occur.
 
 GPROLOG=gprolog
 GZIP=gzip
+MKDIR=mkdir
 
 $(SUBDIRS:%=%/tuples): %/tuples: $(PROLOG_FILES)
 	cd $(TO_SPEC); \
+	$(MKDIR) -p `dirname ../../$@` ; \
 	$(GPROLOG)	\
 		--entry-goal "['$(SPEC)']" \
 		--entry-goal "test_init('$*')" \
 		--entry-goal "write_tuples('../../$@', '$*')" \
 		--entry-goal "halt" ; \
-	$(GZIP) -f ../../$@
+	$(GZIP) -f -n -c ../../$@ >../../$@.gz
 
 
 $(SUBDIRS:%=%/cmake-mutatees.txt): %/cmake-mutatees.txt: $(PYTHON_FILES) %/tuples
