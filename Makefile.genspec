@@ -67,11 +67,18 @@ gen-all: $(ALL_GENERATED_FILES)
 gen-clean:
 	-rm -f $(ALL_GENERATED_FILES)
 
+
+GPROLOG=gprolog
+GZIP=gzip
+
 $(SUBDIRS:%=%/tuples): %/tuples: $(PROLOG_FILES)
-	cd $(TO_SPEC); gprolog --entry-goal "['spec-grouped.pl']" \
+	cd $(TO_SPEC); \
+	$(GPROLOG)	\
+		--entry-goal "['$(SPEC)']" \
 		--entry-goal "test_init('$*')" \
 		--entry-goal "write_tuples('../../$@', '$*')" \
-		--entry-goal "halt" ; gzip -f ../../$@
+		--entry-goal "halt" ; \
+	$(GZIP) -f ../../$@
 
 
 $(SUBDIRS:%=%/cmake-mutatees.txt): %/cmake-mutatees.txt: $(PYTHON_FILES) %/tuples
