@@ -61,98 +61,6 @@ test_results_t SymtabComponent::group_setup(RunGroup *group, ParameterDict &para
 
 	if (measure) um_group.start();  // Measure resource usage.
 
-#if defined (cap_serialization_test) && !defined(SERIALIZATION_DISABLED)
-	if (group->createmode == DESERIALIZE)
-		return SKIPPED;
-
-	const char *ser_env = getenv(SERIALIZE_CONTROL_ENV_VAR);
-	//  allow user to explicitly disable serialization in environment
-	//  check this before we modify any environment vars
-	if (ser_env && !strcmp(ser_env, SERIALIZE_DISABLE))
-	{
-		logerror( "%s[%d]:  serialization is disabled\n", FILE__, __LINE__);
-	}
-	else
-	{
-		Symtab *s_open = Symtab::findOpenSymtab(std::string(group->mutatee));
-		switch (group->createmode)
-		{
-			case DESERIALIZE:
-				{
-					logerror("%s[%d]:  runmode DESERIALIZE\n", FILE__, __LINE__);
-					fflush(NULL);
-					//  If we have an open symtab with this name, it will just be returned
-					//  when we call openFile.  If it is sourced from a regular parse, 
-					// this will not trigger deserialization, so we need to close the
-					//  existing open symtab if it was not deserialized.
-					if (s_open && !s_open->from_cache())
-					{
-						logerror( "%s[%d]:  closing open symtab for %s\n", 
-								FILE__, __LINE__, group->mutatee);
-						Symtab::closeSymtab(s_open);
-						s_open = Symtab::findOpenSymtab(std::string(group->mutatee));
-						if (s_open)
-						{ 
-							logerror( "%s[%d]:  failed to close symtab\n", FILE__, __LINE__);
-							return FAILED;
-						}
-
-					}
-					else
-					{
-						if (s_open) 
-						{
-							fprintf(stderr, "%s[%d]:  symtab %s already deserialized\n", FILE__, __LINE__, group->mutatee);
-							logerror( "%s[%d]:  closing open symtab for %s\n", 
-									FILE__, __LINE__, group->mutatee);
-							Symtab::closeSymtab(s_open);
-							s_open = Symtab::findOpenSymtab(std::string(group->mutatee));
-							if (s_open)
-							{ 
-								logerror( "%s[%d]:  failed to close symtab\n", FILE__, __LINE__);
-								return FAILED;
-							}
-						}
-						//symtab = s_open;
-					}
-					enableSerDes<Symtab>(std::string(group->mutatee), true);
-					enforceDeserialize<Symtab>(std::string(group->mutatee), true);
-
-					//  verify that we have an existing cache for this mutatee from which to deserialize
-				}
-				break;
-			case CREATE:
-				logerror( "%s[%d]:  runmode CREATE\n", FILE__, __LINE__);
-				enableSerialize<Symtab>(std::string(group->mutatee), true);
-				enableDeserialize<Symtab>(std::string(group->mutatee), false);
-				enforceDeserialize<Symtab>(std::string(group->mutatee), false);
-
-				//  Don't think this can happen, but just to be safe, if we have
-				//  a deserialized symtab for this mutatee, close it before we
-				//  proceed, otherwise it will be returned for the CREATE tests
-					if (s_open && s_open->from_cache())
-					{
-						logerror( "%s[%d]:  closing open symtab for %s\n", 
-								FILE__, __LINE__, group->mutatee);
-						Symtab::closeSymtab(s_open);
-						s_open = Symtab::findOpenSymtab(std::string(group->mutatee));
-						if (s_open)
-						{ 
-							logerror( "%s[%d]:  failed to close symtab\n", FILE__, __LINE__);
-							return FAILED;
-						}
-					}
-					else
-						symtab = s_open;
-				//  verify that we have an existing cache for this mutatee from which to deserialize
-				break;
-			default:
-				logerror( "%s[%d]:  bad runmode!\n", FILE__, __LINE__);
-				return FAILED;
-		}
-	}
-#endif
-
    if (group->mutatee && group->state != SELFSTART)
    {
 	   if (NULL == symtab)
@@ -160,21 +68,6 @@ test_results_t SymtabComponent::group_setup(RunGroup *group, ParameterDict &para
 		   bool result = Symtab::openFile(symtab, std::string(group->mutatee));
 		   if (!result || !symtab)
 			   return FAILED;
-
-#if defined (cap_serialization_test)
-		if  (group->createmode == CREATE)
-		{
-			// manually trigger the parsing of type and line info here
-			// so that everything gets serialized...  for the deserialize tests	
-			std::vector<SymtabAPI::Module *> mods;
-			bool result = symtab->getAllModules(mods);
-			assert(result);
-			assert(mods[0]);
-			std::vector<Statement *> statements;
-			mods[0]->getStatements(statements);
-			Type *t = symtab->findType(0xdeadbeef);
-		}
-#endif
 	   }
 	   symtab_ptr.setPtr(symtab);
    }
