@@ -46,7 +46,7 @@ static void signal_handler(int sig)
 
 #endif
 
-#if defined(os_linux_test) && !defined(os_bg_test)
+#if defined(os_linux_test)
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
@@ -119,9 +119,7 @@ static int threadFunc(int myid, void *data)
 {
 
    testLock(&init_lock);
-#if !defined(os_bg_test)
    self_signal();
-#endif
    testUnlock(&init_lock);
    return 0;
 }
@@ -173,11 +171,7 @@ int pc_detach_mutatee()
       output->log(STDERR, "Finalization failed\n");
       return -1;
    }
-#if defined(os_bg_test)
-   total_num_signals = 1;
-#else
    total_num_signals = num_threads+1;
-#endif
    if (num_signals != total_num_signals)
    {
       output->log(STDERR, "Incorrect number of signals recieved\n");

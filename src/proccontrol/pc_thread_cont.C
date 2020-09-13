@@ -143,7 +143,7 @@ test_results_t pc_thread_contMutator::executeTest()
    expected_pre_lwp_exits.clear();
    expected_post_lwp_exits.clear();
 
-#if defined(os_bg_test) || defined(os_freebsd_test)
+#if defined(os_freebsd_test)
    have_pre_thread = true;
    have_pre_lwp = false;
    have_post_thread = false;

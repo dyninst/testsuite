@@ -354,20 +354,6 @@ test_results_t power_decode_Mutator::executeTest()
   expectedWritten.push_back(tmpWritten);
   tmpRead.clear();
   tmpWritten.clear();
-#if defined(os_bgq_test)
-  // qvfxmadds
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr0, fpr1, fpr2, fsr0, fsr2 };
-  tmpWritten = { fpr0, fsr0 };
-#else
-  tmpRead = list_of(fpr0)(fpr1)(fpr2)(fsr0)(fsr2);
-  tmpWritten = list_of(fpr0)(fsr0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-#else
   // fxmul fpr0, fpr1
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
   tmpRead = { fpr1, fpr2, fsr1, fsr2 };
@@ -380,7 +366,7 @@ test_results_t power_decode_Mutator::executeTest()
   expectedWritten.push_back(tmpWritten);
   tmpRead.clear();
   tmpWritten.clear();
-#endif
+
   // fxcpmul fpr0, fpr1
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
   tmpRead = { fpr1, fpr2, fsr2 };
@@ -393,20 +379,6 @@ test_results_t power_decode_Mutator::executeTest()
   expectedWritten.push_back(tmpWritten);
   tmpRead.clear();
   tmpWritten.clear();
-#if defined(os_bgq_test)
-  // qvfxxnpmadds
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr0, fpr1, fpr2, fsr0, fsr2 };
-  tmpWritten = { fpr0, fsr0 };
-#else
-  tmpRead = list_of(fpr0)(fpr1)(fpr2)(fsr0)(fsr2);
-  tmpWritten = list_of(fpr0)(fsr0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-#else
   // fxcsmul fpr0, fpr1
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
   tmpRead = { fpr2, fsr1, fsr2 };
@@ -419,7 +391,7 @@ test_results_t power_decode_Mutator::executeTest()
   expectedWritten.push_back(tmpWritten);
   tmpRead.clear();
   tmpWritten.clear();
-#endif
+
   // bdnzl cr0, +0x100
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
   tmpRead = { pc, cr0, ctr };

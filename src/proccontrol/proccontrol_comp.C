@@ -65,11 +65,7 @@ using namespace std;
 
 #endif
 
-#if !defined(os_bgq_test)
 #define USE_SOCKETS
-#else
-#define USE_PIPES
-#endif
 
 #if !defined(os_windows_test)
 typedef int SOCKET;
@@ -274,39 +270,6 @@ test_results_t ProcControlMutator::pre_init(ParameterDict &param)
    return PASSED;
 }
 
-#if defined(os_bgq_test)
-#include <unistd.h>
-#include <signal.h>
-#include <stdlib.h>
-
-static void onalarm(int)
-{
-   abort();
-}
-
-static void onterm(int)
-{
-   //On BGQ SIGTERM is thrown to debuggers after the debugee exits.
-   // We may be doing cleanup still, so only exit after a timeout.
-   static bool hit_sigterm = false;
-   if (hit_sigterm)
-      abort();
-   hit_sigterm = true;
-
-   signal(SIGALRM, onalarm);
-   alarm(10);
-}
-
-void setupSigtermHandler()
-{
-   signal(SIGTERM, onterm);
-}
-#else
-void setupSigtermHandler()
-{
-}
-#endif
-
 ProcControlComponent::ProcControlComponent() :
    sockfd(0),
    sockname(NULL),
@@ -321,7 +284,6 @@ ProcControlComponent::ProcControlComponent() :
    ::WSAStartup(wsVer, &ignored);
    winsock_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 #endif
-   setupSigtermHandler();
 }
 
 uint64_t ProcControlComponent::adjustFunctionEntryAddress(Process::const_ptr proc, uint64_t entrypoint)
@@ -431,9 +393,6 @@ ProcessSet::ptr ProcControlComponent::startMutateeSet(RunGroup *group, Parameter
    ProcessSet::ptr procset;
    bool do_create = (group->createmode == CREATE);
    bool waitfor_attach = (group->createmode == USEATTACH);
-#if defined(os_bg_test)
-   do_create = false;
-#endif
 
    if (do_create) {
       vector<ProcessSet::CreateInfo> cinfo;
@@ -511,20 +470,11 @@ Process::ptr ProcControlComponent::startMutatee(RunGroup *group, ParameterDict &
 
    Process::ptr proc = Process::ptr();
    if (group->createmode == CREATE) {
-#if defined(os_bg_test)
-      Dyninst::PID pid = getMutateePid(group);
-      proc = Process::attachProcess(pid, group->mutatee);
-      if (!proc) {
-         logerror("Failed to attach to new mutatee\n");
-         return Process::ptr();
-      }
-#else
       proc = Process::createProcess(exec_name, vargs);
       if (!proc) {
          logerror("Failed to execute new mutatee\n");
          return Process::ptr();
       }
-#endif
    }
    else if (group->createmode == USEATTACH) {
       Dyninst::PID pid = getMutateePid(group);
@@ -649,7 +599,7 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
       num_processes = getNumProcs(param);
    else
       num_processes = 1;
-#if !defined(os_bg_test) && !defined(os_windows_test)
+#if !defined(os_windows_test)
    setupSignalFD(param);
 #endif
    check_threads_on_startup = true;
@@ -696,9 +646,6 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
          error = true;
       }
    }
-#if defined(os_bg_test)
-   Process::registerEventCallback(EventType::Library, setSocketOnLibLoad);
-#endif
 
    EventType thread_create(EventType::None, EventType::ThreadCreate);
    registerEventCounter(thread_create);
@@ -755,18 +702,10 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
    {
       for (std::vector<Process::ptr>::iterator j = procs.begin(); j != procs.end(); j++) {
          Process::ptr proc = *j;
-#if !defined(os_bg_test)
          if (proc->threads().size() != num_threads+1) {
             logerror("Process has incorrect number of threads");
             error = true;
          }
-#else
-         //BlueGene OS spawns extra threads
-         if (proc->threads().size() < num_threads+1) {
-            logerror("Process has incorrect number of threads");
-            error = true;
-         }
-#endif
       }
       if (eventsRecieved[thread_create].size()) {
          logerror("Recieved unexpected thread creation events on process\n");
@@ -779,10 +718,6 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
       logerror("Failed to create pipes\n");
       error = true;
    }
-#endif
-
-#if defined(os_bg_test)
-   Process::removeEventCallback(EventType::Library, setSocketOnLibLoad);
 #endif
 
    if (group->state != RUNNING && check_threads_on_startup) {
@@ -868,7 +803,7 @@ test_results_t ProcControlComponent::group_teardown(RunGroup *group, ParameterDi
 {
    bool error = false;
    bool hasRunningProcs;
-#if !defined(os_bg_test) && !defined(os_windows_test)
+#if !defined(os_windows_test)
    resetSignalFD(params);
 #endif
    logerror("Begin ProcControl group teardown\n");
@@ -1159,13 +1094,8 @@ bool ProcControlComponent::acceptConnections(int num, int *attach_sock)
          logerror("Received bad code in handshake message\n");
          return false;
       }
-      int pid;
-#if defined(os_bg_test)
-      //BG pids don't always seem to be consistent.
-      pid = procs[i]->getPid();
-#else
-      pid = msg.pid;
-#endif
+      int pid = msg.pid;
+
       map<Dyninst::PID, Process::ptr>::iterator j = process_pids.find(pid);
       if (j == process_pids.end()) {
          if (attach_sock) {

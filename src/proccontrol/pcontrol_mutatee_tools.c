@@ -55,10 +55,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#if defined(os_bgq_test)
-#include <mpi.h>
-#endif
-
 #if !defined(os_windows_test)
 #include <poll.h>
 #endif
@@ -206,9 +202,6 @@ int handshakeWithServer()
    spid.code = SEND_PID_CODE;
 #if defined(os_windows_test)
    spid.pid = GetCurrentProcessId();
-#elif defined(os_bgq_test)
-   MPI_Comm_rank(MPI_COMM_WORLD, &result);
-   spid.pid = result;
 #else
    spid.pid = getpid();
 #endif
@@ -397,9 +390,6 @@ void resetTimeoutAlarm()
    alarm(0);
 }
 
-#if defined(os_bgq_test)
-static int created_named_pipes = 0;
-#endif
 static void createNamedPipes()
 {
 #if defined(os_bgq_test)
@@ -508,38 +498,12 @@ int send_message_socket(unsigned char *msg, size_t msg_size)
    return send(sockfd, msg, msg_size, 0);
 }
 
-int send_message_pipe(unsigned char *msg, size_t msg_size)
-{
-   int had_error = 0;
-#if defined(os_bgq_test)
-   int my_rank;
-   int world_size;
-   int i;
-
-   assert(created_named_pipes);
-
-   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-   for (i = 0; i < world_size; i++) {
-      if (i == my_rank) {
-         had_error = write(w_pipe, msg, msg_size);
-      }
-      MPI_Barrier(MPI_COMM_WORLD);
-   }
-#endif
-   return had_error;
-}
-
 int send_message(unsigned char *msg, size_t msg_size)
 {
 	int result;
 	if (strcmp(socket_type, "un_socket") == 0) {
       result = send_message_socket(msg, msg_size);
 	}
-   else if (strcmp(socket_type, "named_pipe") == 0) {
-      result = send_message_pipe(msg, msg_size);
-   }
    else {
       assert(0);
    }

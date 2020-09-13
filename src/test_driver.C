@@ -376,7 +376,6 @@ bool setupConnectionToRemote(RunGroup *group, ParameterDict &params)
       driver_args.push_back("-redirect-debug");
       driver_args.push_back(redirect_file);
    }
-   assert(driver_args.size() <= 12); //BlueGene restriction
 
    char **c_driver_args = getCParams(driver_exec, driver_args);
    bool attach_mode = (group->createmode == USEATTACH);
@@ -573,7 +572,6 @@ void initModuleIfNecessary(RunGroup *group, std::vector<RunGroup *> &groups,
       return;
 
    // Reset program_setup usage data before we init a new program.
-   // A SIGSEGV here on BGQ may come from not having Dyninst libraries in your LD_LIBRARY_PATH
    group->mod->tester->clear_program_usage();
 
    log_teststart(group->index, 0, program_setup_rs);

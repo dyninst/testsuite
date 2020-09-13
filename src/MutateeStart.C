@@ -387,27 +387,6 @@ bool shouldLaunch(RunGroup *group, ParameterDict &params)
 	return true;
 }
 
-#if defined(os_bgq_test)
-void setupBatchRun(std::string &exec_name, std::vector<std::string> &args) {
-  std::vector<std::string> srun_args;
-  srun_args.push_back("-n");
-  srun_args.push_back("1");
-  exec_name = "./" + exec_name;
-  srun_args.push_back(exec_name);
-  args.erase(args.begin(), args.begin());
-  args.insert(args.begin(), srun_args.begin(), srun_args.end());
-
-  exec_name = "srun";
-}
-
-
-#else
-
-void setupBatchRun(std::string &, std::vector<std::string> &) {
-}
-
-#endif
-
 std::string launchMutatee(std::string executable, std::vector<std::string> &args, RunGroup *group, ParameterDict &params)
 {
    char group_num[32];
@@ -435,8 +414,6 @@ std::string launchMutatee(std::string executable, RunGroup *group, ParameterDict
 
    if (executable != string(""))
       exec_name = executable;
-
-   setupBatchRun(exec_name, args);
 
    return launchMutatee(exec_name, args, group, params);
 }

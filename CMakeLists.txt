@@ -92,12 +92,6 @@ include_directories(${DYNINST_INCLUDE_DIR})
 message(STATUS "Project source dir: ${PROJECT_SOURCE_DIR}")
 set(BUILD_SHARED_LIBS ON)
 
-if("${DYNINST_PLATFORM}" MATCHES "bgq")
-  find_package(LaunchMON REQUIRED)
-  include_directories(${LAUNCHMON_INCLUDE_DIR})
-  add_definitions(${LAUNCHMON_DEFINITIONS})
-endif()
-
 set(INSTALL_DIR "bin/testsuite" CACHE PATH "Testsuite installation directory")
 
 # Build rules for the test libraries (libtestdyninst, libtestproccontrol, etc.)

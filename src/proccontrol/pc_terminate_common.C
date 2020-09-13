@@ -125,14 +125,7 @@ test_results_t PC_TERMINATE(Mutator::executeTest) ()
       }
    }
 
-#if defined(os_bg_test)
-   //On BlueGene terminating one process causes a SIGTERM to be sent to
-   // all others.  Thus not all processes exit on a force-terminate.
-   bool count_crash = false;
-#else
    bool count_crash = true;
-#endif
-
 
    for (i = comp->procs.begin(); i != comp->procs.end(); i++) {
       Process::ptr proc = *i;
@@ -167,12 +160,10 @@ test_results_t PC_TERMINATE(Mutator::executeTest) ()
          }
          sleep(1);
       }
-#if !defined(os_bg_test)
       if (!got_failure) {
          logerror("Error.  Succeeded at send sync broadcast\n");
          error = true;
       }
-#endif
    }
 
    if (num_pre_exited || num_post_exited || (count_crash && num_post_crashed))

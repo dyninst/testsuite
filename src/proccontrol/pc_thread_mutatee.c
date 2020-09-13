@@ -48,7 +48,7 @@ int thread_test_tls = 0;
 testlock_t sendlock;
 testlock_t synclock;
 
-#if defined(os_linux_test) || defined(os_bg_test)
+#if defined(os_linux_test)
 #include <sys/types.h>
 #include <sys/syscall.h>
 
@@ -164,18 +164,6 @@ int pc_thread_mutatee()
       return -1;
    }
    ret_code = sendThreadMsg(1);
-
-#if defined(os_bgq_test)
-   //BGQ has issues if we try the below recv while threads
-   // are still doing the above send.  This loop waits until 
-   // sends are done
-   int local_num_msgs_sent = 0;
-   do {
-      testLock(&sendlock);
-      local_num_msgs_sent = num_msgs_sent;
-      testUnlock(&sendlock);      
-   } while (local_num_msgs_sent != num_threads+1);
-#endif
 
    result = recv_message((unsigned char *) &msg, sizeof(syncloc));
    if (result == -1) {

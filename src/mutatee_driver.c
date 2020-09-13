@@ -81,10 +81,6 @@ volatile int isAttached = 0;
 #include "solo_driver.h"
 #endif
 
-#if defined(os_bgq_test)
-#include <mpi.h>
-#endif
-
 /* Pointer size variable, for multiple-ABI platforms */
 int pointerSize = sizeof (void *);
 
@@ -168,9 +164,7 @@ int signal_fd = 0;
 
 void handleAttach()
 {
-#if defined(os_bg_test)
-   return;
-#elif !defined(os_windows_test)
+#if !defined(os_windows_test)
    char ch = 'T';
    struct timeval start_time;
    if (!useAttach) return;
@@ -236,7 +230,7 @@ void handleAttach()
    flushOutputLog();
 
    while (!checkIfAttached()) {
-#if !defined(os_windows_test) && !defined(os_bg_test)
+#if !defined(os_windows_test)
       struct timeval present_time;
       gettimeofday(&present_time, NULL);
       if (present_time.tv_sec > (start_time.tv_sec + 30))
@@ -266,10 +260,6 @@ int main(int iargc, char *argv[])
    unsigned int label_count = 0;
    int print_labels = FALSE;
    FILE* f;
-
-#if defined(os_bgq_test)
-   MPI_Init(&iargc, &argv);
-#endif
 
    gargc = argc;
    gargv = argv;
