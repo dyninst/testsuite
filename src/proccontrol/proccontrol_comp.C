@@ -65,8 +65,6 @@ using namespace std;
 
 #endif
 
-#define USE_SOCKETS
-
 #if !defined(os_windows_test)
 typedef int SOCKET;
 #define SOCKET_ERROR -1
@@ -648,13 +646,12 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
       error = true;
    }
 
-#if defined(USE_SOCKETS)
    result = acceptConnections(num_procs, NULL);
    if (!result) {
       logerror("Failed to accept connections from new mutatees\n");
       error = true;
    }
-#endif
+
    if (group->createmode == CREATE)
    {
       Process::ptr a_proc = *procs.begin();
@@ -726,18 +723,14 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
 
 test_results_t ProcControlComponent::program_setup(ParameterDict &params)
 {
-#if defined(USE_SOCKETS)
 	setupServerSocket(params);
-#endif
 	return PASSED;
 }
 
 test_results_t ProcControlComponent::program_teardown(ParameterDict &params)
 {
 
-#if defined(USE_SOCKETS)
 	cleanSocket();
-#endif
    return PASSED;
 }
 
