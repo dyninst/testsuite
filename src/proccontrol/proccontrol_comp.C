@@ -618,16 +618,6 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
    assert(a_proc);
    factory = a_proc->getSymbolReader();
    assert(factory);
-#if defined(USE_PIPES)
-   for (ProcessSet::iterator i = pset->begin(); i != pset->end(); i++) {
-      Process::ptr proc = *i;
-      bool result = setupNamedPipe(proc, param);
-      if (!result) {
-         logerror("Failed to setup server side named pipe\n");
-         return false;
-      }
-   }
-#endif
 
    /**
     * Set the socket name in each process
@@ -712,13 +702,6 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
          error = true;
       }
    }
-#if defined(USE_PIPES)
-   result = create_pipes(pset);
-   if (!result) {
-      logerror("Failed to create pipes\n");
-      error = true;
-   }
-#endif
 
    if (group->state != RUNNING && check_threads_on_startup) {
       bool result = pset->stopProcs();
@@ -766,13 +749,6 @@ test_results_t ProcControlComponent::group_setup(RunGroup *group, ParameterDict 
    eventsRecieved.clear();
    curgroup_self_cleaning = false;
 
-#if defined(USE_PIPES)
-   w_pipe.clear();
-   r_pipe.clear();
-   pipe_read_names.clear();
-   pipe_write_names.clear();
-#endif
-
    me.setPtr(this);
    params["ProcControlComponent"] = &me;
 
@@ -807,7 +783,6 @@ test_results_t ProcControlComponent::group_teardown(RunGroup *group, ParameterDi
    resetSignalFD(params);
 #endif
    logerror("Begin ProcControl group teardown\n");
-#if defined(USE_SOCKETS)
    for(std::map<Process::ptr, int>::iterator i = process_socks.begin(); i != process_socks.end(); ++i) {
 #if defined(os_windows_test)
 	   if( socket_types::close(i->second, winsock_event) == SOCKET_ERROR ) {
@@ -819,18 +794,6 @@ test_results_t ProcControlComponent::group_teardown(RunGroup *group, ParameterDi
        }
    }
    logerror("Sockets all closed\n");
-#endif
-#if defined(USE_PIPES)
-   for (unsigned i=0; i<2; i++) {
-      map<Process::ptr, int> &to_clean = (i == 0) ? w_pipe : r_pipe;
-      for (map<Process::ptr, int>::iterator j = to_clean.begin(); j != to_clean.end(); j++) {
-         close(j->second);
-      }
-      to_clean.clear();
-   }
-   pipe_read_names.clear();
-   pipe_write_names.clear();
-#endif
 
    if (curgroup_self_cleaning) {
      logerror("Self cleaning group, we're done here\n");
@@ -994,41 +957,6 @@ bool ProcControlComponent::setupServerSocket(ParameterDict &param)
    param["socketfd"] = new ParamInt(sockfd);
    return true;
 }
-
-#if defined(USE_PIPES)
-bool ProcControlComponent::setupNamedPipe(Process::ptr proc, ParameterDict &param)
-{
-   char pid_cstr[64];
-   snprintf(pid_cstr, 64, "%u", proc->getPid());
-   string pid_str(pid_cstr);
-
-   string basename_r = "/tmp/dynpcpipe_r." + pid_str;
-   unlink(basename_r.c_str());
-   int result = mkfifo(basename_r.c_str(), 0600);
-   if (result == -1) {
-      int error = errno;
-      logerror("Failed to create fifo %s: %s\n", basename_r.c_str(), strerror(error));
-      return false;
-   }
-   pipe_read_names.insert(make_pair(proc, basename_r));
-
-   string basename_w = "/tmp/dynpcpipe_w." + pid_str;
-   unlink(basename_w.c_str());
-   result = mkfifo(basename_w.c_str(), 0600);
-   if (result == -1) {
-      int error = errno;
-      logerror("Failed to create fifo %s: %s\n", basename_w.c_str(), strerror(error));
-      return false;
-   }
-   pipe_write_names.insert(make_pair(proc, basename_w));
-
-   if (param.find("socket_type") == param.end()) {
-      param["socket_type"] = new ParamString("named_pipe");
-      param["socket_name"] = new ParamString("/tmp/dynpcpipe");
-   }
-   return true;
-}
-#endif
 
 #if !defined(os_windows_test)
 bool ProcControlComponent::acceptConnections(int num, int *attach_sock)
@@ -1226,24 +1154,12 @@ bool ProcControlComponent::cleanSocket()
 
 bool ProcControlComponent::recv_message(unsigned char *msg, unsigned msg_size, Process::ptr p)
 {
-#if defined(USE_SOCKETS)
   return recv_message(msg, msg_size, process_socks[p]);
-#elif defined(USE_PIPES)
-  return recv_message_pipe(msg, msg_size, p);
-#else
-#error No recv_message implemented
-#endif
 }
 
 bool ProcControlComponent::send_message(unsigned char *msg, unsigned msg_size, Process::ptr p)
 {
-#if defined(USE_SOCKETS)
   return send_message(msg, msg_size, process_socks[p]);
-#elif defined(USE_PIPES)
-  return send_message_pipe(msg, msg_size, p);
-#else
-#error No send_message implemented
-#endif
 }
 
 bool ProcControlComponent::recv_message(unsigned char *msg, unsigned msg_size, int sfd)
@@ -1352,208 +1268,3 @@ bool ProcControlComponent::poll_for_events()
    bool bresult = Process::handleEvents(false);
    return bresult;
 }
-
-#if defined(USE_PIPES)
-bool readAvail(int fd, char *buffer, size_t buffer_size, size_t *rsize_out)
-{
-   int rsize = 0;
-   for (;;) {
-      int result = read(fd, buffer + rsize, 1);
-      if (result <= 0) {
-         int error = errno;
-         if (error == EAGAIN || error == EWOULDBLOCK || error == EINTR || result == 0)
-            break;
-         logerror("Error reading from mutatee FD: %s\n", strerror(error));
-         return false;
-      }
-      rsize++;
-   }
-   *rsize_out = rsize;
-   return true;
-}
-
-bool ProcControlComponent::recv_message_pipe(unsigned char *msg, unsigned msg_size, Process::ptr p)
-{
-   static map<Process::ptr, pair<char *, size_t> > cached_reads;
-   int timeout_count = 300; //30 sec
-   for (;;) {
-      map<Process::ptr, pair<char *, size_t> >::iterator i;
-      i = cached_reads.find(p);
-      if (i != cached_reads.end()) {
-         pair<char *, size_t> &buffer = i->second;
-         if (buffer.second >= msg_size) {
-            memcpy(msg, buffer.first, msg_size);
-            if (buffer.second == msg_size) {
-               free(buffer.first);
-               cached_reads.erase(i);
-            }
-            else {
-               assert(buffer.second > msg_size);
-               for (unsigned j = msg_size; j < buffer.second; j++) {
-                  buffer.first[j - msg_size] = buffer.first[j];
-               }
-               buffer.second = buffer.second - msg_size;
-            }
-            return true;
-         }
-      }
-
-      fd_set fset;
-      FD_ZERO(&fset);
-      FD_SET(notification_fd, &fset);
-      int nfds = notification_fd;
-      for (map<Process::ptr, int>::iterator j = r_pipe.begin(); j != r_pipe.end(); j++) {
-         int fd = j->second;
-         FD_SET(fd, &fset);
-         if (fd > nfds)
-            nfds = fd;
-      }
-      struct timeval timeout;
-      timeout.tv_sec = 0;
-      timeout.tv_usec = 100000;
-
-      int result = select(nfds+1, &fset, NULL, NULL, &timeout);
-      if (result == 0) {
-         timeout_count--;
-         if (timeout_count)
-            continue;
-         logerror("Timeout while doing pipe read from mutatees\n");
-         return false;
-      }
-
-      for (map<Process::ptr, int>::iterator j = r_pipe.begin(); j != r_pipe.end(); j++) {
-         int fd = j->second;
-         Process::ptr proc = j->first;
-         if (!FD_ISSET(fd, &fset))
-            continue;
-
-         char buffer[1024];
-         size_t rsize = 0;
-         bool result = readAvail(fd, buffer, 1024, &rsize);
-         if (!result) {
-            return false;
-         }
-
-         i = cached_reads.find(j->first);
-         if (i == cached_reads.end()) {
-            char *newbuffer = (char *) malloc(rsize);
-            memcpy(newbuffer, buffer, rsize);
-            cached_reads[proc] = make_pair(newbuffer, rsize);
-         }
-         else {
-            pair<char *, size_t> &newbuffer = i->second;
-            newbuffer.first = (char *) realloc(newbuffer.first, newbuffer.second + rsize);
-            memcpy(newbuffer.first + newbuffer.second, buffer, rsize);
-            newbuffer.second += rsize;
-         }
-      }
-      if (FD_ISSET(notification_fd, &fset)) {
-         Process::handleEvents(false);
-      }
-   }
-}
-
-
-bool ProcControlComponent::send_message_pipe(unsigned char *msg, unsigned msg_size, Process::ptr p)
-{
-   map<Process::ptr, int>::iterator i = w_pipe.find(p);
-   assert(i != w_pipe.end());
-   int fd = i->second;
-
-   int result = write(fd, msg, msg_size);
-   if (result == -1) {
-      perror("Failed to write message from mutator");
-      return false;
-   }
-   return true;
-}
-
-bool ProcControlComponent::open_pipe(Process::ptr p, bool open_read)
-{
-   map<Process::ptr, int> &pipe_map = open_read ? r_pipe : w_pipe;
-   map<Process::ptr, string> &name_map = open_read ? pipe_read_names : pipe_write_names;
-   int o_options = open_read ? O_RDONLY : O_WRONLY;
-
-   map<Process::ptr, int>::iterator i = pipe_map.find(p);
-   assert(i == pipe_map.end());
-   map<Process::ptr, string>::iterator j;
-   j = name_map.find(p);
-   assert(j != name_map.end());
-
-   int fd;
-   int timeout = 300;
-   for (;;) {
-      fd = open(j->second.c_str(), O_NONBLOCK | o_options);
-      if (fd >= 0)
-         break; //Success
-
-      int error = errno;
-      if (error == ENXIO) {
-         if (timeout-- == 0) {
-            logerror("Mutator timeout opening %s: %s\n", j->second.c_str(), strerror(error));
-            return false;
-         }
-         Process::handleEvents(false);
-         usleep(100000); //.1 seconds
-         continue;
-      }
-      logerror("Mutator error opening %s: %s\n", j->second.c_str(), strerror(error));
-      return false;
-   }
-
-   errno = 0;
-   int fdflags = fcntl(fd, F_GETFL);
-   if (fdflags < 0 || errno) {
-      logerror("Failed to set fcntl flags\n");
-      return false;
-   }
-   fcntl(fd, F_SETFL, fdflags | O_NONBLOCK);
-
-   pipe_map.insert(make_pair(p, fd));
-
-   return true;
-}
-
-bool ProcControlComponent::create_pipes(ProcessSet::ptr p)
-{
-   map<Dyninst::PID, Process::ptr>::iterator pi;
-   for (ProcessSet::iterator psi = p->begin(); psi != p->end(); psi++) {
-      process_socks.insert(make_pair(*psi, 0));
-   }
-
-   //Open operations
-   for (pi = process_pids.begin(); pi != process_pids.end(); pi++) {
-      if (!open_pipe(pi->second, false)) {
-         return false;
-      }
-   }
-   for (pi = process_pids.begin(); pi != process_pids.end(); pi++) {
-      if (!open_pipe(pi->second, true)) {
-         return false;
-      }
-   }
-
-   //Send and Receive
-   uint32_t ready[NUM_PARALLEL_PROCS];
-   bool result = recv_broadcast((unsigned char *) ready, sizeof(uint32_t));
-   if (!result) {
-      logerror("Failed to recv_broadcast in pipe init pipe\n");
-      return false;
-   }
-   result = send_broadcast((unsigned char *) ready, sizeof(uint32_t));
-   if (!result) {
-      logerror("Failed to send_broadcast in pipe init pipe\n");
-      return false;
-   }
-
-   send_pid pids[NUM_PARALLEL_PROCS];
-   result = recv_broadcast((unsigned char *) pids, sizeof(send_pid));
-   if (!result) {
-      logerror("Failed to recv_broadcast for SEND_PID\n");
-      return false;
-   }
-
-   return true;
-}
-
-#endif
