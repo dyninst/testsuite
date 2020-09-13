@@ -287,7 +287,6 @@ static void parse_args(int argc, char *argv[])
    }
 
    if (!hostname && argc == 4) {
-     //LaunchMON sometimes compacts all arguments into a space separated argv[1]
      int num_spaces = 0, i = 0;
      char *str = argv[1];
      char **new_argv = NULL, *entry = NULL;

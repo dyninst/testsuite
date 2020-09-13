@@ -288,7 +288,6 @@ target_link_libraries(runTests)
 add_executable(test_driver
                src/test_driver.C
                src/test_driver_templates.C
-               src/dynlmon.C
                ${TD_BE}
                ${DYNINST_PLATFORM}/test_info_new.gen.C)
 target_link_libraries(test_driver ${TESTSUITE_TESTLAUNCH_LINK})
