@@ -29,8 +29,8 @@
 ## in VCS churn.   That is no longer the case.
 
 ## The test specification is in
+##
 ##	src/specification/spec-grouped.pl
-##	src/specification/spec-ungrouped.pl		-- no longer works
 ##
 ## Changes there to tests, will result in a different set of test files
 ## being generated.
@@ -108,12 +108,7 @@ DEPRECATED_SUBDIRS= \
 TO_SPEC = src/specification
 
 ## The GNU prolog files and test spec
-## The default is to use the grouped specification, which
-## decreases testing time considerably.
-## The "ungrouped" spec seems to be historical;, and as of 2020 doesn't work.
-##	it is left here for consideration, and to not lose info.
 
-SPEC=spec-ungrouped.pl
 SPEC=spec-grouped.pl
 PROLOG_FILES = \
 	$(TO_SPEC)/$(SPEC)	\
@@ -220,3 +215,4 @@ $(SUBDIRS:%=%/.gitignore): Makefile.genspec
 		) >$@			; \
 		;;			  \
 	esac
+
