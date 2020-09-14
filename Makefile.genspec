@@ -98,11 +98,6 @@ SUBDIRS = \
 
 ## BLANK ABOVE
 
-DEPRECATED_SUBDIRS= \
-	arm64-unknown-linux		\
-
-## BLANK ABOVE
-
 
 ## The test specification directory
 TO_SPEC = src/specification
