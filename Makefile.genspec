@@ -9,80 +9,122 @@
 ## for some non-common but useful prolog-isms.   A different
 ## prolog, such as swipl, could be used; however gnu-isms
 ## would need to be switched to the equivalent swipl-isms.
-##	If a prolog standard and support for those things comes
-##	about, consider switching to using standard constructs.
 ##
-## The code is is dependent upon "correct" operation of gnu prolog.
-## As of Fall 2020, this means running gprolog-1.4.4 on non-pie
-## machines.   Part of the difficulties experienced is that gprolog
-## generates code itself, and this code breaks with newer glibc and
-## PIE code.   Run it on centos-7 or centos-8 with gprolog-1.4.4
-## and gprolog works correctly.
+##	If a prolog standard and support for those constructs
+##	is supported by the prolog vendors, consider switching
+##	to using those standard constructs.
 ##
-## Previously, the test hierarchies were somewhat hand-generated.
+## A stable and reliable version of gprolog is required; some
+## OS vendors distribute gprolog, however they do not update
+## or modify it to support the modifications that they make
+## do the OS they distribute.
+##
+## As of Fall 2020,
+##	I am running it on enterprise linux (RHEL or CentOS),
+##	versions 7 or 8 with gprolog-1.4.4
+##
+##	Other platforms and gprolog versions may work, once
+##	you can ensure that gprolog works correctly
+##	on that platform.   Rebuilding the existing test configuration
+##	and getting identical results is the way to determine
+##	if the prolog system works correctly with the testsuite.
+##
+##
+## Previously, the platform directories were somewhat hand-generated.
 ## With this Fall 2020 version, a complete test hierarchy is generated
 ## via a test run, including supporting files such as .gitignore.
-## Also, care is taken in the compression of the "tuples" output
-## so that, as long as the result don't change, the compressed format
-## will not change.  Previously, re-producing the specification would
-## create a change in tuples.gz due to compression artifacts, and resulted
-## in VCS churn.   That is no longer the case.
+##
+## Care is now taken in the compression of the "tuples" output
+## so that, as long as the results don't change, the compressed file
+## will not change.  Previously, re-producing the platform directory
+## from the specification would create a change in tuples.gz due to
+## compression artifacts, and resulted in VCS churn.
 
 ## The test specification is in
 ##
 ##	src/specification/spec-grouped.pl
 ##
-## Changes there to tests, will result in a different set of test files
+## Changes there will result in a different set of test files
 ## being generated.
 ##
-## This Makefile has "SUBDIRS" .. aka Dyninst "Platforms", each containing
+## This Makefile has "SUBDIRS" .. aka DynInst "Platforms", each containing
 ## the test harness generated for that platform.
 ##
-## 1) gprolog uses its logic to render test results from a specification.
-##	This is written to 'tuples', and compressed to 'tuples.gz'
+## 1) gprolog uses its logic to render tests from the specification.
+##    This is written to 'tuples', and compressed to 'tuples.gz'
 ##
 ## 2) A set of python scripts reads the tuples rendered by the prolog
 ##	engine, and creates CMakefiles, cmake lists, directories, and
-##	source code as appropriate for the test harness.
+##	source code as appropriate for the test harness for a
+##	selected platform.
 ##
-##	This is done in a directory hierarchy, which explodes the various
-##	modes of operation of the testsuite, such as pic/non-pic,
-##	static-linked/dynamic-linked, compiler, and a host of other
+##	This is done in a platform directory hierarchy, which enumerates
+##	the various modes of operation of the testsuite, such as
+##	pic/non-pic, static-linked/dynamic-linked, compiler, and other
 ##	dyninst variants.
 ##	
 ##	The "test groups" are also generated, source files which
 ##	allow for grouping of tests, which speeds test harness
 ##	execution greatly by reducing overhead ... when it works.
 
-## Recommended method to generate a new specification, is to:
-## 1) move the existing platform configurations to a new subdir
+## My recommended method to generate a new specification, is to:
+## 1) move the existing platform directory someplace else
 ## 2) gunzip -c tuples.gz >tuples   for each OLD platform in that subdir.
 ## 3) generate the new specification
-##		make -f Makefile.gespec gen-clean gen-all
+##
+##		make -f Makefile.genspec gen-clean gen-all
+##
 ##	nB: You can make 1 platform by specifying it as a target;
-##	when testing to see if anything works at all in the generator,
-##	that is a good place to start!
-## 4) Use both diff and git to compare the results.
+##    
+## 		make -f Makefile.genspec x86_64-unknown-linux2.4
+##
+##	When you are first changing the prolog test specification,
+##	this allows you to see if the generator works correctly, quickly.
+##	That is a good place to start!
+##
+## 4) OPTIONAL
+##    You can use both diff and git to compare the changes to
+##    the files in the platform directories.  This will give you 
+##    some idea of the magnitude of changes you are making to
+##    the testsuite from the change to the test specification.
+##
+##	Things I look at, for example, are:
+##	a) Examine the generated tuples, to see if your
+##	   changes are present, and/or as you expected.
+##	b) Diff the generated source & build files to see how much
+##	   impact they may have on the generated tests, and to see
+##	   if/how the structure of the testsuite changed.
+##
+## I typically try to build things first, then browse the changes afterward
+## if everything looks as you would expect.
+##	
 ## 5) Test on changed and unchanged platforms using the new config
-##	a) and examine results.log to verify that tests are run
+##	a) examine results.log to verify that tests are run
 ##	b) see if there are unexpected test differences, such as
-##	   missing tests, regressions in testing, etc
+##	   missing tests, regressions in testing, failure changes, etc
+##
 ## 6) Once everything is OK, add/delete files and directories as needed
 ##    in git to match the new harness, and commit it.
+##
 ##	nB: don't commit the giant 'tuples' files, just the already-in-git
-##		.gz version.. just in case you need to compare the tuples
+##		.gz version
+##		Tuples remains to allow compare the tuples
 ##		files for correctness against a prolog invocation on
-## 		a different machine.
+## 		a different machine, or the prior version.
 ##
 ## The first thing to do when wanting to change the test specification
 ## is to re-generate the existing specification, using the above process.
+##
 ## 1) If you get byte-for-byte results, everything is OK
-## 2) If not, there is likely a prolog issue,
-##    and you need to find a platform which generates byte-for-byte identical
-##    specification before proceeding
-## Use that compatible platform to make the next specification.
+## 2) If not, there is likely a specification issue, or a prolog issue,
+##    and you need to find a platform which generates a byte-for-byte
+##    identical platform directory before proceeding.
+##
+## Use that compatible platform to make the next test of platform
+## directories from the specification.
 
-## Thse are the DynInst "platforms" (arch+os) that are the tests built for.
+
+## These are the DynInst "platforms" (arch+os) that are the tests built for.
 ## The order of entries is historical... aka what was here!
 
 SUBDIRS = \
@@ -102,7 +144,13 @@ SUBDIRS = \
 ## The test specification directory
 TO_SPEC = src/specification
 
-## The GNU prolog files and test spec
+## The GNU prolog files and test specification
+
+## The test specification is in prolog.
+## Prolog generates "tuples" from the prolog specification.
+## A set of python scripts then turns the "tuples" into the
+## files in a platform directory, both source code, and a build
+## system to compile that source.
 
 SPEC=spec-grouped.pl
 PROLOG_FILES = \
@@ -111,6 +159,9 @@ PROLOG_FILES = \
 	$(TO_SPEC)/test.pl	\
 
 ## BLANK ABOVE
+
+
+## The python source used to generate the platform dirs from the 'tuples'
 
 PYTHON_FILES = \
 	$(TO_SPEC)/cmake_mutatees.py	\
