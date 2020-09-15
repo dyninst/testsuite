@@ -14,20 +14,25 @@
 ##	is supported by the prolog vendors, consider switching
 ##	to using those standard constructs.
 ##
-## A stable and reliable version of gprolog is required; some
-## OS vendors distribute gprolog, however they do not update
-## or modify it to support the modifications that they make
-## do the OS they distribute.
+## In Fall of 2020, I've successfully re-created the testsuite using
+## yum provided prolog versions on:
 ##
-## As of Fall 2020,
-##	I am running it on enterprise linux (RHEL or CentOS),
-##	versions 7 or 8 with gprolog-1.4.4
+##	CentOS-7	gprolog-1.4.4
+##	CentOS-8	gprolog-1.4.4
 ##
-##	Other platforms and gprolog versions may work, once
-##	you can ensure that gprolog works correctly
-##	on that platform.   Rebuilding the existing test configuration
-##	and getting identical results is the way to determine
-##	if the prolog system works correctly with the testsuite.
+## I have found that the gprolog which ubuntu distributes via apt-get
+## does not work reliably, and sometimes crashes.
+##
+## If you download and compile gprolog yourself, it works 
+## out of the box on the following platforms & prologs:
+##
+##	ubuntu-18.04	gprolog-1.4.4
+##	ubuntu-18.04	gprolog-1.4.5
+##	ubuntu-20.04	gprolog-1.4.5	
+##
+## For ease of use; here is the URL for the current version of gprolog
+##
+##	http://www.gprolog.org/gprolog-1.4.5.tar.gz
 ##
 ##
 ## Previously, the platform directories were somewhat hand-generated.
@@ -40,6 +45,7 @@
 ## from the specification would create a change in tuples.gz due to
 ## compression artifacts, and resulted in VCS churn.
 
+##
 ## The test specification is in
 ##
 ##	src/specification/spec-grouped.pl
@@ -77,10 +83,6 @@
 ##	nB: You can make 1 platform by specifying it as a target;
 ##    
 ## 		make -f Makefile.genspec x86_64-unknown-linux2.4
-##
-##	When you are first changing the prolog test specification,
-##	this allows you to see if the generator works correctly, quickly.
-##	That is a good place to start!
 ##
 ## 4) OPTIONAL
 ##    You can use both diff and git to compare the changes to
