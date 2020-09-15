@@ -233,6 +233,7 @@ $(SUBDIRS:%=%/.gitignore): Makefile.genspec
 		echo Debug 		; \
 		echo resumelog	 	; \
 		echo mutatee_resumelog	; \
+		echo tuples		; \
 		echo binaries/		; \
 		echo '*.obj'		; \
 		echo '*.pdb'		; \
@@ -252,6 +253,7 @@ $(SUBDIRS:%=%/.gitignore): Makefile.genspec
 		echo testdriver_wrapper	; \
 		echo resumelog		; \
 		echo mutatee_resumelog	; \
+		echo tuples		; \
 		echo binaries/		; \
 		echo '*.a'		; \
 		echo '*.o'		; \
