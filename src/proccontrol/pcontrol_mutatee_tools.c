@@ -55,10 +55,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#if defined(os_bgq_test)
-#include <mpi.h>
-#endif
-
 #if !defined(os_windows_test)
 #include <poll.h>
 #endif
@@ -67,8 +63,6 @@ thread_t threads[MAX_POSSIBLE_THREADS];
 int thread_results[MAX_POSSIBLE_THREADS];
 int num_threads;
 int sockfd;
-int r_pipe;
-int w_pipe;
 
 extern int signal_fd;
 
@@ -206,9 +200,6 @@ int handshakeWithServer()
    spid.code = SEND_PID_CODE;
 #if defined(os_windows_test)
    spid.pid = GetCurrentProcessId();
-#elif defined(os_bgq_test)
-   MPI_Comm_rank(MPI_COMM_WORLD, &result);
-   spid.pid = result;
 #else
    spid.pid = getpid();
 #endif
@@ -397,85 +388,6 @@ void resetTimeoutAlarm()
    alarm(0);
 }
 
-#if defined(os_bgq_test)
-static int created_named_pipes = 0;
-#endif
-static void createNamedPipes()
-{
-#if defined(os_bgq_test)
-   int id, result, size, i;
-   uint32_t ready = 0x42;
-   if (created_named_pipes)
-      return;
-   created_named_pipes = 1;
-
-   if (strcmp(socket_type, "named_pipe") != 0)
-      return;
-
-   unsigned int len = strlen(socket_name) + 16;
-   char *rd_socketname = (char *) malloc(len);
-   char *wr_socketname = (char *) malloc(len);
-
-   result = MPI_Comm_rank(MPI_COMM_WORLD, &id);
-   if (result != MPI_SUCCESS) {
-     fprintf(stderr, "Failed to get MPI_Comm_rank\n");
-     return;
-   }
-   result = MPI_Comm_size(MPI_COMM_WORLD, &size);
-   if (result != MPI_SUCCESS) {
-     fprintf(stderr, "Failed to get MPI_Comm_size\n");
-     return;
-   }
-
-   for (i=0; i<size; i++) {
-      if (i == id) {
-         snprintf(rd_socketname, len, "%s_w.%d", socket_name, id);
-         do {
-            r_pipe = open(rd_socketname, O_RDONLY | O_NONBLOCK);
-         } while (r_pipe == -1 && (errno == ENXIO || errno == EINTR));
-         if (r_pipe == -1) {
-            int error = errno;
-            fprintf(stderr, "Mutatee failed to create read pipe for %s: %s\n", rd_socketname, strerror(error));
-            assert(0);
-         }
-      }
-      MPI_Barrier(MPI_COMM_WORLD);
-   }
-
-   for (i=0; i<size; i++) {
-      if (i == id) {
-         snprintf(wr_socketname, len, "%s_r.%d", socket_name, id);
-         do {
-            w_pipe = open(wr_socketname, O_WRONLY);
-         } while (w_pipe == -1 && errno == EINTR);
-         if (w_pipe == -1) {
-            int error = errno;
-            fprintf(stderr, "Mutatee failed to create write pipe for %s: %s\n", wr_socketname, strerror(error));
-            assert(0);
-         }
-      }
-      MPI_Barrier(MPI_COMM_WORLD);
-   }
-
-   unlink(rd_socketname);
-   unlink(wr_socketname);
-   free(rd_socketname);
-   free(wr_socketname);
-
-   result = send_message((unsigned char *) &ready, 4);
-   if (result == -1) {
-      int error = errno;
-      fprintf(stderr, "Failed to write to pipe during setup: %s (%d)\n", strerror(error), error);
-   }
-
-   result = recv_message((unsigned char *) &ready, 4);
-   if (result == -1) {
-      int error = errno;
-      fprintf(stderr, "Failed to read from pipe during setup: %s (%d)\n", strerror(error), error);
-   }
-#endif
-}
-
 int initMutatorConnection()
 {
    int result;
@@ -496,10 +408,6 @@ int initMutatorConnection()
          return -1;
       }
    }
-   if (strcmp(socket_type, "named_pipe") == 0) {
-      createNamedPipes();
-   }
-
    return 0;
 }
 
@@ -508,38 +416,12 @@ int send_message_socket(unsigned char *msg, size_t msg_size)
    return send(sockfd, msg, msg_size, 0);
 }
 
-int send_message_pipe(unsigned char *msg, size_t msg_size)
-{
-   int had_error = 0;
-#if defined(os_bgq_test)
-   int my_rank;
-   int world_size;
-   int i;
-
-   assert(created_named_pipes);
-
-   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-   for (i = 0; i < world_size; i++) {
-      if (i == my_rank) {
-         had_error = write(w_pipe, msg, msg_size);
-      }
-      MPI_Barrier(MPI_COMM_WORLD);
-   }
-#endif
-   return had_error;
-}
-
 int send_message(unsigned char *msg, size_t msg_size)
 {
 	int result;
 	if (strcmp(socket_type, "un_socket") == 0) {
       result = send_message_socket(msg, msg_size);
 	}
-   else if (strcmp(socket_type, "named_pipe") == 0) {
-      result = send_message_pipe(msg, msg_size);
-   }
    else {
       assert(0);
    }
@@ -644,89 +526,10 @@ static int recv_message_socket(unsigned char *msg, size_t msg_size)
    return 0;
 }
 
-static int recv_message_pipe(unsigned char *msg, size_t msg_size)
-{
-   int had_error = 0;
-#if defined(os_bgq_test)
-   unsigned int bytes_read = 0;
-   int my_rank;
-   int world_size;
-   int i;
-   int result;
-
-   assert(created_named_pipes);
-
-   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-   /**
-    * Serialize access to IO system with barriers.
-    * Otherwise it's easy to deadlock BlueGene.
-    **/
-   for (i=0; i < world_size; i++) {
-      if (i == my_rank) {
-         unsigned int num_retries = 300; /*30 seconds*/
-         do {
-            struct pollfd fds[1];
-            memset(fds, 0, sizeof(struct pollfd));
-            fds[0].fd = r_pipe;
-            fds[0].events = POLLIN;
-            result = poll(fds, 1, 0);
-            if (result == -1) {
-               had_error = 1;
-               perror("Poll failed");
-               break;
-            }
-            if (result == 0) {
-               usleep(100000); /*.1 seconds*/
-               if (--num_retries == 0) {
-                  had_error = 1;
-                  fprintf(stderr, "Failed to read message from read pipe\n");
-                  break;
-               }
-            }
-         } while (result != 1);
-         if (had_error)
-            break;
-
-         do {
-            result = read(r_pipe, msg + bytes_read, msg_size - bytes_read);
-            int error = errno;
-
-            if (result == 0 ||
-                (result == -1 && (error == EAGAIN || error == EWOULDBLOCK || error == EIO || error == EINTR)))
-            {
-               usleep(100000); /*.1 seconds*/
-               if (--num_retries <= 0) {
-                  fprintf(stderr, "Failed to read message from read pipe\n");
-                  had_error = 1;
-                  break;
-               }
-               continue;
-            }
-            else if (result == -1) {
-               fprintf(stderr, "Error: Could not read from read pipe: %s\n", strerror(error));
-               had_error = 1;
-               break;
-            }
-            bytes_read += result;
-            assert(bytes_read <= msg_size);
-         } while (bytes_read < msg_size);
-      }
-      MPI_Barrier(MPI_COMM_WORLD);
-   }
-#endif
-   return had_error ? -1 : 0;
-}
-
-
 int recv_message(unsigned char *msg, size_t msg_size)
 {
    if (strcmp(socket_type, "un_socket") == 0) {
       return recv_message_socket(msg, msg_size);
-   }
-   else if (strcmp(socket_type, "named_pipe") == 0) {
-      return recv_message_pipe(msg, msg_size);
    }
    else {
       assert(0);

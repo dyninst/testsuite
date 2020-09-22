@@ -605,11 +605,7 @@ int getNumProcs(const ParameterDict &dict)
    if (i->second->getInt() <= 1) {
       return 1;
    }
-#if defined(os_bg_test)
-   int base = 16;
-#else
    int base = 8;
-#endif
    char *e = getenv("DYNINST_MPTEST_WIDTH");
    if (e) {
       int result = atoi(e);
@@ -617,11 +613,6 @@ int getNumProcs(const ParameterDict &dict)
          base = result;
    }
    int mult = 1;
-#if defined(os_bgp_test)
-   i = dict.find("platmode");
-   int max_threads = bg_maxThreadsPerProcess(i->second->getString());
-   mult = 4 / max_threads;
-#endif
    return base * mult;
 }
 
@@ -638,12 +629,7 @@ int getNumThreads(const ParameterDict &dict)
       if (result)
          return result;
    }
-#if defined(os_bg_test)
-   i = dict.find("platmode");
-   return bg_maxThreadsPerProcess(i->second->getString()) - 1;
-#else
    return 8;
-#endif
 }
 
 static FILE *debug_log = NULL;

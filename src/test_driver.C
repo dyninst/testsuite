@@ -88,8 +88,6 @@ char **gargv;
 
 void initModuleIfNecessary(RunGroup *group, std::vector<RunGroup *> &groups, 
                            ParameterDict &params);
-int LMONInvoke(RunGroup *, ParameterDict params, char *test_args[], char *daemon_args[], bool attach, int &l_pid);
-void waitForLaunchMONStartup();
 
 bool collectInvocation(Dyninst::PID mpirun_pid, int session);
 
@@ -310,7 +308,6 @@ void tests_breakpoint()
   //Breakpoint here to get a binary with test libraries loaded.
 }
 
-int lmon_session = -1;
 int launcher_pid = -1;
 static void clearConnection()
 {
@@ -320,10 +317,6 @@ static void clearConnection()
       setConnection(NULL);
    }
 
-   if (lmon_session != -1) {
-      collectInvocation(launcher_pid, lmon_session);
-   }
-   lmon_session = -1;
    launcher_pid = -1;
 }
 
@@ -376,12 +369,10 @@ bool setupConnectionToRemote(RunGroup *group, ParameterDict &params)
       driver_args.push_back("-redirect-debug");
       driver_args.push_back(redirect_file);
    }
-   assert(driver_args.size() <= 12); //BlueGene restriction
 
    char **c_driver_args = getCParams(driver_exec, driver_args);
    bool attach_mode = (group->createmode == USEATTACH);
 
-   lmon_session = LMONInvoke(group, params, c_mutatee_args, c_driver_args, attach_mode, launcher_pid);
    result = con->server_accept();
    if (!result) {
       fprintf(stderr, "Failed to accept connection from client\n");
@@ -427,8 +418,6 @@ bool setupConnectionToRemote(RunGroup *group, ParameterDict &params)
       fprintf(stderr, "Failed to start client\n");
       return false;
    }
-
-   waitForLaunchMONStartup();
 
    return true;
 }
@@ -573,7 +562,6 @@ void initModuleIfNecessary(RunGroup *group, std::vector<RunGroup *> &groups,
       return;
 
    // Reset program_setup usage data before we init a new program.
-   // A SIGSEGV here on BGQ may come from not having Dyninst libraries in your LD_LIBRARY_PATH
    group->mod->tester->clear_program_usage();
 
    log_teststart(group->index, 0, program_setup_rs);

@@ -522,22 +522,6 @@ bool Connection::server_setup(string &hostname_, int &port_)
          return false;
       }
       hostname = name_buffer;
-#if defined(os_bg_test)
-      std::string iohostname;
-      size_t pos;
-      if ((pos = hostname.find('.')) == string::npos)
-         iohostname = hostname + "-io";
-      else {
-         iohostname = hostname.substr(0, pos) + "-io";
-         if (!gethostbyname2(iohostname.c_str(), AF_INET))
-            iohostname += hostname.substr(pos, string::npos);
-      }
-      struct hostent *lookup_test = gethostbyname2(iohostname.c_str(), AF_INET);
-      
-      if (lookup_test) {
-         hostname = iohostname;
-      }
-#endif
    }
 
    port = (int) addr.sin_port;

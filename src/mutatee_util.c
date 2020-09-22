@@ -688,8 +688,6 @@ void log_testresult(int passed)
 
 #include <time.h>
 #include <errno.h>
-#elif defined(os_bg_test)
-#include <sys/select.h>
 #endif
 
 int precisionSleep(int milliseconds) {
@@ -723,39 +721,6 @@ int precisionSleep(int milliseconds) {
 
     if( result == -1 ) return 0;
     return 1;
-#elif defined(os_bg_test)
-    struct timeval timeout;
-    
-    int result;
-    struct timeval start, cur;
-    unsigned long long istart, icur, microseconds;
-    microseconds = milliseconds * 1000;
-    int tresult = gettimeofday(&start, NULL);
-    assert(tresult != -1);
-    istart = (start.tv_sec * 1000000) + start.tv_usec;
-    
-
-    timeout.tv_sec = 0;
-    timeout.tv_usec = microseconds;
-
-    for (;;) {
-       result = select(1, NULL, NULL, NULL, &timeout);
-       if (result == -1 && errno != EINTR) {
-          perror("precisionSleep select failed");
-          return 0;
-       }
-       if (result == 0) {
-          return 1;
-       }
-       tresult = gettimeofday(&cur, NULL);
-       assert(tresult != -1);
-       icur = (cur.tv_sec * 1000000) + cur.tv_usec;
-       if (icur - istart >= microseconds) {
-          return 1;
-       }
-       timeout.tv_usec = microseconds - (icur - istart);
-    } 
-
 #elif defined(os_windows_test)
     Sleep(milliseconds);
     return 1;
