@@ -1,6 +1,7 @@
 Debug
 resumelog
 mutatee_resumelog
+tuples
 binaries/
 *.obj
 *.pdb
