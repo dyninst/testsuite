@@ -83,7 +83,7 @@ sub save_compiler_config {
 	for my $c (keys %compilers) {
 		for my $t (keys %{$compilers{$c}}) {
 			unless($compilers{$c}{$t}) {
-				die "$cmake_log is missing $c/$t\n";
+				warn "$cmake_log is missing $c/$t\n";
 			}
 		}
 	}
