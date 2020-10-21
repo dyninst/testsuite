@@ -28,6 +28,7 @@ my %args = (
 	'dyninst-pr'			=> undef,
 	'testsuite-pr'			=> undef,
 	'cmake-args'			=> '',
+	'cmake'				=> 'cmake',
 	'dyninst-cmake-args'	=> '',
 	'testsuite-cmake-args'	=> '',
 	'build-tests'			=> 1,
@@ -52,6 +53,7 @@ GetOptions(\%args,
 	'prefix=s', 'dyninst-src=s', 'test-src=s',
 	'log-file=s', 'dyninst-pr=s', 'testsuite-pr=s',
 	'cmake-args=s', 'dyninst-cmake-args=s',
+	'cmake=s',
 	'testsuite-cmake-args=s', 'build-tests!',
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
@@ -298,6 +300,7 @@ build [options]
    --log-file=FILE         Store logging data in FILE (default: prefix/build.log)
    --dyninst-pr            The Dyninst pull request formatted as 'remote/ID' with 'remote' being optional
    --testsuite-pr          The Testsuite pull request formatted as 'remote/ID' with 'remote' being optional
+   --cmake                 CMake to use.
    --cmake-args            CMake options passed to both Dyninst and the test suite (format '-DVAR=VALUE')
    --dyninst-cmake-args    Additional CMake arguments for Dyninst
    --testsuite-cmake-args  Additional CMake arguments for the Testsuite

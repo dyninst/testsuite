@@ -47,7 +47,9 @@ sub configure {
 	eval {
 		execute(
 			"cd $build_dir\n" .
-			"cmake ../src -DCMAKE_INSTALL_PREFIX=$base_dir " .
+			"$args->{'cmake'} " .
+			"../src " .
+			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
 			"$args->{'cmake-args'} " .
 			"$args->{'testsuite-cmake-args'} " .
 			"-DINSTALL_DIR=$base_dir/tests ".

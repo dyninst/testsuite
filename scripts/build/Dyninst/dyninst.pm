@@ -47,7 +47,9 @@ sub configure {
 	eval {
 		execute(
 			"cd $build_dir\n" .
-			"cmake -H$base_dir/src -B$build_dir " .
+			"$args->{'cmake'} " .
+			"-H$base_dir/src " .
+			"-B$build_dir " .
 			"$args->{'cmake-args'} " .
 			"$args->{'dyninst-cmake-args'} " .
 			"-DCMAKE_INSTALL_PREFIX=$base_dir " .
