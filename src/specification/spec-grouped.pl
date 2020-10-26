@@ -103,7 +103,8 @@ mutatee_link_options('', '').
 comp_std_flags_str('', '').
 comp_mutatee_flags_str('', '').
 
-mutatee('dyninst_group_test', ['test1_1_mutatee.c', 
+mutatee('dyninst_group_test', [
+	'test1_1_mutatee.c', 
 	'test1_2_mutatee.c',
 	'test1_3_mutatee.c', 
 	'test1_4_mutatee.c',
@@ -145,13 +146,14 @@ mutatee('dyninst_group_test', ['test1_1_mutatee.c',
 	'test2_11_mutatee.c',
 	'test2_12_mutatee.c',
 	'test2_13_mutatee.c',
-   'test_write_param_mutatee.c'
-    ]).
+	'test_write_param_mutatee.c'
+	]).
 compiler_for_mutatee('dyninst_group_test', Compiler) :-
     comp_lang(Compiler, 'c').
 mutatee_format('dyninst_group_test', 'staticMutatee').
 
-mutatee('dyninst_cxx_group_test', ['test5_1_mutatee.C',
+mutatee('dyninst_cxx_group_test', [
+	'test5_1_mutatee.C',
 	'test5_2_mutatee.C',
 	'test5_3_mutatee.C',
 	'test5_4_mutatee.C',
@@ -160,7 +162,8 @@ mutatee('dyninst_cxx_group_test', ['test5_1_mutatee.C',
 	'test5_7_mutatee.C',
 	'test5_8_mutatee.C',
 	'test5_9_mutatee.C',
-        'cpp_test.C']).
+        'cpp_test.C'
+	]).
 compiler_for_mutatee('dyninst_cxx_group_test', Compiler) :-
     comp_lang(Compiler, 'c++').
 mutatee_format('dyninst_cxx_group_test', 'staticMutatee').
