@@ -19,15 +19,15 @@ def print_mutators_list(out, mutator_dict, test_dict, info, platform):
 	for m in module_set:
 		out.write("\n")
                 out.write("include_directories (\"..src/%s\")\n" % m)
-                out.write("set (%s_MUTATORS " % (m))
+                out.write("set (%s_MUTATORS\n" % (m))
 		module_tests = filter(lambda t: m == t['module'], test_dict)
 		module_mutators = map(lambda t: t['mutator'], module_tests)
 		for t in utils.uniq(module_mutators):
-			out.write("%s " % (t))
+			out.write("\t%s\n" % (t))
 		out.write(")\n\n")
-		out.write("set (%s_OBJS_ALL_MUTATORS " % (m))
+		out.write("set (%s_OBJS_ALL_MUTATORS\n" % (m))
 		for t in utils.uniq(module_mutators):
-			out.write("%s%s " % (t, ObjSuffix))
+			out.write("\t%s%s\n" % (t, ObjSuffix))
 		out.write(")\n\n")
 
 

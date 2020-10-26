@@ -74,6 +74,9 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 #			out.write("#ifdef %s\n" % (compiler['presencevar']))
 		mutateename = mutatee_filename(group, compilers, platform, info)
 		out.write('  rg = new RunGroup("%s", ' % (mutateename))
+
+		out.write("\n\t\t");
+
 		if group['start_state'] == 'stopped':
 			out.write('STOPPED, ')
 		elif group['start_state'] == 'running':
@@ -84,6 +87,7 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
                         out.write('DELAYEDATTACH, ')
 		else: # Assuming 'selfstart'
 			out.write('SELFSTART, ')
+
 		if group['run_mode'] == 'createProcess':
 			out.write('CREATE, ')
 		elif group['run_mode'] == 'useAttach':
@@ -92,6 +96,7 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 			out.write('DESERIALIZE, ')
 		else:
 			out.write('DISK, ')
+
 		if group['thread_mode'] == 'None':
 			out.write('TNone, ')
 		elif group['thread_mode'] == 'SingleThreaded':
@@ -105,6 +110,8 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 		elif group['process_mode'] == 'MultiProcess':
 			out.write('MultiProcess, ')
 
+		out.write("\n\t\t");
+
 		out.write(group['mutatorstart'])
 		out.write(', ')
 		out.write(group['mutateestart'])
@@ -112,18 +119,25 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 		out.write(group['mutateeruntime'])
 		out.write(', ')
 
+		out.write("\n\t\t");
+
                 if group['format'] == 'staticMutatee':
                         out.write('StaticLink, ')
                 else:
                         out.write('DynamicLink, ')
+
 		if group['groupable'] == 'true':
 			out.write('false, ') # !groupable
 		else:
 			out.write('true, ') # !groupable
+
                 if group['pic'] == 'pic':
-                        out.write('PIC')
+                        out.write('PIC, ')
                 else:
-                        out.write('nonPIC')
+                        out.write('nonPIC, ')
+
+		out.write("\n\t\t");
+
 		try:
 			testobj = filter(lambda t: t['name'] == group['tests'][0], info['tests'])
 			if len(testobj) < 1:
@@ -134,8 +148,10 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 			print "No module found! Test object: " 
 			print testobj[0]
 			raise
-		out.write(', "%s", "%s", "%s", "%s", "%s"' % (module, group['compiler'], group['optimization'], group['abi'], group['platmode']))
+
+		out.write('"%s", "%s", "%s", "%s", "%s"' % (module, group['compiler'], group['optimization'], group['abi'], group['platmode']))
 		out.write(');\n')
+
 		for test in group['tests']:
 			# Set the tuple string for this test
 			# (<test>, <mutatee compiler>, <mutatee optimization>, <create mode>)
@@ -148,6 +164,7 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 				serialize_enable = 'false'
 			out.write('  add_test(rg, "%s");\n' % (ts))
 		out.write('  fini_group(rg);\n')
+
 		# Close compiler presence #ifdef
 #		if compiler['presencevar'] != 'true':
 #			out.write("#endif // defined(%s)\n" % (compiler['presencevar']))
