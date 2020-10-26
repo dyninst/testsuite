@@ -24,1564 +24,3644 @@ static void add_test(RunGroup *rg, const char *ts) {
 void initialize_mutatees(std::vector<RunGroup *> &t) {
         tests = &t;
 	RunGroup *rg;
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_launch.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_launch, mutator: pc_launch, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_launch, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_breakpoint.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_breakpoint, mutator: pc_breakpoint, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_breakpoint, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_library.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_library, mutator: pc_library, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_library, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_addlibrary.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_addlibrary, mutator: pc_addlibrary, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_addlibrary, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_singlestep.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_singlestep, mutator: pc_singlestep, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_singlestep, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_thread.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_thread, mutator: pc_thread, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_thread, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_groups.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_groups, mutator: pc_groups, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_groups, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_stat.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_stat, mutator: pc_stat, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_stat, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_irpc.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_irpc, mutator: pc_irpc, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_irpc, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_detach.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_detach, mutator: pc_detach, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_detach, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate, mutator: pc_terminate, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_terminate_stopped.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_terminate_stopped, mutator: pc_terminate_stopped, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_terminate_stopped, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_gcc_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_low", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_high", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgq_g++_64_none_max", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, DynamicLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.dyn_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		DynamicLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: dynamicMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, CREATE, MultiThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, CREATE, MultiThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, MultiThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, CREATE, SingleThreaded, MultiProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, MultiProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, CREATE, SingleThreaded, SingleProcess, remote, remote, no_launch, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, CREATE, SingleThreaded, SingleProcess, 
+		remote, remote, no_launch, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: no_launch, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: createProcess}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, MultiThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: MultiThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, MultiProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: MultiProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, remote, remote, pre, StaticLink, true, nonPIC, "proccontrol", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("pc_tls.stat_bgxlc++_64_none_none", 
+		SELFATTACH, USEATTACH, SingleThreaded, SingleProcess, 
+		remote, remote, pre, 
+		StaticLink, true, nonPIC, 
+		"proccontrol", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: pc_tls, mutator: pc_tls, grouped: false, pic: none, start_state: selfattach, format: staticMutatee, process_mode: SingleProcess, abi: 64, thread_mode: SingleThreaded, mutateeruntime: pre, platmode: NONE, mutatee: pc_tls, mutatorstart: remote, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: useAttach}");
   fini_group(rg);
-  rg = new RunGroup("", SELFSTART, DISK, TNone, PNone, local, remote, post, DynamicLink, true, nonPIC, "dyninst", "", "none", "64", "NONE");
+  rg = new RunGroup("", 
+		SELFSTART, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, true, nonPIC, 
+		"dyninst", "", "none", "64", "NONE");
   add_test(rg, "{test: test_pt_ls, mutator: test_pt_ls, grouped: false, pic: none, start_state: selfstart, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: remote, compiler: , run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, true, nonPIC, "instruction", "", "none", "64", "NONE");
+  rg = new RunGroup("", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: power_decode, mutator: power_decode, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: , run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, true, nonPIC, "instruction", "", "none", "64", "NONE");
+  rg = new RunGroup("", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: aarch64_decode, mutator: aarch64_decode, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: , run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, true, nonPIC, "instruction", "", "none", "64", "NONE");
+  rg = new RunGroup("", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: aarch64_cft, mutator: aarch64_cft, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: , run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, true, nonPIC, "instruction", "", "none", "64", "NONE");
+  rg = new RunGroup("", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: aarch64_decode_ldst, mutator: aarch64_decode_ldst, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: , run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, true, nonPIC, "instruction", "", "none", "64", "NONE");
+  rg = new RunGroup("", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: aarch64_simd, mutator: aarch64_simd, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: , run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, true, nonPIC, "instruction", "", "none", "64", "NONE");
+  rg = new RunGroup("", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, true, nonPIC, 
+		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: power_cft, mutator: power_cft, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: , run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1619,7 +3699,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1657,7 +3741,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1696,7 +3784,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1735,7 +3827,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1773,7 +3869,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1811,7 +3911,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1850,7 +3954,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1889,7 +3997,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1927,7 +4039,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -1965,7 +4081,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -2004,7 +4124,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -2043,7 +4167,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -2081,7 +4209,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -2119,7 +4251,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -2158,7 +4294,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
@@ -2197,7 +4337,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
@@ -2235,7 +4379,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
@@ -2273,7 +4421,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
@@ -2312,7 +4464,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
@@ -2351,7 +4507,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2389,7 +4549,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2427,7 +4591,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2466,7 +4634,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2505,7 +4677,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2543,7 +4719,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2581,7 +4761,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2620,7 +4804,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2659,7 +4847,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2697,7 +4889,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2735,7 +4931,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2774,7 +4974,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2813,7 +5017,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2851,7 +5059,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2889,7 +5101,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2928,7 +5144,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -2967,7 +5187,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3005,7 +5229,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.stat_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.stat_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3043,7 +5271,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3082,7 +5314,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_group_test.dyn_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_group_test.dyn_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: snip_change_shlib_var, mutator: snip_change_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: snip_ref_shlib_var, mutator: snip_ref_shlib_var, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test1_1, mutator: test1_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3121,7 +5357,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test1_9, mutator: test1_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test2_5, mutator: test2_5, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3131,7 +5371,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3141,7 +5385,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3151,7 +5399,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3161,7 +5413,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3171,7 +5427,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3181,7 +5441,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3191,7 +5455,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3201,7 +5469,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3211,7 +5483,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3221,7 +5497,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3231,7 +5511,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3241,7 +5525,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3251,7 +5539,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3261,7 +5553,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3271,7 +5567,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
@@ -3281,7 +5581,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3291,7 +5595,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.stat_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.stat_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3301,7 +5609,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3311,7 +5623,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("dyninst_cxx_group_test.dyn_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test5_1, mutator: test5_1, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_2, mutator: test5_2, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_3, mutator: test5_3, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
@@ -3321,7 +5637,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test5_8, mutator: test5_8, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   add_test(rg, "{test: test5_9, mutator: test5_9, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: dyninst_cxx_group_test, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3332,7 +5652,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3343,7 +5667,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3354,7 +5682,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3365,7 +5697,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3376,7 +5712,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3387,7 +5727,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3398,7 +5742,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
@@ -3409,7 +5757,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_gcc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
@@ -3420,7 +5772,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
@@ -3431,7 +5787,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3442,7 +5802,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3453,7 +5817,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3464,7 +5832,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3475,7 +5847,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: low, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3486,7 +5862,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3497,7 +5877,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: high, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3508,7 +5892,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
@@ -3519,7 +5907,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: max, mutateestart: not_run, compiler: bgq_g++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, PIC, "symtab", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, PIC, 
+		"symtab", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
@@ -3530,7 +5922,11 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("symtab_group_test.dyn_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, not_run, no_launch, DynamicLink, false, nonPIC, "symtab", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("symtab_group_test.dyn_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, not_run, no_launch, 
+		DynamicLink, false, nonPIC, 
+		"symtab", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test_line_info, mutator: test_line_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_locations, mutator: test_local_var_locations, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   add_test(rg, "{test: test_local_var_lookup, mutator: test_local_var_lookup, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
@@ -3541,364 +5937,844 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
   add_test(rg, "{test: test_symtab_ser_funcs, mutator: test_symtab_ser_funcs, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   add_test(rg, "{test: test_type_info, mutator: test_type_info, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: symtab_group_test, mutatorstart: local, optimization: none, mutateestart: not_run, compiler: bgxlc++, run_mode: disk}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.stat_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.stat_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_14.dyn_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_14.dyn_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_14, mutator: test1_14, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_14, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test_reloc.dyn_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test_reloc.dyn_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test_reloc, mutator: test_reloc, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test_reloc, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("init_fini_callback.dyn_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("init_fini_callback.dyn_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: init_fini_callback, mutator: init_fini_callback, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: init_fini_callback, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_gcc", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_gcc_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_gcc", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_gcc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgxlc_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgxlc_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgxlc_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgxlc_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_low", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "low", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_low", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "low", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: low, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_high", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "high", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_high", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "high", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: high, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_pic_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_max", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgq_g++", "max", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgq_g++_64_none_max", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgq_g++", "max", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: max, mutateestart: remote, compiler: bgq_g++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.stat_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, StaticLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.stat_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		StaticLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: staticMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgxlc++_64_pic_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, PIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgxlc++_64_pic_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, PIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: pic, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
-  rg = new RunGroup("test1_29.dyn_bgxlc++_64_none_none", STOPPED, DISK, TNone, PNone, local, remote, post, DynamicLink, false, nonPIC, "dyninst", "bgxlc++", "none", "64", "NONE");
+  rg = new RunGroup("test1_29.dyn_bgxlc++_64_none_none", 
+		STOPPED, DISK, TNone, PNone, 
+		local, remote, post, 
+		DynamicLink, false, nonPIC, 
+		"dyninst", "bgxlc++", "none", "64", "NONE");
   add_test(rg, "{test: test1_29, mutator: test1_29, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: post, platmode: NONE, mutatee: test1_29, mutatorstart: local, optimization: none, mutateestart: remote, compiler: bgxlc++, run_mode: binary}");
   fini_group(rg);
 }
