@@ -174,13 +174,11 @@ mutatee('symtab_group_test', [
 	'test_line_info_mutatee.c',
 	'test_module_mutatee.c',
 	'test_relocations_mutatee.c',
-	'test_symtab_ser_funcs_mutatee.c',
-	'test_ser_anno_mutatee.c',
 	'test_type_info_mutatee.c',
         'test_anno_basic_types_mutatee.c',
-	    'test_add_symbols_mutatee.c',
-	    'test_local_var_lookup_mutatee.c',
-	    'test_local_var_locations_mutatee.C'
+	'test_add_symbols_mutatee.c',
+	'test_local_var_lookup_mutatee.c',
+	'test_local_var_locations_mutatee.C'
    
    ]).
 compiler_for_mutatee('symtab_group_test', Compiler) :-
@@ -2094,24 +2092,9 @@ test_start_state('test_type_info', 'stopped').
 tests_module('test_type_info', 'symtab').
 % test_serializable('test_type_info').
 
-test('test_symtab_ser_funcs', 'test_symtab_ser_funcs', 'symtab_group_test').
-test_description('test_symtab_ser_funcs', 'Base SymtabAPI seialization function sanity checks').
-test_runs_everywhere('test_symtab_ser_funcs').
-groupable_test('test_symtab_ser_funcs').
-mutator('test_symtab_ser_funcs', ['test_symtab_ser_funcs.C']).
-test_runmode('test_symtab_ser_funcs', 'disk').
-test_start_state('test_symtab_ser_funcs', 'stopped').
-tests_module('test_symtab_ser_funcs', 'symtab').
-
-test('test_ser_anno', 'test_ser_anno', 'symtab_group_test').
-test_description('test_ser_anno', 'Base SymtabAPI seialization function sanity checks').
-test_runs_everywhere('test_ser_anno').
-groupable_test('test_ser_anno').
-mutator('test_ser_anno', ['test_ser_anno.C']).
-test_runmode('test_ser_anno', 'disk').
-test_start_state('test_ser_anno', 'stopped').
-tests_module('test_ser_anno', 'symtab').
-
+% serialization tests removed October, 2020
+% test_symtab_ser_funcs
+% test_ser_anno
 
 test('test_exception', 'test_exception', 'test_exception').
 test_description('test_exception', 'SymtabAPI C++ Exception detection and sanity checks').
