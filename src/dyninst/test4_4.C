@@ -210,8 +210,7 @@ static void execFunc(BPatch_thread *thread)
 }
 
 test_results_t test4_4_Mutator::mutatorTest() {
-#if defined(i386_unknown_nt4_0_test) \
- || defined(alpha_dec_osf4_0_test)
+#if defined(i386_unknown_nt4_0_test)
     logerror("Skipping test #4 (fork & exec)\n");
     logerror("    not implemented on this platform\n");
     return SKIPPED;

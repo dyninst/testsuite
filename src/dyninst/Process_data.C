@@ -53,7 +53,7 @@ BPatch_thread *Process_data::getThread()
 
 bool Process_data::terminate()
 {
-   /* alpha workaround - terminateExecution did not exit on a stopped process */
+   /* terminateExecution did not exit on a stopped process */
     if ( bp_process->getProcess()->isStopped() )
    {
        bp_process->getProcess()->continueExecution();

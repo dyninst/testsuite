@@ -65,14 +65,6 @@ extern "C" {
 }
 #endif
 
-/*
- * Stop the process (in order to wait for the mutator to finish what it's
- * doing and restart us).
- */
-#if defined(alpha_dec_osf4_0_test) && defined(__GNUC__)
-static long long int  beginFP;
-#endif
-
 /* New output driver system */
 output_t *output = NULL;
 char *loginfofn = (char*)"-";

@@ -30,12 +30,7 @@
 	IMPLICIT NONE
 
 	INTEGER test1_25_globalVariable1,
-
-#if defined(alpha_dec_osf4_0_test)
-     & test1_25_globalVariable2*8,
-#else
      & test1_25_globalVariable2,
-#endif
      & test1_25_globalVariable3, test1_25_globalVariable4,
      & test1_25_globalVariable5,
      & test1_25_globalVariable6, test1_25_globalVariable7, passedTest
