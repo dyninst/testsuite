@@ -33,7 +33,6 @@
  * #Name: test12_3
  * #Desc: thread create callback
  * #Dep: 
- * #Arch: all
  * #Notes:
  */
 #include <vector>

@@ -33,7 +33,6 @@
  * #Name: test_pt_ls
  * #Desc: Run parseThat on ls
  * #Dep: 
- * #Arch: all but windows
  * #Notes:
  */
 

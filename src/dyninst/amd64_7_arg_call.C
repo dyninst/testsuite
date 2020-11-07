@@ -32,7 +32,6 @@
 /*
  * #Name: amd64_7_arg_call
  * #Desc: Mutator Side (call a seven argument function; this will exercise parameter passing via stack)
- * #Arch: AMD64
  * #Dep: 
  * #Notes: Uses mutateeFortran variable
  */

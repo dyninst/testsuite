@@ -33,7 +33,6 @@
  * #Name: test1_32
  * #Desc: Recursive Base Tramp
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

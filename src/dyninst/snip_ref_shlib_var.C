@@ -33,7 +33,6 @@
  * #Name: snip_ref_shlib_var
  * #Desc: use instrumentation to modify variable in shared library
  * #Dep: 
- * #Arch: sparc_sun_solaris2_4_test,i386_unknown_linux2_0_test,alpha_dec_osf4_0_test,ia64_unknown_linux2_4_test,x86_64_unknown_linux2_4_test
  * #Notes: This test uses libNameA/B 
  */
 

@@ -33,7 +33,6 @@
  * #Name: test3_3
  * #Desc: instrument multiple processes
  * #Dep: 
- * #Arch: all
  */
 
 #include "BPatch.h"

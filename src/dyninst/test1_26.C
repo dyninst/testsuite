@@ -33,7 +33,6 @@
  * #Name: test1_26
  * #Desc: Struct Elements
  * #Dep: 
- * #Arch: !mips_sgi_irix6_4_test
  * #Notes:
  */
 

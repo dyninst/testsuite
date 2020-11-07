@@ -32,7 +32,6 @@
 /*
  * #Name: test7_7
  * #Desc: Memory allocation in parent & child
- * #Arch: all
  * #Dep: 
  */
 

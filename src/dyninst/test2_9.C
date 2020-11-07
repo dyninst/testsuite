@@ -33,7 +33,6 @@
  * #Name: test2_9
  * #Desc: dump core but do not terminate
  * #Dep: 
- * #Arch: (sparc_sun_sunos4_1_3_test,sparc_sun_solaris2_4_test)
  * #Notes:
  */
 

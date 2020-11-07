@@ -33,7 +33,6 @@
  * #Name: test2_7
  * #Desc: Load a dynamically linked lbibraryr from the mutator
  * #Dep: 
- * #Arch: !(sparc_sun_solaris2_4_test,i386_unknown_solaris2_5_test,i386_unknown_linux2_0_test,mips_sgi_irix6_4_test,rs6000_ibm_aix4_1_test,ia64_unknown_linux2_4_test,x86_64_unknown_linux2_4_test)
  * #Notes:
  */
 

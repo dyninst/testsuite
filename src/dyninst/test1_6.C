@@ -32,7 +32,6 @@
 /*
  * #Name: test1_6
  * #Desc: Mutator Side - Arithmetic Operators
- * #Arch: all
  * #Dep: 
  */
 

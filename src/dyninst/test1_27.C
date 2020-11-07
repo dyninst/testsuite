@@ -33,7 +33,6 @@
  * #Name: test1_27
  * #Desc: Type compatibility
  * #Dep: 
- * #Arch: !mips_sgi_irix6_4_test
  * #Notes:
  */
 

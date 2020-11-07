@@ -33,7 +33,6 @@
  * #Name: test1_34
  * #Desc: Loop Information
  * #Dep: 
- * #Arch: !os_windows && !os_aix_test
  * #Notes:
  */
 

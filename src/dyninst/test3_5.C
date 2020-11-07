@@ -33,7 +33,6 @@
  * #Name: test3_5
  * #Desc: sequential multiple-process management - abort
  * #Dep: 
- * #Arch:
  */
 
 #include "BPatch.h"

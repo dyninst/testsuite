@@ -33,7 +33,6 @@
  *
  * #Name: test1_1
  * #Desc: Zero Argument Function Call
- * #Arch: all
  * #Dep: 
  */
 

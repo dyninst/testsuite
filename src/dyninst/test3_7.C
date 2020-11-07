@@ -33,7 +33,6 @@
  * #Name: test3_7
  * #Desc: Tests asynchronous one-time codes
  * #Dep: 
- * #Arch:
  */
 
 #include "BPatch.h"

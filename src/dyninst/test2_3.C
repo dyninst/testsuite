@@ -33,7 +33,6 @@
  * #Name: test2_3
  * #Desc: Attatch to an invalid pid
  * #Dep: 
- * #Arch: !sparc_sun_sunos4_1_3_test
  * #Notes:
  */
 

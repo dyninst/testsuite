@@ -33,7 +33,6 @@
  * #Name: test1_28
  * #Desc: User Defined Fields
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

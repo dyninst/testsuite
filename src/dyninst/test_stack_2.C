@@ -33,7 +33,6 @@
  * #Name: test8_2
  * #Desc: getCallStack in signal handler
  * #Dep: 
- * #Arch: i386_unknown_linux2_0_test,sparc_sun_solaris2_4_test,ia64_unknown_linux2_4_test
  * #Notes:
  */
 

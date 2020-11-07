@@ -33,7 +33,6 @@
  * #Name: test2_6
  * #Desc: Load a dynamically linked library from the mutatee
  * #Dep: 
- * #Arch: !(sparc_sun_solaris2_4_test,i386_unknown_solaris2_5_test,i386_unknown_linux2_0_test,mips_sgi_irix6_4_test,alpha_dec_osf4_0_test,rs6000_ibm_aix4_1_test,ia64_unknown_linux2_4_test,x86_64_unknown_linux2_4_test)
  * #Notes:
  */
 

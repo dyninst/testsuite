@@ -33,7 +33,6 @@
  * #Name: test2_8
  * #Desc: BPatch_breakPointExpr
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

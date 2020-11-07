@@ -32,7 +32,6 @@
 /*
  * #Name: test1_3
  * #Desc: Mutator Side (passing variables to a function)
- * #Arch: all
  * #Dep: 
  * #Note: Mutatee fortran
  */

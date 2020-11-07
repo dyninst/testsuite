@@ -33,7 +33,6 @@
  * #Name: test12_8
  * #Desc: user defined message callback -- mt
  * #Dep: 
- * #Arch: all
  * #Notes:
  */
 

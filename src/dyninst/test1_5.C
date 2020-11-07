@@ -32,7 +32,6 @@
 /*
  * #Name: test1_5
  * #Desc: Mutator Side - If without else
- * #Arch: all
  * #Dep: 
  * #Notes:
  */

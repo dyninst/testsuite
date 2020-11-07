@@ -33,7 +33,6 @@
  * #Name: test1_37
  * #Desc: Instrument Loops
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

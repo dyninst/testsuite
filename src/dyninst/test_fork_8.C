@@ -32,7 +32,6 @@
 /*
  * #Name: test7_4
  * #Desc: Insert snippet in child - wo inherited snippets
- * #Arch: all
  * #Dep: 
  */
 

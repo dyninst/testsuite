@@ -33,7 +33,6 @@
  * #Name: test12_7
  * #Desc: user defined message callback -- st
  * #Dep: 
- * #Arch: all
  * #Notes:
  */
 

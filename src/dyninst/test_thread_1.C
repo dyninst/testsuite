@@ -33,7 +33,6 @@
  * #Name: test12_1
  * #Desc: rtlib spinlocks
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

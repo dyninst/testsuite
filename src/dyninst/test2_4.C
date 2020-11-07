@@ -33,7 +33,6 @@
  * #Name: test2_4
  * #Desc: Attach to a protected pid
  * #Dep: 
- * #Arch: !sparc_sun_sunos4_1_3_test
  * #Notes:
  */
 
