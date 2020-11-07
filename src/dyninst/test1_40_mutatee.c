@@ -154,7 +154,6 @@ int test1_40_mutatee(void) {
       return -1; /* Test failed */
     }
 #else /* ia64 or Windows */
-   /*  no alpha yet */
    logerror("Skipped test #40 (monitor dynamic call sites)\n");
    logerror("\t- not implemented on this platform\n");
    test_passes(testname);
