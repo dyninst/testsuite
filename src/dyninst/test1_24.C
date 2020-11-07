@@ -33,7 +33,6 @@
  * #Name: test1_24
  * #Desc: Mutator Side - Array Variables
  * #Dep: 
- * #Arch: !mips_sgi_irix6_4_test
  * #Notes:
  */
 

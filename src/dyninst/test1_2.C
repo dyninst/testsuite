@@ -32,7 +32,6 @@
 /*
  * #Name: test1_2
  * #Desc: Mutator Side (call a four argument function)
- * #Arch: all
  * #Dep: 
  * #Notes: Uses mutateeFortran variable
  */

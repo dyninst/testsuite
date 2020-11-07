@@ -33,7 +33,6 @@
  * #Name: test1_31
  * #Desc: Mutator Side - Non-Recursive Base Tramp
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

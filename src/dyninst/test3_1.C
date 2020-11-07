@@ -33,7 +33,6 @@
  * #Name: test3_1
  * #Desc: Create processes, process events, and kill them, no instrumentation
  * #Dep: 
- * #Arch:
  */
 
 #include "BPatch.h"

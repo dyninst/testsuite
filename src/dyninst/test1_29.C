@@ -33,7 +33,6 @@
  * #Name: test1_29
  * #Desc: getParent/Child
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

@@ -33,7 +33,6 @@
  * #Name: test1_36
  * #Desc: Callsite Parameter Referencing
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

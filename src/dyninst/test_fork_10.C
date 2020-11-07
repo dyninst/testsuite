@@ -32,7 +32,6 @@
 /*
  * #Name: test7_6
  * #Desc: OneTimeCode in parent & child
- * #Arch: all
  * #Dep: 
  */
 

@@ -33,7 +33,6 @@
  * #Name: test2_5
  * #Desc: Look up nonexistent function
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

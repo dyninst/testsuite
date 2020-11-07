@@ -33,7 +33,6 @@
  * #Name: test4_4
  * #Desc: Fork and Exec Callback
  * #Dep: 
- * #Arch: !(i386_unknown_nt4_0_test,alpha_dec_osf4_0_test)
  * #Notes:
  */
 

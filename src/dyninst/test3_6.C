@@ -33,7 +33,6 @@
  * #Name: test3_6
  * #Desc: Create processes (via standard OS methods, not BPatch::createProcess), process events, and kill them, no instrumentation
  * #Dep: 
- * #Arch:
  */
 
 #if !defined(os_windows_test)

@@ -32,7 +32,6 @@
 /*
  * #Name: test7_8
  * #Desc: Memory deallocate in child
- * #Arch: all
  * #Dep: 
  */
 

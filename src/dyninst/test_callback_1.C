@@ -33,7 +33,6 @@
  * #Name: test12_2
  * #Desc: dynamic callsite callback
  * #Dep: 
- * #Arch: !(os_windows,os_irix)
  * #Notes:
  */
 

@@ -32,7 +32,6 @@
 /*
  * #Name: test1_9
  * #Desc: Mutator Side - Preserve Registers - FuncCall
- * #Arch: all
  * #Dep: 
  * #Notes:
  */

@@ -31,7 +31,6 @@
 /*
  * #Name: test_fork_14
  * #Desc: OneTimeCode in parent & child; verify fork() return value
- * #Arch: all
  * #Dep: 
  */
 

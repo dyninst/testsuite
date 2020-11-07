@@ -32,7 +32,6 @@
 /*
  * #Name: test1_4
  * #Desc: Mutator Side (Sequence) Use the BPatch sequence operation to glue expressions together.  The test is constructed to verify the correct execution order.
- * #Arch: all
  * #Dep: 
  */
 

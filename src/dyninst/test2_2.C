@@ -33,7 +33,6 @@
  * #Name: test2_2
  * #Desc: Try to run a createProcess on a file that is not an executable file
  * #Dep: 
- * #Arch: all
  * #Notes:
  */
 

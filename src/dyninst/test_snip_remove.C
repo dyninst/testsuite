@@ -32,7 +32,6 @@
 /*
  * #Name: test_snip_remove
  * #Desc: Test delete multiple snippets at one instrumentation point
- * #Arch: all
  * #Dep: 
  */
 

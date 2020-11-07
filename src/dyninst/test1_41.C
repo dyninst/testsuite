@@ -33,7 +33,6 @@
  * #Name: test1_41
  * #Desc: Tests whether we lose line information running a mutatee twice
  * #Dep: 
- * #Arch:
  */
 
 #include "BPatch.h"

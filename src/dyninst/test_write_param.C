@@ -33,7 +33,6 @@
  *
  * #Name: test_write_param
  * #Desc: Write to a parameter and return value
- * #Arch: all
  * #Dep: 
  */
 

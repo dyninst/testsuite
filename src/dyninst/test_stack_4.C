@@ -33,7 +33,6 @@
  * #Name: test8_3
  * #Desc: getCallStack through entry-instrumented signal handler
  * #Dep: 
- * #Arch: !(arch_alpha && os_osf_test)
  * #Notes:
  */
 

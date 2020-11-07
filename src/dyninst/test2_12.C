@@ -33,7 +33,6 @@
  * #Name: test2_12
  * #Desc: BPatch_point query funcs
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

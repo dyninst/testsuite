@@ -33,7 +33,6 @@
  * #Name: test5_3
  * #Desc: Overload Operatior
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

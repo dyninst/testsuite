@@ -33,7 +33,6 @@
  * #Name: test1_30
  * #Desc: Line Information
  * #Dep: 
- * #Arch: sparc_sun_solaris2_4_test,i386_unknown_solaris2_5_test,i386_unknown_linux2_0_test,ia64_unknown_linux2_4_test,i386_unknown_nt4_0_test,rs6000_ibm_aix4_1_test,alpha_dec_osf4_0_test,x86_64_unknown_linux2_4_test
  * #Notes:
  */
 

@@ -32,7 +32,6 @@
 /*
  * #Name: test1_7
  * #Desc: Mutator Side - Relational Operators
- * #Arch: all
  * #Dep: 
  */
 

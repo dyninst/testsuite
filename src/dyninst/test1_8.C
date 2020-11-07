@@ -32,7 +32,6 @@
 /*
  * #Name: test1_8
  * #Desc: Mutator Side - Preserve Registers - expr
- * #Arch: all
  * #Dep: 
  * #Notes:
  */

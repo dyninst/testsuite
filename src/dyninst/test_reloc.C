@@ -33,7 +33,6 @@
  *
  * #Name: test_reloc
  * #Desc: Relocate all functions without instrumentation
- * #Arch: all
  * #Dep:
  */
 

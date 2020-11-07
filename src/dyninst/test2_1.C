@@ -33,7 +33,6 @@
  * #Name: test2_1
  * #Desc: Run an executable that does not exist
  * #Dep: 
- * #Arch: all
  * #Notes:
  */
 

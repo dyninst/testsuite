@@ -33,7 +33,6 @@
  * #Name: test2_14
  * #Desc: Delete Thread
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

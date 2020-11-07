@@ -33,7 +33,6 @@
  * #Name: test12_4
  * #Desc: thread create callback -- doa
  * #Dep: 
- * #Arch: all
  * #Notes:
  */
 

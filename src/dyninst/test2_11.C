@@ -33,7 +33,6 @@
  * #Name: test2_11
  * #Desc: getDisplacedInstructions
  * #Dep: 
- * #Arch:
  * #Notes:
  */
 

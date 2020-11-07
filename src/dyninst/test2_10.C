@@ -33,7 +33,6 @@
  * #Name: test2_10
  * #Desc: Dump image
  * #Dep: 
- * #Arch: (rs6000_ibm_aix4_1_test,sparc_sun_sunos4_1_3_test,sparc_sun_solaris2_4_test,i386_unknown_linux2_0_test,mips_sgi_irix6_4_test,alpha_dec_osf4_0_test,ia64_unknown_linux2_4_test,x86_64_unknown_linux2_4_test
  * #Notes:
  */
 

@@ -33,7 +33,6 @@
  * #Name: test1_38
  * #Desc: CFG Loop Callee Tree
  * #Dep:
- * #Arch:
  * #Notes:
  */
 

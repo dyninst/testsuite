@@ -32,7 +32,6 @@
 /*
  * #Name: test7_5
  * #Desc: Add snippets to parent & child
- * #Arch: all
  * #Dep: 
  */
 

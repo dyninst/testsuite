@@ -33,7 +33,6 @@
  * #Name: test1_25
  * #Desc: Unary Operators
  * #Dep: 
- * #Arch: !mips_sgi_irix6_4_test
  * #Notes: A small part of this test is excluded on most platforms
  */
 

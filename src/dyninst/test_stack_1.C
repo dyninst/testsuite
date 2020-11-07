@@ -33,7 +33,6 @@
  * #Name: test8_1
  * #Desc: getCallStack
  * #Dep: 
- * #Arch: !alpha_dec_osf4_0_test
  * #Notes:
  */
 

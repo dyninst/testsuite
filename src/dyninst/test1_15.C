@@ -32,7 +32,6 @@
 /*
  * #Name: test1_15
  * #Desc: Mutator Side - While
- * #Arch: all
  * #Dep: 
  * #Notes:
  */

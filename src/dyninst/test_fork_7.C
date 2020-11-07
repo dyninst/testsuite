@@ -32,7 +32,6 @@
 /*
  * #Name: test7_3
  * #Desc: Delete snippet in both parent and child
- * #Arch: all
  * #Dep: 
  */
 
