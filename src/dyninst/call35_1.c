@@ -34,8 +34,7 @@ static int call35_2() {
 
 /*
  call35_1 is the template for which the platform specific call35 
- functions used in test35 are based. call35_1_sparc_solaris.s, 
- call35_1_x86_solaris.s,  and call35_1_x86_linux.s were all compiled
+ functions used in test35 are based. call35_1_*.s were all compiled
  versions of this function, where they each have instructions added to 
  force relocation of the function.
 */
@@ -55,4 +54,3 @@ int test1_35_call1() {
 
   return total35_2;
 }
-
