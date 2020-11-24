@@ -300,8 +300,6 @@ set (symtab_MUTATORS
 	test_module
 	test_relocations
 	test_type_info
-	test_symtab_ser_funcs
-	test_ser_anno
 )
 
 set (symtab_OBJS_ALL_MUTATORS
@@ -314,8 +312,6 @@ set (symtab_OBJS_ALL_MUTATORS
 	test_module.o
 	test_relocations.o
 	test_type_info.o
-	test_symtab_ser_funcs.o
-	test_ser_anno.o
 )
 
 set (MUTATOR_NAME_LIST
@@ -443,13 +439,11 @@ set (MUTATOR_NAME_LIST
 	test_pt_ls
 	test_reloc
 	test_relocations
-	test_ser_anno
 	test_snip_remove
 	test_stack_1
 	test_stack_2
 	test_stack_3
 	test_stack_4
-	test_symtab_ser_funcs
 	test_thread_1
 	test_thread_2
 	test_thread_3
@@ -586,13 +580,11 @@ set (MUTATOR_MODULE_LIB_LIST
 	testdyninst
 	testdyninst
 	testsymtab
-	testsymtab
 	testdyninst
 	testdyninst
 	testdyninst
 	testdyninst
 	testdyninst
-	testsymtab
 	testdyninst
 	testdyninst
 	testdyninst
@@ -730,13 +722,11 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_pt_ls.C
 	${SRC}/dyninst/test_reloc.C
 	${SRC}/symtab/test_relocations.C
-	${SRC}/symtab/test_ser_anno.C
 	${SRC}/dyninst/test_snip_remove.C
 	${SRC}/dyninst/test_stack_1.C
 	${SRC}/dyninst/test_stack_2.C
 	${SRC}/dyninst/test_stack_3.C
 	${SRC}/dyninst/test_stack_4.C
-	${SRC}/symtab/test_symtab_ser_funcs.C
 	${SRC}/dyninst/test_thread_1.C
 	${SRC}/dyninst/test_thread_2.C
 	${SRC}/dyninst/test_thread_3.C
@@ -748,7 +738,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_write_param.C
 	)
 
-foreach (val RANGE 139)
+foreach (val RANGE 137)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)
