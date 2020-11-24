@@ -143,7 +143,6 @@ mutatee('dyninst_group_test', [
 	'test2_5_mutatee.c',
 	'test2_7_mutatee.c',
 	'test2_9_mutatee.c',
-	'test2_11_mutatee.c',
 	'test2_12_mutatee.c',
 	'test2_13_mutatee.c',
 	'test_write_param_mutatee.c'
@@ -799,13 +798,7 @@ test_runmode('test2_8', 'dynamic').
 test_start_state('test2_8', 'stopped').
 tests_module('test2_8', 'dyninst').
 
-test('test2_11', 'test2_11', 'dyninst_group_test').
-test_runs_everywhere('test2_11').
-mutator('test2_11', ['test2_11.C']).
-test_runmode('test2_11', 'dynamic').
-test_start_state('test2_11', 'stopped').
-groupable_test('test2_11').
-tests_module('test2_11', 'dyninst').
+% test2_11 -- always skipped anyway -- deleted November 2020
 
 test('test2_12', 'test2_12', 'dyninst_group_test').
 test_runs_everywhere('test2_12').
