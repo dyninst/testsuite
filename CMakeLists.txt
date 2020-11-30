@@ -320,7 +320,7 @@ if(UNIX)
   # Compiler macros
   find_program(M_gnu_cc NAMES ${CMAKE_MUT_C_COMPILER} ${CMAKE_C_COMPILER} gcc)
   message(STATUS "Mutatee gcc: ${M_gnu_cc}")
-  find_program(M_gnu_cxx NAMES ${CMAKE_MUT_CXX_COMPILER} {CMAKE_CXX_COMPILER} g++)
+  find_program(M_gnu_cxx NAMES ${CMAKE_MUT_CXX_COMPILER} ${CMAKE_CXX_COMPILER} g++)
   message(STATUS "Mutatee g++: ${M_gnu_cxx}")
 elseif(WIN32)
   find_program(M_native_cc NAMES cl)
