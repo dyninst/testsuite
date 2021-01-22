@@ -149,7 +149,14 @@ mutatee('dyninst_group_test', [
 	]).
 compiler_for_mutatee('dyninst_group_test', Compiler) :-
     comp_lang(Compiler, 'c').
-mutatee_format('dyninst_group_test', 'staticMutatee').
+% mutatee_format('dyninst_group_test', 'staticMutatee').
+mutatee_format('dyninst_group_test', M) :-
+	current_platform(P),
+	platform(Arch, _, _, P),
+	(Arch = 'aarch64'	-> M = 'dynamicMutatee';
+%	 Arch = 'x86_64'	-> M = 'staticMutatee';
+	 M = 'staticMutatee'
+	).
 
 mutatee('dyninst_cxx_group_test', [
 	'test5_1_mutatee.C',
@@ -165,7 +172,14 @@ mutatee('dyninst_cxx_group_test', [
 	]).
 compiler_for_mutatee('dyninst_cxx_group_test', Compiler) :-
     comp_lang(Compiler, 'c++').
-mutatee_format('dyninst_cxx_group_test', 'staticMutatee').
+%mutatee_format('dyninst_cxx_group_test', 'staticMutatee').
+mutatee_format('dyninst_cxx_group_test', M) :-
+	current_platform(P),
+	platform(Arch, _, _, P),
+	(Arch = 'aarch64'	-> M = 'dynamicMutatee';
+%	 Arch = 'x86_64'	-> M = 'staticMutatee';
+	 M = 'staticMutatee'
+	).
 
 mutatee('symtab_group_test', [
    'test_lookup_func_mutatee.c',
@@ -319,7 +333,13 @@ test_runmode('test1_14', 'staticdynamic').
 test_start_state('test1_14', 'stopped').
 tests_module('test1_14', 'dyninst').
 groupable_test('test1_14').
-mutatee_format('test1_14', 'staticMutatee').
+% mutatee_format('test1_14', 'staticMutatee').
+mutatee_format('test1_14', M) :-
+	current_platform(P),
+	platform(Arch, _, _, P),
+	(Arch = 'aarch64'	-> M = 'dynamicMutatee';
+	 M = 'staticMutatee'
+	).
 
 test('test1_15', 'test1_15', 'dyninst_group_test').
 test_description('test1_15', 'whileExpr').
@@ -563,7 +583,14 @@ compiler_for_mutatee('test1_29', Compiler) :-
 test_runmode('test1_29', 'staticdynamic').
 test_start_state('test1_29', 'stopped').
 tests_module('test1_29', 'dyninst').
-mutatee_format('test1_29', 'staticMutatee').
+% mutatee_format('test1_29', 'staticMutatee').
+mutatee_format('test1_29', M) :-
+	current_platform(P),
+	platform(Arch, _, _, P),
+	(Arch = 'aarch64'	-> M = 'dynamicMutatee';
+	 M = 'staticMutatee'
+	).
+
 
 test('test1_30', 'test1_30', 'dyninst_group_test').
 test_description('test1_30', 'Line Information').
