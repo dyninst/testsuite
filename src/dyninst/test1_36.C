@@ -161,8 +161,11 @@ test_results_t test1_36_Mutator::indirect_call() {
     logerror("Found %u copies of '%s'; expected 1\n", found_funcs.size(), funcName);
 
     std::string msg;
-	for(auto *f : found_funcs) { msg += f->getName(); msg += ", "; }
-	logerror("findFunction('%s') returned: %s\n", funcName, msg.c_str());
+    for (auto *f : found_funcs) {
+      msg += f->getName();
+      msg += ", ";
+    }
+    logerror("findFunction('%s') returned: %s\n", funcName, msg.c_str());
 
     return FAILED;
   }
@@ -181,12 +184,40 @@ test_results_t test1_36_Mutator::indirect_call() {
     return FAILED;
   }
 
+  std::vector<BPatch_function *> called_functions;
   for (auto *c : *callees) {
-	auto *f = c->getCalledFunction();
+    auto *f = c->getCalledFunction();
     if (!f) {
       logerror("Unable to get called function in '%s' at address %p\n", funcName, c->getAddress());
       return FAILED;
     }
+    called_functions.push_back(f);
+  }
+
+  std::string const err_msg = [&expected_callees, called_functions]() {
+    std::string msg{"Expected "};
+    for (auto &e : expected_callees) {
+      msg += e;
+      msg += ", ";
+    };
+    msg += "; Found ";
+    for (auto *f : called_functions) {
+      msg += f->getName();
+      msg += ", ";
+    }
+    return msg;
+  }();
+
+  if (debugPrint()) {
+    logstatus("%s\n", err_msg.c_str());
+  }
+
+  auto ends =
+      std::mismatch(expected_callees.begin(), expected_callees.end(), called_functions.begin(),
+                    [](std::string const &lhs, BPatch_function *rhs) { return lhs == rhs->getName(); });
+  if (ends.first != expected_callees.end()) {
+    logerror("%s\n", err_msg.c_str());
+    return FAILED;
   }
 
   return PASSED;
