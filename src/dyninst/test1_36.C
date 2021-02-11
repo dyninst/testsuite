@@ -44,6 +44,7 @@
 
 #include "dyninst_comp.h"
 #include "test_lib.h"
+#include <array>
 
 class test1_36_Mutator : public DyninstMutator {
 
@@ -51,6 +52,7 @@ class test1_36_Mutator : public DyninstMutator {
 
   BPatch_arithExpr *makeTest36paramExpr(BPatch_snippet *expr, int paramId);
   test_results_t direct_call();
+  test_results_t indirect_call();
 };
 
 extern "C" DLLEXPORT TestMutator *test1_36_factory() { return new test1_36_Mutator(); }
@@ -149,8 +151,55 @@ test_results_t test1_36_Mutator::direct_call() {
   return PASSED;
 }
 
+test_results_t test1_36_Mutator::indirect_call() {
+  char const *funcName = "test1_36_indirect_call";
+
+  BPatch_Vector<BPatch_function *> found_funcs;
+  appImage->findFunction(funcName, found_funcs);
+
+  if (found_funcs.size() != 1U) {
+    logerror("Found %u copies of '%s'; expected 1\n", found_funcs.size(), funcName);
+
+    std::string msg;
+	for(auto *f : found_funcs) { msg += f->getName(); msg += ", "; }
+	logerror("findFunction('%s') returned: %s\n", funcName, msg.c_str());
+
+    return FAILED;
+  }
+
+  auto *callees = found_funcs[0]->findPoint(BPatch_subroutine);
+
+  const std::array<std::string, 5> expected_callees{"malloc", "strncpy", "toupper", "strncpy", "free"};
+
+  if (!callees) {
+    logerror("No call sites found in '%s'; expected %u\n", funcName, expected_callees.size());
+    return FAILED;
+  }
+
+  if (callees->size() != expected_callees.size()) {
+    logerror("Found %u callees in '%s'; expected %u\n", callees->size(), funcName, expected_callees.size());
+    return FAILED;
+  }
+
+  for (auto *c : *callees) {
+	auto *f = c->getCalledFunction();
+    if (!f) {
+      logerror("Unable to get called function in '%s' at address %p\n", funcName, c->getAddress());
+      return FAILED;
+    }
+  }
+
+  return PASSED;
+}
+
 //
 // Start Test Case #36 - (callsite parameter referencing)
 //
 
-test_results_t test1_36_Mutator::executeTest() { return direct_call(); }
+test_results_t test1_36_Mutator::executeTest() {
+  const auto res = direct_call();
+  if (res != PASSED) {
+    return res;
+  }
+  return indirect_call();
+}
