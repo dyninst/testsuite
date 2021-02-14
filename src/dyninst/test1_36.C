@@ -234,8 +234,8 @@ test_results_t test1_36_Mutator::executeTest() {
     return res;
   }
 
-  if(!appAddrSpace->isStaticExecutable()) {
-	  return indirect_call();
+  if (!appAddrSpace->isStaticExecutable()) {
+    return indirect_call();
   }
 
   return PASSED;
