@@ -212,9 +212,10 @@ test_results_t test1_36_Mutator::indirect_call() {
     logstatus("%s\n", err_msg.c_str());
   }
 
-  auto ends =
-      std::mismatch(expected_callees.begin(), expected_callees.end(), called_functions.begin(),
-                    [](std::string const &lhs, BPatch_function *rhs) { return lhs == rhs->getName(); });
+  auto ends = std::mismatch(expected_callees.begin(), expected_callees.end(), called_functions.begin(),
+                            [](std::string const &lhs, BPatch_function *rhs) {
+                              return rhs->getName().find(lhs) != std::string::npos;
+                            });
   if (ends.first != expected_callees.end()) {
     logerror("%s\n", err_msg.c_str());
     return FAILED;
