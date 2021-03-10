@@ -46,7 +46,8 @@ my %args = (
 	'auth-token'			=> undef,
 	'sterile'				=> 1,
 	'hostname'				=> undef,
-	'debug-mode'			=> 0	# undocumented debug mode
+	'debug-mode'			=> 0,	# undocumented debug mode
+	'limit'				=> undef,	# change group limit
 );
 
 GetOptions(\%args,
@@ -58,7 +59,8 @@ GetOptions(\%args,
 	'run-tests!', 'tests!', 'njobs=i', 'quiet', 'purge',
 	'help', 'restart=s', 'upload!', 'ntestjobs=i',
 	'nompthreads=i', 'single-stepping', 'auth-token=s',
-	'sterile!', 'hostname=s', 'debug-mode'
+	'sterile!', 'hostname=s', 'debug-mode',
+	'limit=i',
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -318,5 +320,6 @@ build [options]
    --auth-token=STRING     The authentication token string. Required when uploading the results.
    --[no-]sterile          Use a sterile build- don't download dependencies (default: yes)
    --hostname              Override the hostname provided by `uname`
+   --limit=n               Change group test limit in testsuite.
    --help                  Print this help message
 =cut

@@ -114,16 +114,18 @@ sub _run_single {
 
 		# Put a marker in the stderr log
 		print $fdErr "++Running $test_name\n";
-		
+
+		my $limit = defined($args->{'limit'}) ? "-limit $args->{'limit'}" : '';
+
 		my $start = Time::HiRes::gettimeofday();
-		
+
 		try {
 			execute(
 				"cd $base_dir\n" .
 				"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
 				"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
 				"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-				"./runTests -64 -all -test $test_name -log tmp.log 1>stdout.tmp 2>stderr.tmp"
+				"./runTests -64 -all -test $test_name $limit -log tmp.log 1>stdout.tmp 2>stderr.tmp"
 			);
 		} catch {
 			print $fdErr "\n$test_name failed in testsuite::run", '-'x10, "\n";
@@ -178,12 +180,14 @@ sub run {
 	# By default, run the tests in group mode
 	# If that fails, fall back to single-stepping mode
 	try {
+		my $limit = defined($args->{'limit'}) ? "-limit $args->{'limit'}" : '';
+
 		execute(
 			"cd $base_dir\n" .
 			"export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n" .
 			"export OMP_NUM_THREADS=$args->{'nompthreads'}\n" .
 			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
-			"./runTests -64 -all -log test.log -j$args->{'ntestjobs'} 1>stdout.log 2>stderr.log"
+			"./runTests -64 -all -log test.log -j$args->{'ntestjobs'} $limit 1>stdout.log 2>stderr.log"
 		);
 		
 		# Being killed by the watchdog timer _should_ cause 'execute' to throw, but
