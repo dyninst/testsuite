@@ -48,6 +48,7 @@ my %args = (
 	'hostname'				=> undef,
 	'debug-mode'			=> 0,	# undocumented debug mode
 	'limit'				=> undef,	# change group limit
+	'root'				=> undef,	# root directory name
 );
 
 GetOptions(\%args,
@@ -61,6 +62,7 @@ GetOptions(\%args,
 	'nompthreads=i', 'single-stepping', 'auth-token=s',
 	'sterile!', 'hostname=s', 'debug-mode',
 	'limit=i',
+	'root=s',
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -92,6 +94,13 @@ $args{'build-dyninst'} = 1;
 if(!$args{'tests'}) {
 	$args{'build-tests'} = 0;
 	$args{'run-tests'} = 0;
+}
+
+## Error checking
+## Name / Restart could be combined, best not to make unnecessary diffs
+## for a work in progress
+if (defined($args{'restart'}) && defined($args{'root'})) {
+	die "Options --restart and --root are mutually exclusive\n";
 }
 
 if($args{'restart'}) {
@@ -137,7 +146,10 @@ if($args{'restart'}) {
 
 my $logger = Dyninst::logs->new($args{'log-file'}, $args{'quiet'});
 
-my $root_dir = ($args{'restart'}) ? $args{'restart'} : undef;
+## XXX would like to check that 'root' and 'restart' are good paths,
+## relying upon developers to be correct for now.
+my $root_dir = ($args{'restart'}) ? $args{'restart'} :
+			($args{'root'}) ? $args{'root'} : undef;
 
 if($Dyninst::utils::debug_mode) {
 	use Data::Dumper;
@@ -147,7 +159,15 @@ if($Dyninst::utils::debug_mode) {
 Dyninst::logs::save_system_info($logger, $args{'hostname'});
 
 # Generate a unique name for the current build
-$root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
+if (defined($args{'root'})) {
+	unless(-e $root_dir or mkdir $root_dir) {
+		die "Unable to create $root_dir\n";
+	}
+}
+else {
+	$root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args{'restart'};
+}
+
 $logger->write("root_dir: $root_dir");
 
 # Display the invocation arguments
@@ -321,5 +341,6 @@ build [options]
    --[no-]sterile          Use a sterile build- don't download dependencies (default: yes)
    --hostname              Override the hostname provided by `uname`
    --limit=n               Change group test limit in testsuite.
+   --root=dir              Set name/ID of root of test directory
    --help                  Print this help message
 =cut
