@@ -49,6 +49,7 @@ my %args = (
 	'debug-mode'			=> 0,	# undocumented debug mode
 	'limit'				=> undef,	# change group limit
 	'root'				=> undef,	# root directory name
+	'replay'			=> 1,	# replay fails in single-step
 );
 
 GetOptions(\%args,
@@ -63,6 +64,7 @@ GetOptions(\%args,
 	'sterile!', 'hostname=s', 'debug-mode',
 	'limit=i',
 	'root=s',
+	'replay!',
 ) or pod2usage(-exitval=>2);
 
 if($args{'help'}) {
@@ -342,5 +344,6 @@ build [options]
    --hostname              Override the hostname provided by `uname`
    --limit=n               Change group test limit in testsuite.
    --root=dir              Set name/ID of root of test directory
+   --no-replay             Turn off automatic replay of failed tests.
    --help                  Print this help message
 =cut

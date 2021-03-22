@@ -189,13 +189,28 @@ sub run {
 			"LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH " .
 			"./runTests -64 -all -log test.log -j$args->{'ntestjobs'} $limit 1>stdout.log 2>stderr.log"
 		);
-		
+
+		## XXX do a better job here, otherwise
+		## dual watchdog messages, but at least tell the truth
 		# Being killed by the watchdog timer _should_ cause 'execute' to throw, but
 		# check it here explicitly just to be sure
-		die if _killed_by_watchdog("$base_dir/stderr.log");
+		if (_killed_by_watchdog("$base_dir/stderr.log")) {
+			$run_log->write("group test exceeded time limit, uncaught, forcing...");
+			die;
+		}
+		$run_log->write("Running in group mode succeeded, NO REPLAY NEEDED.\n");
 	} catch {
-		$run_log->write("Running in group mode failed. Running single-step mode.\n");
-		_run_single($paths, $args, $base_dir, $run_log);
+		## make sure we know it is this failure
+		if (_killed_by_watchdog("$base_dir/stderr.log")) {
+			$run_log->write("group test exceeded time limit, caught");
+		}
+		if ($args->{'replay'}) {
+			$run_log->write("Running in group mode failed. Running single-step mode.\n");
+			_run_single($paths, $args, $base_dir, $run_log);
+		}
+		else {
+			$run_log->write("Running in group mode failed, NO REPLAY.\n");
+		}
 	};
 }
 
