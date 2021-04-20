@@ -340,7 +340,12 @@ set_target_properties(testB_static PROPERTIES OUTPUT_NAME testB)
 if(UNIX)
   add_library(Test12 SHARED src/dyninst/libTest12.c)
   add_library(dyninstAPI_RT SHARED IMPORTED)
-  set_target_properties(dyninstAPI_RT PROPERTIES IMPORTED_LOCATION "${Dyninst_DIR}/../../libdyninstAPI_RT.so")
+  set(_path_suffixes dyninst)
+  find_library(dyninstAPI_RT_LIBRARY
+             NAMES libdyninstAPI_RT.so
+             PATHS ${Dyninst_DIR}/../..
+             PATH_SUFFIXES ${_path_suffixes})
+  set_target_properties(dyninstAPI_RT PROPERTIES IMPORTED_LOCATION ${dyninstAPI_RT_LIBRARY})
   target_link_libraries(Test12 dyninstAPI_RT)
   install(TARGETS Test12
           LIBRARY DESTINATION ${INSTALL_DIR}
