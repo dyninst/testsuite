@@ -1,5 +1,14 @@
 use strict;
 use warnings;
+
+## automatically locate the dependencies!
+## less dependencies
+# use File::Basename;
+# use lib dirname(__FILE__);
+## JK recommends this version
+use FindBin;
+use lib "$FindBin::Bin";
+
 use Cwd qw(cwd realpath);
 use Getopt::Long qw(GetOptions);
 use File::Copy qw(move);
