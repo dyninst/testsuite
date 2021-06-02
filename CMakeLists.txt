@@ -344,7 +344,8 @@ if(UNIX)
   find_library(dyninstAPI_RT_LIBRARY
              NAMES libdyninstAPI_RT.so
              PATHS ${Dyninst_DIR}/../..
-             PATH_SUFFIXES ${_path_suffixes})
+             PATH_SUFFIXES ${_path_suffixes}
+             NO_DEFAULT_PATH)
   set_target_properties(dyninstAPI_RT PROPERTIES IMPORTED_LOCATION ${dyninstAPI_RT_LIBRARY})
   target_link_libraries(Test12 dyninstAPI_RT)
   install(TARGETS Test12
