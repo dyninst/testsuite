@@ -80,7 +80,6 @@ typedef struct {
    bool i386_unknown_linux2_4;
    bool _i386_unknown_nt4_0_test; 
    bool _x86_64_unknown_linux2_4;
-   bool _rs6000_ibm_aix5_1;
 } platforms_t;
 
 struct TESTLIB_DLL_EXPORT TestData {

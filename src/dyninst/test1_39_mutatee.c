@@ -57,8 +57,7 @@ int test1_39_passed = -1;
 
 /* Test #39 (refex function search) */
 int test1_39_mutatee() {
-#if defined(rs6000_ibm_aix4_1_test) \
- || defined(os_linux_test) /* Use OS #define instead of platform - Greg */ \
+#if defined(os_linux_test) /* Use OS #define instead of platform - Greg */ \
  || defined(os_freebsd_test)
 
     /* The only possible failures occur in the mutator. */

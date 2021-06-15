@@ -81,10 +81,7 @@ test_results_t test2_6_Mutator::executeTest() {
 	    char name[80];
 	    (*m)[i]->getName(name, sizeof(name));
 	    if (strstr(name, TEST_DYNAMIC_LIB) ||
-#ifdef os_aix_test
-		strcmp(name, TEST_DYNAMIC_LIB_NOPATH) == 0 ||
-#endif
-                strcmp(name, noext.c_str()) ||
+               strcmp(name, noext.c_str()) ||
 		strcmp(name, match2) == 0) {
 		found = true;
 		break;

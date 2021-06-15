@@ -103,7 +103,7 @@ typedef struct {
     struct struct26_2 field4;
 } test1_27_type4;
 #endif
-/* need this variables or some compilers (AIX xlc) will removed unused
+/* need this variables or some compilers will removed unused
    typedefs - jkh 10/13/99 */
 test1_27_type1 test1_27_dummy1;
 test1_27_type2 test1_27_dummy2;
@@ -112,8 +112,6 @@ test1_27_type4 test1_27_dummy4;
 
 int test1_27_globalVariable1 = -1;
 
-/* Note for future reference: -Wl,-bgcbypass:3 is NECESSARY for
-   compilation (gcc) on AIX. Damn efficient linkers. */
 int test1_27_globalVariable5[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 int test1_27_globalVariable6[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 float test1_27_globalVariable7[10] = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0,
@@ -137,8 +135,7 @@ float test1_27_globalVariable8[12];
 int test1_27_mutatee() {
   int retval, passed;
 
-#if !defined(rs6000_ibm_aix4_1_test) \
- && !defined(i386_unknown_linux2_0_test) \
+#if !defined(i386_unknown_linux2_0_test) \
  && !defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
  && !defined(i386_unknown_nt4_0_test) \
  && !defined(os_freebsd_test)

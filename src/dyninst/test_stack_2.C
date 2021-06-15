@@ -66,9 +66,7 @@ test_results_t test_stack_2_Mutator::executeTest() {
 #if defined( os_linux_test ) && (defined( arch_x86_test ) || defined( arch_x86_64_test ))
 	{ true, true, BPatch_frameNormal, "_dl_sysinfo_int80" },
 #endif
-#if !defined(rs6000_ibm_aix4_1_test)
 	{ false, false, BPatch_frameNormal, NULL },
-#endif	
 	{ true,  false, BPatch_frameNormal, "stop_process_" },
 	{ true,  false, BPatch_frameNormal, "test_stack_2_func4" },
 	{ true,  false, BPatch_frameNormal, "sigalrm_handler" },

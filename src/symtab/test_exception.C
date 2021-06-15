@@ -60,10 +60,6 @@ test_results_t test_exception_Mutator::executeTest()
 	return SKIPPED;
 #endif
 
-#if defined (os_aix_test)
-	return SKIPPED;
-#endif
-
    bool result = symtab->getAllExceptions(excps);
 
    if (!result || !excps.size() )

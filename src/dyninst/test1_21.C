@@ -83,8 +83,7 @@ extern "C" DLLEXPORT  TestMutator *test1_21_factory()
 
 test_results_t test1_21_Mutator::mutatorTest21() 
 {
-#if defined(os_aix_test) \
-	|| defined(os_linux_test) \
+#if defined(os_linux_test) \
 	|| defined(os_windows_test) \
         || defined(os_freebsd_test)
 

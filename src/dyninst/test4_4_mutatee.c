@@ -121,18 +121,6 @@ int test4_4_mutatee()
       perror("execvp");
     } else {
       test4_4_func2();
-#if defined(rs6000_ibm_aix4_1_test)
-      /* On AIX the child dies when the parent exits, so wait */
-      /* and the parent needs to wake up occasionally to keep dyninst happy*/
-      dprintf("%d SLEEPING\n",getpid());
-      sleep(10);
-      dprintf("%d SLEEP MORE\n",getpid());
-      sleep(2);
-      dprintf("%d SLEEP MORE\n",getpid());
-      sleep(5);
-      dprintf("%d DONE SLEEPING\n",getpid());
-
-#endif
       exit(getpid());
     }
 #endif

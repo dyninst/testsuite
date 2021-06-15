@@ -142,10 +142,6 @@ test_results_t test_relocations_Mutator::executeTest()
 	return SKIPPED;
 #endif
 
-#if defined (os_aix_test)
-	return SKIPPED;
-#endif
-
 	bool result = symtab->getFuncBindingTable(relocs);
 
 	if (!result || !relocs.size() )

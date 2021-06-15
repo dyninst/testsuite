@@ -76,7 +76,7 @@ int test1_29F_mutatee() {
 
   test1_29f_init_globals();
 
-    /* XXX Hack, AIX 4.2 xlf90/parseStab doesn't get scoping rules right for Fortran. This lets
+    /* XXX Hack, parseStab doesn't get scoping rules right for Fortran. This lets
        the C global override the local scope in this case - jkh 5/2/3 */
   if (test1_29_globalVariable1) {
     test1_29f_globals.test1_29_globalVariable1 = test1_29_globalVariable1;

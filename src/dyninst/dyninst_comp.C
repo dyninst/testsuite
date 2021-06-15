@@ -804,13 +804,6 @@ void addLibArchExt(char *dest, unsigned int dest_max_len, int psize)
    dest_len = strlen(dest);
 
    // Patch up alternate ABI filenames
-#if defined(rs6000_ibm_aix64_test)
-   if(psize == 4) {
-     strncat(dest, "_32", dest_max_len - dest_len);
-     dest_len += 3;
-   }
-#endif
-
 #if defined(arch_x86_64_test)
    if (psize == 4) {
       strncat(dest,"_m32", dest_max_len - dest_len);
@@ -1201,14 +1194,6 @@ int instCall(BPatch_addressSpace* as, const char* fname,
 	BPatch_funcCallExpr countXXXCall(*countXXXFunc, callArgs);
 
 	for(unsigned int i=0;i<(*res).size();i++){
-
-#if defined(os_aix_test)
-		const BPatch_memoryAccess* memAccess;
-		memAccess = (*res)[i]->getMemoryAccess() ;
-
-		whenToCall = instrumentWhere( memAccess);
-
-#endif
 		as->insertSnippet(countXXXCall, *((*res)[i]),whenToCall);
 	}
 
@@ -1240,13 +1225,6 @@ int instEffAddr(BPatch_addressSpace* as, const char* fname,
 
 	BPatch_callWhen whenToCall = BPatch_callBefore;
 	for(unsigned int i=0;i<(*res).size();i++){
-#if defined(os_aix_test)
-		const BPatch_memoryAccess* memAccess;
-
-		memAccess = (*res)[i]->getMemoryAccess() ;
-
-		whenToCall = instrumentWhere( memAccess);
-#endif
                 BPatch_Vector<BPatch_snippet*> listArgs;
                 BPatch_effectiveAddressExpr eae;
                 BPatch_constExpr insn_str((*res)[i]->getInsnAtPoint().format().c_str());
@@ -1324,14 +1302,6 @@ int instByteCnt(BPatch_addressSpace* as, const char* fname,
 
 	for(unsigned int i=0;i<(*res).size();i++){
             BPatch_Vector<BPatch_snippet*> listArgs;
-
-#if defined(os_aix_test)
-		const BPatch_memoryAccess* memAccess;
-		memAccess = (*res)[i]->getMemoryAccess() ;
-
-		whenToCall = instrumentWhere( memAccess);
-
-#endif
                 BPatch_bytesAccessedExpr bae;
                 std::string insn = (*res)[i]->getInsnAtPoint().format();
                 BPatch_constExpr insn_str(insn.c_str());

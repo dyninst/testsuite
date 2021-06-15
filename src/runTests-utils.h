@@ -45,7 +45,7 @@
 
 #endif
 
-#if !defined(os_aix_test) && !defined(os_windows_test) && !defined(os_freebsd_test)
+#if !defined(os_windows_test) && !defined(os_freebsd_test)
 #include <wait.h>
 #elif defined(os_freebsd_test)
 #include <sys/wait.h>

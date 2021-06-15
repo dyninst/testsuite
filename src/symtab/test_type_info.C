@@ -43,76 +43,89 @@ using namespace Dyninst;
 using namespace SymtabAPI;
 
 class test_type_info_Mutator : public SymtabMutator {
-  std::vector<Type *> *std_types;
-  std::vector<Type *> *builtin_types;
-  test_results_t verify_basic_type_lists();
-  std::string execname;
-  bool verify_type(Type *t);
-  bool verify_type_enum(typeEnum *t,
-                        std::vector<std::pair<std::string, int>> * = NULL);
-  bool verify_type_pointer(typePointer *t, std::string * = NULL);
-  bool verify_type_function(typeFunction *t);
-  bool verify_type_subrange(typeSubrange *t);
-  bool verify_type_array(typeArray *t, int * = NULL, int * = NULL,
-                         std::string * = NULL);
-  bool
-  verify_type_struct(typeStruct *t,
-                     std::vector<std::pair<std::string, std::string>> * = NULL,
-                     std::vector<std::pair<std::string, std::string>> * = NULL,
-                     std::vector<std::pair<std::string, std::string>> * = NULL);
-  bool
-  verify_type_union(typeUnion *t,
-                    std::vector<std::pair<std::string, std::string>> * = NULL,
-                    std::vector<std::pair<std::string, std::string>> * = NULL);
-  bool verify_type_scalar(typeScalar *t);
-  bool verify_type_typedef(typeTypedef *t, std::string * = NULL);
-  bool verify_field(Field *f);
-  bool
-  verify_field_list(fieldListType *t,
-                    std::vector<std::pair<std::string, std::string>> * = NULL,
-                    std::vector<std::pair<std::string, std::string>> * = NULL,
-                    std::vector<std::pair<std::string, std::string>> * = NULL);
+   std::vector<Type *> *std_types;
+   std::vector<Type *> *builtin_types;
+   test_results_t verify_basic_type_lists();
+   std::string execname;
+   bool verify_type(Type *t);
+   bool verify_type_enum(typeEnum *t, std::vector<std::pair<std::string, int> > * = NULL);
+   bool verify_type_pointer(typePointer *t, std::string * = NULL);
+   bool verify_type_function(typeFunction *t);
+   bool verify_type_subrange(typeSubrange *t);
+   bool verify_type_array(typeArray *t, int * = NULL, int * = NULL, std::string * = NULL);
+   bool verify_type_struct(typeStruct *t, 
+             std::vector<std::pair<std::string, std::string> > * = NULL, 
+             std::vector<std::pair<std::string, std::string> > * = NULL,
+             std::vector<std::pair<std::string, std::string> > * = NULL);
+   bool verify_type_union(typeUnion *t, 
+		   std::vector<std::pair<std::string, std::string> > * = NULL, 
+		   std::vector<std::pair<std::string, std::string> > * = NULL);
+   bool verify_type_scalar(typeScalar *t);
+   bool verify_type_typedef(typeTypedef *t, std::string * = NULL);
+   bool verify_field(Field *f);
+   bool verify_field_list(fieldListType *t, 
+		   std::vector<std::pair<std::string, std::string> > * = NULL, 
+         std::vector<std::pair<std::string, std::string> > * = NULL,
+		   std::vector<std::pair<std::string, std::string> > * = NULL);
 
-  bool got_type_enum;
-  bool got_type_pointer;
-  bool got_type_function;
-  bool got_type_subrange;
-  bool got_type_array;
-  bool got_type_struct;
-  bool got_type_union;
-  bool got_type_scalar;
-  bool got_type_typedef;
+   bool got_type_enum;
+   bool got_type_pointer;
+   bool got_type_function;
+   bool got_type_subrange;
+   bool got_type_array;
+   bool got_type_struct;
+   bool got_type_union;
+   bool got_type_scalar;
+   bool got_type_typedef;
 
-  supportedLanguages lang;
+   supportedLanguages lang;
+	public:
+   test_type_info_Mutator() : 
+	   std_types(NULL), 
+	   builtin_types(NULL),
+	   got_type_enum(false),
+	   got_type_pointer(false),
+	   got_type_function(false),
+	   got_type_subrange(false),
+	   got_type_array(false),
+	   got_type_struct(false),
+	   got_type_union(false),
+	   got_type_scalar(false),
+	   got_type_typedef(false),
+	   lang(lang_Unknown)
+   { }
 
-public:
-  test_type_info_Mutator()
-      : std_types(NULL), builtin_types(NULL), got_type_enum(false),
-        got_type_pointer(false), got_type_function(false),
-        got_type_subrange(false), got_type_array(false), got_type_struct(false),
-        got_type_union(false), got_type_scalar(false), got_type_typedef(false),
-        lang(lang_Unknown) {}
+   bool specific_type_tests();
 
-  bool specific_type_tests();
+   bool got_all_types()
+   {
+	   if (!got_type_enum)
+	   {
+		   logerror( "%s[%d]:  enum was missed\n", FILE__, __LINE__);
+		   return false;
+	   }
 
-  bool got_all_types() {
-    if (!got_type_enum) {
-      logerror("%s[%d]:  enum was missed\n", FILE__, __LINE__);
-      return false;
-    }
+	   if (!got_type_pointer)
+	   {
+		   logerror( "%s[%d]:  pointer was missed\n", FILE__, __LINE__);
+		   return false;
+	   }
 
-    if (!got_type_pointer) {
-      logerror("%s[%d]:  pointer was missed\n", FILE__, __LINE__);
-      return false;
-    }
+#if 0
+	   //  I think typeFunction is c++ only
+	   if (!got_type_function)
+	   {
+		   logerror( "%s[%d]:  function was missed\n", FILE__, __LINE__);
+		   return false;
+	   }
+#endif
 
-    // typeFunction appears to be C++ only, so we don't check it (the mutatee is
-    // C).
-    if (!got_type_subrange) {
-      //  solaris CC does not appear to produce these
-#if !defined(os_aix_test) && !defined(os_windows_test)
-      logerror("%s[%d]:  subrange was missed\n", FILE__, __LINE__);
-      return false;
+	   if (!got_type_subrange)
+	   {
+		   //  solaris CC does not appear to produce these
+#if !defined(os_windows_test)
+		   logerror( "%s[%d]:  subrange was missed\n", FILE__, __LINE__);
+		   return false;
 #endif
     }
 
@@ -1079,10 +1092,6 @@ test_results_t test_type_info_Mutator::executeTest() {
     return SKIPPED;
 #if defined(os_linux_test) && defined(arch_x86_test)
   if ((createmode == DESERIALIZE) && (compiler == std::string("g++")))
-    return SKIPPED;
-#endif
-#if defined(os_aix_test)
-  if (createmode == DESERIALIZE)
     return SKIPPED;
 #endif
 

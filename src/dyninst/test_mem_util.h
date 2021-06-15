@@ -77,39 +77,6 @@ extern unsigned int bcListCC[1000];
 extern void* eaExpCC[1000];
 extern unsigned int bcExpCC[1000];
 
-
-#ifdef rs6000_ibm_aix4_1_test
-extern const unsigned int loadExp;
-extern const unsigned int storeExp;
-extern const unsigned int prefeExp;
-extern const unsigned int accessExp;
-extern const unsigned int accessExpCC;
-
-extern unsigned int bcExp[];
-
-extern int eaExpOffset[];
-
-extern void* eaExp[]; /* forward */
-/* Make sure this is 4 words long... */
-extern int divarw[4];
-extern float dfvars[4];
-extern double dfvard[4];
-
-extern void* gettoc();
-#ifdef rs6000_ibm_aix4_1_test
-/* Had trouble with this one */
-extern void *getsp(int, int, int);
-#else
-extern void* getsp();
-#endif
-
-#ifdef __GNUC__
-#define _inline inline
-#endif
-
-extern /* _inline */ void init_test_data();
-#endif /* defined(rs6000_ibm_aix4_1_test) */
-
 #if defined(i386_unknown_linux2_0_test) \
  || defined(i386_unknown_nt4_0_test) \
  || (defined(os_freebsd_test) && defined(arch_x86_test))

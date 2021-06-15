@@ -181,7 +181,6 @@ test_results_t test3_6_Mutator::executeTest() {
             logerror("    mutatee process [%d] was not terminated\n", n);
             continue;
         }
-#if !defined(os_aix_test)
         if(appProc[n]->terminationStatus() != expectedSignal) {
             logerror("**Failed** test3_6 (simultaneous multiple-process management - terminate (fork))\n");
             logerror("    mutatee process [%d] didn't get notice of termination\n", n);
@@ -189,7 +188,6 @@ test_results_t test3_6_Mutator::executeTest() {
         }
         int signalNum = appProc[n]->getExitSignal();
         dprintf("Terminated mutatee [%d] from signal 0x%x\n", n, signalNum);
-#endif
     }
     for (n=0; n<Mutatees; n++) {
         int status;

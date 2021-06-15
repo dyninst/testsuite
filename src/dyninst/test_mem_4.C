@@ -58,8 +58,7 @@ extern "C" DLLEXPORT TestMutator *test_mem_4_factory() {
 test_results_t test_mem_4_Mutator::executeTest() {
   int testnum = 4;
   const char* testdesc = "access instrumentation";
-#if !defined(rs6000_ibm_aix4_1_test) \
- && !defined(i386_unknown_linux2_0_test) \
+#if !defined(i386_unknown_linux2_0_test) \
  && !defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
  && !defined(i386_unknown_nt4_0_test) \
  && !defined(amd64_unknown_freebsd7_0_test) \
