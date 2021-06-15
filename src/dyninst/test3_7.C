@@ -70,11 +70,7 @@ test3_7_Mutator::test3_7_Mutator()
 
 static unsigned int num_callbacks_issued = 0;
 
-#if defined (os_osf_test)
-#define TEST7_NUM_ONETIMECODE 100
-#else
 #define TEST7_NUM_ONETIMECODE 400
-#endif
 
 static void test7_oneTimeCodeCallback(BPatch_thread * /*thread*/,
                                 void *userData,
