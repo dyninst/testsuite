@@ -164,7 +164,7 @@ int func1_1()
     current_locks[i] = 0;
   }
 
-#if !defined (os_windows_test) && !defined(os_irix)
+#if !defined (os_windows_test)
 
 #if defined(m32_test)
   libname = "libdyninstAPI_RT_m32.so";
