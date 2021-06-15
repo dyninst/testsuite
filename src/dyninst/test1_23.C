@@ -32,7 +32,6 @@
 /*
  * #Name: test1_23
  * #Desc: Local Variables
- * #Dep: !mips_sgi_irix6_4_test
  * #Notes:
  */
 

@@ -828,7 +828,7 @@ void addLibArchExt(char *dest, unsigned int dest_max_len, int psize)
 }
 
 int pointerSize(BPatch_image *img) {
-#if defined(mips_sgi_irix6_4_test) || defined(arch_x86_64_test)
+#if defined(arch_x86_64_test)
    BPatch_variableExpr *pointerSizeVar = img->findVariable("pointerSize");
 
    if (!pointerSizeVar) {

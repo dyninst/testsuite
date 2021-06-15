@@ -51,10 +51,8 @@ using namespace std;
 #include <fnmatch.h>
 #endif
 
-#if defined(i386_unknown_nt4_0_test) || defined(mips_unknown_ce2_11_test) //ccw 10 apr 2001 
-#ifndef mips_unknown_ce2_11_test //ccw 10 apr 2001
+#if defined(i386_unknown_nt4_0_test) //ccw 10 apr 2001
 #define WIN32_LEAN_AND_MEAN
-#endif
 #include <Windows.h>
 #else
 #include <unistd.h>
@@ -399,11 +397,6 @@ void addLibArchExt(char *dest, unsigned int dest_max_len, int psize, bool isStat
       strncat(dest,"_m32", dest_max_len - dest_len);
       dest_len += 4;   
    }
-#endif
-
-#if defined(mips_sgi_irix6_4_test)
-   strncat(dest,"_n32", dest_max_len - dest_len);
-   dest_len += 4;
 #endif
 
 #if defined(os_windows_test)

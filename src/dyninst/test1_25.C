@@ -138,9 +138,6 @@ test_results_t test1_25_Mutator::executeTest()
 			BPatch_arithExpr(BPatch_negate, *gvar[6]));
 	appAddrSpace->insertSnippet(assignment4, *point25_1);
 
-	// Check removed because MIPS is no longer supported
-	// #endif // !MIPS
-
 	BPatch::bpatch->setTypeChecking (true);
 	return PASSED;
 }
