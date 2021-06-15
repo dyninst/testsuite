@@ -122,7 +122,6 @@ class test_type_info_Mutator : public SymtabMutator {
 
 	   if (!got_type_subrange)
 	   {
-		   //  solaris CC does not appear to produce these
 #if !defined(os_windows_test)
 		   logerror( "%s[%d]:  subrange was missed\n", FILE__, __LINE__);
 		   return false;
@@ -676,128 +675,129 @@ bool test_type_info_Mutator::specific_type_tests() {
     return false;
   }
 #if !defined(os_windows_test)
-  tname = "int_alias_t";
-  if (!symtab->findType(t, tname) || (NULL == t)) {
-    logerror("%s[%d]:  could not find type %s\n", FILE__, __LINE__,
-             tname.c_str());
-    return false;
-  }
+	tname = "int_alias_t";
+	if (!symtab->findType(t, tname) || (NULL == t))
+	{
+		logerror( "%s[%d]:  could not find type %s\n", FILE__, __LINE__, tname.c_str());
+		return false;
+	}
 
-  typeTypedef *ttd = t->getTypedefType();
-  if (!ttd) {
-    logerror("%s[%d]:  %s: unexpected variety\n", FILE__, __LINE__,
-             tname.c_str());
-    return false;
-  }
+	typeTypedef *ttd = t->getTypedefType();
+	if (!ttd)
+	{
+		logerror( "%s[%d]:  %s: unexpected variety\n", FILE__, __LINE__, tname.c_str());
+		return false;
+	}
 
-  std::string expected_constituent_typename("int");
-  if (!verify_type_typedef(ttd, &expected_constituent_typename))
-    return false;
+	std::string expected_constituent_typename("int");
+	if (!verify_type_typedef(ttd, &expected_constituent_typename)) 
+		return false;
 
-  tname = "int_array_t";
-  if (!symtab->findType(t, tname) || (NULL == t)) {
-    logerror("%s[%d]:  could not find type %s\n", FILE__, __LINE__,
-             tname.c_str());
-    return false;
-  }
+	tname = "int_array_t";
+	if (!symtab->findType(t, tname) || (NULL == t))
+	{
+		logerror( "%s[%d]:  could not find type %s\n", FILE__, __LINE__, tname.c_str());
+		return false;
+	}
 
-  Type *tc = NULL;
-  typeTypedef *tt = t->getTypedefType();
-  if (!tt) {
-    //  Caveat:  Solaris and gnu compilers differ here in how they emit the stab
-    //  for the typedef array...  while it would be nice to have a consistent
-    //  representation but it would involve creating "fake" placeholder
-    //  typedefs...  or just modifying the test to be OK with either
-    //  scenario....
-    tc = t->getArrayType();
-    if (NULL == tc) {
-      logerror("%s[%d]:  %s: unexpected variety %s\n", FILE__, __LINE__,
-               tname.c_str(), t->specificType().c_str());
-      return false;
-    }
-  } else {
-    if (!verify_type_typedef(tt, NULL)) {
-      logerror("%s[%d]:  could not verify typedef %s\n", FILE__, __LINE__,
-               tname.c_str());
-      return false;
-    }
+	Type *tc = NULL;
+	typeTypedef *tt = t->getTypedefType();
+	if (!tt)
+	{
+		//  Caveat:  Some compilers differ here in how they emit the stab
+		//  for the typedef array...  while it would be nice to have a consistent representation
+		//  but it would involve creating "fake" placeholder typedefs...  or just
+		//  modifying the test to be OK with either scenario....
+		tc = t->getArrayType();
+		if (NULL == tc)
+		{
+			logerror( "%s[%d]:  %s: unexpected variety %s\n", 
+					FILE__, __LINE__, tname.c_str(), t->specificType().c_str());
+			return false;
+		}
+	}
+	else
+	{
+		if (!verify_type_typedef(tt, NULL)) 
+			return false;
 
-    tc = tt->getConstituentType();
-  }
-  if (!tc) {
-    logerror("%s[%d]:  %s: no constituent type\n", FILE__, __LINE__,
-             tname.c_str());
-    return false;
-  }
+		tc = tt->getConstituentType();
+	}
+	if (!tc)
+	{
+		logerror( "%s[%d]:  %s: no constituent type\n", FILE__, __LINE__, tname.c_str());
+		return false;
+	}
+	//logerror( "%s[%d]:  typedef %s constituent typename: %s:%s/id %d, typedef id = %d\n", FILE__, __LINE__, tt->getName().c_str(), tc->specificType().c_str(), tc->getName().c_str(), tc->getID(), tt->getID());
 
-  typeArray *ta = tc->getArrayType();
-  if (!ta) {
-    logerror("%s[%d]:  %s: unexpected variety: %s--%s\n", FILE__, __LINE__,
-             tname.c_str(), tc->specificType().c_str(), tc->getName().c_str());
-    typeTypedef *ttd = tc->getTypedefType();
-    if (ttd) {
-      Type *ttd_c = ttd->getConstituentType();
-      logerror("%s[%d]:  typedef constituent %s--%s\n", FILE__, __LINE__,
-               ttd_c->getName().c_str(), ttd_c->specificType().c_str());
-    }
-    return false;
-  }
+	typeArray *ta = tc->getArrayType();
+	if (!ta)
+	{
+		logerror( "%s[%d]:  %s: unexpected variety: %s--%s\n", FILE__, __LINE__, tname.c_str(), tc->specificType().c_str(), tc->getName().c_str());
+		typeTypedef *ttd = tc->getTypedefType();
+		if (ttd)
+		{
+			Type *ttd_c = ttd->getConstituentType();
+			logerror( "%s[%d]:  typedef constituent %s--%s\n", FILE__, __LINE__, ttd_c->getName().c_str(), ttd_c->specificType().c_str());
+					}
+		return false;
+	}
 
-  std::string expected_array_base = "int";
-  int expected_low = 0;
-  int expected_hi = 255;
-  if (!verify_type_array(ta, &expected_low, &expected_hi,
-                         &expected_array_base)) {
-    logerror("%s[%d]: failed to verify typeArray\n", FILE__, __LINE__);
-    return false;
-  }
+	std::string expected_array_base = "int";
+	int expected_low = 0;
+	int expected_hi = 255;
+	if (!verify_type_array(ta, &expected_low, &expected_hi, &expected_array_base)) 
+	{
+		logerror( "%s[%d]: failed to verify typeArray\n", FILE__, __LINE__);
+		return false;
+	}
 
-  if (std::string::npos == execname.find("CC")) {
-    tname = "my_intptr_t";
-    if (!symtab->findType(t, tname) || (NULL == t)) {
-      logerror("%s[%d]:  could not find type %s\n", FILE__, __LINE__,
-               tname.c_str());
-      return false;
-    }
+	if (std::string::npos == execname.find("CC")) 
+	{
+		tname = "my_intptr_t";
+		if (!symtab->findType(t, tname) || (NULL == t))
+		{
+			logerror( "%s[%d]:  could not find type %s\n", 
+					FILE__, __LINE__, tname.c_str());
+			return false;
+		}
 
-    tt = t->getTypedefType();
-    if (!tt) {
-      logerror("%s[%d]:  %s: unexpected variety\n", FILE__, __LINE__,
-               tname.c_str());
-      return false;
-    }
+		tt = t->getTypedefType();
+		if (!tt)
+		{
+			logerror( "%s[%d]:  %s: unexpected variety\n", 
+					FILE__, __LINE__, tname.c_str());
+			return false;
+		}
 
-    if (!verify_type_typedef(tt, NULL)) {
-      logerror("%s[%d]:  could not verify typedef %s\n", FILE__, __LINE__,
-               tname.c_str());
-      return false;
-    }
+		if (!verify_type_typedef(tt, NULL)) 
+			return false;
 
-    tc = tt->getConstituentType();
-    if (!tc) {
-      logerror("%s[%d]:  %s: no constituent type\n", FILE__, __LINE__,
-               tname.c_str());
-      return false;
-    }
+		tc = tt->getConstituentType();
+		if (!tc)
+		{
+			logerror( "%s[%d]:  %s: no constituent type\n", 
+					FILE__, __LINE__, tname.c_str());
+			return false;
+		}
 
-    typePointer *tp = tc->getPointerType();
-    if (!tp) {
-      logerror("%s[%d]:  %s: unexpected variety: %s\n", FILE__, __LINE__,
-               tname.c_str(), dataClass2Str(tc->getDataClass()));
-      return false;
-    }
+		typePointer *tp = tc->getPointerType();
+		if (!tp)
+		{
+			logerror( "%s[%d]:  %s: unexpected variety: %s\n", 
+					FILE__, __LINE__, tname.c_str(), dataClass2Str(tc->getDataClass()));
+			return false;
+		}
 
-    std::string expected_pointer_base = "int";
-    if (!verify_type_pointer(tp, &expected_pointer_base)) {
-      logerror("%s[%d]:  could not find pointer type %s\n", FILE__, __LINE__,
-               tname.c_str());
-      return false;
-    }
-  } else {
-    logerror("%s[%d]:  skipped function pointer type verifiction for sun CC "
-             "compiler\n",
-             FILE__, __LINE__);
-  }
+		std::string expected_pointer_base = "int";
+		if (!verify_type_pointer(tp, &expected_pointer_base)) 
+			return false;
+	}
+	else
+	{
+		logerror("%s[%d]:  skipped function pointer type verifiction for sun CC compiler\n", 
+				FILE__, __LINE__);
+	}
 #endif
 
   /* ----  Check DWARF encodings for base types ---- */

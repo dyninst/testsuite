@@ -205,23 +205,12 @@ int func1_1()
   pthread_mutex_init(&real_lock, NULL);
 
   (*DYNINSTunlock_thelock)(&test1lock);
-   /*  XXX this is nasty */
    /*  The way this is supposed to work is that we get a lock, then start a bunch of
        threads, which all try to get the same lock, pretty much as soon as they start.
        Then, after starting all the threads, we release the lock and let the threads
        compete for it, checking to make sure that all threads get the lock at some point
        and that no two threads have it at the same time.  
-       The problem is that solaris is having problems with this system when the lock is 
-       obtained before the threads are spawned (pthread_create hangs) -- it is still ok
-       to just start all the threads and have the system run, its just not quite as clean.
-       This might be bad asm programming on my behalf, or it might be some idiosyncracy
-       with solaris libpthreads.  This worked, incidentally, when this stuff was all in
-       the mutator, but that might've been because the asm that was imported to implement
-       the locks was the gnu asm, not the solaris-cc asm, which is the stuff that gets
-       compiled, by default into the runtime lib*/
-/*
-   int lockres = (*DYNINSTlock_thelock)(&test1lock); 
-*/
+    */
   lockres = (*DYNINSTlock_thelock)(&test1lock);
   createThreads(TEST1_THREADS, thread_main1, test1threads);
 

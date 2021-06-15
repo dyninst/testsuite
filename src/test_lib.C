@@ -559,7 +559,6 @@ void use_liberty()
 #endif
 
 #if defined (os_windows_test)
-//  solaris does not provide setenv, so we provide an ersatz replacement.
 // yes it's leaky, but we don't plan on using it too much, so who cares?
 int setenv(const char *envname, const char *envval, int)
 {
