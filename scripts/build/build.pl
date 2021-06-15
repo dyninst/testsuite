@@ -305,7 +305,7 @@ if($args{'purge'}) {
 if($args{'upload'}) {
 	eval {
 		Dyninst::utils::execute(
-			"curl -F \"upload=\@$root_dir.results.tar.gz\" ".
+			"curl --insecure -F \"upload=\@$root_dir.results.tar.gz\" ".
 			"-F \"token=$args{'auth-token'}\" ".
 			"https://bottle.cs.wisc.edu/upload"
 		);
