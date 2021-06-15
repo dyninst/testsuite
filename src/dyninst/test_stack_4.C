@@ -67,21 +67,16 @@ test_results_t test_stack_4_Mutator::executeTest() {
 
   BPatch::bpatch->setInstrStackFrames(true);
   appProc->continueExecution();
-  static const frameInfo_t correct_frame_info[] = {
-	
-#if defined( os_linux_test ) && (defined( arch_x86_test ) || defined( arch_x86_64_test ))
-    { true, true, BPatch_frameNormal, "_dl_sysinfo_int80" },
-#endif
-    { true, false, BPatch_frameNormal, "kill" },
-    { true, false, BPatch_frameNormal, "test_stack_4_func4" },
-    { true, false, BPatch_frameTrampoline, NULL },
-    { true,  false, BPatch_frameNormal, "test_stack_4_sigalrm_handler" },
-    { true,  false, BPatch_frameSignal, NULL },
-    { true, true, BPatch_frameNormal, "test_stack_4_func3" },
-    { true, true, BPatch_frameNormal, "test_stack_4_func2" },
-    { true, false, BPatch_frameNormal, "test_stack_4_func1" },
-    { true, false, BPatch_frameNormal, "test_stack_4_mutateeTest" },
-    { true, false, BPatch_frameNormal, "main" }
+  static const frameInfo_t correct_frame_info[] =
+  {
+    { BPatch_frameNormal, "kill" },
+    { BPatch_frameNormal, "test_stack_4_func4" },
+    { BPatch_frameTrampoline, ""},
+    { BPatch_frameNormal, "test_stack_4_sigalrm_handler" },
+    { BPatch_frameSignal, ""},
+    { BPatch_frameNormal, "test_stack_4_func1" },
+    { BPatch_frameNormal, "test_stack_4_mutatee" },
+    { BPatch_frameNormal, "main" }
   };
 	
   /* Wait for the mutatee to stop in test_stack_4_func1(). */

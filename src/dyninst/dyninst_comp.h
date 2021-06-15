@@ -166,8 +166,6 @@ COMPLIB_DLL_EXPORT int instByteCnt(BPatch_addressSpace* as, const char* fname,
 COMPLIB_DLL_EXPORT int pointerSize(BPatch_image *img);
 
 typedef struct {
-    bool             valid;
-    bool             optional;
     BPatch_frameType type;
     const char      *function_name;
 } frameInfo_t;

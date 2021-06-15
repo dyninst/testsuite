@@ -69,9 +69,6 @@ test_results_t test_stack_3_Mutator::executeTest() {
   appProc->continueExecution();
   static const frameInfo_t correct_frame_info[] = {
 	
-#if defined( os_linux_test ) && (defined( arch_x86_test ) || defined( arch_x86_64_test ))
-    { true, true, BPatch_frameNormal, "_dl_sysinfo_int80" },
-#endif
 #if defined( os_aix_test ) && defined( arch_power_test )
     /* AIX uses kill(), but the PC of a process in a syscall can
        not be correctly determined, and appears to be the address
@@ -79,25 +76,23 @@ test_results_t test_stack_3_Mutator::executeTest() {
 #elif defined( os_windows_test ) && (defined( arch_x86 ) || defined( arch_x86_64_test ))
     /* Windows/x86 does not use kill(), so its lowermost frame will be 
        something unidentifiable in a system DLL. */
-    { false, false, BPatch_frameNormal, NULL },
 #else
-    { true, false, BPatch_frameNormal, "kill" },	
+    { BPatch_frameNormal, "kill" },
 #endif
 #if ! defined( os_windows_test )
     /* Windows/x86's stop_process_() calls DebugBreak(); it's 
        apparently normal to lose this frame. */
-    { true, false, BPatch_frameNormal, "stop_process_" },
+    { BPatch_frameNormal, "stop_process_" },
 #endif
-    { true, false, BPatch_frameNormal, "test_stack_3_func3" },
-    { true, false, BPatch_frameTrampoline, NULL },
+    { BPatch_frameNormal, "test_stack_3_func3" },
+    { BPatch_frameTrampoline, "" },
     /* On AIX and x86 (and others), if our instrumentation fires
        before frame construction or after frame destruction, it's 
-       acceptable to not report the function (since, after all, it
-       doesn't have a frame on the stack. */
-    { true, true, BPatch_frameNormal, "test_stack_3_func2" },
-    { true, false, BPatch_frameNormal, "test_stack_3_func1" },
-    { true, false, BPatch_frameNormal, "test_stack_3_mutateeTest" },
-    { true, false, BPatch_frameNormal, "main" }
+       acceptable to not report the function "test_stack_3_func2"
+       (since, after all, it doesn't have a frame on the stack. */
+    { BPatch_frameNormal, "test_stack_3_func1" },
+    { BPatch_frameNormal, "test_stack_3_mutatee" },
+    { BPatch_frameNormal, "main" }
   };
 	
   /* Wait for the mutatee to stop in test_stack_3_func1(). */

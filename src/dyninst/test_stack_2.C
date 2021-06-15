@@ -63,21 +63,18 @@ test_results_t test_stack_2_Mutator::executeTest() {
 
     static const frameInfo_t correct_frame_info[] = {
 
-#if defined( os_linux_test ) && (defined( arch_x86_test ) || defined( arch_x86_64_test ))
-	{ true, true, BPatch_frameNormal, "_dl_sysinfo_int80" },
-#endif
 #if !defined(rs6000_ibm_aix4_1_test)
-	{ false, false, BPatch_frameNormal, NULL },
+	{ BPatch_frameNormal, "" },
 #endif	
-	{ true,  false, BPatch_frameNormal, "stop_process_" },
-	{ true,  false, BPatch_frameNormal, "test_stack_2_func4" },
-	{ true,  false, BPatch_frameNormal, "sigalrm_handler" },
-	{ true,  false, BPatch_frameSignal, NULL },
-	{ true,  false, BPatch_frameNormal, "test_stack_2_func3" },
-	{ true,  false, BPatch_frameNormal, "test_stack_2_func2" },
-	{ true,  false, BPatch_frameNormal, "test_stack_2_func1" },
-	{ true,  false, BPatch_frameNormal, "test_stack_2_mutateeTest" },
-	{ true,  false, BPatch_frameNormal, "main" }
+	{ BPatch_frameNormal, "stop_process_" },
+	{ BPatch_frameNormal, "test_stack_2_func4" },
+	{ BPatch_frameNormal, "sigalrm_handler" },
+	{ BPatch_frameSignal, "" },
+	{ BPatch_frameNormal, "test_stack_2_func3" },
+	{ BPatch_frameNormal, "test_stack_2_func2" },
+	{ BPatch_frameNormal, "test_stack_2_func1" },
+	{ BPatch_frameNormal, "test_stack_2_mutatee" },
+	{ BPatch_frameNormal, "main" }
     };
 
     if (waitUntilStopped(bpatch, appProc, 2, "getCallStack in signal handler") < 0) {
