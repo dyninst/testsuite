@@ -33,12 +33,7 @@
 !	derived from a previous test by Jeff Hollingsworth
 
 !------------------------------------------------------------------------------
-
-! AIX xlf90 does not insert underscores at end
-
-#if !defined(XLF)
 #define stop_process_ stop_process
-#endif
 
 #ifdef __GNUC__
 #define AND iand

@@ -49,11 +49,9 @@ struct block_ {
    int passedTest_;
 };
 
-#if !defined(XLF)
 #define test1_36_func1 test1_36_func1_
 #define test1_36f_init_globals test1_36f_init_globals_
 #define test1_36f_globals test1_36f_globals_
-#endif
 
 extern struct block_ test1_36f_globals;
 
@@ -102,18 +100,3 @@ int test1_36F_mutatee() {
     return -1;
   }
 }
-
-void xlf90_41_hack()
-{
-    test1_36f_globals.test1_36_globalVariable1_ = test1_36_globalVariable1;
-    test1_36f_globals.test1_36_globalVariable2_ = test1_36_globalVariable2;
-    test1_36f_globals.test1_36_globalVariable3_ = test1_36_globalVariable3;
-    test1_36f_globals.test1_36_globalVariable4_ = test1_36_globalVariable4;
-    test1_36f_globals.test1_36_globalVariable5_ = test1_36_globalVariable5;
-    test1_36f_globals.test1_36_globalVariable6_ = test1_36_globalVariable6;
-    test1_36f_globals.test1_36_globalVariable7_ = test1_36_globalVariable7;
-    test1_36f_globals.test1_36_globalVariable8_ = test1_36_globalVariable8;
-    test1_36f_globals.test1_36_globalVariable9_ = test1_36_globalVariable9;
-    test1_36f_globals.test1_36_globalVariable10_ = test1_36_globalVariable10;
-}
-
