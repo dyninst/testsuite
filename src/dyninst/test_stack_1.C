@@ -61,20 +61,17 @@ extern "C" DLLEXPORT TestMutator *test_stack_1_factory() {
 test_results_t test_stack_1_Mutator::executeTest() {
     appProc->continueExecution();
     static const frameInfo_t correct_frame_info[] = {
-#if defined( os_linux_test ) && (defined( arch_x86_test ) || defined( arch_x86_64_test ))
-	{ true, true, BPatch_frameNormal, "_dl_sysinfo_int80" },
-#endif
 #if !defined(rs6000_ibm_aix4_1_test)
-	{ false, false, BPatch_frameNormal, NULL },
+	{ BPatch_frameNormal, "" },
 #endif
 #if !defined(i386_unknown_nt4_0_test)
-	{ true,  false, BPatch_frameNormal, "stop_process_" },
+	{ BPatch_frameNormal, "stop_process_" },
 #endif
-	{ true,  false, BPatch_frameNormal, "test_stack_1_func3" },
-	{ true,  false, BPatch_frameNormal, "test_stack_1_func2" },
-	{ true,  false, BPatch_frameNormal, "test_stack_1_func1" },
-	{ true,  false, BPatch_frameNormal, "test_stack_1_mutateeTest" },
-	{ true,  false, BPatch_frameNormal, "main" },
+	{ BPatch_frameNormal, "test_stack_1_func3" },
+	{ BPatch_frameNormal, "test_stack_1_func2" },
+	{ BPatch_frameNormal, "test_stack_1_func1" },
+	{ BPatch_frameNormal, "test_stack_1_mutatee" },
+	{ BPatch_frameNormal, "main" },
     };
 
     if (waitUntilStopped(bpatch, appProc, 1, "getCallStack") < 0) {

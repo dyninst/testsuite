@@ -1426,123 +1426,116 @@ const char *fixUnderscores(const char *str)
 	return buf;
 }
 
-bool checkStack(BPatch_thread *appThread,
-		const frameInfo_t correct_frame_info[],
-		unsigned num_correct_names,
-		int test_num, const char *test_name)
+// Check is for each call in expected stack, the same amount of call is in
+// the collected stack. This prevents wrong recursion frames.
+bool hasSameAmountOfCalls(vector<BPatch_frame> & stack,
+        vector<frameInfo_t> expected_stack)
 {
-	unsigned i, j;
+    // count occurances of functions in expected_stack
+    unordered_map<string, unsigned> expected_count;
+    for(const frameInfo_t frame : expected_stack)
+        expected_count[frame.function_name]++;
 
-	const int name_max = 256;
-	bool failed = false;
+    // go through stack frames and decrement count of expected
+    for(auto& frame: stack)
+    {
+        BPatch_function *func = frame.findFunction();
+        string name = func ? func->getName() : "";
+        if(expected_count.find(name)==expected_count.end()) continue;
+        expected_count[name]--;
+    }
 
-	BPatch_Vector<BPatch_frame> stack;
-	appThread->getCallStack(stack);
+    // count if all are zero
+    for(const frameInfo_t frame : expected_stack)
+        if(expected_count[frame.function_name]!=0) return false;
 
-	if (1) {
-		dprintf("Stack in test %d (%s):\n", test_num, test_name);
-		for( unsigned i = 0; i < stack.size(); i++) {
-			char name[name_max];
-			BPatch_function *func = stack[i].findFunction();
-			if (func == NULL)
-				strcpy(name, "[UNKNOWN]");
-			else
-				func->getName(name, name_max);
-			dprintf("  %10p: %s, fp = %p, type %s\n",
-					stack[i].getPC(),
-					name,
-					stack[i].getFP(),
-					frameTypeString(stack[i].getFrameType()));
+    return true;
+}
 
-		}
-		dprintf("End of stack dump.\n");
-	}
+// Makes sure the expected stack is subsequence of collected stack
+bool isSubsequenceStack(vector<BPatch_frame> & stack, unsigned size,
+        const frameInfo_t expected_stack[], unsigned expected_size)
+{
+    if(size==0) return false;
+    if(expected_size==0) return true;
 
-	if (stack.size() < num_correct_names) {
-		logerror("**Failed** test %d (%s)\n", test_num, test_name);
-		logerror("    Stack trace should contain more frames.\n");
-		failed = true;
-	}
+    BPatch_function *func = stack[size-1].findFunction();
+    string name = func ? func->getName() : "";
 
-	for (i = 0, j = 0; i < num_correct_names; i++, j++) {
+    if(name==expected_stack[expected_size-1].function_name ||
+            (expected_stack[expected_size-1].type==BPatch_frameTrampoline &&
+             stack[size-1].getFrameType()==BPatch_frameTrampoline) ||
+            (expected_stack[expected_size-1].type==BPatch_frameSignal &&
+             stack[size-1].getFrameType()==BPatch_frameSignal))
+    {
+        return isSubsequenceStack(stack, size-1, expected_stack, expected_size-1);
+    }
+
+    return isSubsequenceStack(stack, size-1, expected_stack, expected_size);
+}
+
+bool checkStack(BPatch_thread *appThread,
+        const frameInfo_t correct_frame_info[],
+        unsigned num_correct_names,
+        int test_num, const char *test_name)
+{
+    bool failed = false;
+
+    BPatch_Vector<BPatch_frame> stack;
+    appThread->getCallStack(stack);
+
+    // Print out stack to "-verbose" log
+    dprintf("Stack in test %d (%s):\n", test_num, test_name);
+    for( unsigned i = 0; i < stack.size(); i++) {
+        BPatch_function *func = stack[i].findFunction();
+        string name = func ? func->getName() : "[UNKNOWN]";
+        dprintf("  %10p: %s, fp = %p, type %s\n",
+                stack[i].getPC(),
+                name.c_str(),
+                stack[i].getFP(),
+                frameTypeString(stack[i].getFrameType()));
+
+    }
+    dprintf("End of stack dump.\n");
+
+    // check if stack is at least same size of correct_frame_info
+    if (stack.size() < num_correct_names) {
+        logerror("**Failed** test %d (%s)\n", test_num, test_name);
+        logerror("    Stack trace should contain more frames.\n");
+        failed = true;
+    }
+
 #if !defined(i386_unknown_nt4_0_test)
-		if (stack.size() && j < stack.size()-1 && stack[j].getFP() == 0) {
-			logerror("**Failed** test %d (%s)\n", test_num, test_name);
-			logerror("    A stack frame other than the lowest has a null FP.\n");
-			failed = true;
-			break;
-		}
+    // check if any if the frames, except the last one, has FP!=0
+    for (unsigned j = 0; j < num_correct_names; j++)
+    {
+        if (stack.size() && j < stack.size()-1 && stack[j].getFP() == 0) {
+            logerror("**Failed** test %d (%s)\n", test_num, test_name);
+            logerror("    A stack frame other than the lowest has a null FP.\n");
+            failed = true;
+            break;
+        }
+    } // for
 #endif
 
-		if (stack.size() >= j)
-			break;
-		if (correct_frame_info[i].valid) {
-			char name[name_max], name2[name_max];
+    // check if stack follows sequence in correct_frame_info
+    if(!isSubsequenceStack(stack, stack.size(), correct_frame_info, num_correct_names))
+    {
+        logerror("**Failed** test %d (%s)\n", test_num, test_name);
+        logerror("    Collected stack does not contain expected stack.\n");
+        failed = true;
+    }
 
-			BPatch_function *func = stack[j].findFunction();
-			if (func != NULL)
-				func->getName(name, name_max);
+    // check if each call in correct_frame_info has the same amount of calls in stack
+    vector<frameInfo_t> expected_stack(correct_frame_info, correct_frame_info+num_correct_names);
+    if(!hasSameAmountOfCalls(stack, expected_stack))
+    {
+        logerror("**Failed** test %d (%s)\n", test_num, test_name);
+        logerror("    Possibly duplicate (case of wrong recursion) in collected stack. ");
+        failed = true;
+    }
 
-			BPatch_function *func2 =
-                                appThread->getProcess()->findFunctionByEntry(reinterpret_cast<Dyninst::Address>(stack[j].getPC()));
-			if (func2 != NULL)
-				func2->getName(name2, name_max);
-
-			if ((func == NULL && func2 != NULL) ||
-					(func != NULL && func2 == NULL)) {
-				logerror("**Failed** test %d (%s)\n", test_num, test_name);
-				logerror("    frame->findFunction() disagrees with thread->findFunctionByEntry()\n");
-				logerror("    frame->findFunction() returns %s\n",
-						name);
-				logerror("    thread->findFunctionByEntry() return %s\n",
-						name2);
-				failed = true;
-				break;
-			} else if (func!=NULL && func2!=NULL && strcmp(name, name2)!=0) {
-				logerror("**Failed** test %d (%s)\n", test_num, test_name);
-				logerror("    BPatch_frame::findFunction disagrees with BPatch_thread::findFunctionByEntry\n");
-				failed = true;
-				break;
-			}
-
-			if (correct_frame_info[i].type != stack[j].getFrameType()) {
-				logerror("**Failed** test %d (%s)\n", test_num, test_name);
-				logerror("    Stack frame #%d has wrong type, is %s, should be %s\n", i+1, frameTypeString(stack[i].getFrameType()), frameTypeString(correct_frame_info[i].type));
-				logerror("    Stack frame 0x%lx, 0x%lx\n", stack[i].getPC(), stack[i].getFP() );
-				failed = true;
-				break;
-			}
-
-			if (stack[j].getFrameType() == BPatch_frameSignal ||
-					stack[j].getFrameType() == BPatch_frameTrampoline) {
-				// No further checking for these types right now
-			} else {
-				if (func == NULL) {
-					logerror("**Failed** test %d (%s)\n",
-							test_num, test_name);
-					logerror("    Stack frame #%d refers to an unknown function, should refer to %s\n", j+1, correct_frame_info[i].function_name);
-					failed = true;
-					break;
-				} else { /* func != NULL */
-					if (!hasExtraUnderscores(correct_frame_info[i].function_name))
-						strncpy(name, fixUnderscores(name), name_max);
-
-					if (strcmp(name, correct_frame_info[i].function_name) != 0) {
-						if (correct_frame_info[i].optional) {
-							j--;
-							continue;
-						}
-						logerror("**Failed** test %d (%s)\n", test_num, test_name);
-						logerror("    Stack frame #%d refers to function %s, should be %s\n", j+1, name, correct_frame_info[i].function_name);
-						failed = true;
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	return !failed;
+    return !failed;
 }
 
 /* End Test8 Specific */
