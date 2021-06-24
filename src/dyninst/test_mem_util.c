@@ -34,27 +34,6 @@
 #include "../src/dyninst/test_mem_util.h"
 #include "../src/mutatee_util.h"
 
-/* Sun Forte/WorkShop cc releases older than 6.2 do not like these defines: */
-/* (macro versions of these calls are in test_mem_util.h) */
-#if defined(__SUNPRO_C) && (__SUNPRO_C < 0x530)
-void passorfail(int i, int p, char* d, char* r)
-{
-  if(p) {
-    logerror("Passed test #%d (%s)\n", (i), (d));
-    passedTest[(i)] = TRUE;
-  } else {
-    logerror("\n**Failed** test #%d (%s): %s\n", (i), (d), (r));
-  }
-}
-
-void skiptest(int i, char* d)
-{
-  logerror("Skipping test #%d (%s)\n", (i), (d));
-  logerror("    not implemented on this platform\n");
-  passedTest[(i)] = TRUE;
-}
-#endif
-
 int result_of_loadsnstores;
 
 unsigned int loadCnt = 0;

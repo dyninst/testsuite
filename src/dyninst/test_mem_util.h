@@ -34,8 +34,6 @@
 extern "C" {
 #endif
 
-/* Sun Forte/WorkShop cc releases older than 6.2 do not like these defines: */
-#if !defined(__SUNPRO_C) || (__SUNPRO_C >= 0x530)
 #define passorfail(i,p,d,r) if((p)) { \
                               logerror("Passed test #%d (%s)\n", (i), (d)); \
                               passedTest[(i)] = TRUE; \
@@ -46,10 +44,7 @@ extern "C" {
 #define skiptest(i,d) { logerror("Skipping test #%d (%s)\n", (i), (d)); \
                         logerror("    not implemented on this platform\n"); \
                         passedTest[(i)] = TRUE; }
-#else
-void passorfail(int i, int p, char* d, char* r);
-void skiptest(int i, char* d);
-#endif
+
 
 extern long loadsnstores(long, long, long); /* ILP32 & LP64 */
 

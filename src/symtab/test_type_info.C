@@ -275,56 +275,66 @@ bool test_type_info_Mutator::verify_type_subrange(typeSubrange *t) {
   return true;
 }
 
-bool test_type_info_Mutator::verify_type_array(typeArray *t, int *exp_low,
-                                               int *exp_hi,
-                                               std::string *base_type_name) {
-  got_type_array = true;
-  std::string &tn = t->getName();
+bool test_type_info_Mutator::verify_type_array(typeArray *t, int *exp_low, int *exp_hi, 
+		std::string *base_type_name)
+{
+	got_type_array = true;
+	std::string &tn = t->getName();
 
-  if (t->getLow() > t->getHigh()) {
-    //  special case (encountered w/ sun compilers -- if low bound is zero and
-    //  highbound is -1, the array is not specified with a proper range, so
-    //  ignore
-    if (!(t->getLow() == 0L && t->getHigh() == -1L)) {
-      logerror("%s[%d]:  bad ranges [%lu--%lu] for type %s!\n", FILE__,
-               __LINE__, t->getLow(), t->getHigh(), tn.c_str());
-      return false;
-    }
-  }
+	//std::cerr << "verify_type_array for " << tn << std::endl;
 
-  Type *b = t->getBaseType();
-  if (!b) {
-    logerror("%s[%d]:  NULL base type for type %s!\n", FILE__, __LINE__,
-             tn.c_str());
-    return false;
-  }
+	if (t->getLow() > t->getHigh())
+	{
+		//  special case -- if low bound is zero and
+		//  highbound is -1, the array is not specified with a proper range, so
+		//  ignore
+		if (! (t->getLow() == 0L && t->getHigh() == -1L))
+		{
+			logerror( "%s[%d]:  bad ranges [%lu--%lu] for type %s!\n", 
+					FILE__, __LINE__, t->getLow(), t->getHigh(), tn.c_str());
+			return false;
+		}
+	}
 
-  if (exp_low) {
-    if (*exp_low != t->getLow()) {
-      logerror("%s[%d]:  unexpected lowbound %d (not %d) for type %s!\n",
-               FILE__, __LINE__, t->getLow(), *exp_low, tn.c_str());
-      return false;
-    }
-  }
+	Type *b = t->getBaseType();
+	if (!b)
+	{
+		logerror( "%s[%d]:  NULL base type for type %s!\n", 
+				FILE__, __LINE__, tn.c_str());
+		return false;
+	}
 
-  if (exp_hi) {
-    if (*exp_hi != t->getHigh()) {
-      logerror("%s[%d]:  unexpected hibound %d (not %d) for type %s!\n", FILE__,
-               __LINE__, t->getHigh(), *exp_hi, tn.c_str());
-      return false;
-    }
-  }
+	if (exp_low)
+	{
+		if (*exp_low != t->getLow())
+		{
+			logerror( "%s[%d]:  unexpected lowbound %d (not %d) for type %s!\n", 
+					FILE__, __LINE__, t->getLow(), *exp_low, tn.c_str());
+			return false;
+		}
+	}
 
-  if (base_type_name) {
-    if (*base_type_name != b->getName()) {
-      logerror("%s[%d]:  unexpected basetype %s (not %s) for type %s!\n",
-               FILE__, __LINE__, b->getName().c_str(), base_type_name->c_str(),
-               tn.c_str());
-      return false;
-    }
-  }
+	if (exp_hi)
+	{
+		if (*exp_hi != t->getHigh())
+		{
+			logerror( "%s[%d]:  unexpected hibound %d (not %d) for type %s!\n", 
+					FILE__, __LINE__, t->getHigh(), *exp_hi, tn.c_str());
+			return false;
+		}
+	}
 
-  return true;
+	if (base_type_name)
+	{
+		if (*base_type_name != b->getName())
+		{
+			logerror( "%s[%d]:  unexpected basetype %s (not %s) for type %s!\n", 
+					FILE__, __LINE__, b->getName().c_str(), base_type_name->c_str(), tn.c_str());
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool test_type_info_Mutator::verify_field(Field *f) {
@@ -752,52 +762,44 @@ bool test_type_info_Mutator::specific_type_tests() {
 		return false;
 	}
 
-	if (std::string::npos == execname.find("CC")) 
+	tname = "my_intptr_t";
+	if (!symtab->findType(t, tname) || (NULL == t))
 	{
-		tname = "my_intptr_t";
-		if (!symtab->findType(t, tname) || (NULL == t))
-		{
-			logerror( "%s[%d]:  could not find type %s\n", 
-					FILE__, __LINE__, tname.c_str());
-			return false;
-		}
-
-		tt = t->getTypedefType();
-		if (!tt)
-		{
-			logerror( "%s[%d]:  %s: unexpected variety\n", 
-					FILE__, __LINE__, tname.c_str());
-			return false;
-		}
-
-		if (!verify_type_typedef(tt, NULL)) 
-			return false;
-
-		tc = tt->getConstituentType();
-		if (!tc)
-		{
-			logerror( "%s[%d]:  %s: no constituent type\n", 
-					FILE__, __LINE__, tname.c_str());
-			return false;
-		}
-
-		typePointer *tp = tc->getPointerType();
-		if (!tp)
-		{
-			logerror( "%s[%d]:  %s: unexpected variety: %s\n", 
-					FILE__, __LINE__, tname.c_str(), dataClass2Str(tc->getDataClass()));
-			return false;
-		}
-
-		std::string expected_pointer_base = "int";
-		if (!verify_type_pointer(tp, &expected_pointer_base)) 
-			return false;
+		logerror( "%s[%d]:  could not find type %s\n",
+				FILE__, __LINE__, tname.c_str());
+		return false;
 	}
-	else
+
+	tt = t->getTypedefType();
+	if (!tt)
 	{
-		logerror("%s[%d]:  skipped function pointer type verifiction for sun CC compiler\n", 
-				FILE__, __LINE__);
+		logerror( "%s[%d]:  %s: unexpected variety\n",
+				FILE__, __LINE__, tname.c_str());
+		return false;
 	}
+
+	if (!verify_type_typedef(tt, NULL))
+		return false;
+
+	tc = tt->getConstituentType();
+	if (!tc)
+	{
+		logerror( "%s[%d]:  %s: no constituent type\n",
+				FILE__, __LINE__, tname.c_str());
+		return false;
+	}
+
+	typePointer *tp = tc->getPointerType();
+	if (!tp)
+	{
+		logerror( "%s[%d]:  %s: unexpected variety: %s\n",
+				FILE__, __LINE__, tname.c_str(), dataClass2Str(tc->getDataClass()));
+		return false;
+	}
+
+	std::string expected_pointer_base = "int";
+	if (!verify_type_pointer(tp, &expected_pointer_base))
+		return false;
 #endif
 
   /* ----  Check DWARF encodings for base types ---- */
