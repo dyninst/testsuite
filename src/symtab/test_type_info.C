@@ -109,15 +109,7 @@ class test_type_info_Mutator : public SymtabMutator {
 		   return false;
 	   }
 
-#if 0
-	   //  I think typeFunction is c++ only
-	   if (!got_type_function)
-	   {
-		   logerror( "%s[%d]:  function was missed\n", FILE__, __LINE__);
-		   return false;
-	   }
-#endif
-
+		// typeFunction appears to be C++ only, so we don't check it (the mutatee is C).
 	   if (!got_type_subrange)
 	   {
 		   //  solaris CC does not appear to produce these
@@ -173,7 +165,6 @@ bool test_type_info_Mutator::verify_type_enum(typeEnum *t, std::vector<std::pair
 {
 	got_type_enum = true;
 	std::string &tn = t->getName();
-	//std::cerr << "verify_type_enum for " << tn << std::endl;
 
 	auto constants = t->getConstants();
 
@@ -270,7 +261,6 @@ bool test_type_info_Mutator::verify_type_function(typeFunction *t)
 	auto params = t->getParams();
 
 	//  It is not an error to have zero params
-
 	for (unsigned int i = 0; i < params.size(); ++i)
 	{
 		if (params[i] == NULL)
@@ -288,8 +278,6 @@ bool test_type_info_Mutator::verify_type_subrange(typeSubrange *t)
 	got_type_subrange = true;
 	std::string &tn = t->getName();
 
-	//std::cerr << "verify_type_subrange for " << tn << std::endl;
-
 	if (t->getLow() > t->getHigh())
 	{
 		logerror( "%s[%d]:  bad range [%d--%d] for type %s!\n", 
@@ -305,8 +293,6 @@ bool test_type_info_Mutator::verify_type_array(typeArray *t, int *exp_low, int *
 {
 	got_type_array = true;
 	std::string &tn = t->getName();
-
-	//std::cerr << "verify_type_array for " << tn << std::endl;
 
 	if (t->getLow() > t->getHigh())
 	{
@@ -381,23 +367,6 @@ bool test_type_info_Mutator::verify_field(Field *f)
 		logerror( "%s[%d]:  field %s has NULL type\n", FILE__, __LINE__, f->getName().c_str());
 		return false;
 	}
-
-#if 0
-	if (0 == f->getOffset())
-	{
-		//  this is probably ok
-		logerror( "%s[%d]: field %s has zero offset\n", FILE__, __LINE__, f->getName().c_str());
-		return false;
-	}
-
-	if (visUnknown == f->getVisibility())
-	{
-		//  this is probably ok
-		logerror( "%s[%d]: field %s has unknown visibility\n", FILE__, __LINE__, f->getName().c_str());
-		return false;
-	}
-#endif
-
 	return true;
 }
 
@@ -407,8 +376,6 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
       std::vector<std::pair<std::string, std::string> > *afields)
 {
 	std::string &tn = t->getName();
-
-	//std::cerr << "verify_field_list for " << tn << std::endl;
 
 	auto components = t->getComponents();
 
@@ -457,37 +424,6 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
 		{
 			std::vector<std::pair<std::string, std::string> > &expected_fields = *efields;
 
-			//  We would be prudent here to use module language info to check
-			//  whether this is c or c++, since that affects how many fields we have
-			//  (c++ may have fields that represent functions, ctors, etc)
-			//
-			//  But alas, our language determination is still a bit inconsistent
-			//  and can't really be treated as reliable
-			//
-
-			//if (lang = lang_CPlusPlus)
-			//{
-				//  C++ field lists may contain function definitions as well
-				// as fields
-			//	if (efields->size() < fields->size())
-			//	{
-			//		logerror( "%s[%d]:  bad sizes for expected fields\n", 
-			//				FILE__, __LINE__);
-			//		logerror( "%s[%d]:  got %d, expected %d\n", FILE__, __LINE__, 
-			//				fields->size(), efields->size());
-			//	}
-			//}
-			//else
-			//{
-			//	if (efields->size() != fields->size())
-			//	{
-			//		logerror( "%s[%d]:  WARNING:  differing sizes for expected fields\n", 
-			//				FILE__, __LINE__);
-			//		logerror( "%s[%d]:  got %d, expected %d\n", FILE__, __LINE__, 
-			//				fields->size(), efields->size());
-			//	}
-			//}
-
 			if (efields->size() > fields->size())
 			{
 				logerror( "%s[%d]:  bad sizes for expected fields for type %s\n", 
@@ -511,13 +447,6 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
 				std::string fieldname = f1->getName();
 				std::string fieldtypename = f1->getType() ? f1->getType()->getName() : "";
 				Type *ft = f1->getType();
-
-				//if (lang == lang_CPlusPlus && ft->getFunctionType())
-				//{
-				//	logerror( "%s[%d]:  skipping field %s\n", FILE__, __LINE__, 
-				//			fieldname.c_str());
-				//	continue;
-				//}
 
 				std::string expected_fieldname = 
 					(expected_fields.size() > i) ? expected_fields[i].second 
@@ -563,8 +492,6 @@ bool test_type_info_Mutator::verify_type_struct(typeStruct *t,
 	got_type_struct = true;
 	std::string &tn = t->getName();
 
-	//std::cerr << "verify_struct for " << tn << std::endl;
-
 	if (!verify_field_list(t, ecomps, efields, afields))
 	{
 		logerror( "%s[%d]:  verify struct %s failing\n", FILE__, __LINE__, tn.c_str());
@@ -581,8 +508,6 @@ bool test_type_info_Mutator::verify_type_union(typeUnion *t,
 	got_type_union = true;
 	std::string &tn = t->getName();
 
-	//std::cerr << "verify_union for " << tn << std::endl;
-
 	if (!verify_field_list(t, ecomps, efields))
 	{
 		logerror( "%s[%d]:  verify union %s failing\n", FILE__, __LINE__, tn.c_str());
@@ -597,8 +522,6 @@ bool test_type_info_Mutator::verify_type_scalar(typeScalar *t)
 	got_type_scalar = true;
 	std::string &tn = t->getName();
 
-	//std::cerr << "verify_scalar for " << tn << std::endl;
-
 	//  uh... nothing to do here....  (maybe check sizes??)
 
 	return true;
@@ -609,8 +532,6 @@ bool test_type_info_Mutator::verify_type_typedef(typeTypedef *t, std::string *tn
 	got_type_typedef = true;
 	std::string &tn = t->getName();
 
-	//std::cerr << "verify_typedef for " << tn << std::endl;
-	
 	Type *c = t->getConstituentType();
 	if (!c)
 	{
@@ -637,8 +558,6 @@ bool test_type_info_Mutator::verify_type(Type *t)
 	assert(t);
 	std::string & tn = t->getName();
 
-	//std::cerr << "considering type " << tn << std::endl;
-
 	if (!t->getID())
 	{
 		logerror( "%s[%d]:  type %s with zero id\n", FILE__, __LINE__, tn.c_str());
@@ -649,7 +568,6 @@ bool test_type_info_Mutator::verify_type(Type *t)
 	{
 		logerror( "%s[%d]:  unnamed %s type\n", FILE__, __LINE__, 
 				dataClass2Str(t->getDataClass()));
-		//return false;
 	}
 
 	dataClass dc = t->getDataClass();
@@ -690,7 +608,6 @@ bool test_type_info_Mutator::verify_type(Type *t)
 		// we don't test that here yet
 		logerror( "%s[%d]:  weird, got common type\n", FILE__, __LINE__);
 		return true;
-		//return verify_type_common(t->getCommonType());
 	}
 	else if (t->getRefType())
 	{
@@ -698,7 +615,6 @@ bool test_type_info_Mutator::verify_type(Type *t)
 		// we don't test that here yet
 		logerror( "%s[%d]:  weird, got reference type\n", FILE__, __LINE__);
 		return true;
-		//return verify_type_ref(t->getRefType());
 	}
 	else
 	{
@@ -844,7 +760,6 @@ bool test_type_info_Mutator::specific_type_tests()
 		logerror( "%s[%d]:  %s: no constituent type\n", FILE__, __LINE__, tname.c_str());
 		return false;
 	}
-	//logerror( "%s[%d]:  typedef %s constituent typename: %s:%s/id %d, typedef id = %d\n", FILE__, __LINE__, tt->getName().c_str(), tc->specificType().c_str(), tc->getName().c_str(), tc->getID(), tt->getID());
 
 	typeArray *ta = tc->getArrayType();
 	if (!ta)
@@ -1005,9 +920,6 @@ test_results_t test_type_info_Mutator::verify_basic_type_lists()
 			   continue;
 	   }
 
-	   //logerror( "%s[%d]:  examining types in module %s\n", FILE__, __LINE__,
-	   //		   mods[i]->fileName().c_str());
-
 	   for (unsigned int j = 0; j < modtypes->size(); ++j)
 	   {
 		   Type *t = (*modtypes)[j];
@@ -1069,7 +981,6 @@ test_results_t test_type_info_Mutator::executeTest()
 	for (unsigned int i = 0; i < mods.size(); ++i)
 	{
 		std::string mname = mods[i]->fileName();
-		//logerror( "%s[%d]:  considering module %s\n", FILE__, __LINE__, mname.c_str());
 		if (!strncmp("solo_mutatee", mname.c_str(), strlen("solo_mutatee")) ||	
 		    !strncmp("test_type_info_mutatee", mname.c_str(), strlen("test_type_info_mutatee")))
 		{
@@ -1086,7 +997,6 @@ test_results_t test_type_info_Mutator::executeTest()
 	}
 
 	lang = mod->language();
-	//logerror( "%s[%d]:  lang = %s\n", FILE__, __LINE__, supportedLanguages2Str(lang));
 	test_results_t ret = verify_basic_type_lists();
    return ret;
 }
