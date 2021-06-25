@@ -505,7 +505,7 @@ bool test_type_info_Mutator::verify_field_list(fieldListType *t,
 				{
 					logerror( "%s[%d]:  cannot get %dth elem of %d size vec\n", 
 							FILE__, __LINE__, i, fields->size());
-					break;
+					return false;
 				}
 
 				Field *f1 = (*fields)[i];
@@ -731,8 +731,10 @@ bool test_type_info_Mutator::specific_type_tests()
 	expected_vals.push_back(std::pair<std::string, int>(std::string("ef1_2"), 40));
 	expected_vals.push_back(std::pair<std::string, int>(std::string("ef1_3"), 60));
 	expected_vals.push_back(std::pair<std::string, int>(std::string("ef1_4"), 80));
-	if (!verify_type_enum(te, &expected_vals)) 
+	if (!verify_type_enum(te, &expected_vals)) {
+		logerror( "%s[%d]:  could not find enum type %s\n", FILE__, __LINE__, tname.c_str());
 		return false;
+	}
 
 	tname = "my_union";
 	if (!symtab->findType(t, tname) || (NULL == t))
@@ -831,8 +833,10 @@ bool test_type_info_Mutator::specific_type_tests()
 	}
 	else
 	{
-		if (!verify_type_typedef(tt, NULL)) 
+		if (!verify_type_typedef(tt, NULL)) {
+			logerror( "%s[%d]:  could not verify typedef %s\n", FILE__, __LINE__, tname.c_str());
 			return false;
+		}
 
 		tc = tt->getConstituentType();
 	}
@@ -883,8 +887,10 @@ bool test_type_info_Mutator::specific_type_tests()
 			return false;
 		}
 
-		if (!verify_type_typedef(tt, NULL)) 
+		if (!verify_type_typedef(tt, NULL)) {
+			logerror( "%s[%d]:  could not verify typedef %s\n", FILE__, __LINE__, tname.c_str());
 			return false;
+		}
 
 		tc = tt->getConstituentType();
 		if (!tc)
@@ -903,8 +909,10 @@ bool test_type_info_Mutator::specific_type_tests()
 		}
 
 		std::string expected_pointer_base = "int";
-		if (!verify_type_pointer(tp, &expected_pointer_base)) 
+		if (!verify_type_pointer(tp, &expected_pointer_base)) {
+			logerror( "%s[%d]:  could not find pointer type %s\n", FILE__, __LINE__, tname.c_str());
 			return false;
+		}
 	}
 	else
 	{
