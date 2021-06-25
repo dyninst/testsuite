@@ -373,7 +373,6 @@ bool test_type_info_Mutator::verify_field(Field *f)
 	if (0 == f->getName().length())
 	{
 		logerror( "%s[%d]:  unnamed field\n", FILE__, __LINE__);
-		return false;
 	}
 
 	Type *ft = f->getType();
