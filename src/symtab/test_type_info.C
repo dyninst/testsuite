@@ -35,6 +35,8 @@
 #include "Symbol.h"
 #include "Symtab.h"
 #include "Type.h"
+#include <array>
+#include <functional>
 #include <iostream>
 
 using namespace Dyninst;
@@ -784,6 +786,196 @@ bool test_type_info_Mutator::specific_type_tests() {
              FILE__, __LINE__);
   }
 #endif
+
+  /* ----  Check DWARF encodings for base types ---- */
+  // NB: We are limited to just C types because the mutatee is written in C
+
+  // Integral types
+  {
+    tname = "integral_t";
+    if (!symtab->findType(t, tname) || !t) {
+      logerror("%s[%d]:  could not find type %s\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+
+    typeStruct *ts = t->getStructType();
+    if (!ts) {
+      logerror("%s[%d]:  %s: unexpected variety\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+
+    using prop_t = SymtabAPI::typeScalar::properties_t;
+    constexpr auto expected_num_fields = 6UL;
+    // clang-format off
+    auto check = [ts]() {
+      std::array<std::function<bool(prop_t const&)>, expected_num_fields> checks = {{
+        [](prop_t const& p) { return p.is_integral && p.is_boolean; },
+        [](prop_t const& p) { return p.is_integral && (p.is_signed_char || p.is_unsigned_char); },
+        [](prop_t const& p) { return p.is_integral && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && !p.is_floating_point && !p.is_string; }
+      }};
+      // clang-format on
+      auto const &fields = *ts->getFields();
+      if (fields.size() != expected_num_fields)
+        return false;
+
+      for (size_t i = 0; i < expected_num_fields; i++) {
+        auto const &p = fields[i]->getType()->getScalarType()->properties();
+        if (!checks[i](p))
+          return false;
+      }
+      return true;
+    }();
+    if (!check) {
+      logerror("%s[%d]:  %s: Found incorrect encodings\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+  }
+
+  // Signed Integral types
+  {
+    tname = "signed_integral_t";
+    if (!symtab->findType(t, tname) || !t) {
+      logerror("%s[%d]:  could not find type %s\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+
+    typeStruct *ts = t->getStructType();
+    if (!ts) {
+      logerror("%s[%d]:  %s: unexpected variety\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+
+    using prop_t = SymtabAPI::typeScalar::properties_t;
+    constexpr auto expected_num_fields = 5UL;
+    // clang-format off
+    auto check = [ts]() {
+      std::array<std::function<bool(prop_t const&)>, expected_num_fields> checks = {{
+        [](prop_t const& p) { return p.is_integral && p.is_signed_char && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_signed && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_signed && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_signed && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_signed && !p.is_floating_point && !p.is_string; }
+      }};
+      // clang-format on
+      auto const &fields = *ts->getFields();
+      if (fields.size() != expected_num_fields)
+        return false;
+
+      for (size_t i = 0; i < expected_num_fields; i++) {
+        auto const &p = fields[i]->getType()->getScalarType()->properties();
+        if (!checks[i](p))
+          return false;
+      }
+      return true;
+    }();
+    if (!check) {
+      logerror("%s[%d]:  %s: Found incorrect encodings\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+  }
+
+  // Unsigned Integral types
+  {
+    tname = "unsigned_integral_t";
+    if (!symtab->findType(t, tname) || !t) {
+      logerror("%s[%d]:  could not find type %s\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+
+    typeStruct *ts = t->getStructType();
+    if (!ts) {
+      logerror("%s[%d]:  %s: unexpected variety\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+
+    using prop_t = SymtabAPI::typeScalar::properties_t;
+    constexpr auto expected_num_fields = 5UL;
+    // clang-format off
+    auto check = [ts]() {
+      std::array<std::function<bool(prop_t const&)>, expected_num_fields> checks = {{
+        [](prop_t const& p) { return p.is_integral && p.is_unsigned_char && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_unsigned && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_unsigned && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_unsigned && !p.is_floating_point && !p.is_string; },
+        [](prop_t const& p) { return p.is_integral && p.is_unsigned && !p.is_floating_point && !p.is_string; }
+      }};
+      // clang-format on
+      auto const &fields = *ts->getFields();
+      if (fields.size() != expected_num_fields)
+        return false;
+
+      for (size_t i = 0; i < expected_num_fields; i++) {
+        auto const &p = fields[i]->getType()->getScalarType()->properties();
+        if (!checks[i](p))
+          return false;
+      }
+      return true;
+    }();
+    if (!check) {
+      logerror("%s[%d]:  %s: Found incorrect encodings\n", FILE__, __LINE__,
+               tname.c_str());
+      return false;
+    }
+  }
+
+  // Floating point types
+    {
+      tname = "floating_point_t";
+      if (!symtab->findType(t, tname) || !t) {
+        logerror("%s[%d]:  could not find type %s\n", FILE__, __LINE__,
+                 tname.c_str());
+        return false;
+      }
+
+      typeStruct *ts = t->getStructType();
+      if (!ts) {
+        logerror("%s[%d]:  %s: unexpected variety\n", FILE__, __LINE__,
+                 tname.c_str());
+        return false;
+      }
+
+      using prop_t = SymtabAPI::typeScalar::properties_t;
+      constexpr auto expected_num_fields = 6UL;
+      // clang-format off
+      auto check = [ts]() {
+        std::array<std::function<bool(prop_t const&)>, expected_num_fields> checks = {{
+          [](prop_t const& p) { return p.is_floating_point && !p.is_integral && !p.is_string; },
+		  [](prop_t const& p) { return p.is_floating_point && !p.is_integral && !p.is_string; },
+		  [](prop_t const& p) { return p.is_floating_point && !p.is_integral && !p.is_string; },
+		  [](prop_t const& p) { return p.is_floating_point && p.is_complex_float && !p.is_integral && !p.is_string; },
+		  [](prop_t const& p) { return p.is_floating_point && p.is_complex_float && !p.is_integral && !p.is_string; },
+		  [](prop_t const& p) { return p.is_floating_point && p.is_complex_float && !p.is_integral && !p.is_string; }
+        }};
+        // clang-format on
+        auto const &fields = *ts->getFields();
+        if (fields.size() != expected_num_fields)
+          return false;
+
+        for (size_t i = 0; i < expected_num_fields; i++) {
+          auto const &p = fields[i]->getType()->getScalarType()->properties();
+          if (!checks[i](p))
+            return false;
+        }
+        return true;
+      }();
+      if (!check) {
+        logerror("%s[%d]:  %s: Found incorrect encodings\n", FILE__, __LINE__,
+                 tname.c_str());
+        return false;
+      }
+    }
+
   return true;
 }
 

@@ -29,6 +29,8 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
+#include <complex.h>
 #include "solo_mutatee_boilerplate.h"
 
 enum enum1 {
@@ -92,3 +94,24 @@ int test_type_info_mutatee()
    return 0;
 }
 
+struct integral_t {
+#ifdef __cplusplus
+	#define boolean bool
+#else
+	#define boolean _Bool
+#endif
+	boolean b; char c; short s; int i; long l; long long ll;
+} it;
+
+struct signed_integral_t {
+	signed char c; signed short s; signed int i; signed long l; signed long long ll;
+} sit;
+
+struct unsigned_integral_t {
+	unsigned char c; unsigned short s; unsigned int i; unsigned long l; unsigned long long ll;
+} uit;
+
+struct floating_point_t {
+	float f; double d; long double ld;
+	float _Complex fc; double _Complex dc; long double _Complex ldc;
+} fpt;
