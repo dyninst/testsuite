@@ -164,10 +164,6 @@ test_results_t test_line_info_Mutator::executeTest()
 
 	if (createmode == DESERIALIZE)
 		return SKIPPED;
-#if defined (os_aix_test)
-	//if (useAttach == DESERIALIZE)
-		return SKIPPED;
-#endif
 	if (FAILED == basic_verification())
 	{
 		logerror( "%s[%d]:  failed basic verifications, skipping rest...\n", 

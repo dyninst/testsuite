@@ -34,27 +34,6 @@
 #include "../src/dyninst/test_mem_util.h"
 #include "../src/mutatee_util.h"
 
-/* Sun Forte/WorkShop cc releases older than 6.2 do not like these defines: */
-/* (macro versions of these calls are in test_mem_util.h) */
-#if defined(__SUNPRO_C) && (__SUNPRO_C < 0x530)
-void passorfail(int i, int p, char* d, char* r)
-{
-  if(p) {
-    logerror("Passed test #%d (%s)\n", (i), (d));
-    passedTest[(i)] = TRUE;
-  } else {
-    logerror("\n**Failed** test #%d (%s): %s\n", (i), (d), (r));
-  }
-}
-
-void skiptest(int i, char* d)
-{
-  logerror("Skipping test #%d (%s)\n", (i), (d));
-  logerror("    not implemented on this platform\n");
-  passedTest[(i)] = TRUE;
-}
-#endif
-
 int result_of_loadsnstores;
 
 unsigned int loadCnt = 0;
@@ -79,77 +58,6 @@ unsigned int bcListCC[1000];
 void* eaExpCC[1000];
 unsigned int bcExpCC[1000];
 
-
-#ifdef rs6000_ibm_aix4_1_test
-const unsigned int loadExp=41;
-const unsigned int storeExp=32;
-const unsigned int prefeExp=0;
-const unsigned int accessExp=73;
-const unsigned int accessExpCC=73;
-
-unsigned int bcExp[] = { 4,  1,1,1,1,  2,2,2,2,  2,2,2,2,  4,4,4,4,
-			 4,4,4,  8,8,8,8,  1,1,1,1,  2,2,2,2,
-			 4,4,4,4,  8,8,8,8,  2,4,2,4,  76,76,24,20,
-			 20,20,  4,4,8,8,  4,  4,4,4,4,  4,  8,8,8,8,
-			 4,4,4,4,  8,8,8,8,  4 };
-
-int eaExpOffset[] =    { 0, 17,3,1,2,  0,4,2,0,  2,2,2,2,  0,4,4,4,
-			 4,12,2,  0,0,0,0,  3,1,1,1,  2,6,2,2,
-			 0,4,4,4,  0,0,0,0,  0,0,0,0,  -76,-76,-24,-24,
-			 -20,-20,    0,0,0,0,  0,  0,4,0,4,  0,  0,8,8,8,
-			 4,12,0,0,  0,8,8,8,  0 };
-
-/* _inline */ void init_test_data()
-{
-  int i;
-
-  void *toc = gettoc();
-  void *sp  = getsp(1,2,3);
-
-  dprintf("divarw = %p\n", divarw);
-  dprintf("dfvars = %p\n", dfvars);
-  dprintf("dfvard = %p\n", dfvard);
-
-  dprintf("toc = %p\n", toc);
-  dprintf("sp = %p\n", sp);
-
-  eaExp[0] = toc; /* assuming that TOC entries are not reordered */
-
-  for(i=1; i<44; ++i)
-    eaExp[i] = (void*)((unsigned long)divarw + eaExpOffset[i]);
-
-  for(i=44; i<50; ++i)
-    eaExp[i] = (void*)((unsigned long)sp + eaExpOffset[i]);; /* SP */
-  
-  for(i=50; i<54; ++i)
-    eaExp[i] = (void*)((unsigned long)divarw + eaExpOffset[i]);
-
-  eaExp[54] = (void*)((unsigned long)toc + sizeof(void*)); /* TOC */
-
-  for(i=55; i<59; ++i)
-    eaExp[i] = (void*)((unsigned long)dfvars + eaExpOffset[i]);
-
-  eaExp[59] = (void*)((unsigned long)toc + 2*sizeof(void*)); /* TOC */
-
-  for(i=60; i<64; ++i)
-    eaExp[i] = (void*)((unsigned long)dfvard + eaExpOffset[i]);
-
-  for(i=64; i<68; ++i)
-    eaExp[i] = (void*)((unsigned long)dfvars + eaExpOffset[i]);
-
-  for(i=68; i<72; ++i)
-    eaExp[i] = (void*)((unsigned long)dfvard + eaExpOffset[i]);
-  
-  eaExp[72] = (void*)((unsigned long)dfvars + eaExpOffset[i]);
-
-
-  /* Duplicate the stream for cc */
-  for(i=0; i<accessExp; ++i) {
-    eaExpCC[i] = eaExp[i];
-    bcExpCC[i] = bcExp[i];
-  }
-}
-#endif /* defined(rs6000_ibm_aix4_1_test) */
 
 #if defined(i386_unknown_linux2_0_test) || (defined(os_freebsd_test) && defined(arch_x86_test))
 unsigned int loadExp=67;

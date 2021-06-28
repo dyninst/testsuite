@@ -103,8 +103,7 @@ test_results_t test1_25_Mutator::executeTest()
 	}
 
 	//     globalVariable25_2 = &globalVariable25_1
-#if !defined(rs6000_ibm_aix4_1_test) \
-	&& !defined(i386_unknown_linux2_0_test) \
+#if !defined(i386_unknown_linux2_0_test) \
 	&& !defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
 	&& !defined(ppc64_linux_test) \
 	&& !defined(i386_unknown_nt4_0_test) \
@@ -137,9 +136,6 @@ test_results_t test1_25_Mutator::executeTest()
 	BPatch_arithExpr assignment4(BPatch_assign, *gvar[7],
 			BPatch_arithExpr(BPatch_negate, *gvar[6]));
 	appAddrSpace->insertSnippet(assignment4, *point25_1);
-
-	// Check removed because MIPS is no longer supported
-	// #endif // !MIPS
 
 	BPatch::bpatch->setTypeChecking (true);
 	return PASSED;

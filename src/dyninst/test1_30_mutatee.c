@@ -81,11 +81,7 @@ int test1_30_mutatee() {
     func30_2();
 
     passed = !test1_30_globalVariable3 ||
-#if defined(rs6000_ibm_aix4_1_test)
-             ((test1_30_globalVariable8 <= test1_30_globalVariable3) &&
-#else
 	     ((globalVariable30_2 <= test1_30_globalVariable3) &&
-#endif
 	      (test1_30_globalVariable3 <= test1_30_globalVariable9));
 
     if (!passed){
@@ -94,11 +90,7 @@ int test1_30_mutatee() {
     }
 
     passed = !test1_30_globalVariable4 ||
-#if defined(rs6000_ibm_aix4_1_test)
-	     ((test1_30_globalVariable8 <= test1_30_globalVariable4) &&
-#else
 	     ((globalVariable30_2 <= test1_30_globalVariable4) &&
-#endif
 	      (test1_30_globalVariable4 <= test1_30_globalVariable9));
 
     if (!passed) {
@@ -107,11 +99,7 @@ int test1_30_mutatee() {
     }
 
     passed = !test1_30_globalVariable5 ||
-#if defined(rs6000_ibm_aix4_1_test)
-	      ((test1_30_globalVariable8 <= test1_30_globalVariable5) &&
-#else
 	      ((globalVariable30_2 <= test1_30_globalVariable5) &&
-#endif
 	       (test1_30_globalVariable5 <= test1_30_globalVariable9));
 
     if (!passed) {

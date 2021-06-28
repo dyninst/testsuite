@@ -749,12 +749,6 @@ void updateSearchPaths(const char *filename) {
    // First, find the directory we reside in
 
     bool include_cwd_always = false;
-#if defined(os_aix_test)
-    // AIX strips a ./ from the start of argv[0], so
-    // we will execute ./test_driver and see test_driver
-
-    include_cwd_always = true;
-#endif
 
    char *execpath;
    char pathname[PATH_MAX];
@@ -802,18 +796,11 @@ void updateSearchPaths(const char *filename) {
    assert(!putenv(envCopy));
     
    char *envLibPath;
-#if defined(os_aix_test)
-   envLibPath = getenv("LIBPATH");
-#else
    envLibPath = getenv("LD_LIBRARY_PATH");
-#endif
     
    envCopy = (char *) ::malloc(((envLibPath && strlen(envLibPath)) ? strlen(envLibPath) + 1 : 0) + strlen(execpath) + 17);
-#if defined(os_aix_test)
-   strcpy(envCopy, "LIBPATH=");
-#else
    strcpy(envCopy, "LD_LIBRARY_PATH=");
-#endif
+
    if (envLibPath && strlen(envLibPath)) {
       strcat(envCopy, envLibPath);
       strcat(envCopy, ":");

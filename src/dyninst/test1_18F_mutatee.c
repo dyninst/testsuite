@@ -47,11 +47,9 @@ struct block_ {
   int kludge;
 };
 
-#if !defined(XLF)
 #define test1_18_func1 test1_18_func1_
 #define test1_18f_init_globals test1_18f_init_globals_
 #define test1_18f_globals test1_18f_globals_
-#endif
 
 extern struct block_ test1_18f_globals;
 

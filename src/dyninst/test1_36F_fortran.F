@@ -33,12 +33,7 @@
 !	derived from a previous test by Jeff Hollingsworth
 
 !------------------------------------------------------------------------------
-
-! AIX xlf90 does not insert underscores at end
-
-#if !defined(XLF)
 #define stop_process_ stop_process
-#endif
 
 #ifdef __GNUC__
 #define AND iand
@@ -112,10 +107,6 @@
 		print *, 'got: ', result
 		failure = 1
 	endif
-
-#if defined(rs6000_ibm_aix4_1_test) && !defined(AIX5)
-	call xlf90_41_hack()
-#endif
 
 	if (test1_36_globalVariable1 .ne. 1) then
 		print *, '  for test 36, expecting arg1 value of 1, got ',

@@ -29,7 +29,6 @@
  */
 #if defined(i386_unknown_linux2_0_test) \
  || defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
- || defined(os_aix_test) \
  || defined(os_linux_test) \
  || defined(os_freebsd_test) /* better off using os #defines than whole platforms */
 #include <dlfcn.h> /* For replaceFunction test */

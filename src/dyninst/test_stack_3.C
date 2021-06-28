@@ -72,11 +72,7 @@ test_results_t test_stack_3_Mutator::executeTest() {
 #if defined( os_linux_test ) && (defined( arch_x86_test ) || defined( arch_x86_64_test ))
     { true, true, BPatch_frameNormal, "_dl_sysinfo_int80" },
 #endif
-#if defined( os_aix_test ) && defined( arch_power_test )
-    /* AIX uses kill(), but the PC of a process in a syscall can
-       not be correctly determined, and appears to be the address
-       to which the syscall function will return. */
-#elif defined( os_windows_test ) && (defined( arch_x86 ) || defined( arch_x86_64_test ))
+#if defined( os_windows_test ) && (defined( arch_x86 ) || defined( arch_x86_64_test ))
     /* Windows/x86 does not use kill(), so its lowermost frame will be 
        something unidentifiable in a system DLL. */
     { false, false, BPatch_frameNormal, NULL },
@@ -90,7 +86,7 @@ test_results_t test_stack_3_Mutator::executeTest() {
 #endif
     { true, false, BPatch_frameNormal, "test_stack_3_func3" },
     { true, false, BPatch_frameTrampoline, NULL },
-    /* On AIX and x86 (and others), if our instrumentation fires
+    /* On x86 (and others), if our instrumentation fires
        before frame construction or after frame destruction, it's 
        acceptable to not report the function (since, after all, it
        doesn't have a frame on the stack. */

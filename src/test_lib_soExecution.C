@@ -78,11 +78,7 @@ TESTLIB_DLL_EXPORT TestOutputDriver *loadOutputDriver(char *odname, void * data)
 static void* openSO(const char *soname, bool local)
 {
    char *fullSoPath = NULL;
-#if defined(os_aix_test)
-   fullSoPath = searchPath(getenv("LIBPATH"), soname);
-#else
    fullSoPath = searchPath(getenv("LD_LIBRARY_PATH"), soname);
-#endif
    if (getDebugLog()) {
       fprintf(getDebugLog(), "openSO: search path is %s\n", fullSoPath ? fullSoPath : "NULL");
    }
@@ -161,11 +157,7 @@ ComponentTester *Module::loadModuleLibrary()
 {
    libhandle = NULL;
    char libname[256];
-#if defined(os_aix_test)
-   snprintf(libname, 256, "libtest%s.a", name.c_str());
-#else   
    snprintf(libname, 256, "libtest%s.so", name.c_str());
-#endif
    libhandle = openSO(libname, false);
    if (!libhandle) {
       fprintf(stderr, "Error loading library: %s\n", dlerror());

@@ -38,8 +38,6 @@ extern int globalVariable5_1;
 
    _init table of methods:
    GCC: link with gcc -shared, and use __attribute__((constructor));
-   AIX: ld with -binitfini:loadMe_init
-   Solaris: ld with -z initarray=loadMe_init
    Linux: ld with -init loadMe_init
           gcc with -Wl,-init -Wl,...
           

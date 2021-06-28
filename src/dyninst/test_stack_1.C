@@ -64,9 +64,7 @@ test_results_t test_stack_1_Mutator::executeTest() {
 #if defined( os_linux_test ) && (defined( arch_x86_test ) || defined( arch_x86_64_test ))
 	{ true, true, BPatch_frameNormal, "_dl_sysinfo_int80" },
 #endif
-#if !defined(rs6000_ibm_aix4_1_test)
 	{ false, false, BPatch_frameNormal, NULL },
-#endif
 #if !defined(i386_unknown_nt4_0_test)
 	{ true,  false, BPatch_frameNormal, "stop_process_" },
 #endif

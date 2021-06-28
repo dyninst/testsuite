@@ -79,10 +79,6 @@
 
 // naxses
 
-#ifdef rs6000_ibm_aix4_1_test
-const unsigned int naxses = 73;
-#endif
-
 #if defined(arch_x86_test)
 #if defined(os_windows_test)
 const unsigned int naxses = 95;

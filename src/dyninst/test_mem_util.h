@@ -34,8 +34,6 @@
 extern "C" {
 #endif
 
-/* Sun Forte/WorkShop cc releases older than 6.2 do not like these defines: */
-#if !defined(__SUNPRO_C) || (__SUNPRO_C >= 0x530)
 #define passorfail(i,p,d,r) if((p)) { \
                               logerror("Passed test #%d (%s)\n", (i), (d)); \
                               passedTest[(i)] = TRUE; \
@@ -46,10 +44,7 @@ extern "C" {
 #define skiptest(i,d) { logerror("Skipping test #%d (%s)\n", (i), (d)); \
                         logerror("    not implemented on this platform\n"); \
                         passedTest[(i)] = TRUE; }
-#else
-void passorfail(int i, int p, char* d, char* r);
-void skiptest(int i, char* d);
-#endif
+
 
 extern long loadsnstores(long, long, long); /* ILP32 & LP64 */
 
@@ -76,39 +71,6 @@ extern void* eaListCC[1000];
 extern unsigned int bcListCC[1000];
 extern void* eaExpCC[1000];
 extern unsigned int bcExpCC[1000];
-
-
-#ifdef rs6000_ibm_aix4_1_test
-extern const unsigned int loadExp;
-extern const unsigned int storeExp;
-extern const unsigned int prefeExp;
-extern const unsigned int accessExp;
-extern const unsigned int accessExpCC;
-
-extern unsigned int bcExp[];
-
-extern int eaExpOffset[];
-
-extern void* eaExp[]; /* forward */
-/* Make sure this is 4 words long... */
-extern int divarw[4];
-extern float dfvars[4];
-extern double dfvard[4];
-
-extern void* gettoc();
-#ifdef rs6000_ibm_aix4_1_test
-/* Had trouble with this one */
-extern void *getsp(int, int, int);
-#else
-extern void* getsp();
-#endif
-
-#ifdef __GNUC__
-#define _inline inline
-#endif
-
-extern /* _inline */ void init_test_data();
-#endif /* defined(rs6000_ibm_aix4_1_test) */
 
 #if defined(i386_unknown_linux2_0_test) \
  || defined(i386_unknown_nt4_0_test) \

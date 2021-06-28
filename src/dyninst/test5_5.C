@@ -88,16 +88,12 @@ test_results_t test5_5_Mutator::executeTest() {
       return FAILED;
     }
 
-   // AIX doesn't keep symbols for local variables; however, we can test the
-   // remainder of the functionality.
-#if !defined(os_aix_test) 
    if (!var2) {
       logerror("**Failed** test #5 (namespace)\n");
       if (!var2)
          logerror("  can't find file local variable local_file_var_5_5\n");
       return FAILED;
    }
-#endif
 
    bpfv.clear();
    const char *fn2 = "main";

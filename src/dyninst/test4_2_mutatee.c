@@ -92,23 +92,6 @@ int test4_2_mutatee() {
        test4_2_func2();
        dprintf("at exit of %d, test4_2_global1 = %d\n", (int) getpid(),
                test4_2_global1);
-       
-#if defined(rs6000_ibm_aix4_1_test)
-       if( pid > 0){
-          dprintf("%d waiting for child\n", getpid());
-
-          /* On AIX the child dies when the parent exits, so wait */
-          /* apparently the parent needs to wake up occasionally to keep Dyninst happy */
-          dprintf("%d SLEEPING\n",getpid());
-          sleep(5);
-          dprintf("%d SLEEP MORE\n",getpid());
-          sleep(1);
-          dprintf("%d SLEEP MORE\n",getpid());
-          sleep(5);
-          dprintf("%d DONE SLEEPING\n",getpid());
-       }
-#endif
-
        dprintf("Mutatee %d exiting...\n", getpid());
        exit(getpid());
     } else if (pid < 0) {

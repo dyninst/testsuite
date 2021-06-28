@@ -59,8 +59,7 @@ extern "C" DLLEXPORT  TestMutator *test1_39_factory()
 test_results_t test1_39_Mutator::executeTest() 
 {
 	//  Note:  regex search by module is covered in test 21
-#if defined(rs6000_ibm_aix4_1_test) \
-	|| defined(os_linux_test) /* Use OS #define instead of platform - Greg */ \
+#if defined(os_linux_test) /* Use OS #define instead of platform - Greg */ \
         || defined(os_freebsd_test)
 
 	// ^^^ Not Windows

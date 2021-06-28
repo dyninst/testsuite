@@ -46,11 +46,9 @@ struct block_ {
    int passedTest_;
 };
 
-#if !defined(XLF)
 #define test1_2_func2_1 test1_2_func2_1_
 #define test1_2f_init_globals test1_2f_init_globals_
 #define test1_2f_globals test1_2f_globals_
-#endif
 
 extern struct block_ test1_2f_globals;
 
