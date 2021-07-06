@@ -193,7 +193,6 @@ static void parse_execargs(char *buffer) {
 
    args = (char **) malloc(sizeof(char *) * (arg_count+gargc+7));
    int i, j=0;
-   //args[j++] = "/g/g0/legendre/tools/dyninst/githead/ppc32_bgp_ion/lib/ld.so.1";
    //args[j++] = "/g/g0/legendre/tools/valgrind/bin/valgrind";
    //args[j++] = "--tool=memcheck";
    for (i=0; i<arg_count; i++) {

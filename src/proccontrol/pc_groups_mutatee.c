@@ -50,7 +50,6 @@ void bp_func()
 }
 
 #if !defined(os_windows_test)
-/* Need this for MAP_ANONYMOUS on ppc32-linux */
 
 #if !defined(__USE_MISC)
 #define __USE_MISC
