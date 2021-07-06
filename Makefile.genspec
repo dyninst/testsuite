@@ -136,7 +136,6 @@ SUBDIRS = \
 	ppc64_linux			\
 	i386-unknown-freebsd7.2		\
 	amd64-unknown-freebsd7.2	\
-	ppc64_bgq_ion			\
 	i386-unknown-nt4.0		\
 	aarch64-unknown-linux		\
 
