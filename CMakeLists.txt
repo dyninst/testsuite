@@ -360,7 +360,7 @@ install(TARGETS testA
         ARCHIVE DESTINATION ${INSTALL_DIR})
 
 if(UNIX)
-  check_mutatee_compiler(gcc "-m32" "-m32" C "" m32_works)
+  check_mutatee_compiler(${M_gnu_cc} "-m32" "-m32" C "" m32_works)
   if(${m32_works})
     message(STATUS "Building 32-bit helper libraries")
     add_library(testA_m32 SHARED src/libtestA.c)
