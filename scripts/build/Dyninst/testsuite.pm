@@ -3,7 +3,8 @@ package Dyninst::testsuite;
 use base 'Exporter';
 our @EXPORT_OK = qw(run);
 
-use Dyninst::utils qw(execute list_unique load_from_cache canonicalize);
+use Dyninst::utils qw(execute list_unique canonicalize);
+use Dyninst::cmake qw(load_from_cache);
 use Dyninst::git;
 use Dyninst::logs;
 use Cwd qw(realpath);
