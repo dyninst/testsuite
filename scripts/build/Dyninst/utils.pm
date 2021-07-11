@@ -1,12 +1,18 @@
 package Dyninst::utils;
 
 use base 'Exporter';
-our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache);
+our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache canonicalize);
 
 use Capture::Tiny qw(capture);
 use Cwd qw(realpath);
 
 our $debug_mode;
+
+sub canonicalize {
+	my $dir = shift;
+	$dir = realpath($dir) if defined($dir) && $dir ne '';
+	return $dir;
+}
 
 sub execute {
 	my $cmd = shift;

@@ -3,7 +3,7 @@ package Dyninst::testsuite;
 use base 'Exporter';
 our @EXPORT_OK = qw(setup configure build run);
 
-use Dyninst::utils qw(execute list_unique load_from_cache);
+use Dyninst::utils qw(execute list_unique load_from_cache canonicalize);
 use Dyninst::git;
 use Dyninst::logs;
 use Cwd qw(realpath);
@@ -20,6 +20,10 @@ sub setup {
 	my $base_dir = realpath("$root_dir/testsuite");
 	my $build_dir = "$base_dir/build";
 	symlink($args->{'test-src'}, "$base_dir/src");
+	
+	$args->{'test-src'} //= "$args->{'prefix'}/testsuite";
+	$args->{'test-src'} = canonicalize($args->{'test-src'});
+	
 	symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
 	
 	# This is for internal use only

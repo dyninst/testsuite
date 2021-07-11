@@ -4,7 +4,7 @@ use base 'Exporter';
 our @EXPORT_OK = qw(new parse save_system_info save_compiler_info);
 
 use POSIX;
-use Dyninst::utils qw(execute);
+use Dyninst::utils qw(execute canonicalize);
 use File::Copy qw(move);
 
 # ------------- Module methods -----------------------
@@ -137,12 +137,17 @@ sub save_system_info {
 # ------------- Class methods -------------------------
 
 sub new {
-	my ($class, $filename, $quiet) = @_;
+	my ($class, $args) = @_;
+	
+	$args->{'log-file'} //= "$args->{'prefix'}/build.log";
+	my $filename = canonicalize($args->{'log-file'});
 	
 	# Save a backup, if the log file already exists
 	move($filename, "$filename.bak") if -e $filename;
 	
 	open my $fdLog, '>', $filename or die "$filename: $!\n";
+	
+	my $quiet = $args->{'quiet'};
 	
 	bless {
 		'filename' => $filename,

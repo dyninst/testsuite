@@ -3,7 +3,7 @@ package Dyninst::dyninst;
 use base 'Exporter';
 our @EXPORT_OK = qw(setup configure build);
 
-use Dyninst::utils qw(execute);
+use Dyninst::utils qw(execute canonicalize);
 use Dyninst::git;
 use Cwd qw(realpath);
 use File::Path qw(make_path);
@@ -18,6 +18,9 @@ sub setup {
 	# The path must exist before using 'realpath'
 	my $base_dir = realpath("$root_dir/dyninst");
 	my $build_dir = "$base_dir/build";
+	
+	$args->{'dyninst-src'} //= "$args->{'prefix'}/dyninst";
+	$args->{'dyninst-src'} = canonicalize($args->{'dyninst-src'});
 	
 	symlink($args->{'dyninst-src'}, "$base_dir/src");
 	

@@ -34,17 +34,6 @@ if($args->{'upload'} && !$args->{'auth-token'}) {
 
 $Dyninst::utils::debug_mode = $args->{'debug-mode'};
 
-# Default directory and file locations
-$args->{'dyninst-src'} //= "$args->{'prefix'}/dyninst";
-$args->{'test-src'} //= "$args->{'prefix'}/testsuite";
-$args->{'log-file'} //= "$args->{'prefix'}/build.log";
-
-# Canonicalize user-specified files and directories
-for my $d ('dyninst-src','test-src','log-file') {
-	# NB: realpath(undef|'') eq cwd()
-	$args->{$d} = realpath($args->{$d}) if defined($args->{$d}) && $args->{$d} ne '';
-}
-
 # By default, build Dyninst
 $args->{'build-dyninst'} = 1;
 
@@ -103,7 +92,7 @@ if($args->{'restart'}) {
 	}
 }
 
-my $logger = Dyninst::logs->new($args->{'log-file'}, $args->{'quiet'});
+my $logger = Dyninst::logs->new($args);
 
 ## XXX would like to check that 'root' and 'restart' are good paths,
 ## relying upon developers to be correct for now.
