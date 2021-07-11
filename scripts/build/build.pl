@@ -59,21 +59,23 @@ if($args->{'restart'}) {
 	}
 }
 
-my $logger = Dyninst::logs->new($args);
-
+# Do a variable dump in debug mode
 if($Dyninst::utils::debug_mode) {
 	use Data::Dumper;
 	print Dumper($args), "\n";
 }
+
+#--------------------------------------------------------------------------------------------------
+my $logger = Dyninst::logs->new($args);
+
+# Display the invocation arguments
+$logger->write("Invoked using '$Dyninst::options::invocation_args'");
 
 Dyninst::logs::save_system_info($logger, $args->{'hostname'});
 
 my $root_dir = Dyninst::utils::make_root($args);
 
 $logger->write("root_dir: $root_dir");
-
-# Display the invocation arguments
-$logger->write("Invoked using '$Dyninst::options::invocation_args'");
 
 eval {		
 	# Dyninst
