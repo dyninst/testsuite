@@ -5,6 +5,7 @@ our @EXPORT_OK = qw(run);
 
 use Dyninst::utils qw(execute canonicalize);
 use Dyninst::git;
+use Dyninst::logs qw(save_compiler_config);
 use Cwd qw(realpath);
 use File::Path qw(make_path);
 use Try::Tiny;
@@ -105,7 +106,7 @@ sub run {
 		configure($args, $base_dir, $build_dir);
 		$logger->write("done.");
 
-		Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
+		save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
 
 		$logger->write("Building Dyninst... ", 'eol' => '');
 		build($args, $build_dir);

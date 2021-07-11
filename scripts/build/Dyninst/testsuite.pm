@@ -6,7 +6,7 @@ our @EXPORT_OK = qw(run);
 use Dyninst::utils qw(execute list_unique canonicalize);
 use Dyninst::cmake qw(load_from_cache);
 use Dyninst::git;
-use Dyninst::logs;
+use Dyninst::logs qw(save_compiler_config);
 use Cwd qw(realpath);
 use File::Path qw(make_path);
 use Time::HiRes;
@@ -230,7 +230,7 @@ sub run {
 			configure($args, $base_dir, $build_dir);
 			$logger->write("done\n");
 
-			Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
+			save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
 
 			$logger->write("Building Testsuite... ", 'eol' => '');
 			build($args, $build_dir);
