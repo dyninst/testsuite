@@ -12,7 +12,7 @@ use lib "$FindBin::Bin";
 use Dyninst::logs;
 use Dyninst::dyninst;
 use Dyninst::testsuite;
-use Dyninst::utils qw(upload);
+use Dyninst::utils qw(make_root upload);
 use Dyninst::options;
 use Dyninst::restart;
 
@@ -69,7 +69,7 @@ $logger->write("Invoked using '$Dyninst::options::invocation_args'");
 
 Dyninst::logs::save_system_info($logger, $args->{'hostname'});
 
-my $root_dir = Dyninst::utils::make_root($args);
+my $root_dir = make_root($args);
 
 $logger->write("root_dir: $root_dir");
 
