@@ -77,63 +77,8 @@ my $root_dir = Dyninst::utils::make_root($args);
 
 $logger->write("root_dir: $root_dir");
 
-eval {		
-	# Dyninst
-	# Always set up logs, even if doing a restart
-	my ($base_dir, $build_dir) = Dyninst::dyninst::setup($root_dir, $args);
-
-	if($args->{'build-dyninst'}) {
-		$logger->write("Configuring Dyninst... ", 'eol'=>'');
-		Dyninst::dyninst::configure($args, $base_dir, $build_dir);
-		$logger->write("done.");
-		
-		Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
-
-		$logger->write("Building Dyninst... ", 'eol'=>'');
-		Dyninst::dyninst::build($args, $build_dir);
-		$logger->write("done.");
-	}
-};
-if($@) {
-	$logger->write($@);
-	open my $fdOut, '>', "$root_dir/dyninst/Build.FAILED";
-	$args->{'build-tests'} = 0;
-	$args->{'run-tests'} = 0;
-}
-
-eval {
-	# Testsuite
-	# Always set up logs, even if doing a restart
-	my ($base_dir, $build_dir) = Dyninst::testsuite::setup($root_dir, $args);
-	
-	if($args->{'build-tests'}) {
-		$logger->write("Configuring Testsuite... ", 'eol'=>'');
-		Dyninst::testsuite::configure($args, $base_dir, $build_dir);
-		$logger->write("done\n");
-		
-		Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
-
-		$logger->write("Building Testsuite... ", 'eol'=>'');
-		Dyninst::testsuite::build($args, $build_dir);
-		$logger->write("done\n");
-	}
-};
-if($@) {
-	$logger->write($@);
-	open my $fdOut, '>', "$root_dir/testsuite/Build.FAILED";
-	$args->{'run-tests'} = 0;
-}
-
-# Run the tests
-if($args->{'run-tests'}) {
-	make_path("$root_dir/testsuite/tests");
-	my $base_dir = realpath("$root_dir/testsuite/tests");
-	
-	my $run_log = Dyninst::logs->new("$base_dir/run.log");
-
-	$logger->write("running Testsuite... ", 'eol'=>'');
-	Dyninst::testsuite::run($args, $base_dir, $run_log);
-	$logger->write("done.");
+if(Dyninst::dyninst::run($args, $root_dir, $logger)) {
+	Dyninst::testsuite::run($args, $root_dir, $logger);
 }
 
 my $results_log = "$root_dir/testsuite/tests/results.log";

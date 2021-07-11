@@ -1,7 +1,7 @@
 package Dyninst::testsuite;
 
 use base 'Exporter';
-our @EXPORT_OK = qw(setup configure build run);
+our @EXPORT_OK = qw(run);
 
 use Dyninst::utils qw(execute list_unique load_from_cache canonicalize);
 use Dyninst::git;
@@ -41,7 +41,6 @@ sub setup {
 	
 	return ($base_dir, $build_dir);
 }
-
 
 sub configure {
 	my ($args, $base_dir, $build_dir) = @_;
@@ -156,7 +155,7 @@ sub _run_single {
 	}
 }
 
-sub run {
+sub run_tests {
 	my ($args, $base_dir, $run_log) = @_;
 
 	# Grab the paths in the Dyninst build cache
@@ -216,6 +215,41 @@ sub run {
 			$run_log->write("Running in group mode failed, NO REPLAY.\n");
 		}
 	};
+}
+
+sub run {
+	my ($args, $root_dir, $logger) = @_;
+
+	# Always set up logs, even if doing a restart
+	my ($base_dir, $build_dir) = setup($root_dir, $args);
+
+	try {
+		if ($args->{'build-tests'}) {
+			$logger->write("Configuring Testsuite... ", 'eol' => '');
+			configure($args, $base_dir, $build_dir);
+			$logger->write("done\n");
+
+			Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
+
+			$logger->write("Building Testsuite... ", 'eol' => '');
+			build($args, $build_dir);
+			$logger->write("done\n");
+		}
+
+		if ($args->{'run-tests'}) {
+			make_path("$root_dir/testsuite/tests");
+			my $base_dir = realpath("$root_dir/testsuite/tests");
+
+			my $run_log = Dyninst::logs->new("$base_dir/run.log");
+
+			$logger->write("running Testsuite... ", 'eol' => '');
+			run_tests($args, $base_dir, $run_log);
+			$logger->write("done.");
+		}
+	} catch {
+		$logger->write($@);
+		open my $fdOut, '>', "$root_dir/testsuite/Build.FAILED";
+	}
 }
 
 1;

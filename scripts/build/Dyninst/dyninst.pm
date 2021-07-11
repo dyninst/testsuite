@@ -1,12 +1,13 @@
 package Dyninst::dyninst;
 
 use base 'Exporter';
-our @EXPORT_OK = qw(setup configure build);
+our @EXPORT_OK = qw(run);
 
 use Dyninst::utils qw(execute canonicalize);
 use Dyninst::git;
 use Cwd qw(realpath);
 use File::Path qw(make_path);
+use Try::Tiny;
 
 sub setup {
 	my ($root_dir, $args) = @_;
@@ -62,6 +63,7 @@ sub configure {
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
 }
+
 sub build {
 	my ($args, $build_dir) = @_;
 
@@ -86,6 +88,35 @@ sub build {
 		);
 	};
 	die "Error installing: see $build_dir/build-install.err for details" if $@;
+}
+
+sub run {
+	my ($args, $root_dir, $logger) = @_;
+	
+	# Always set up logs, even if doing a restart
+	my ($base_dir, $build_dir) = setup($root_dir, $args);
+	
+	return 1 unless $args->{'build-dyninst'};
+	
+	my $error = 0;
+
+	try {
+		$logger->write("Configuring Dyninst... ", 'eol' => '');
+		configure($args, $base_dir, $build_dir);
+		$logger->write("done.");
+
+		Dyninst::utils::save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
+
+		$logger->write("Building Dyninst... ", 'eol' => '');
+		build($args, $build_dir);
+		$logger->write("done.");
+	} catch {
+		$logger->write($_);
+		open my $fdOut, '>', "$root_dir/dyninst/Build.FAILED";
+		$error = 1;
+	}
+	
+	return !$error;
 }
 
 1;
