@@ -12,7 +12,7 @@ use lib "$FindBin::Bin";
 use Dyninst::logs;
 use Dyninst::dyninst;
 use Dyninst::testsuite;
-use Dyninst::utils;
+use Dyninst::utils qw(upload);
 use Dyninst::options;
 use Dyninst::restart;
 
@@ -89,14 +89,5 @@ if($args->{'purge'}) {
 
 # Upload the results to the dashboard, if requested
 if($args->{'upload'}) {
-	eval {
-		Dyninst::utils::execute(
-			"curl --insecure -F \"upload=\@$root_dir.results.tar.gz\" ".
-			"-F \"token=$args->{'auth-token'}\" ".
-			"https://bottle.cs.wisc.edu/upload"
-		);
-	};
-	if($@) {
-		print "An error occurred when uploading the results\n$@\n";
-	}
+	upload($tarball_name, $args->{'auth-token'});
 }

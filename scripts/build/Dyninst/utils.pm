@@ -1,7 +1,7 @@
 package Dyninst::utils;
 
 use base 'Exporter';
-our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache canonicalize make_root);
+our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache canonicalize make_root upload);
 
 use Capture::Tiny qw(capture);
 use Cwd qw(realpath);
@@ -122,4 +122,17 @@ sub make_root {
 	# Generate a unique name
 	return tempdir('XXXXXXXX', CLEANUP => 0);
 }
+
+sub upload {
+	my ($filename, $token) = @_;
+
+	try {
+		execute("curl --insecure -F \"upload=\@$filename\" "
+			  . "-F \"token=$token\" "
+			  . "https://bottle.cs.wisc.edu/upload");
+	} catch {
+		warn "An error occurred when uploading the results\n$_\n";
+	}
+}
+
 1;
