@@ -19,6 +19,7 @@ use Dyninst::dyninst;
 use Dyninst::testsuite;
 use Dyninst::utils;
 use Dyninst::options;
+use Dyninst::restart;
 use Archive::Tar;
 
 my $args = Dyninst::options::parse();
@@ -30,6 +31,10 @@ if($args->{'help'}) {
 
 if($args->{'upload'} && !$args->{'auth-token'}) {
 	die "Must specify authentication token when uploading\n";
+}
+
+if (defined($args->{'restart'}) && defined($args->{'root'})) {
+	die "Options --restart and --root are mutually exclusive\n";
 }
 
 $Dyninst::utils::debug_mode = $args->{'debug-mode'};
@@ -44,51 +49,13 @@ if(!$args->{'tests'}) {
 	$args->{'run-tests'} = 0;
 }
 
-## Error checking
-## Name / Restart could be combined, best not to make unnecessary diffs
-## for a work in progress
-if (defined($args->{'restart'}) && defined($args->{'root'})) {
-	die "Options --restart and --root are mutually exclusive\n";
-}
-
+# Configure restart, if requested
 if($args->{'restart'}) {
-	if(!-d $args->{'restart'}) {
-		die "Requested restart directory ($args->{'restart'}) does not exist\n";
-	}
-
-	# If the Dyninst build is missing or failed, then rebuild it		
-	my $dyninst_ok = -d "$args->{'restart'}/dyninst" &&
-					!-e "$args->{'restart'}/dyninst/Build.FAILED";
-	$args->{'build-dyninst'} = !$dyninst_ok;
-	
-	# If the Testsuite build is missing or failed, then rebuild it
-	# The Testsuite cannot be good if Dyninst is not good
-	my $testsuite_ok = -d "$args->{'restart'}/testsuite" &&
-					  !-e "$args->{'restart'}/testsuite/Build.FAILED" &&
-					  $dyninst_ok;
-
-	my $user_wants_to_build_tests = $args->{'build-tests'};
-	$args->{'build-tests'} = !$testsuite_ok && $user_wants_to_build_tests;
-	
-	# Sanity check: If the existing Testsuite is bad and the user
-	#				wants to run the tests, but the user requested not
-	#				to build the Testsuite, then we can't continue
-	if(!$testsuite_ok && $args->{'run-tests'} && !$user_wants_to_build_tests) {
-		print "The Testsuite in '$args->{'restart'}' must be rebuilt\n";
-		exit 1;
-	}
-	
-	# Remove the FAILED files (if present)
-	unlink(
-		"$args->{'restart'}/dyninst/Build.FAILED",
-		"$args->{'restart'}/testsuite/Build.FAILED",
-		"$args->{'restart'}/Tests.FAILED"
-	);
+	Dyninst::restart::setup($args);
 } else {
 	if($args->{'run-tests'} && !$args->{'build-tests'}) {
-		print "The Testsuite must be built before it can be run. ",
-		      "Use --restart to reuse a previous build.\n";
-		exit 1;
+		die "The Testsuite must be built before it can be run. ".
+		    "Use --restart to reuse a previous build.\n";
 	}
 }
 
