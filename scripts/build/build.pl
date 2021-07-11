@@ -80,7 +80,7 @@ if(Dyninst::dyninst::run($args, $root_dir, $logger)) {
 }
 
 # Save the results in a tarball
-Dyninst::results::save($args, $root_dir);
+my $tarball_name = Dyninst::results::save($args, $root_dir);
 
 # Remove the generated files, if requested
 if($args->{'purge'}) {

@@ -46,7 +46,10 @@ sub save {
 	local $/ = undef;
 	$tar->add_data('build.log', <$fdBuildLog>);
 
-	$tar->write("$root_dir.results.tar.gz", COMPRESS_GZIP);
+	my $filename = "$root_dir.results.tar.gz";
+	$tar->write($filename, COMPRESS_GZIP);
+	
+	return $filename;
 }
 
 1;
