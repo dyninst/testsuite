@@ -9,10 +9,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin";
 
-use Cwd qw(cwd);
-use File::Copy qw(move);
-use File::Path qw(make_path remove_tree);
-use File::Temp qw(tempdir);
+use File::Path qw(remove_tree);
 
 use Dyninst::logs;
 use Dyninst::dyninst;
