@@ -73,7 +73,9 @@ my $root_dir = Dyninst::utils::make_root($args);
 
 $logger->write("root_dir: $root_dir");
 
+# Build Dyninst and the test suite.
 if(Dyninst::dyninst::run($args, $root_dir, $logger)) {
+	# This also runs the test suite if everything is good.
 	Dyninst::testsuite::run($args, $root_dir, $logger);
 }
 
