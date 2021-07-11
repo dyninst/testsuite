@@ -1,10 +1,11 @@
 package Dyninst::utils;
 
 use base 'Exporter';
-our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache canonicalize);
+our @EXPORT_OK = qw(execute list_unique parse_cmake_cache load_from_cache canonicalize make_root);
 
 use Capture::Tiny qw(capture);
 use Cwd qw(realpath);
+use File::Temp qw(tempdir);
 
 our $debug_mode;
 
@@ -103,4 +104,22 @@ sub save_compiler_config {
 		"cxx_version: $compilers{'cxx'}{'version'}\n";
 }
 
+sub make_root {
+	my $args = shift;
+
+    # XXX would like to check that 'root' and 'restart' are good paths,
+    # relying upon developers to be correct for now.
+    
+	return $args->{'restart'} if $args->{'restart'};
+
+	if (defined($args->{'root'})) {
+		unless (-e $args->{'root'} or mkdir $args->{'root'}) {
+			die "Unable to create $args->{'root'}\n";
+		}
+		return $args->{'root'};
+	}
+	
+	# Generate a unique name
+	return tempdir('XXXXXXXX', CLEANUP => 0);
+}
 1;

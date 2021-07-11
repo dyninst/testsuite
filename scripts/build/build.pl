@@ -61,11 +61,6 @@ if($args->{'restart'}) {
 
 my $logger = Dyninst::logs->new($args);
 
-## XXX would like to check that 'root' and 'restart' are good paths,
-## relying upon developers to be correct for now.
-my $root_dir = ($args->{'restart'}) ? $args->{'restart'} :
-			($args->{'root'}) ? $args->{'root'} : undef;
-
 if($Dyninst::utils::debug_mode) {
 	use Data::Dumper;
 	print Dumper($args), "\n";
@@ -73,15 +68,7 @@ if($Dyninst::utils::debug_mode) {
 
 Dyninst::logs::save_system_info($logger, $args->{'hostname'});
 
-# Generate a unique name for the current build
-if (defined($args->{'root'})) {
-	unless(-e $root_dir or mkdir $root_dir) {
-		die "Unable to create $root_dir\n";
-	}
-}
-else {
-	$root_dir = tempdir('XXXXXXXX', CLEANUP=>0) unless $args->{'restart'};
-}
+my $root_dir = Dyninst::utils::make_root($args);
 
 $logger->write("root_dir: $root_dir");
 
