@@ -9,14 +9,14 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin";
 
-use File::Path qw(remove_tree);
-
 use Dyninst::logs;
 use Dyninst::dyninst;
 use Dyninst::testsuite;
 use Dyninst::utils;
 use Dyninst::options;
 use Dyninst::restart;
+
+use File::Path qw(remove_tree);
 
 my $args = Dyninst::options::parse();
 
