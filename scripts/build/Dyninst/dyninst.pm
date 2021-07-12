@@ -88,12 +88,16 @@ sub run {
 	# Always set up logs, even if doing a restart
 	my ($base_dir, $build_dir) = setup($root_dir, $args);
 
-	return 1 unless $args->{'build-dyninst'};
+	return 0 unless $args->{'build-dyninst'};
+	
+	my $should_proceed = 1;
 
-	eval {
+	$should_proceed = eval {
 		$logger->write("Configuring Dyninst... ", 'eol' => '');
 		configure($args, $base_dir, $build_dir);
 		$logger->write("done.");
+		
+		return 0 if $args->{'only-config'};
 
 		save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
 
@@ -104,10 +108,10 @@ sub run {
 	if($@) {
 		$logger->write($@);
 		open my $fdOut, '>', "$root_dir/dyninst/Build.FAILED";
-		return !!0;
+		$should_proceed = 0;
 	}
 
-	return !!1;
+	return $should_proceed;
 }
 
 1;

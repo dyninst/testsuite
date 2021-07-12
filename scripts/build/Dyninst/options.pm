@@ -39,7 +39,8 @@ my %args = (
 	'debug-mode'           => 0,         # undocumented debug mode
 	'limit'                => undef,     # change group limit
 	'root'                 => undef,     # root directory name
-	'replay'               => 1          # replay fails in single-step
+	'replay'               => 1,         # replay fails in single-step
+	'only-config'          => 0          # [undocumented] only run the configure step of the build
 );
 
 our $invocation_args;
@@ -62,7 +63,7 @@ sub parse {
 		'purge',                'help',          'restart=s',              'upload!',
 		'ntestjobs=i',          'nompthreads=i', 'single-stepping',        'auth-token=s',
 		'sterile!',             'hostname=s',    'debug-mode',             'limit=i',
-		'root=s',               'replay!',       'config-only!'
+		'root=s',               'replay!',       'only-config'
 	) or pod2usage(-input => pod_where({ -inc => 1 }, __PACKAGE__), -exitval => 2);
 
 	return \%args;

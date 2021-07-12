@@ -214,6 +214,9 @@ sub run {
 			$logger->write("Configuring Testsuite... ", 'eol' => '');
 			configure($args, $base_dir, $build_dir);
 			$logger->write("done\n");
+			
+			#NB: This only leaves the 'try' block, it does _NOT_ return from 'run'!
+			return if $args->{'only-config'};
 
 			save_compiler_config("$build_dir/config.out", "$base_dir/build/compilers.conf");
 
