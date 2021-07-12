@@ -15,6 +15,7 @@ use Dyninst::testsuite;
 use Dyninst::utils qw(make_root upload);
 use Dyninst::options;
 use Dyninst::restart;
+use Dyninst::results;
 use File::Path qw(remove_tree);
 
 my $args = Dyninst::options::parse();
