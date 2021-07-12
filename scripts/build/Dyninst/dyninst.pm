@@ -90,9 +90,7 @@ sub run {
 
 	return 1 unless $args->{'build-dyninst'};
 
-	my $error = 0;
-
-	try {
+	eval {
 		$logger->write("Configuring Dyninst... ", 'eol' => '');
 		configure($args, $base_dir, $build_dir);
 		$logger->write("done.");
@@ -102,13 +100,14 @@ sub run {
 		$logger->write("Building Dyninst... ", 'eol' => '');
 		build($args, $build_dir);
 		$logger->write("done.");
-	} catch {
-		$logger->write($_);
+	};
+	if($@) {
+		$logger->write($@);
 		open my $fdOut, '>', "$root_dir/dyninst/Build.FAILED";
-		$error = 1;
+		return !!0;
 	}
 
-	return !$error;
+	return !!1;
 }
 
 1;
