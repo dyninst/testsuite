@@ -6,8 +6,8 @@ if (eval { require FindBin; }) {
 	use lib "$FindBin::Bin";
 } else {
 	use File::Basename qw(dirname);
-	use lib dirname(__FILE__);	
-}	
+	use lib dirname(__FILE__);
+}
 
 use Dyninst::logs;
 use Dyninst::dyninst;
@@ -15,18 +15,17 @@ use Dyninst::testsuite;
 use Dyninst::utils qw(make_root upload);
 use Dyninst::options;
 use Dyninst::restart;
-
 use File::Path qw(remove_tree);
 
 my $args = Dyninst::options::parse();
 
-if($args->{'help'}) {
+if ($args->{'help'}) {
 	Dyninst::options::show_help();
 	exit 0;
 }
 
 # ------- Sanity Checks ---------------------------------------------
-if($args->{'upload'} && !$args->{'auth-token'}) {
+if ($args->{'upload'} && !$args->{'auth-token'}) {
 	die "Must specify authentication token when uploading\n";
 }
 
@@ -43,23 +42,22 @@ $args->{'build-dyninst'} = 1;
 
 # By default, build and run tests
 # --no-tests is an alias for "--no-build-tests --no-run-tests"
-if(!$args->{'tests'}) {
+if (!$args->{'tests'}) {
 	$args->{'build-tests'} = 0;
-	$args->{'run-tests'} = 0;
+	$args->{'run-tests'}   = 0;
 }
 
 # Configure restart, if requested
-if($args->{'restart'}) {
+if ($args->{'restart'}) {
 	Dyninst::restart::setup($args);
 } else {
-	if($args->{'run-tests'} && !$args->{'build-tests'}) {
-		die "The Testsuite must be built before it can be run. ".
-		    "Use --restart to reuse a previous build.\n";
+	if ($args->{'run-tests'} && !$args->{'build-tests'}) {
+		die "The Testsuite must be built before it can be run. " . "Use --restart to reuse a previous build.\n";
 	}
 }
 
 # Do a variable dump in debug mode
-if($Dyninst::utils::debug_mode) {
+if ($Dyninst::utils::debug_mode) {
 	use Data::Dumper;
 	print Dumper($args), "\n";
 }
@@ -77,7 +75,8 @@ my $root_dir = make_root($args);
 $logger->write("root_dir: $root_dir");
 
 # Build Dyninst and the test suite.
-if(Dyninst::dyninst::run($args, $root_dir, $logger)) {
+if (Dyninst::dyninst::run($args, $root_dir, $logger)) {
+
 	# This also runs the test suite if everything is good.
 	Dyninst::testsuite::run($args, $root_dir, $logger);
 }
@@ -86,11 +85,11 @@ if(Dyninst::dyninst::run($args, $root_dir, $logger)) {
 my $tarball_name = Dyninst::results::save($args, $root_dir);
 
 # Remove the generated files, if requested
-if($args->{'purge'}) {
+if ($args->{'purge'}) {
 	remove_tree($root_dir);
 }
 
 # Upload the results to the dashboard, if requested
-if($args->{'upload'}) {
+if ($args->{'upload'}) {
 	upload($tarball_name, $args->{'auth-token'});
 }

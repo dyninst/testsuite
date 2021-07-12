@@ -35,9 +35,9 @@ sub list_unique {
 sub make_root {
 	my $args = shift;
 
-    # XXX would like to check that 'root' and 'restart' are good paths,
-    # relying upon developers to be correct for now.
-    
+	# XXX would like to check that 'root' and 'restart' are good paths,
+	# relying upon developers to be correct for now.
+
 	return $args->{'restart'} if $args->{'restart'};
 
 	if (defined($args->{'root'})) {
@@ -46,7 +46,7 @@ sub make_root {
 		}
 		return $args->{'root'};
 	}
-	
+
 	# Generate a unique name
 	return tempdir('XXXXXXXX', CLEANUP => 0);
 }

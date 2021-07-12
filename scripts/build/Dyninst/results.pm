@@ -48,7 +48,7 @@ sub save {
 
 	my $filename = "$root_dir.results.tar.gz";
 	$tar->write($filename, COMPRESS_GZIP);
-	
+
 	return $filename;
 }
 
