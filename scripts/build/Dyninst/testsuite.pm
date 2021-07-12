@@ -22,11 +22,11 @@ sub setup {
 
 	my $base_dir  = realpath("$root_dir/testsuite");
 	my $build_dir = "$base_dir/build";
-	symlink($args->{'test-src'}, "$base_dir/src");
-
+	
 	$args->{'test-src'} //= "$args->{'prefix'}/testsuite";
 	$args->{'test-src'} = canonicalize($args->{'test-src'});
-
+	
+	symlink($args->{'test-src'}, "$base_dir/src");
 	symlink(realpath("$root_dir/dyninst"), "$base_dir/dyninst");
 
 	# This is for internal use only
