@@ -1,5 +1,7 @@
 package Dyninst::restart;
 
+use strict;
+use warnings;
 use base 'Exporter';
 our @EXPORT_OK = qw(setup);
 

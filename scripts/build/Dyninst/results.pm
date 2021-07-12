@@ -1,5 +1,7 @@
 package Dyninst::results;
 
+use strict;
+use warnings;
 use base 'Exporter';
 our @EXPORT_OK = qw(save);
 

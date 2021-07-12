@@ -1,5 +1,7 @@
 package Dyninst::cmake;
 
+use strict;
+use warnings;
 use base 'Exporter';
 our @EXPORT_OK = qw(load_from_cache);
 

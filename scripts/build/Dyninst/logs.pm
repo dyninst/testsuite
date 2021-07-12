@@ -1,5 +1,7 @@
 package Dyninst::logs;
 
+use strict;
+use warnings;
 use base 'Exporter';
 our @EXPORT_OK = qw(new parse save_system_info save_compiler_config);
 

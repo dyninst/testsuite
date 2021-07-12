@@ -1,5 +1,7 @@
 package Dyninst::git;
 
+use strict;
+use warnings;
 use base 'Exporter';
 our @EXPORT_OK = qw(get_config save_config checkout_pr);
 

@@ -1,5 +1,7 @@
 package Dyninst::options;
 
+use strict;
+use warnings;
 use base 'Exporter';
 our @EXPORT_OK = qw(parse show_help);
 

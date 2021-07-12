@@ -1,5 +1,7 @@
 package Dyninst::utils;
 
+use strict;
+use warnings;
 use base 'Exporter';
 our @EXPORT_OK = qw(execute list_unique canonicalize make_root upload);
 
