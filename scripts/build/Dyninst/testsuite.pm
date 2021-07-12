@@ -203,6 +203,9 @@ sub run_tests {
 sub run {
 	my ($args, $root_dir, $logger) = @_;
 
+	# Don't do anything (not even the logs), if --no-tests was given
+	return if !$args->{'tests'};
+
 	# Always set up logs, even if doing a restart
 	my ($base_dir, $build_dir) = setup($root_dir, $args);
 
