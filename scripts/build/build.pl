@@ -68,7 +68,7 @@ $args->{'log-file'} //= "$args->{'prefix'}/build.log";
 my $logger = Dyninst::logs->new(canonicalize($args->{'log-file'}), $args->{'quiet'});
 
 # Display the invocation arguments
-$logger->write("Invoked using '$Dyninst::options::invocation_args'");
+$logger->write("Invoked using '$Dyninst::options::invocation_args'\n\n");
 
 Dyninst::logs::save_system_info($logger, $args->{'hostname'});
 
