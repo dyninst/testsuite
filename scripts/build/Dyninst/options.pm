@@ -37,8 +37,7 @@ my %args = (
 	'debug-mode'           => 0,         # undocumented debug mode
 	'limit'                => undef,     # change group limit
 	'root'                 => undef,     # root directory name
-	'replay'               => 1,         # replay fails in single-step
-	'config-only'          => 0
+	'replay'               => 1          # replay fails in single-step
 );
 
 our $invocation_args;
@@ -111,7 +110,6 @@ build [options]
    --limit=n               Change group test limit in testsuite.
    --root=dir              Set name/ID of root of test directory
    --no-replay             Turn off automatic replay of failed tests.
-   --config-only           Only run the configure step of the build
    --help                  Print this help message
 =cut
 
