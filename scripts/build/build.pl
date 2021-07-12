@@ -1,13 +1,13 @@
 use strict;
 use warnings;
 
-## automatically locate the dependencies!
-## less dependencies
-# use File::Basename;
-# use lib dirname(__FILE__);
-## JK recommends this version
-use FindBin;
-use lib "$FindBin::Bin";
+if (eval { require FindBin; }) {
+	use FindBin;
+	use lib "$FindBin::Bin";
+} else {
+	use File::Basename qw(dirname);
+	use lib dirname(__FILE__);	
+}	
 
 use Dyninst::logs;
 use Dyninst::dyninst;
