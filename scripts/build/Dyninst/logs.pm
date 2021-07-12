@@ -187,17 +187,12 @@ sub save_compiler_config {
 # ------------- Class methods -------------------------
 
 sub new {
-	my ($class, $args) = @_;
-
-	$args->{'log-file'} //= "$args->{'prefix'}/build.log";
-	my $filename = canonicalize($args->{'log-file'});
+	my ($class, $filename, $quiet) = @_;
 
 	# Save a backup, if the log file already exists
 	move($filename, "$filename.bak") if -e $filename;
 
 	open my $fdLog, '>', $filename or die "$filename: $!\n";
-
-	my $quiet = $args->{'quiet'};
 
 	bless {
 		'filename' => $filename,

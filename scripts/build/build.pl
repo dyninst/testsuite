@@ -12,7 +12,7 @@ if (eval { require FindBin; }) {
 use Dyninst::logs;
 use Dyninst::dyninst;
 use Dyninst::testsuite;
-use Dyninst::utils qw(make_root upload);
+use Dyninst::utils qw(make_root upload canonicalize);
 use Dyninst::options;
 use Dyninst::restart;
 use Dyninst::results;
@@ -64,7 +64,8 @@ if ($Dyninst::utils::debug_mode) {
 }
 
 # ------- Run the builds and tests ----------------------------------
-my $logger = Dyninst::logs->new($args);
+$args->{'log-file'} //= "$args->{'prefix'}/build.log";
+my $logger = Dyninst::logs->new(canonicalize($args->{'log-file'}), $args->{'quiet'});
 
 # Display the invocation arguments
 $logger->write("Invoked using '$Dyninst::options::invocation_args'");
