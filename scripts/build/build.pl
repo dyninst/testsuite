@@ -25,15 +25,6 @@ if ($args->{'help'}) {
 	exit 0;
 }
 
-# ------- Sanity Checks ---------------------------------------------
-if ($args->{'upload'} && !$args->{'auth-token'}) {
-	die "Must specify authentication token when uploading\n";
-}
-
-if (defined($args->{'restart'}) && defined($args->{'root'})) {
-	die "Options --restart and --root are mutually exclusive\n";
-}
-
 # ------- Configure Build -------------------------------------------
 
 $Dyninst::utils::debug_mode = $args->{'debug-mode'};

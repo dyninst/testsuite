@@ -66,6 +66,22 @@ sub parse {
 		'root=s',               'replay!',       'only-config'
 	) or pod2usage(-input => pod_where({ -inc => 1 }, __PACKAGE__), -exitval => 2);
 
+	# ------- Sanity Checks ---------------------------------------------
+	if ($args{'upload'} && !$args{'auth-token'}) {
+		die "Must specify authentication token when uploading\n";
+	}
+
+	if (defined($args{'restart'}) && defined($args{'root'})) {
+		die "Options --restart and --root are mutually exclusive\n";
+	}
+
+	# Disable interfering flags when using 'only-config'
+	# NB: This is an undocumented option
+	if ($args{'only-config'}) {
+		$args{'restart'}   = undef;
+		$args{'run-tests'} = 0;
+	}
+
 	return \%args;
 }
 
