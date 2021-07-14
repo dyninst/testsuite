@@ -44,7 +44,7 @@ class COMPLIB_DLL_EXPORT InstructionMutator : public TestMutator {
      template <typename T>
         struct shared_ptr_lt
      {
-         bool operator()(const T& lhs, const T& rhs)
+         bool operator()(const T& lhs, const T& rhs) const
          {
              // Non-nulls precede nulls
              if(rhs.get() == NULL)
