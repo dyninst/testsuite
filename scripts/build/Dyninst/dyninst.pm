@@ -87,10 +87,10 @@ sub run {
 
 	# Always set up logs, even if doing a restart
 	my ($base_dir, $build_dir) = setup($root_dir, $args);
-
-	return 0 unless $args->{'build-dyninst'};
 	
 	my $should_proceed = 1;
+
+	return $should_proceed unless $args->{'build-dyninst'};
 
 	$should_proceed = eval {
 		$logger->write("Configuring Dyninst... ", 'eol' => '');
