@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-if (eval { require FindBin; }) {
+if (eval { require FindBin; 1;}) {
 	use FindBin;
 	use lib "$FindBin::Bin";
 } else {
