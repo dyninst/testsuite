@@ -8,6 +8,7 @@ our @EXPORT_OK = qw(new parse save_system_info save_compiler_config);
 use POSIX;
 use Dyninst::utils qw(execute canonicalize);
 use File::Copy qw(move);
+use Cwd qw(realpath);
 
 # ------------- Module methods -----------------------
 
