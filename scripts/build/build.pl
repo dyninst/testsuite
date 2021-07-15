@@ -32,13 +32,6 @@ $Dyninst::utils::debug_mode = $args->{'debug-mode'};
 # By default, build Dyninst
 $args->{'build-dyninst'} = 1;
 
-# By default, build and run tests
-# --no-tests is an alias for "--no-build-tests --no-run-tests"
-if (!$args->{'tests'}) {
-	$args->{'build-tests'} = 0;
-	$args->{'run-tests'}   = 0;
-}
-
 # Configure restart, if requested
 if ($args->{'restart'}) {
 	Dyninst::restart::setup($args);

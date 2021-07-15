@@ -66,6 +66,12 @@ sub parse {
 		'root=s',               'replay!',       'only-config'
 	) or pod2usage(-input => pod_where({ -inc => 1 }, __PACKAGE__), -exitval => 2);
 
+	# --no-tests is an alias for "--no-build-tests --no-run-tests"
+	if (!$args{'tests'}) {
+		$args{'build-tests'} = 0;
+		$args{'run-tests'}   = 0;
+	}
+
 	# ------- Sanity Checks ---------------------------------------------
 	if ($args{'upload'} && !$args{'auth-token'}) {
 		die "Must specify authentication token when uploading\n";
