@@ -8,6 +8,7 @@ our @EXPORT_OK = qw(execute list_unique canonicalize make_root upload);
 use Capture::Tiny qw(capture);
 use Cwd qw(realpath);
 use File::Temp qw(tempdir);
+use Try::Tiny;
 
 our $debug_mode;
 
