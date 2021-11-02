@@ -84,7 +84,7 @@ void StdOutputDriver::printHeader(FILE *out) {
    if (printed_header)
       return;
    printed_header = true;
-#if defined(cap_32_64_test)
+
    fprintf(out, "%-*s %-*s %-*s %-*s %-*s %-*s %-*s %-*s %s\n", 
            name_len, "TEST", 
            compiler_len, "COMP", 
@@ -95,17 +95,6 @@ void StdOutputDriver::printHeader(FILE *out) {
            link_len, "LINK", 
            pic_len, "PIC",
            "RESULT");
-#else
-   fprintf(out, "%-*s %-*s %-*s %-*s %-*s %-*s %-*s %s\n", 
-           name_len, "TEST", 
-           compiler_len, "COMP", 
-           opt_len, "OPT", 
-           mode_len, "MODE", 
-           thread_len, "THREAD", 
-           link_len, "LINK", 
-           pic_len, "PIC",
-           "RESULT");
-#endif
 }
 
 #define MAX_PRINTED_TESTNAME_LEN 18
@@ -170,7 +159,7 @@ void StdOutputDriver::logResult(test_results_t result, int stage) {
 
    if (needs_header)
       printHeader(out);
-#if defined(cap_32_64_test)
+
    fprintf(out, "%-*s %-*s %-*s %-*s %-*s %-*s %-*s %-*s ", 
            name_len, name_align_buffer, 
            compiler_len, last_group->compiler,
@@ -180,17 +169,6 @@ void StdOutputDriver::logResult(test_results_t result, int stage) {
            thread_len, thread_str, 
            link_len, linkage_str, 
            pic_len, picStr);
-#else
-   fprintf(out, "%-*s %-*s %-*s %-*s %-*s %-*s %-*s ", 
-           name_len, name_align_buffer, 
-           compiler_len, last_group->compiler,
-           opt_len, last_group->optlevel, 
-           mode_len, run_mode_str, 
-           thread_len, thread_str, 
-           link_len, linkage_str, 
-           pic_len, picStr);
-#endif
-
 
    switch(result) {
       case PASSED:
