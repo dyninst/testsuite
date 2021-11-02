@@ -784,13 +784,13 @@ static void disableUnwantedTests(std::vector<RunGroup *> &groups)
          groups[i]->disabled = true;
          continue;
       }
-#if defined(cap_32_64_test)
+
       //ABI
       if (groups[i]->abi && !paramOn(groups[i]->abi)) {
          groups[i]->disabled = true;
          continue;
       }
-#endif
+
       if ((groups[i]->pic == nonPIC && !paramOn("nonpic")) ||
           (groups[i]->pic == PIC && !paramOn("pic")))
       {
