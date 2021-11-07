@@ -64,8 +64,7 @@ extern "C" DLLEXPORT  TestMutator *test2_10_factory() {
 // static int mutatorTest(BPatch_thread *thread, BPatch_image * /*appImage */)
 test_results_t test2_10_Mutator::executeTest() {
 #if !defined(i386_unknown_linux2_0_test) \
- && !defined(x86_64_unknown_linux2_4_test) /* Blind duplication - Ray */ \
- && !defined(ppc32_linux))
+ && !defined(x86_64_unknown_linux2_4_test)) /* Blind duplication - Ray */
   // Looks like it runs on everything but Windows - Greg
 
     logerror("Skipping test #10 (dump image)\n");

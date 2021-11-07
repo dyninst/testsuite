@@ -2637,12 +2637,8 @@ platform('power32', 'aix', 'aix5.2', 'rs6000-ibm-aix64-5.2').
 platform('x86_64', 'linux', 'linux2.4', 'x86_64-unknown-linux2.4').
 platform('x86_64', 'linux', 'cnl', 'x86_64_cnl').
 platform('power64', 'linux', 'linux2.6', 'ppc64_linux').
-platform('power32', 'linux', 'linux2.6', 'ppc32_linux').
 platform('i386', 'freebsd', 'freebsd7.2', 'i386-unknown-freebsd7.2').
 platform('x86_64', 'freebsd', 'freebsd7.2', 'amd64-unknown-freebsd7.2').
-platform('power32', 'bluegene', 'bluegenep', 'ppc32_bgp_ion').
-platform('power32', 'bluegene', 'bluegenel', 'ppc32_bgl_ion').
-platform('power32', 'bluegene', 'bluegenep', 'ppc32_bgp').
 platform('power64', 'bluegene', 'bluegeneq', 'ppc64_bgq_ion').
 platform('aarch64', 'linux', 'linux', 'aarch64-unknown-linux').
 
@@ -3264,7 +3260,7 @@ compiler_platform_abi_s(Compiler, 'x86_64-unknown-linux2.4', 32,
 % PPC64 platform doesn't support 32-bit mutatees (yet).
 %
 %compiler_platform_abi_s(Compiler, 'ppc64_linux', 32,
-%                        '-m32 -Dppc32_linux -Dm32_test') :-
+%                        '-m32 -Dm32_test') :-
 %    member(Compiler, ['gcc', 'g++']).
 compiler_platform_abi_s(Compiler, 'ppc64_linux', 64,
                         '-m64', CompilerString) :-

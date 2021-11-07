@@ -95,7 +95,6 @@ static void createBuffer(Process::ptr proc,
          // size and don't assume any endianness.  When the final copy into 
          // the byte buffer occurs, make the assumption that the target
          // architecture matches that of the host.
-#if defined(arch_ppc_little_endian_test)
          uint32_t ins[] = {
             /*  0 */ 0x60000000, // nop
             /*  1 */ 0x3d8c0000, // lis r12, 0              # Add Immediate Shifted (calltarg[15-8]) to r12
@@ -107,38 +106,12 @@ static void createBuffer(Process::ptr proc,
             /*  7 */ 0x4e800421, // bctrl                   # Branch to Count Register
             /*  8 */ 0x7d821008  // trap                    # Trap to return from RPC
          };
-#else
-         uint32_t ins[] = {
-            /*  0 */ 0x60000000, // nop
-            /*  1 */ 0x3c000000, // lis r0, 0               # Add Immediate Shifted (calltarg[15-8]) to r0
-            /*  2 */ 0x60000000, // ori r0, r0, 0           # Or Immediate (calltarg[7-0]) to r0
-            /*  3 */ 0x780007c6, // rldicr r0, r0, 32, 31   # Rotate Left Doubleword Immediate then Clear Right
-            /*  4 */ 0x64000000, // oris r0, r0, 0          # Or Immediate Shifted (calltarg[31-24]) to r0
-            /*  5 */ 0x60000000, // ori r0, r0, 0           # Or Immediate (calltarg[23-16]) to r0
-            /*  6 */ 0x7c0903a6, // mtctr r0                # Move r0 to Count Register
-            /*  7 */ 0x3c400000, // lis r2, 0               # Add Immediate Shifted (calltarg[15-8]) to TOC(aka r2)
-            /*  8 */ 0x60420000, // ori r2,r2,0             # Or Immediate (calltarg[7-0]) to TOC(aka r2)
-            /*  9 */ 0x784207c6, // rldicr  r2,r2,32,31     # Rotate Left Doubleword Immediate then Clear Right
-            /* 10 */ 0x64420000, // oris    r2,r2,0         # Or Immediate Shifted (calltarg[31-24]) to TOC(aka r2)
-            /* 11 */ 0x60420000, // ori     r2,r2,0         # Or Immediate (calltarg[23-16]) to TOC(aka r2)
-            /* 12 */ 0x4e800421, // bctrl                   # Branch to Count Register
-            /* 13 */ 0x7d821008  // trap                    # Trap to return from RPC
-         };
-#endif // defined(arch_ppc_little_endian_test)
 
          // copy address to buffer
          ins[1] |= (uint32_t)(((uint64_t)calltarg >> 48) & 0xffff);
          ins[2] |= (uint32_t)(((uint64_t)calltarg >> 32) & 0xffff);
          ins[4] |= (uint32_t)((calltarg >> 16) & 0xffff);
          ins[5] |= (uint32_t)(calltarg & 0xffff);
-
-#if !defined(arch_ppc_little_endian_test)
-         // copy TOC value into buffer
-         ins[7] |= (uint32_t)(((uint64_t)tocval >> 48) & 0xffff);
-         ins[8] |= (uint32_t)(((uint64_t)tocval >> 32) & 0xffff);
-         ins[10] |= (uint32_t)((tocval >> 16) & 0xffff);
-         ins[11] |= (uint32_t)(tocval & 0xffff);
-#endif // !defined(arch_ppc_little_endian_test_test)
 
          buffer_size = sizeof(ins);
          buffer = (unsigned char *)malloc(buffer_size);
