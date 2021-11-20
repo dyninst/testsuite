@@ -1089,14 +1089,6 @@ test_results_t test_type_info_Mutator::verify_basic_type_lists() {
 }
 
 test_results_t test_type_info_Mutator::executeTest() {
-
-  if (createmode == DESERIALIZE)
-    return SKIPPED;
-#if defined(os_linux_test) && defined(arch_x86_test)
-  if ((createmode == DESERIALIZE) && (compiler == std::string("g++")))
-    return SKIPPED;
-#endif
-
   SymtabAPI::Module *mod = NULL;
   std::vector<SymtabAPI::Module *> mods;
 

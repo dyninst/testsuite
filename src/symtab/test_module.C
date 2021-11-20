@@ -85,8 +85,6 @@ bool malformed_module(SymtabAPI::Module *mod)
 
 test_results_t test_module_Mutator::executeTest()
 {
-	if (createmode == DESERIALIZE)
-		return SKIPPED;
    std::vector<SymtabAPI::Module *> mods;
    bool result = symtab->getAllModules(mods);
 

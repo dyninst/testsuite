@@ -222,11 +222,6 @@ test_results_t DyninstComponent::group_setup(RunGroup *group,
          }
          break;
       }
-      case DESERIALIZE:
-      {
-         assert(0); //Don't know how to handle this;
-         break;
-      }
    }
    
 

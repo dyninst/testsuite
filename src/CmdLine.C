@@ -119,7 +119,6 @@ ModeGroup mode_args[] = {
    { "create",      RUNMODES,  defaultOn  },
    { "attach",      RUNMODES,  defaultOff },
    { "rewriter",    RUNMODES,  defaultOn  },
-   { "serialize",   RUNMODES,  defaultOff },
    { "max",         OPTLEVELS, defaultOff },
    { "high",        OPTLEVELS, defaultOff },
    { "low",         OPTLEVELS, defaultOff },
@@ -726,8 +725,7 @@ static void disableUnwantedTests(std::vector<RunGroup *> &groups)
       //RunMode
       if (((groups[i]->createmode == CREATE) && !paramOn("create")) ||
           ((groups[i]->createmode == USEATTACH) && !paramOn("attach")) ||
-          ((groups[i]->createmode == DISK) && !paramOn("rewriter")) ||
-          ((groups[i]->createmode == DESERIALIZE) && !paramOn("serialize")))
+          ((groups[i]->createmode == DISK) && !paramOn("rewriter")))
       {
          groups[i]->disabled = true;
          continue;
