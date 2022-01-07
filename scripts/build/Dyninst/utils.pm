@@ -62,7 +62,7 @@ sub upload {
 			  . "-F \"token=$token\" "
 			  . "https://bottle.cs.wisc.edu/upload");
 	} catch {
-		warn "An error occurred when uploading the results\n$_\n";
+		die "An error occurred when uploading the results\n$_\n";
 	}
 }
 
