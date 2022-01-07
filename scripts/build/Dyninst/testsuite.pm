@@ -238,6 +238,7 @@ sub run {
 	} catch {
 		$logger->write($_);
 		open my $fdOut, '>', "$root_dir/testsuite/Build.FAILED";
+		die $_;
 	}
 }
 
