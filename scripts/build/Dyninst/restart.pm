@@ -30,8 +30,7 @@ sub setup {
 	#				wants to run the tests, but the user requested not
 	#				to build the Testsuite, then we can't continue
 	if (!$testsuite_ok && $args->{'run-tests'} && !$user_wants_to_build_tests) {
-		print "The Testsuite in '$args->{'restart'}' must be rebuilt\n";
-		exit 1;
+		die "The Testsuite in '$args->{'restart'}' must be rebuilt\n";
 	}
 
 	# Remove the FAILED files (if present)
