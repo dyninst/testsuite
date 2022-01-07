@@ -60,12 +60,11 @@ my $root_dir = make_root($args);
 
 $logger->write("root_dir: $root_dir");
 
-# Build Dyninst and the test suite.
-if (Dyninst::dyninst::run($args, $root_dir, $logger)) {
+# Build Dyninst
+Dyninst::dyninst::run($args, $root_dir, $logger);
 
-	# This also runs the test suite if everything is good.
-	Dyninst::testsuite::run($args, $root_dir, $logger);
-}
+# Build and execute test suite
+Dyninst::testsuite::run($args, $root_dir, $logger);
 
 # Save the results in a tarball
 my $tarball_name = Dyninst::results::save($args, $root_dir);
