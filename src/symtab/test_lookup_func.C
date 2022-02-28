@@ -52,8 +52,6 @@ extern "C" DLLEXPORT TestMutator* test_lookup_func_factory()
 
 test_results_t test_lookup_func_Mutator::executeTest()
 {
-	if (createmode == DESERIALIZE)
-		return SKIPPED;
     std::vector<Symbol*> funcSyms;
     bool result = symtab->getAllSymbolsByType(funcSyms, Symbol::ST_FUNCTION);
     if(result == false)

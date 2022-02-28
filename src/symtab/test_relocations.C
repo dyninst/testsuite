@@ -136,8 +136,6 @@ extern "C" DLLEXPORT TestMutator* test_relocations_factory()
 
 test_results_t test_relocations_Mutator::executeTest()
 {
-	if (createmode == DESERIALIZE)
-		return SKIPPED;
 #if defined (os_windows_test)
 	return SKIPPED;
 #endif

@@ -92,8 +92,6 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 			out.write('CREATE, ')
 		elif group['run_mode'] == 'useAttach':
 			out.write('USEATTACH, ')
-		elif group['run_mode'] == 'deserialize':
-			out.write('DESERIALIZE, ')
 		else:
 			out.write('DISK, ')
 
@@ -158,10 +156,7 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 			# I need to get the mutator that this test maps to..
 			mutator = test_mutator(test, info)
 			ts = build_label(test, mutator, group, info)
-			if test in ['test_serializable']:
-				serialize_enable = 'true'
-			else:
-				serialize_enable = 'false'
+			serialize_enable = 'false'
 			out.write('  add_test(rg, "%s");\n' % (ts))
 		out.write('  fini_group(rg);\n')
 

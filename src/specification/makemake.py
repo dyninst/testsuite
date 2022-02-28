@@ -900,10 +900,7 @@ void initialize_mutatees_%s(std::vector<RunGroup *> &tests) {
 			# I need to get the mutator that this test maps to..
 			mutator = test_mutator(test)
 			ts = build_label(test, mutator, group)
-			if test in ['test_serializable']:
-				serialize_enable = 'true'
-			else:
-				serialize_enable = 'false'
+			serialize_enable = 'false'
 			test_params.append({'test': test, 'mutator': mutator, 'LibSuffix': LibSuffix, 'serialize_enable' : serialize_enable, 'ts': ts, 'endrungroup': 'false'})
 		test_params[-1]['endrungroup'] = 'true'
 		if(group_empty == 'false'):
@@ -942,7 +939,6 @@ void initialize_mutatees_%s(std::vector<RunGroup *> &tests) {
     const char * iname;
     const char * mrname;
     const char * isoname;
-	bool serialize_enable;
     const char * ilabel;
   } test_params[] = {"""
 
