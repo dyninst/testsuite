@@ -236,7 +236,6 @@ bool Connection::send_message(MessageBuffer &buffer)
    buffer.add("\0", 1);
 
    uint32_t msg_size_unenc = buffer.get_buffer_size();
-   //assert(msg_size_unenc == strlen(buffer.get_buffer())+1);
    uint32_t msg_size = htonl(msg_size_unenc);
 
    ssize_t result = send(fd, &msg_size, sizeof(uint32_t), 0);
@@ -303,7 +302,7 @@ bool Connection::recv_message(char* &buffer)
       //Other side hung up.
       return false;
    }
-   if (msg_size > cur_buffer_size) {
+   if (msg_size > (uint32_t)cur_buffer_size) {
       if (cur_buffer)
          free(cur_buffer);
       cur_buffer = NULL;
@@ -421,40 +420,48 @@ bool Connection::client_connect()
    }
 
    debug_printf("Trying to get hostname for %s\n", hostname.c_str());
-   struct hostent *host = gethostbyname2(hostname.c_str(), AF_INET);
-   if (!host) {
+   struct addrinfo *ai, *p;
+   struct addrinfo hints;
+ 
+   memset(&hints, 0x00, sizeof(hints));
+   hints.ai_family   = AF_UNSPEC;
+   hints.ai_socktype = SOCK_STREAM;
+   hints.ai_protocol = 0;
+   hints.ai_flags    = AI_NUMERICSERV;
+ 
+   string portstr = std::to_string(port);
+   if (getaddrinfo(hostname.c_str(), portstr.c_str(), &hints, &ai)) {
       debug_printf("Error looking up hostname %s\n", hostname.c_str());
       return false;
    }
-   assert(host->h_addrtype = AF_INET);
 
-   debug_printf("Got a size %d address for hostname %s\n", host->h_length, hostname.c_str());
-   if (host->h_length == 0) {
+   debug_printf("Got a size %d address for hostname %s\n", ai->ai_addrlen, hostname.c_str());
+   if (ai == NULL) {
       debug_printf("No addresses with hostname %s\n", hostname.c_str());
       return false;
    } 
 
-   struct sockaddr_in addr;
-   struct in_addr iaddr;
-   bzero(&addr, sizeof(addr));
-   socklen_t socklen = sizeof(struct sockaddr_in);
-   addr.sin_family = AF_INET;
+   int result = 0;
+   for (p = ai;p != NULL; p = p->ai_next) {
+     char ipstr[INET6_ADDRSTRLEN];
+     void *addr;
+     // p->ai_addr->sin_addr->s_addr is htonl(inet_network(HOSTNAME)
+     if (p->ai_family == AF_INET) {
+       struct sockaddr_in *sockaddr = (struct sockaddr_in *)p->ai_addr;
+       addr = &(sockaddr->sin_addr);
+       /* convert the IP to a string and print it: */
+       inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);             
+       result = connect(fd, (struct sockaddr *) &sockaddr, sizeof(sockaddr));
+     } else if (p->ai_family == AF_INET6) {
+       struct sockaddr_in6 *sockaddr = (struct sockaddr_in6 *)p->ai_addr;
+       addr = &(sockaddr->sin6_addr);
+       /* convert the IP to a string and print it: */
+       inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);             
+       result = connect(fd, (struct sockaddr *) &sockaddr, sizeof(sockaddr));
+     }
+     debug_printf("Connecting to %s:%u\n", ipstr, port);
+   }
 
-   //addr.sin_port = htons(port); 
-   //iaddr.s_addr = htonl(*((int *) host->h_addr_list[0]));
-
-   addr.sin_port = port;
-   iaddr.s_addr = *((int *) host->h_addr_list[0]);
-
-   addr.sin_addr = iaddr;
-   debug_printf("Connecting to %u.%u.%u.%u:%u\n", 
-                (unsigned) ((unsigned char) (((char *) &addr.sin_addr)[0])),
-                (unsigned) ((unsigned char) (((char *) &addr.sin_addr)[1])),
-                (unsigned) ((unsigned char) (((char *) &addr.sin_addr)[2])),
-                (unsigned) ((unsigned char) (((char *) &addr.sin_addr)[3])),
-                (unsigned) addr.sin_port);
-
-   int result = connect(fd, (struct sockaddr *) &addr, socklen);
    if (result == -1) {
       debug_printf("[%s:%u] - Error connecting to server\n", __FILE__, __LINE__);
       return false;
