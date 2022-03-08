@@ -152,11 +152,6 @@ sub run_tests {
 	my $cache    = "$args->{'dyninst-cmake-cache-dir'}/CMakeCache.txt";
 	my @libs     = load_from_cache($cache, \@lib_dirs);
 
-	# Grab the paths in the test suite build cache
-	$cache    = "$args->{'testsuite-cmake-cache-dir'}/CMakeCache.txt";
-	@lib_dirs = 'LibXml2_LIBRARY_DIRS';
-	push @libs, load_from_cache($cache, \@lib_dirs);
-
 	push @libs, ($base_dir, realpath("$base_dir/../dyninst/lib"));
 	my $paths = join(':', list_unique(@libs));
 
