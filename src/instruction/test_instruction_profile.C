@@ -1,28 +1,28 @@
 /*
  * See the dyninst/COPYRIGHT file for copyright information.
- * 
+ *
  * We provide the Paradyn Tools (below described as "Paradyn")
  * on an AS IS basis, and do not warrant its validity or performance.
  * We reserve the right to update, modify, or discontinue this
  * software at any time.  We shall have no obligation to supply such
  * updates or modifications or any other form of support to you.
- * 
+ *
  * By your use of Paradyn, you understand and agree that we (or any
  * other person or entity with proprietary rights in Paradyn) are
  * under no obligation to provide either maintenance services,
  * update services, notices of latent defects, or correction of
  * defects for Paradyn.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
@@ -82,20 +82,20 @@ test_results_t test_instruction_profile_Mutator::executeTest()
     logerror("FAILED: couldn't open libc for parsing\n");
     return FAILED;
   }
-  
+
   std::vector<Region*> codeRegions;
   s->getCodeRegions(codeRegions);
   unsigned int cf_count = 0;
   unsigned int valid_count = 0;
   unsigned int total_count = 0;
-  
+
   for(std::vector<Region*>::iterator curReg = codeRegions.begin();
       curReg != codeRegions.end();
       ++curReg)
   {
     if((*curReg)->getDiskSize() < 16) continue;
     const unsigned char* decodeBase = reinterpret_cast<const unsigned char*>((*curReg)->getPtrToRawData());
-    
+
     std::vector<Instruction > decodedInsns;
     Instruction i;
 #if defined(arch_x86_64_test) || defined(arch_x86_test)
@@ -104,13 +104,13 @@ test_results_t test_instruction_profile_Mutator::executeTest()
     InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_ppc64);
 #elif defined(arch_aarch64_test)
     InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_aarch64);
-#elif
+#else
     InstructionDecoder d(decodeBase, (*curReg)->getDiskSize(), Dyninst::Arch_none);
     return SKIPPED;
 #endif
 
     long offset = 0;
-    
+
     // simulate parsing via vector-per-basic-block
     while(offset < (*curReg)->getDiskSize() - InstructionDecoder::maxInstructionLength)
     {
@@ -135,4 +135,3 @@ test_results_t test_instruction_profile_Mutator::executeTest()
 
   return PASSED;
 }
-
