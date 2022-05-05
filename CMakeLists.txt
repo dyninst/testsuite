@@ -16,72 +16,30 @@ endif()
 
 set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
 
-set (CMAKE_MODULE_PATH "${Dyninst_DIR}" "${Dyninst_DIR}/Modules" ${CMAKE_MODULE_PATH})
-
-# Set the C and C++ language API and ABI standards
-include(LanguageStandards)
-
-# Allow usage of GNU library extensions to ISOC99
-add_definitions(-D_GNU_SOURCE)
-
-# Import the system threads library
-find_package(Threads)
-
-# Read the cache generated from building Dyninst
-load_cache(${Dyninst_DIR}
-           Boost_SYSTEM_LIBRARY_RELEASE
-           Boost_INCLUDE_DIRS
-           Boost_LIBRARY_DIRS
-           Boost_DEFINES
-           TBB_INCLUDE_DIRS
-           TBB_LIBRARY_DIRS
-           TBB_DEFINES
-           ElfUtils_INCLUDE_DIRS
-           ElfUtils_LIBRARY_DIRS
-           STERILE_BUILD
-           USE_GNU_DEMANGLER
-           LibIberty_LIBRARY_DIRS
-           )
-
-# Import the include and library directory names
-# NB: TBB and ElfUtils are not (currently) used directly in
-#     Testsuite, but are transitively included from headers
-#     in Dyninst.
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
-add_definitions(${Boost_DEFINES})
-
-include_directories(${TBB_INCLUDE_DIRS})
-link_directories(${TBB_LIBRARY_DIRS})
-add_definitions(${TBB_DEFINES})
-
-include_directories(${ElfUtils_INCLUDE_DIRS})
-link_directories(${ElfUtils_LIBRARY_DIRS})
-
-if(NOT ${USE_GNU_DEMANGLER})
-	link_directories(${LibIberty_LIBRARY_DIRS})
-endif()
-
-set(CMAKE_MODULE_PATH
-    ${CMAKE_MODULE_PATH}
-    "${PROJECT_SOURCE_DIR}/cmake"
-    "${PROJECT_SOURCE_DIR}/cmake/Modules"
-    "${Dyninst_DIR}"
-    "${Dyninst_DIR}/Modules")
-
-include(optimization)
-
-# CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
-# this variable should fix.
-set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
-set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
-
 find_package(Dyninst REQUIRED
              COMPONENTS common
              OPTIONAL_COMPONENTS symtabAPI
                                  dyninstAPI
                                  instructionAPI
-                                 proccontrol)
+                                 pcontrol)
+
+list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake/Modules ${Dyninst_MODULE_PATH})
+
+# Set the C and C++ language API and ABI standards
+include(DyninstLanguageStandards)
+
+# Allow usage of GNU library extensions to ISOC99
+add_compile_definitions(_GNU_SOURCE)
+
+# Import the system threads library
+find_package(Threads)
+
+include(DyninstOptimization)
+
+# CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
+# this variable should fix.
+set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
 message(STATUS "Dyninst includes: ${DYNINST_INCLUDE_DIR}")
 include_directories(${DYNINST_INCLUDE_DIR})
@@ -98,17 +56,17 @@ if(UNIX)
 elseif(WIN32)
   enable_language(ASM_MASM)
   if(CMAKE_C_COMPILER_VERSION VERSION_GREATER 19)
-    add_definitions(-D_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1)
+    add_compile_definitions(_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1)
   else()
-    add_definitions(-Dsnprintf=_snprintf)
+    add_compile_definitions(snprintf=_snprintf)
   endif()
 endif()
 
 foreach(def ${DYNINST_INTERNAL_DEFINES})
   # add_definitions doesn't seem to get pulled in; that's okay, since we don't
   # want it anyway (we want to override for mutators/ees)
-  add_definitions(${def}_test)
-  set(MUTATEE_DEFINES "${MUTATEE_DEFINES} ${def}_test")
+  add_compile_definitions(${def}_test)
+  set(MUTATEE_DEFINES "${MUTATEE_DEFINES} -D${def}_test")
 endforeach()
 
 include_directories(src
@@ -149,7 +107,7 @@ if(UNIX)
               src/test_lib_soExecution.C
               ${LIBTESTSUITE_COMMON_SRCS})
   add_library(testlaunch SHARED ${LIBTESTLAUNCH_SRCS})
-	target_link_libraries(testlaunch testSuite)
+  target_link_libraries(testlaunch testSuite)
   set(TESTSUITE_TESTLAUNCH_LINK testSuite testlaunch)
 else()
   add_library(testSuite
@@ -157,6 +115,7 @@ else()
               src/test_lib_dllExecution.C
               ${LIBTESTSUITE_COMMON_SRCS}
               ${LIBTESTLAUNCH_SRCS})
+  add_library(testlaunch INTERFACE)
   set(TESTSUITE_TESTLAUNCH_LINK testSuite)
 endif()
 
@@ -186,7 +145,7 @@ endif()
 
 set(COMPLIB_DEFS TESTLIB_DLL_BUILD COMPLIB_DLL_BUILD)
 
-if(TARGET dyninstAPI)
+if(TARGET Dyninst::dyninstAPI)
   add_library(testdyninst
               SHARED
               src/dyninst/dyninst_comp.C
@@ -197,62 +156,50 @@ if(TARGET dyninstAPI)
   target_link_libraries(testdyninst
                         testlaunch
                         testSuite
-                        dyninstAPI
-                        instructionAPI
-                        common
-                        ${Boost_SYSTEM_LIBRARY_RELEASE}
-                        ${CMAKE_THREAD_LIBS_INIT})
+                        Dyninst::dyninstAPI
+                        Dyninst::instructionAPI
+                        Dyninst::common
+                        Threads::Threads)
   install(TARGETS testdyninst DESTINATION ${INSTALL_DIR})
   set_target_properties(testdyninst
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
 endif()
 
-if(TARGET symtabAPI)
+if(TARGET Dyninst::symtabAPI)
   add_library(testsymtab SHARED src/symtab/symtab_comp.C)
   target_link_libraries(testsymtab
                         testSuite
-                        symtabAPI
-                        common
-                        ${Boost_SYSTEM_LIBRARY_RELEASE}
-                        ${CMAKE_THREAD_LIBS_INIT})
+                        Dyninst::symtabAPI
+                        Dyninst::common
+                        Threads::Threads)
   install(TARGETS testsymtab DESTINATION ${INSTALL_DIR})
   set_target_properties(testsymtab
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
 endif()
 
-if(TARGET instructionAPI)
+if(TARGET Dyninst::instructionAPI)
   add_library(testinstruction SHARED src/instruction/instruction_comp.C)
   target_link_libraries(testinstruction
                         testSuite
-                        instructionAPI
-                        symtabAPI
-                        common
-                        ${Boost_SYSTEM_LIBRARY_RELEASE}
-                        ${CMAKE_THREAD_LIBS_INIT})
+                        Dyninst::instructionAPI
+                        Dyninst::symtabAPI
+                        Dyninst::common
+                        Threads::Threads)
   install(TARGETS testinstruction DESTINATION ${INSTALL_DIR})
   set_target_properties(testinstruction
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
 endif()
 
-if(TARGET pcontrol)
+if(TARGET Dyninst::pcontrol)
   add_library(testproccontrol SHARED src/proccontrol/proccontrol_comp.C)
 
-  if(WIN32)
-    target_link_libraries(testproccontrol
-                          testSuite
-                          pcontrol
-                          common
-                          ${CMAKE_THREAD_LIBS_INIT}
-                          ws2_32)
-  else()
-    target_link_libraries(testproccontrol
-                          testlaunch
-                          testSuite
-                          pcontrol
-                          common
-                          ${Boost_SYSTEM_LIBRARY_RELEASE}
-                          ${CMAKE_THREAD_LIBS_INIT})
-  endif()
+  target_link_libraries(testproccontrol
+                        testSuite
+                        testlaunch
+                        Dyninst::pcontrol
+                        Dyninst::common
+                        Threads::Threads
+                        Dyninst::dynWinWs2_32)
   install(TARGETS testproccontrol DESTINATION ${INSTALL_DIR})
   set_target_properties(testproccontrol
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
