@@ -7,7 +7,7 @@
 ######################################################################
 
 
-include_directories ("..src/proccontrol")
+include_directories ("../src/proccontrol")
 set (proccontrol_MUTATORS
 	pc_launch
 	pc_thread_cont
@@ -45,7 +45,7 @@ set (proccontrol_OBJS_ALL_MUTATORS
 )
 
 
-include_directories ("..src/dyninst")
+include_directories ("../src/dyninst")
 set (dyninst_MUTATORS
 	test1_1
 	test1_2
@@ -195,7 +195,7 @@ set (dyninst_OBJS_ALL_MUTATORS
 )
 
 
-include_directories ("..src/instruction")
+include_directories ("../src/instruction")
 set (instruction_MUTATORS
 	test_instruction_read_write
 	test_instruction_farcall
@@ -225,7 +225,7 @@ set (instruction_OBJS_ALL_MUTATORS
 )
 
 
-include_directories ("..src/symtab")
+include_directories ("../src/symtab")
 set (symtab_MUTATORS
 	test_lookup_func
 	test_lookup_var
@@ -581,9 +581,8 @@ foreach (val RANGE 103)
 	if(NOT SKIP)
 		add_library (${lib} ${source})
 		target_link_libraries (${lib} ${comp_dep} ${LIBTESTSUITE})
-		install (TARGETS ${lib} 
+		install (TARGETS ${lib}
 		         RUNTIME DESTINATION ${INSTALL_DIR}
 		         LIBRARY DESTINATION ${INSTALL_DIR})
 	endif()
 endforeach()
-

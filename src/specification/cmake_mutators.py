@@ -18,7 +18,7 @@ def print_mutators_list(out, mutator_dict, test_dict, info, platform):
 
 	for m in module_set:
 		out.write("\n")
-                out.write("include_directories (\"..src/%s\")\n" % m)
+                out.write("include_directories (\"../src/%s\")\n" % m)
                 out.write("set (%s_MUTATORS\n" % (m))
 		module_tests = filter(lambda t: m == t['module'], test_dict)
 		module_mutators = map(lambda t: t['mutator'], module_tests)
@@ -31,7 +31,7 @@ def print_mutators_list(out, mutator_dict, test_dict, info, platform):
 		out.write(")\n\n")
 
 
-        # We're doing this cmake list style, so we need multiple iterations 
+        # We're doing this cmake list style, so we need multiple iterations
         # since cmake doesn't support structs
         # Iteration 1: print the list of libraries
         out.write("set (MUTATOR_NAME_LIST\n")
@@ -42,7 +42,7 @@ def print_mutators_list(out, mutator_dict, test_dict, info, platform):
         # Iteration 2: The appropriate module library for each mutator
         out.write("set (MUTATOR_MODULE_LIB_LIST\n")
         for m in mutator_dict:
-           # Module info is stored with the "test" dictionary, not the 
+           # Module info is stored with the "test" dictionary, not the
            # "mutator" dictionary
            tests = filter(lambda t: t['mutator'] == m['name'], test_dict)
            modules = map(lambda t: t['module'], tests)
@@ -104,4 +104,3 @@ def write_mutator_cmakelists(directory, info, platform):
    out.close()
 
 #
-
