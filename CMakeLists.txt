@@ -33,9 +33,6 @@ load_cache(${Dyninst_DIR}
            Boost_INCLUDE_DIRS
            Boost_LIBRARY_DIRS
            Boost_DEFINES
-           TBB_INCLUDE_DIRS
-           TBB_LIBRARY_DIRS
-           TBB_DEFINES
            ElfUtils_INCLUDE_DIRS
            ElfUtils_LIBRARY_DIRS
            STERILE_BUILD
@@ -44,17 +41,9 @@ load_cache(${Dyninst_DIR}
            )
 
 # Import the include and library directory names
-# NB: TBB and ElfUtils are not (currently) used directly in
-#     Testsuite, but are transitively included from headers
+# NB: ElfUtils is not (currently) used directly in
+#     Testsuite, but is transitively included from headers
 #     in Dyninst.
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
-add_definitions(${Boost_DEFINES})
-
-include_directories(${TBB_INCLUDE_DIRS})
-link_directories(${TBB_LIBRARY_DIRS})
-add_definitions(${TBB_DEFINES})
-
 include_directories(${ElfUtils_INCLUDE_DIRS})
 link_directories(${ElfUtils_LIBRARY_DIRS})
 
@@ -70,6 +59,7 @@ set(CMAKE_MODULE_PATH
     "${Dyninst_DIR}/Modules")
 
 include(optimization)
+include(ThreadingBuildingBlocks REQUIRED)
 
 # CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
 # this variable should fix.
