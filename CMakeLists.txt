@@ -63,7 +63,6 @@ set(CMAKE_MODULE_PATH
     "${Dyninst_DIR}/Modules")
 
 include(optimization)
-include(ThreadingBuildingBlocks REQUIRED)
 
 # CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
 # this variable should fix.
