@@ -29,7 +29,6 @@ find_package(Threads)
 
 # Read the cache generated from building Dyninst
 load_cache(${Dyninst_DIR}
-           Boost_SYSTEM_LIBRARY_RELEASE
            Boost_INCLUDE_DIRS
            Boost_LIBRARY_DIRS
            Boost_DEFINES
@@ -200,7 +199,6 @@ if(TARGET dyninstAPI)
                         dyninstAPI
                         instructionAPI
                         common
-                        ${Boost_SYSTEM_LIBRARY_RELEASE}
                         ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testdyninst DESTINATION ${INSTALL_DIR})
   set_target_properties(testdyninst
@@ -213,7 +211,6 @@ if(TARGET symtabAPI)
                         testSuite
                         symtabAPI
                         common
-                        ${Boost_SYSTEM_LIBRARY_RELEASE}
                         ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testsymtab DESTINATION ${INSTALL_DIR})
   set_target_properties(testsymtab
@@ -227,7 +224,6 @@ if(TARGET instructionAPI)
                         instructionAPI
                         symtabAPI
                         common
-                        ${Boost_SYSTEM_LIBRARY_RELEASE}
                         ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testinstruction DESTINATION ${INSTALL_DIR})
   set_target_properties(testinstruction
@@ -250,7 +246,6 @@ if(TARGET pcontrol)
                           testSuite
                           pcontrol
                           common
-                          ${Boost_SYSTEM_LIBRARY_RELEASE}
                           ${CMAKE_THREAD_LIBS_INIT})
   endif()
   install(TARGETS testproccontrol DESTINATION ${INSTALL_DIR})
