@@ -18,8 +18,8 @@ set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
 
 set (CMAKE_MODULE_PATH "${Dyninst_DIR}" "${Dyninst_DIR}/Modules" ${CMAKE_MODULE_PATH})
 
-# Set the C and C++ language API and ABI standards
-include(LanguageStandards)
+set(CMAKE_CXX_STANDARD "11")
+set(CMAKE_C_STANDARD "11")
 
 # Allow usage of GNU library extensions to ISOC99
 add_definitions(-D_GNU_SOURCE)
