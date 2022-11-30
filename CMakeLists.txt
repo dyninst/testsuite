@@ -68,7 +68,9 @@ set(CMAKE_MODULE_PATH
     "${Dyninst_DIR}"
     "${Dyninst_DIR}/Modules")
 
-include(optimization)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif()
 
 # CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
 # this variable should fix.
