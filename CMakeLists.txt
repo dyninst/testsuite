@@ -27,6 +27,15 @@ list(INSERT CMAKE_MODULE_PATH 0
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
     "${Dyninst_DIR}")
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+endif()
+
+# CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
+# this variable should fix.
+set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
+
 include(LanguageStandards)
 include(optimization)
 
@@ -69,15 +78,6 @@ link_directories(${ElfUtils_LIBRARY_DIRS})
 if(NOT ${USE_GNU_DEMANGLER})
 	link_directories(${LibIberty_LIBRARY_DIRS})
 endif()
-
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE RelWithDebInfo)
-endif()
-
-# CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
-# this variable should fix.
-set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
-set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
 find_package(Dyninst REQUIRED
              COMPONENTS common
