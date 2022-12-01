@@ -22,10 +22,13 @@ endif()
 
 set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
 
-set (CMAKE_MODULE_PATH "${Dyninst_DIR}" "${Dyninst_DIR}/Modules" ${CMAKE_MODULE_PATH})
+list(INSERT CMAKE_MODULE_PATH 0
+    "${PROJECT_SOURCE_DIR}/cmake"
+    "${PROJECT_SOURCE_DIR}/cmake/Modules"
+    "${Dyninst_DIR}")
 
-set(CMAKE_CXX_STANDARD "11")
-set(CMAKE_C_STANDARD "11")
+include(LanguageStandards)
+include(optimization)
 
 # Allow usage of GNU library extensions to ISOC99
 add_definitions(-D_GNU_SOURCE)
@@ -66,13 +69,6 @@ link_directories(${ElfUtils_LIBRARY_DIRS})
 if(NOT ${USE_GNU_DEMANGLER})
 	link_directories(${LibIberty_LIBRARY_DIRS})
 endif()
-
-set(CMAKE_MODULE_PATH
-    ${CMAKE_MODULE_PATH}
-    "${PROJECT_SOURCE_DIR}/cmake"
-    "${PROJECT_SOURCE_DIR}/cmake/Modules"
-    "${Dyninst_DIR}"
-    "${Dyninst_DIR}/Modules")
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo)
