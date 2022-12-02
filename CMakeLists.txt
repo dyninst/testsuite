@@ -1,4 +1,10 @@
-cmake_minimum_required(VERSION 3.4.0)
+cmake_minimum_required(VERSION 3.13.0)
+
+# There is a bug in 3.19.0 that causes .S files to be treated like C files
+if(CMAKE_VERSION VERSION_EQUAL "3.19.0")
+    message(FATAL_ERROR "Dyninst cannot use CMake version 3.19.0")
+endif()
+
 project(Dyninst-TestSuite)
 
 # User must provide location of Dyninst cmake files either as a cache or
@@ -16,10 +22,22 @@ endif()
 
 set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
 
-set (CMAKE_MODULE_PATH "${Dyninst_DIR}" "${Dyninst_DIR}/Modules" ${CMAKE_MODULE_PATH})
+list(INSERT CMAKE_MODULE_PATH 0
+    "${PROJECT_SOURCE_DIR}/cmake"
+    "${PROJECT_SOURCE_DIR}/cmake/Modules"
+    "${Dyninst_DIR}")
 
-# Set the C and C++ language API and ABI standards
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+endif()
+
+# CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
+# this variable should fix.
+set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
+
 include(LanguageStandards)
+include(optimization)
 
 # Allow usage of GNU library extensions to ISOC99
 add_definitions(-D_GNU_SOURCE)
@@ -60,20 +78,6 @@ link_directories(${ElfUtils_LIBRARY_DIRS})
 if(NOT ${USE_GNU_DEMANGLER})
 	link_directories(${LibIberty_LIBRARY_DIRS})
 endif()
-
-set(CMAKE_MODULE_PATH
-    ${CMAKE_MODULE_PATH}
-    "${PROJECT_SOURCE_DIR}/cmake"
-    "${PROJECT_SOURCE_DIR}/cmake/Modules"
-    "${Dyninst_DIR}"
-    "${Dyninst_DIR}/Modules")
-
-include(optimization)
-
-# CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
-# this variable should fix.
-set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
-set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
 find_package(Dyninst REQUIRED
              COMPONENTS common
