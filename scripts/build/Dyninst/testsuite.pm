@@ -148,7 +148,7 @@ sub run_tests {
 	my ($args, $base_dir, $run_log) = @_;
 
 	# Grab the paths in the Dyninst build cache
-	my @lib_dirs = ('Boost_LIBRARY_DIRS', 'TBB_LIBRARY_DIRS', 'ElfUtils_LIBRARY_DIRS', 'LibIberty_LIBRARY_DIRS');
+	my @lib_dirs = ('Boost_LIBRARY_DIRS', 'ElfUtils_LIBRARY_DIRS', 'LibIberty_LIBRARY_DIRS');
 	my $cache    = "$args->{'dyninst-cmake-cache-dir'}/CMakeCache.txt";
 	my @libs     = load_from_cache($cache, \@lib_dirs);
 
