@@ -25,7 +25,9 @@ set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
 list(INSERT CMAKE_MODULE_PATH 0
     "${PROJECT_SOURCE_DIR}/cmake"
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
-    "${Dyninst_DIR}")
+    "${Dyninst_DIR}"
+    "${Dyninst_DIR}/tpls"
+    )
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
