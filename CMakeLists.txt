@@ -47,9 +47,6 @@ find_package(Threads)
 
 # Read the cache generated from building Dyninst
 load_cache(${Dyninst_DIR}
-           Boost_INCLUDE_DIRS
-           Boost_LIBRARY_DIRS
-           Boost_DEFINES
            ElfUtils_INCLUDE_DIRS
            ElfUtils_LIBRARY_DIRS
            STERILE_BUILD
@@ -61,10 +58,6 @@ load_cache(${Dyninst_DIR}
 # NB: ElfUtils is not (currently) used directly in
 #     Testsuite, but is transitively included from headers
 #     in Dyninst.
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
-add_definitions(${Boost_DEFINES})
-
 include_directories(${ElfUtils_INCLUDE_DIRS})
 link_directories(${ElfUtils_LIBRARY_DIRS})
 
