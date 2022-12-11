@@ -27,6 +27,7 @@ list(INSERT CMAKE_MODULE_PATH 0
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
     "${Dyninst_DIR}"
     "${Dyninst_DIR}/tpls"
+    "${Dyninst_DIR}/Modules"
     )
 
 if(NOT CMAKE_BUILD_TYPE)
