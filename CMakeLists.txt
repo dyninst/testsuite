@@ -52,12 +52,7 @@ find_package(Threads)
 load_cache(${Dyninst_DIR}
            STERILE_BUILD
            USE_GNU_DEMANGLER
-           LibIberty_LIBRARY_DIRS
            )
-
-if(NOT ${USE_GNU_DEMANGLER})
-	link_directories(${LibIberty_LIBRARY_DIRS})
-endif()
 
 find_package(Dyninst REQUIRED
              COMPONENTS common

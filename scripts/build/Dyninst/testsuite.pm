@@ -147,13 +147,7 @@ sub _run_single {
 sub run_tests {
 	my ($args, $base_dir, $run_log) = @_;
 
-	# Grab the paths in the Dyninst build cache
-	my @lib_dirs = ('LibIberty_LIBRARY_DIRS');
-	my $cache    = "$args->{'dyninst-cmake-cache-dir'}/CMakeCache.txt";
-	my @libs     = load_from_cache($cache, \@lib_dirs);
-
-	push @libs, ($base_dir, realpath("$base_dir/../dyninst/lib"));
-	my $paths = join(':', list_unique(@libs));
+	my $paths = realpath("$base_dir/../dyninst/lib");
 
 	# If user explicitly requests single-stepping, then only run that mode
 	if ($args->{'single-stepping'}) {
