@@ -25,12 +25,6 @@ add_definitions(-D_GNU_SOURCE)
 # Import the system threads library
 find_package(Threads)
 
-# Read the cache generated from building Dyninst
-load_cache(${Dyninst_DIR}
-           STERILE_BUILD
-           USE_GNU_DEMANGLER
-           )
-
 find_package(Dyninst REQUIRED
              COMPONENTS common
              OPTIONAL_COMPONENTS symtabAPI
