@@ -16,11 +16,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
 
-# CMake tries to auto-add flags to link lines, which isn't helpful.  Blanking
-# this variable should fix.
-set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
-set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
-
 include(LanguageStandards)
 include(optimization)
 
