@@ -7,27 +7,9 @@ endif()
 
 project(Dyninst-TestSuite)
 
-# User must provide location of Dyninst cmake files either as a cache or
-# environment variable
-if(NOT Dyninst_DIR)
-  if("$ENV{Dyninst_DIR}" STREQUAL "")
-    message(FATAL_ERROR "Dyninst_DIR not found: define as a cache or environment variable")
-  else()
-    set(_dyninst_dir ENV{Dyninst_DIR})
-  endif()
-else()
-  set(_dyninst_dir ${Dyninst_DIR})
-  set(ENV{Dyninst_DIR} ${_dyninst_dir})
-endif()
-
-set(Dyninst_DIR ${_dyninst_dir} CACHE PATH "Location of Dyninst cmake files")
-
 list(INSERT CMAKE_MODULE_PATH 0
     "${PROJECT_SOURCE_DIR}/cmake"
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
-    "${Dyninst_DIR}"
-    "${Dyninst_DIR}/tpls"
-    "${Dyninst_DIR}/Modules"
     )
 
 if(NOT CMAKE_BUILD_TYPE)
