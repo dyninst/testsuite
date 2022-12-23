@@ -35,10 +35,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <algorithm>
-
-#if defined(os_windows_test)
 #include <time.h>
-#endif
 
 #include "help.h"
 #include "CmdLine.h"
