@@ -130,7 +130,7 @@ endif()
 
 set(COMPLIB_DEFS TESTLIB_DLL_BUILD COMPLIB_DLL_BUILD)
 
-if(TARGET dyninstAPI)
+if(TARGET Dyninst::dyninstAPI)
   add_library(testdyninst
               SHARED
               src/dyninst/dyninst_comp.C
@@ -141,56 +141,56 @@ if(TARGET dyninstAPI)
   target_link_libraries(testdyninst
                         testlaunch
                         testSuite
-                        dyninstAPI
-                        instructionAPI
-                        common
+                        Dyninst::dyninstAPI
+                        Dyninst::instructionAPI
+                        Dyninst::common
                         ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testdyninst DESTINATION ${INSTALL_DIR})
   set_target_properties(testdyninst
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
 endif()
 
-if(TARGET symtabAPI)
+if(TARGET Dyninst::symtabAPI)
   add_library(testsymtab SHARED src/symtab/symtab_comp.C)
   target_link_libraries(testsymtab
                         testSuite
-                        symtabAPI
-                        common
+                        Dyninst::symtabAPI
+                        Dyninst::common
                         ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testsymtab DESTINATION ${INSTALL_DIR})
   set_target_properties(testsymtab
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
 endif()
 
-if(TARGET instructionAPI)
+if(TARGET Dyninst::instructionAPI)
   add_library(testinstruction SHARED src/instruction/instruction_comp.C)
   target_link_libraries(testinstruction
                         testSuite
-                        instructionAPI
-                        symtabAPI
-                        common
+                        Dyninst::instructionAPI
+                        Dyninst::symtabAPI
+                        Dyninst::common
                         ${CMAKE_THREAD_LIBS_INIT})
   install(TARGETS testinstruction DESTINATION ${INSTALL_DIR})
   set_target_properties(testinstruction
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
 endif()
 
-if(TARGET pcontrol)
+if(TARGET Dyninst::pcontrol)
   add_library(testproccontrol SHARED src/proccontrol/proccontrol_comp.C)
 
   if(WIN32)
     target_link_libraries(testproccontrol
                           testSuite
-                          pcontrol
-                          common
+                          Dyninst::pcontrol
+                          Dyninst::common
                           ${CMAKE_THREAD_LIBS_INIT}
                           ws2_32)
   else()
     target_link_libraries(testproccontrol
                           testlaunch
                           testSuite
-                          pcontrol
-                          common
+                          Dyninst::pcontrol
+                          Dyninst::common
                           ${CMAKE_THREAD_LIBS_INIT})
   endif()
   install(TARGETS testproccontrol DESTINATION ${INSTALL_DIR})
