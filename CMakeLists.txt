@@ -25,7 +25,13 @@ add_definitions(-D_GNU_SOURCE)
 # Import the system threads library
 find_package(Threads)
 
-find_package(Dyninst REQUIRED COMPONENTS symtabAPI dyninstAPI pcontrol instructionAPI)
+set(_dyn_libs symtabAPI dyninstAPI pcontrol instructionAPI)
+find_package(Dyninst REQUIRED COMPONENTS ${_dyn_libs})
+
+foreach(l ${_dyn_libs})
+	add_library(${l} INTERFACE IMPORTED)
+	target_link_libraries(${l} INTERFACE Dyninst::${l})
+endforeach()
 
 message(STATUS "Dyninst includes: ${DYNINST_INCLUDE_DIR}")
 include_directories(${DYNINST_INCLUDE_DIR})
