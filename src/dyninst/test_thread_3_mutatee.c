@@ -53,7 +53,7 @@
 
 Thread_t test4_threads[TEST3_THREADS];
 Lock_t test4lock;
-int mutateeIdle = 0;
+volatile int mutateeIdle = 0;
 
 /* Function definitions follow */
 
