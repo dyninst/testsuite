@@ -138,7 +138,6 @@ endif()
 
 set(COMPLIB_DEFS TESTLIB_DLL_BUILD COMPLIB_DLL_BUILD)
 
-if(TARGET Dyninst::dyninstAPI)
   add_library(testdyninst
               SHARED
               src/dyninst/dyninst_comp.C
@@ -156,9 +155,7 @@ if(TARGET Dyninst::dyninstAPI)
   install(TARGETS testdyninst DESTINATION ${INSTALL_DIR})
   set_target_properties(testdyninst
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
-endif()
 
-if(TARGET Dyninst::symtabAPI)
   add_library(testsymtab SHARED src/symtab/symtab_comp.C)
   target_link_libraries(testsymtab
                         testSuite
@@ -168,9 +165,7 @@ if(TARGET Dyninst::symtabAPI)
   install(TARGETS testsymtab DESTINATION ${INSTALL_DIR})
   set_target_properties(testsymtab
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
-endif()
 
-if(TARGET Dyninst::instructionAPI)
   add_library(testinstruction SHARED src/instruction/instruction_comp.C)
   target_link_libraries(testinstruction
                         testSuite
@@ -181,9 +176,7 @@ if(TARGET Dyninst::instructionAPI)
   install(TARGETS testinstruction DESTINATION ${INSTALL_DIR})
   set_target_properties(testinstruction
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
-endif()
 
-if(TARGET Dyninst::pcontrol)
   add_library(testproccontrol SHARED src/proccontrol/proccontrol_comp.C)
 
   if(WIN32)
@@ -204,7 +197,6 @@ if(TARGET Dyninst::pcontrol)
   install(TARGETS testproccontrol DESTINATION ${INSTALL_DIR})
   set_target_properties(testproccontrol
                         PROPERTIES COMPILE_DEFINITIONS "${COMPLIB_DEFS}")
-endif()
 
 if(WIN32)
   set(RUNTESTS_UTILS src/runTests-utils-nt.C)
