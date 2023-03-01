@@ -25,9 +25,11 @@ add_definitions(-D_GNU_SOURCE)
 # Import the system threads library
 find_package(Threads)
 
-set(_dyn_libs symtabAPI dyninstAPI pcontrol instructionAPI)
+set(_dyn_libs symtabAPI dyninstAPI pcontrol instructionAPI dyninstAPI_RT dyninstAPI_RT_static)
 find_package(Dyninst REQUIRED COMPONENTS ${_dyn_libs})
 
+# Make the aliases for the old-style targets
+#  The mutatees don't support the new style
 foreach(l ${_dyn_libs})
 	add_library(${l} INTERFACE IMPORTED)
 	target_link_libraries(${l} INTERFACE Dyninst::${l})
@@ -276,14 +278,6 @@ set_target_properties(testB_static PROPERTIES OUTPUT_NAME testB)
 
 if(UNIX)
   add_library(Test12 SHARED src/dyninst/libTest12.c)
-  add_library(dyninstAPI_RT SHARED IMPORTED)
-  set(_path_suffixes dyninst)
-  find_library(dyninstAPI_RT_LIBRARY
-             NAMES libdyninstAPI_RT.so
-             PATHS ${Dyninst_DIR}/../..
-             PATH_SUFFIXES ${_path_suffixes}
-             NO_DEFAULT_PATH)
-  set_target_properties(dyninstAPI_RT PROPERTIES IMPORTED_LOCATION ${dyninstAPI_RT_LIBRARY})
   target_link_libraries(Test12 dyninstAPI_RT)
   install(TARGETS Test12
           LIBRARY DESTINATION ${INSTALL_DIR}
