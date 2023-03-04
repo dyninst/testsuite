@@ -79,6 +79,10 @@ if(NOT ${USE_GNU_DEMANGLER})
 	link_directories(${LibIberty_LIBRARY_DIRS})
 endif()
 
+foreach(l "C" "CXX")
+  list(FILTER CMAKE_${l}_FLAGS EXCLUDE REGEX "Werror")
+endforeach()
+
 find_package(Dyninst REQUIRED
              COMPONENTS common
              OPTIONAL_COMPONENTS symtabAPI
