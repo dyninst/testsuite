@@ -47,7 +47,7 @@
  * group.
  */
 
-static int mutateeIdle = 0;
+static volatile int mutateeIdle = 0;
 
 /* Function definitions follow */
 
