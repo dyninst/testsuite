@@ -94,7 +94,7 @@ void register_my_lock(unsigned long id, unsigned int val)
     logerror("%s[%d]: FIXME\n", __FILE__, __LINE__);
 }
 
-int done_threads = 0;
+volatile int done_threads = 0;
 
 int all_threads_done()
 {
