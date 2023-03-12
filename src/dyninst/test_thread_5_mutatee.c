@@ -34,6 +34,8 @@
 #include "test_thread.h"
 #include "test12.h"
 #include <sys/syscall.h>
+#include "atomic.h"
+
 /* Externally accessed function prototypes.  These must have globally unique
  * names.  I suggest following the pattern <testname>_<function>
  */
@@ -42,7 +44,7 @@
  * names.
  */
 
-volatile int test_thread_5_idle = 0;
+testsuite_atomic(int, test_thread_5_idle, 0)
 
 /* Internally used function prototypes.  These should be declared with the
  * keyword static so they don't interfere with other mutatees in the group.

@@ -30,6 +30,7 @@
 
 #include "mutatee_util.h"
 #include "solo_mutatee_boilerplate.h"
+#include "atomic.h"
 
 // This is modified by the mutator
 volatile int proc_current_state = 0;
@@ -42,7 +43,7 @@ volatile int proc_current_state = 0;
  * is enough to prevent the compiler from removing the check
  * in 'init_func'
 */
-volatile int done = 0;
+testsuite_atomic(int, done, 0)
 
 // Barrier to synchronize thread startup
 testbarrier_t startup_barrier;

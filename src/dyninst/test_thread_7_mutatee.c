@@ -36,6 +36,7 @@
 
 #include "mutatee_util.h"
 #include "solo_mutatee_boilerplate.h"
+#include "atomic.h"
 
 extern thread_t spawnNewThread(void *initial_func, void *param);
 extern void* joinThread(thread_t threadid);
@@ -58,7 +59,7 @@ volatile int threads_running[NTHRD];
 testlock_t barrier_mutex;
 testlock_t count_mutex;
 
-volatile int times_level1_called;
+testsuite_atomic(int, times_level1_called, 0)
 
 void my_barrier(volatile int *br)
 {
@@ -210,7 +211,7 @@ int test_thread_7_mutatee() {
    if (times_level1_called != NTHRD*N_INSTR)
    {
       logerror("[%s:%u] - level1 called %u times.  Expected %u\n",
-              __FILE__, __LINE__, times_level1_called, NTHRD*N_INSTR);
+              __FILE__, __LINE__, +times_level1_called, NTHRD*N_INSTR);
       return -1;
    }
 

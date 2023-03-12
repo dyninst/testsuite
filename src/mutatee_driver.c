@@ -38,6 +38,7 @@
 #include <ctype.h>
 #include <assert.h>
 #include <errno.h>
+#include <atomic.h>
 
 #if defined(os_windows_test)
 #define WIN32_LEAN_AND_MEAN
@@ -66,7 +67,7 @@ extern "C" {
 }
 #endif
 
-volatile int isAttached = 0;
+testsuite_atomic(int, isAttached, 0)
 
 #include "mutatee_call_info.h"
 /* #include "mutatee_glue.h" */

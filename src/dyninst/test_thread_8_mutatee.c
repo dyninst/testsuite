@@ -36,6 +36,7 @@
 #include <limits.h>
 #include "mutatee_util.h"
 #include "solo_mutatee_boilerplate.h"
+#include "atomic.h"
 
 #define NTHRD 5
 thread_t thrds[NTHRD];
@@ -48,9 +49,9 @@ volatile int threads_running[NTHRD];
 void check_sync();
 void check_async();
 
-volatile int sync_failure = 0;
-volatile int async_failure = 0;
-volatile int timeout_failure = 0;
+testsuite_atomic(int, sync_failure, 0)
+testsuite_atomic(int, async_failure, 0)
+testsuite_atomic(int, timeout_failure, 0)
 
 volatile unsigned thr_exits;
 
@@ -186,10 +187,10 @@ int test_thread_8_mutatee() {
    
    if(sync_failure)
       logerror("%s[%d]: ERROR: oneTimeCode failed for %d threads\n", 
-              __FILE__, __LINE__, sync_failure);
+              __FILE__, __LINE__, +sync_failure);
    if(async_failure)
       logerror("%s[%d]: ERROR: oneTimeCodeAsync failed for %d threads\n", 
-              __FILE__, __LINE__, async_failure);
+              __FILE__, __LINE__, +async_failure);
 
    /* TODO Check return value for this mutatee! */
    if(sync_failure) return -1;

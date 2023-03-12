@@ -33,6 +33,7 @@
 #include "solo_mutatee_boilerplate.h"
 #include "test_thread.h"
 #include "test12.h"
+#include "atomic.h"
 
 /* Externally accessed function prototypes.  These must have globally unique
  * names.  I suggest following the pattern <testname>_<function>
@@ -53,7 +54,7 @@
 
 Thread_t test4_threads[TEST3_THREADS];
 Lock_t test4lock;
-volatile int mutateeIdle = 0;
+testsuite_atomic(int, mutateeIdle, 0)
 
 /* Function definitions follow */
 

@@ -40,6 +40,7 @@
 #include "test_thread.h"
 #include "test12.h"
 #include "dyninstRTExport.h"
+#include "atomic.h"
 
 /* Externally accessed function prototypes.  These must have globally unique
  * names.  I suggest following the pattern <testname>_<function>
@@ -94,7 +95,7 @@ void register_my_lock(unsigned long id, unsigned int val)
     logerror("%s[%d]: FIXME\n", __FILE__, __LINE__);
 }
 
-volatile int done_threads = 0;
+testsuite_atomic(int, done_threads, 0)
 
 int all_threads_done()
 {
