@@ -99,24 +99,24 @@ int is_only_one() {
 
 void *thread_main1 (void *arg)
 {
-   (*DYNINSTlock_thelock)(&test1lock);
-   register_my_lock((unsigned long)pthread_self(),1);
-   pthread_mutex_lock(&real_lock);
    arg = NULL; /*Silence warnings*/
 
-  /*sleep_ms(1); */
+   (*DYNINSTlock_thelock)(&test1lock);
+   register_my_lock((unsigned long)pthread_self(),1);
 
+   pthread_mutex_lock(&real_lock);
    if (!is_only_one()) {
      subtest1err = 1;
    }
    pthread_mutex_unlock(&real_lock);
-   register_my_lock((unsigned long)pthread_self(),0);
 
-   (*DYNINSTunlock_thelock)(&test1lock); 
+   register_my_lock((unsigned long)pthread_self(),0);
+   (*DYNINSTunlock_thelock)(&test1lock);
 
    pthread_mutex_lock(&real_lock);
     done_threads++;
    pthread_mutex_unlock(&real_lock);
+
    return NULL;
 }
 
