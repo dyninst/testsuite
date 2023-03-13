@@ -122,7 +122,6 @@ void *thread_main1 (void *arg)
 
 int func1_1()
 {
-
   dyntid_t (**DYNINST_pthread_self)(void);
   int lockres;
   int bigTIMEOUT;
@@ -136,7 +135,6 @@ int func1_1()
   for (i = 0; i < TEST1_THREADS; ++i) {
     current_locks[i] = 0;
   }
-
 
 
 #if defined(m32_test)
@@ -184,11 +182,8 @@ int func1_1()
   sleep_ms(5);
 
   dprintf("%s[%d]:  doing initial unlock...\n", __FILE__, __LINE__);
-  /* (*DYNINSTunlock_thelock)(&test1lock); */
 
    (*DYNINSTunlock_thelock)(&test1lock);
-  /*pthread_mutex_unlock(&real_lock); */
-
 
   bigTIMEOUT = 5000;
   timeout = 0;
