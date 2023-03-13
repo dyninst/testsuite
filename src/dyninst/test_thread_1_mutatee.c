@@ -72,7 +72,7 @@ void register_my_lock(pthread_t id, unsigned int val)
   for (i = 0; i < TEST1_THREADS; ++i) {
     if (pthread_equal(test1threads[i], id)) {
       found = 1;
-      current_locks[i] = (unsigned)val;
+      current_locks[i] = val;
       break;
     }
   }
