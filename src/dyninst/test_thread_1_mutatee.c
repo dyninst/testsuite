@@ -117,7 +117,6 @@ int func1_1()
     current_locks[i] = 0;
   }
 
-
 #if defined(m32_test)
   const char * libname = "libdyninstAPI_RT_m32.so";
 #else
@@ -157,6 +156,7 @@ int func1_1()
   sleep_ms(5);
 
   dprintf("%s[%d]:  doing initial unlock...\n", __FILE__, __LINE__);
+  (*DYNINSTunlock_thelock)(&test1lock);
 
   for(int i=0; i<TEST1_THREADS; i++) {
 	pthread_join(test1threads[i], NULL);
