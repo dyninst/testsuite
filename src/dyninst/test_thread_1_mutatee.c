@@ -173,14 +173,10 @@ int func1_1()
 
 /* skeleton test doesn't do anything besides say that it passed */
 int test_thread_1_mutatee() {
-  int status;
-
-  status = func1_1();
-  /* TODO Make sure this is correct */
-  if (status != 0) {
+  if (func1_1() != 0) {
     return -1; /* Error of some kind */
-  } else {
-    test_passes(testname);
-    return 0;
   }
+
+  test_passes(testname);
+  return 0;
 }
