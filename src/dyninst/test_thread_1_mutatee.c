@@ -154,20 +154,14 @@ int func1_1()
   DYNINSTunlock_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_unlock");
   if (!DYNINSTinit_thelock) {
     logerror("%s[%d]:  could not DYNINSTinit_thelock: %s\n", __FILE__, __LINE__, dlerror());
-    /* FIXME Don't exit()! */
-    /* exit(1); */
     return -1;
   }
   if (!DYNINSTlock_thelock) {
     logerror("%s[%d]:  could not DYNINSTlock_thelock: %s\n", __FILE__, __LINE__, dlerror());
-    /* FIXME Don't exit()! */
-    /* exit(1); */
     return -1;
   }
   if (!DYNINSTunlock_thelock) {
     logerror("%s[%d]:  could not DYNINSTunlock_thelock:%s\n", __FILE__, __LINE__, dlerror());
-    /* FIXME Don't exit()! */
-    /* exit(1); */
     return -1;
   }
 
