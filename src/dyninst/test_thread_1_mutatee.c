@@ -60,7 +60,6 @@ static dyninst_lock_t test1lock;
 unsigned long current_locks[TEST1_THREADS];
 Thread_t test1threads[TEST1_THREADS];
 pthread_mutex_t real_lock;
-volatile int done_threads = 0;
 int subtest1err = 0;
 
 void register_my_lock(pthread_t id, unsigned int val)
@@ -78,11 +77,6 @@ void register_my_lock(pthread_t id, unsigned int val)
   }
   if (!found)
     logerror("%s[%d]: FIXME\n", __FILE__, __LINE__);
-}
-
-int all_threads_done()
-{
-  return done_threads == TEST1_THREADS;
 }
 
 int is_only_one() {
@@ -112,10 +106,6 @@ void *thread_main1 (void *arg)
 
    register_my_lock(pthread_self(),0);
    (*DYNINSTunlock_thelock)(&test1lock);
-
-   pthread_mutex_lock(&real_lock);
-    done_threads++;
-   pthread_mutex_unlock(&real_lock);
 
    return NULL;
 }
@@ -168,15 +158,8 @@ int func1_1()
 
   dprintf("%s[%d]:  doing initial unlock...\n", __FILE__, __LINE__);
 
-   (*DYNINSTunlock_thelock)(&test1lock);
-
-  int bigTIMEOUT = 5000;
-  int timeout = 0;
-
-  /*   wait for all threads to exit */
-  while (timeout < bigTIMEOUT && ! all_threads_done()) {
-    timeout += 100;
-    sleep_ms(100);
+  for(int i=0; i<TEST1_THREADS; i++) {
+	pthread_join(test1threads[i], NULL);
   }
 
   dlclose(RTlib);
