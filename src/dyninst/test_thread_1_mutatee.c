@@ -51,11 +51,14 @@ Subtest 1:  rtlib spinlocks
      two threads have it at the same time.
 ********************************************************************/
 
+void (*DYNINSTinit_thelock)(dyninst_lock_t *);
+int (*DYNINSTlock_thelock)(dyninst_lock_t *);
+void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
+
 unsigned long current_locks[TEST1_THREADS];
-/*Thread_t  *test2threads; */
 Thread_t test1threads[TEST1_THREADS];
 pthread_mutex_t real_lock;
-
+volatile int done_threads = 0;
 int subtest1counter = 0;
 int subtest1err = 0;
 
@@ -76,8 +79,6 @@ void register_my_lock(unsigned long id, unsigned int val)
     logerror("%s[%d]: FIXME\n", __FILE__, __LINE__);
 }
 
-volatile int done_threads = 0;
-
 int all_threads_done()
 {
   return done_threads == TEST1_THREADS;
@@ -95,10 +96,6 @@ int is_only_one() {
   return 1; /*true */
 }
 
-void (*DYNINSTinit_thelock)(dyninst_lock_t *);
-int (*DYNINSTlock_thelock)(dyninst_lock_t *);
-void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
-/*dyninst_lock_t test1lock; */
 static DECLARE_DYNINST_LOCK(test1lock);
 
 void *thread_main1 (void *arg)
