@@ -137,7 +137,7 @@ int func1_1()
     current_locks[i] = 0;
   }
 
-#if !defined (os_windows_test)
+
 
 #if defined(m32_test)
   libname = "libdyninstAPI_RT_m32.so";
@@ -189,7 +189,6 @@ int func1_1()
    (*DYNINSTunlock_thelock)(&test1lock);
   /*pthread_mutex_unlock(&real_lock); */
 
-#endif
 
   bigTIMEOUT = 5000;
   timeout = 0;
