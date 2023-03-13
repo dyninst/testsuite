@@ -59,7 +59,6 @@ unsigned long current_locks[TEST1_THREADS];
 Thread_t test1threads[TEST1_THREADS];
 pthread_mutex_t real_lock;
 volatile int done_threads = 0;
-int subtest1counter = 0;
 int subtest1err = 0;
 
 void register_my_lock(unsigned long id, unsigned int val)
@@ -112,7 +111,6 @@ void *thread_main1 (void *arg)
    }
    pthread_mutex_unlock(&real_lock);
    register_my_lock((unsigned long)pthread_self(),0);
-   subtest1counter++;
 
    (*DYNINSTunlock_thelock)(&test1lock); 
 
