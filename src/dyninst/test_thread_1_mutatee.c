@@ -120,10 +120,6 @@ void *thread_main1 (void *arg)
    return NULL;
 }
 
-unsigned long local_pthread_self() {
-  return (unsigned long) pthread_self();
-}
-
 int func1_1()
 {
 
