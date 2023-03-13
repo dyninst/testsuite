@@ -63,14 +63,14 @@ pthread_mutex_t real_lock;
 volatile int done_threads = 0;
 int subtest1err = 0;
 
-void register_my_lock(unsigned long id, unsigned int val)
+void register_my_lock(pthread_t id, unsigned int val)
 {
   unsigned int i;
   int found = 0;
   dprintf("%s[%d]:  %sregister lock for thread %lu\n", __FILE__, __LINE__,
            val ? "" : "un", id);
   for (i = 0; i < TEST1_THREADS; ++i) {
-    if (pthread_equal((pthread_t)test1threads[i],(pthread_t)id)) {
+    if (pthread_equal(test1threads[i], id)) {
       found = 1;
       current_locks[i] = (unsigned)val;
       break;
@@ -102,7 +102,7 @@ void *thread_main1 (void *arg)
    arg = NULL; /*Silence warnings*/
 
    (*DYNINSTlock_thelock)(&test1lock);
-   register_my_lock((unsigned long)pthread_self(),1);
+   register_my_lock(pthread_self(),1);
 
    pthread_mutex_lock(&real_lock);
    if (!is_only_one()) {
@@ -110,7 +110,7 @@ void *thread_main1 (void *arg)
    }
    pthread_mutex_unlock(&real_lock);
 
-   register_my_lock((unsigned long)pthread_self(),0);
+   register_my_lock(pthread_self(),0);
    (*DYNINSTunlock_thelock)(&test1lock);
 
    pthread_mutex_lock(&real_lock);
