@@ -122,7 +122,6 @@ void *thread_main1 (void *arg)
 
 int func1_1()
 {
-  dyntid_t (**DYNINST_pthread_self)(void);
   int lockres;
   int bigTIMEOUT;
   int timeout;
@@ -153,7 +152,6 @@ int func1_1()
   DYNINSTinit_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_init_lock");
   DYNINSTlock_thelock = (int (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_lock");
   DYNINSTunlock_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_unlock");
-  DYNINST_pthread_self = (dyntid_t (**)(void))dlsym(RTlib, "DYNINST_pthread_self");
   if (!DYNINSTinit_thelock) {
     logerror("%s[%d]:  could not DYNINSTinit_thelock: %s\n", __FILE__, __LINE__, dlerror());
     /* FIXME Don't exit()! */
