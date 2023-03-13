@@ -62,6 +62,14 @@ Thread_t test1threads[TEST1_THREADS];
 pthread_mutex_t real_lock;
 int subtest1err = 0;
 
+/*
+ * This barrier is a (maybe) temporary and incomplete fix for the threading
+ * issues in proccontrol's mailbox. It mitigates the bug there by ensuring
+ * that no thread in this mutatee can finish execution before all of the
+ * other threads are created.
+ */
+pthread_barrier_t startup_barrier;
+
 void register_my_lock(pthread_t id, unsigned int val)
 {
   unsigned int i;
@@ -95,6 +103,8 @@ void *thread_main1 (void *arg)
 {
    arg = NULL; /*Silence warnings*/
 
+   pthread_barrier_wait(&startup_barrier);
+
    (*DYNINSTlock_thelock)(&test1lock);
    register_my_lock(pthread_self(),1);
 
@@ -116,6 +126,8 @@ int func1_1()
   for (int i = 0; i < TEST1_THREADS; ++i) {
     current_locks[i] = 0;
   }
+
+  pthread_barrier_init(&startup_barrier, NULL, TEST1_THREADS);
 
 #if defined(m32_test)
   const char * libname = "libdyninstAPI_RT_m32.so";
@@ -155,8 +167,6 @@ int func1_1()
   (*DYNINSTlock_thelock)(&test1lock);
   createThreads(TEST1_THREADS, thread_main1, test1threads);
 
-  sleep_ms(5);
-
   dprintf("%s[%d]:  doing initial unlock...\n", __FILE__, __LINE__);
   (*DYNINSTunlock_thelock)(&test1lock);
 
@@ -167,6 +177,7 @@ int func1_1()
   dlclose(RTlib);
 
   pthread_mutex_destroy(&real_lock);
+  pthread_barrier_destroy(&startup_barrier);
 
   return subtest1err;
 }
