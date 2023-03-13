@@ -126,7 +126,6 @@ int func1_1()
   int bigTIMEOUT;
   int timeout;
   const char *libname;
-  /*pthread_attr_t attr;*/
   unsigned int i;
   void *RTlib;
 
