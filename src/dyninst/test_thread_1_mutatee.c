@@ -55,6 +55,8 @@ void (*DYNINSTinit_thelock)(dyninst_lock_t *);
 int (*DYNINSTlock_thelock)(dyninst_lock_t *);
 void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
 
+static dyninst_lock_t test1lock;
+
 unsigned long current_locks[TEST1_THREADS];
 Thread_t test1threads[TEST1_THREADS];
 pthread_mutex_t real_lock;
@@ -94,8 +96,6 @@ int is_only_one() {
   }
   return 1; /*true */
 }
-
-static DECLARE_DYNINST_LOCK(test1lock);
 
 void *thread_main1 (void *arg)
 {
@@ -180,8 +180,7 @@ int func1_1()
   }
 
   pthread_mutex_init(&real_lock, NULL);
-
-  (*DYNINSTunlock_thelock)(&test1lock);
+  (*DYNINSTinit_thelock)(&test1lock);
 
   lockres = (*DYNINSTlock_thelock)(&test1lock);
   createThreads(TEST1_THREADS, thread_main1, test1threads);
