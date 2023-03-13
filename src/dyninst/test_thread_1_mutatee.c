@@ -122,24 +122,19 @@ void *thread_main1 (void *arg)
 
 int func1_1()
 {
-  int bigTIMEOUT;
-  int timeout;
-  const char *libname;
-  unsigned int i;
-  void *RTlib;
-
   /* zero out lock registry: */
-  for (i = 0; i < TEST1_THREADS; ++i) {
+  for (int i = 0; i < TEST1_THREADS; ++i) {
     current_locks[i] = 0;
   }
 
 
 #if defined(m32_test)
-  libname = "libdyninstAPI_RT_m32.so";
+  const char * libname = "libdyninstAPI_RT_m32.so";
 #else
-  libname = "libdyninstAPI_RT.so";
+  const char *libname = "libdyninstAPI_RT.so";
 #endif
-  RTlib = dlopen(libname, RTLD_NOW);
+
+  void *RTlib = dlopen(libname, RTLD_NOW);
   if (!RTlib) {
     logerror("%s[%d]:  could not open dyninst RT lib: %s\n", __FILE__, __LINE__, dlerror());
     char *ld = getenv("LD_LIBRARY_PATH");
@@ -175,8 +170,8 @@ int func1_1()
 
    (*DYNINSTunlock_thelock)(&test1lock);
 
-  bigTIMEOUT = 5000;
-  timeout = 0;
+  int bigTIMEOUT = 5000;
+  int timeout = 0;
 
   /*   wait for all threads to exit */
   while (timeout < bigTIMEOUT && ! all_threads_done()) {
