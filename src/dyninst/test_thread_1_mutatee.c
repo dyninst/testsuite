@@ -41,33 +41,15 @@
 #include "test12.h"
 #include "dyninstRTExport.h"
 
-/* Externally accessed function prototypes.  These must have globally unique
- * names.  I suggest following the pattern <testname>_<function>
- */
-
-/* Global variables accessed by the mutator.  These must have globally unique
- * names.
- */
-
-/* Internally used function prototypes.  These should be declared with the
- * keyword static so they don't interfere with other mutatees in the group.
- */
-
-/* Global variables used internally by the mutatee.  These should be declared
- * with the keyword static so they don't interfere with other mutatees in the
- * group.
- */
-
-/* Function definitions follow */
-
-/********************************************************************/
-/********************************************************************/
-/***********  Subtest 1:  rtlib spinlocks */
-/***********  use dlopen/dlsym to get access to rt lib lock */
-/***********  then start up a bunch of threads to contend for it */
-/***********  monitor contention for deadlock/broken lock */
-/********************************************************************/
-/********************************************************************/
+/********************************************************************
+Subtest 1:  rtlib spinlocks
+  1. use dlopen/dlsym to get access to rt lib lock
+  2. start up a bunch of threads
+  3. release the lock and let the threads compete for it
+  3. monitor contention for deadlock/broken lock, checking to make
+     sure that all threads get the lock at some point and that no
+     two threads have it at the same time.
+********************************************************************/
 
 unsigned long current_locks[TEST1_THREADS];
 /*Thread_t  *test2threads; */
@@ -205,12 +187,7 @@ int func1_1()
   pthread_mutex_init(&real_lock, NULL);
 
   (*DYNINSTunlock_thelock)(&test1lock);
-   /*  The way this is supposed to work is that we get a lock, then start a bunch of
-       threads, which all try to get the same lock, pretty much as soon as they start.
-       Then, after starting all the threads, we release the lock and let the threads
-       compete for it, checking to make sure that all threads get the lock at some point
-       and that no two threads have it at the same time.  
-    */
+
   lockres = (*DYNINSTlock_thelock)(&test1lock);
   createThreads(TEST1_THREADS, thread_main1, test1threads);
 
