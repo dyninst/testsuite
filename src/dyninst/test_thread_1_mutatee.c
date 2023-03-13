@@ -122,7 +122,6 @@ void *thread_main1 (void *arg)
 
 int func1_1()
 {
-  int lockres;
   int bigTIMEOUT;
   int timeout;
   const char *libname;
@@ -167,7 +166,7 @@ int func1_1()
   pthread_mutex_init(&real_lock, NULL);
   (*DYNINSTinit_thelock)(&test1lock);
 
-  lockres = (*DYNINSTlock_thelock)(&test1lock);
+  (*DYNINSTlock_thelock)(&test1lock);
   createThreads(TEST1_THREADS, thread_main1, test1threads);
 
   sleep_ms(5);
