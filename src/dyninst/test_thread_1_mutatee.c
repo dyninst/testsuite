@@ -163,6 +163,9 @@ int func1_1()
   }
 
   dlclose(RTlib);
+
+  pthread_mutex_destroy(&real_lock);
+
   return subtest1err;
 }
 
