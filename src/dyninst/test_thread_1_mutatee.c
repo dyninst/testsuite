@@ -51,6 +51,7 @@ Subtest 1:  rtlib spinlocks
 ********************************************************************/
 
 void (*DYNINSTinit_thelock)(dyninst_lock_t *);
+void (*DYNINSTfree_thelock)(dyninst_lock_t *);
 int (*DYNINSTlock_thelock)(dyninst_lock_t *);
 void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
 
@@ -113,6 +114,12 @@ int func1_1()
     return -1;
   }
 
+  DYNINSTfree_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_free_lock");
+  if (!DYNINSTfree_thelock) {
+    logerror("%s[%d]:  could not DYNINSTfree_thelock: %s\n", __FILE__, __LINE__, dlerror());
+    return -1;
+  }
+
   DYNINSTlock_thelock = (int (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_lock");
   if (!DYNINSTlock_thelock) {
     logerror("%s[%d]:  could not DYNINSTlock_thelock: %s\n", __FILE__, __LINE__, dlerror());
@@ -139,9 +146,8 @@ int func1_1()
   }
 
   dlclose(RTlib);
-
-  pthread_mutex_destroy(&real_lock);
   pthread_barrier_destroy(&startup_barrier);
+  (*DYNINSTfree_thelock)(&test1lock);
 
   return subtest1err;
 }
