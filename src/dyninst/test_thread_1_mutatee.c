@@ -27,13 +27,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include <assert.h>
 #include <dlfcn.h>
-#include <errno.h>
 #include <pthread.h>
 #include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
 
 #include "mutatee_util.h"
 #include "solo_mutatee_boilerplate.h"
