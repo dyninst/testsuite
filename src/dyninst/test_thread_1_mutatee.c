@@ -80,9 +80,13 @@ static void *thread_main1 (void *arg)
    // This is atomic
    canary = id;
 
+   // Introduce some noise
+   pthread_yield();
+
    if(canary != id) subtest1err = 1;
 
    canary = id;
+   pthread_yield();
 
    (*DYNINSTunlock_thelock)(&test1lock);
 
