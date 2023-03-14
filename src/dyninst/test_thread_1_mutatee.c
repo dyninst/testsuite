@@ -70,8 +70,6 @@ static pthread_barrier_t startup_barrier;
 
 static void *thread_main1 (void *arg)
 {
-   arg = NULL; /*Silence warnings*/
-
    pthread_barrier_wait(&startup_barrier);
 
    // We need a unique value for each thread, so just use its pthread ID
@@ -88,7 +86,7 @@ static void *thread_main1 (void *arg)
 
    (*DYNINSTunlock_thelock)(&test1lock);
 
-   return NULL;
+   return arg;
 }
 
 int func1_1()
