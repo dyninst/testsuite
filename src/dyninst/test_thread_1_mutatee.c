@@ -40,15 +40,14 @@
 #include "test_thread.h"
 #include "test12.h"
 #include "dyninstRTExport.h"
+#include "atomic.h"
 
 /********************************************************************
 Subtest 1:  rtlib spinlocks
-  1. use dlopen/dlsym to get access to rt lib lock
-  2. start up a bunch of threads
-  3. release the lock and let the threads compete for it
-  3. monitor contention for deadlock/broken lock, checking to make
-     sure that all threads get the lock at some point and that no
-     two threads have it at the same time.
+*
+*  This tests the dyninst_lock_t implementation by modifying an
+*  atomic value while holding a lock.
+*
 ********************************************************************/
 
 void (*DYNINSTinit_thelock)(dyninst_lock_t *);
@@ -57,10 +56,9 @@ void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
 
 static dyninst_lock_t test1lock;
 
-unsigned long current_locks[TEST1_THREADS];
 Thread_t test1threads[TEST1_THREADS];
-pthread_mutex_t real_lock;
 int subtest1err = 0;
+testsuite_atomic(pthread_t, canary, 0)
 
 /*
  * This barrier is a (maybe) temporary and incomplete fix for the threading
@@ -70,51 +68,24 @@ int subtest1err = 0;
  */
 pthread_barrier_t startup_barrier;
 
-void register_my_lock(pthread_t id, unsigned int val)
-{
-  unsigned int i;
-  int found = 0;
-  dprintf("%s[%d]:  %sregister lock for thread %lu\n", __FILE__, __LINE__,
-           val ? "" : "un", id);
-  for (i = 0; i < TEST1_THREADS; ++i) {
-    if (pthread_equal(test1threads[i], id)) {
-      found = 1;
-      current_locks[i] = val;
-      break;
-    }
-  }
-  if (!found)
-    logerror("%s[%d]: FIXME\n", __FILE__, __LINE__);
-}
-
-int is_only_one() {
-  unsigned int i;
-  int foundone = 0;
-  for (i = 0; i < TEST1_THREADS; ++i) {
-    if (0 != current_locks[i]) {
-      if (foundone) return 0; /*false*/
-      foundone++;
-    }
-  }
-  return 1; /*true */
-}
-
 void *thread_main1 (void *arg)
 {
    arg = NULL; /*Silence warnings*/
 
    pthread_barrier_wait(&startup_barrier);
 
+   // We need a unique value for each thread, so just use its pthread ID
+   pthread_t id = pthread_self();
+
    (*DYNINSTlock_thelock)(&test1lock);
-   register_my_lock(pthread_self(),1);
 
-   pthread_mutex_lock(&real_lock);
-   if (!is_only_one()) {
-     subtest1err = 1;
-   }
-   pthread_mutex_unlock(&real_lock);
+   // This is atomic
+   canary = id;
 
-   register_my_lock(pthread_self(),0);
+   if(canary != id) subtest1err = 1;
+
+   canary = id;
+
    (*DYNINSTunlock_thelock)(&test1lock);
 
    return NULL;
@@ -122,11 +93,6 @@ void *thread_main1 (void *arg)
 
 int func1_1()
 {
-  /* zero out lock registry: */
-  for (int i = 0; i < TEST1_THREADS; ++i) {
-    current_locks[i] = 0;
-  }
-
   pthread_barrier_init(&startup_barrier, NULL, TEST1_THREADS);
 
 #if defined(m32_test)
@@ -161,7 +127,6 @@ int func1_1()
     return -1;
   }
 
-  pthread_mutex_init(&real_lock, NULL);
   (*DYNINSTinit_thelock)(&test1lock);
 
   (*DYNINSTlock_thelock)(&test1lock);
