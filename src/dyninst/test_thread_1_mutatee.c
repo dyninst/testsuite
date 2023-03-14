@@ -50,15 +50,14 @@ Subtest 1:  rtlib spinlocks
 *
 ********************************************************************/
 
-void (*DYNINSTinit_thelock)(dyninst_lock_t *);
-void (*DYNINSTfree_thelock)(dyninst_lock_t *);
-int (*DYNINSTlock_thelock)(dyninst_lock_t *);
-void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
+static void (*DYNINSTinit_thelock)(dyninst_lock_t *);
+static void (*DYNINSTfree_thelock)(dyninst_lock_t *);
+static int (*DYNINSTlock_thelock)(dyninst_lock_t *);
+static void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
 
 static dyninst_lock_t test1lock;
-
-Thread_t test1threads[TEST1_THREADS];
-int subtest1err = 0;
+static Thread_t test1threads[TEST1_THREADS];
+static int subtest1err = 0;
 testsuite_atomic(pthread_t, canary, 0)
 
 /*
@@ -67,9 +66,9 @@ testsuite_atomic(pthread_t, canary, 0)
  * that no thread in this mutatee can finish execution before all of the
  * other threads are created.
  */
-pthread_barrier_t startup_barrier;
+static pthread_barrier_t startup_barrier;
 
-void *thread_main1 (void *arg)
+static void *thread_main1 (void *arg)
 {
    arg = NULL; /*Silence warnings*/
 
