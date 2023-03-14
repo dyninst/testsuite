@@ -93,8 +93,6 @@ void *thread_main1 (void *arg)
 
 int func1_1()
 {
-  pthread_barrier_init(&startup_barrier, NULL, TEST1_THREADS);
-
 #if defined(m32_test)
   const char * libname = "libdyninstAPI_RT_m32.so";
 #else
@@ -127,6 +125,7 @@ int func1_1()
     return -1;
   }
 
+  pthread_barrier_init(&startup_barrier, NULL, TEST1_THREADS);
   (*DYNINSTinit_thelock)(&test1lock);
 
   (*DYNINSTlock_thelock)(&test1lock);
