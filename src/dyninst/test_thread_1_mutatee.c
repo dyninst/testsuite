@@ -71,7 +71,7 @@ static void *thread_main1(void *arg) {
   // We need a unique value for each thread, so just use its pthread ID
   pthread_t id = pthread_self();
 
-  (*DYNINSTlock_thelock)(&test1lock);
+  DYNINSTlock_thelock(&test1lock);
 
   // This is atomic
   canary = id;
@@ -85,7 +85,7 @@ static void *thread_main1(void *arg) {
   canary = id;
   pthread_yield();
 
-  (*DYNINSTunlock_thelock)(&test1lock);
+  DYNINSTunlock_thelock(&test1lock);
 
   return arg;
 }
@@ -130,13 +130,13 @@ int func1_1() {
   }
 
   pthread_barrier_init(&startup_barrier, NULL, TEST1_THREADS);
-  (*DYNINSTinit_thelock)(&test1lock);
+  DYNINSTinit_thelock(&test1lock);
 
-  (*DYNINSTlock_thelock)(&test1lock);
+  DYNINSTlock_thelock(&test1lock);
   createThreads(TEST1_THREADS, thread_main1, test1threads);
 
   dprintf("%s[%d]:  doing initial unlock...\n", __FILE__, __LINE__);
-  (*DYNINSTunlock_thelock)(&test1lock);
+  DYNINSTunlock_thelock(&test1lock);
 
   for (int i = 0; i < TEST1_THREADS; i++) {
     pthread_join(test1threads[i], NULL);
@@ -144,7 +144,7 @@ int func1_1() {
 
   dlclose(RTlib);
   pthread_barrier_destroy(&startup_barrier);
-  (*DYNINSTfree_thelock)(&test1lock);
+  DYNINSTfree_thelock(&test1lock);
 
   return subtest1err;
 }
