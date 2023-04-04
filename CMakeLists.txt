@@ -40,7 +40,11 @@ include_directories(${DYNINST_INCLUDE_DIR})
 message(STATUS "Project source dir: ${PROJECT_SOURCE_DIR}")
 set(BUILD_SHARED_LIBS ON)
 
-set(INSTALL_DIR "bin/testsuite" CACHE PATH "Testsuite installation directory")
+if(CMAKE_INSTALL_PREFIX)
+  set(INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
+else()
+  set(INSTALL_DIR "bin/testsuite" CACHE PATH "Testsuite installation directory")
+endif()
 
 # Build rules for the test libraries (libtestdyninst, libtestproccontrol, etc.)
 # and the executables
