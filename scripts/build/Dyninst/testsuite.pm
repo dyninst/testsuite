@@ -54,10 +54,9 @@ sub configure {
 		execute("cd $build_dir\n"
 			  . "$args->{'cmake'} "
 			  . "../src "
-			  . "-DCMAKE_INSTALL_PREFIX=$base_dir "
+			  . "-DCMAKE_INSTALL_PREFIX=$base_dir/tests "
 			  . "$args->{'cmake-args'} "
 			  . "$args->{'testsuite-cmake-args'} "
-			  . "-DINSTALL_DIR=$base_dir/tests "
 			  . "-DDyninst_DIR=../dyninst/lib/cmake/Dyninst "
 			  . "1>config.out 2>config.err");
 	};
