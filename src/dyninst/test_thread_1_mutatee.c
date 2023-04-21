@@ -1,177 +1,103 @@
 /*
  * See the dyninst/COPYRIGHT file for copyright information.
- * 
+ *
  * We provide the Paradyn Tools (below described as "Paradyn")
  * on an AS IS basis, and do not warrant its validity or performance.
  * We reserve the right to update, modify, or discontinue this
  * software at any time.  We shall have no obligation to supply such
  * updates or modifications or any other form of support to you.
- * 
+ *
  * By your use of Paradyn, you understand and agree that we (or any
  * other person or entity with proprietary rights in Paradyn) are
  * under no obligation to provide either maintenance services,
  * update services, notices of latent defects, or correction of
  * defects for Paradyn.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include <assert.h>
+
 #include <dlfcn.h>
-#include <errno.h>
 #include <pthread.h>
 #include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
 
+#include "atomic.h"
+#include "dyninstRTExport.h"
 #include "mutatee_util.h"
 #include "solo_mutatee_boilerplate.h"
-#include "test_thread.h"
 #include "test12.h"
-#include "dyninstRTExport.h"
+#include "test_thread.h"
 
-/* Externally accessed function prototypes.  These must have globally unique
- * names.  I suggest following the pattern <testname>_<function>
+/********************************************************************
+Subtest 1:  rtlib spinlocks
+*
+*  This tests the dyninst_lock_t implementation by modifying an
+*  atomic value while holding a lock.
+*
+********************************************************************/
+
+static void (*DYNINSTinit_thelock)(dyninst_lock_t *);
+static void (*DYNINSTfree_thelock)(dyninst_lock_t *);
+static int (*DYNINSTlock_thelock)(dyninst_lock_t *);
+static void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
+
+static dyninst_lock_t test1lock;
+static Thread_t test1threads[TEST1_THREADS];
+static int subtest1err = 0;
+testsuite_atomic(pthread_t, canary, 0)
+
+/*
+ * This barrier is a (maybe) temporary and incomplete fix for the threading
+ * issues in proccontrol's mailbox. It mitigates the bug there by ensuring
+ * that no thread in this mutatee can finish execution before all of the
+ * other threads are created.
  */
+static pthread_barrier_t startup_barrier;
 
-/* Global variables accessed by the mutator.  These must have globally unique
- * names.
- */
+static void *thread_main1(void *arg) {
+  pthread_barrier_wait(&startup_barrier);
 
-/* Internally used function prototypes.  These should be declared with the
- * keyword static so they don't interfere with other mutatees in the group.
- */
+  // We need a unique value for each thread, so just use its pthread ID
+  pthread_t id = pthread_self();
 
-/* Global variables used internally by the mutatee.  These should be declared
- * with the keyword static so they don't interfere with other mutatees in the
- * group.
- */
+  DYNINSTlock_thelock(&test1lock);
 
-/* Function definitions follow */
+  // This is atomic
+  canary = id;
 
-/********************************************************************/
-/********************************************************************/
-/***********  Subtest 1:  rtlib spinlocks */
-/***********  use dlopen/dlsym to get access to rt lib lock */
-/***********  then start up a bunch of threads to contend for it */
-/***********  monitor contention for deadlock/broken lock */
-/********************************************************************/
-/********************************************************************/
+  // Introduce some noise
+  pthread_yield();
 
-unsigned long current_locks[TEST1_THREADS];
-/*Thread_t  *test2threads; */
-Thread_t test1threads[TEST1_THREADS];
-pthread_mutex_t real_lock;
+  if (canary != id)
+    subtest1err = 1;
 
-int subtest1counter = 0;
-int subtest1err = 0;
+  canary = id;
+  pthread_yield();
 
-void register_my_lock(unsigned long id, unsigned int val)
-{
-  unsigned int i;
-  int found = 0;
-  dprintf("%s[%d]:  %sregister lock for thread %lu\n", __FILE__, __LINE__,
-           val ? "" : "un", id);
-  for (i = 0; i < TEST1_THREADS; ++i) {
-    if (pthread_equal((pthread_t)test1threads[i],(pthread_t)id)) {
-      found = 1;
-      current_locks[i] = (unsigned)val;
-      break;
-    }
-  }
-  if (!found)
-    logerror("%s[%d]: FIXME\n", __FILE__, __LINE__);
+  DYNINSTunlock_thelock(&test1lock);
+
+  return arg;
 }
 
-volatile int done_threads = 0;
-
-int all_threads_done()
-{
-  return done_threads == TEST1_THREADS;
-}
-
-int is_only_one() {
-  unsigned int i;
-  int foundone = 0;
-  for (i = 0; i < TEST1_THREADS; ++i) {
-    if (0 != current_locks[i]) {
-      if (foundone) return 0; /*false*/
-      foundone++;
-    }
-  }
-  return 1; /*true */
-}
-
-void (*DYNINSTinit_thelock)(dyninst_lock_t *);
-int (*DYNINSTlock_thelock)(dyninst_lock_t *);
-void (*DYNINSTunlock_thelock)(dyninst_lock_t *);
-/*dyninst_lock_t test1lock; */
-static DECLARE_DYNINST_LOCK(test1lock);
-
-void *thread_main1 (void *arg)
-{
-   (*DYNINSTlock_thelock)(&test1lock);
-   register_my_lock((unsigned long)pthread_self(),1);
-   pthread_mutex_lock(&real_lock);
-   arg = NULL; /*Silence warnings*/
-
-  /*sleep_ms(1); */
-
-   if (!is_only_one()) {
-     subtest1err = 1;
-   }
-   pthread_mutex_unlock(&real_lock);
-   register_my_lock((unsigned long)pthread_self(),0);
-   subtest1counter++;
-
-   (*DYNINSTunlock_thelock)(&test1lock); 
-
-   pthread_mutex_lock(&real_lock);
-    done_threads++;
-   pthread_mutex_unlock(&real_lock);
-   return NULL;
-}
-
-unsigned long local_pthread_self() {
-  return (unsigned long) pthread_self();
-}
-
-int func1_1()
-{
-
-  dyntid_t (**DYNINST_pthread_self)(void);
-  int lockres;
-  int bigTIMEOUT;
-  int timeout;
-  const char *libname;
-  /*pthread_attr_t attr;*/
-  unsigned int i;
-  void *RTlib;
-
-  /* zero out lock registry: */
-  for (i = 0; i < TEST1_THREADS; ++i) {
-    current_locks[i] = 0;
-  }
-
-#if !defined (os_windows_test)
-
+int func1_1() {
 #if defined(m32_test)
-  libname = "libdyninstAPI_RT_m32.so";
+  const char *libname = "libdyninstAPI_RT_m32.so";
 #else
-  libname = "libdyninstAPI_RT.so";
+  const char *libname = "libdyninstAPI_RT.so";
 #endif
-  RTlib = dlopen(libname, RTLD_NOW);
+
+  void *RTlib = dlopen(libname, RTLD_NOW);
   if (!RTlib) {
     logerror("%s[%d]:  could not open dyninst RT lib: %s\n", __FILE__, __LINE__, dlerror());
     char *ld = getenv("LD_LIBRARY_PATH");
@@ -180,73 +106,55 @@ int func1_1()
   }
 
   DYNINSTinit_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_init_lock");
-  DYNINSTlock_thelock = (int (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_lock");
-  DYNINSTunlock_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_unlock");
-  DYNINST_pthread_self = (dyntid_t (**)(void))dlsym(RTlib, "DYNINST_pthread_self");
   if (!DYNINSTinit_thelock) {
     logerror("%s[%d]:  could not DYNINSTinit_thelock: %s\n", __FILE__, __LINE__, dlerror());
-    /* FIXME Don't exit()! */
-    /* exit(1); */
     return -1;
   }
+
+  DYNINSTfree_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_free_lock");
+  if (!DYNINSTfree_thelock) {
+    logerror("%s[%d]:  could not DYNINSTfree_thelock: %s\n", __FILE__, __LINE__, dlerror());
+    return -1;
+  }
+
+  DYNINSTlock_thelock = (int (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_lock");
   if (!DYNINSTlock_thelock) {
     logerror("%s[%d]:  could not DYNINSTlock_thelock: %s\n", __FILE__, __LINE__, dlerror());
-    /* FIXME Don't exit()! */
-    /* exit(1); */
     return -1;
   }
+
+  DYNINSTunlock_thelock = (void (*)(dyninst_lock_t *))dlsym(RTlib, "dyninst_unlock");
   if (!DYNINSTunlock_thelock) {
     logerror("%s[%d]:  could not DYNINSTunlock_thelock:%s\n", __FILE__, __LINE__, dlerror());
-    /* FIXME Don't exit()! */
-    /* exit(1); */
     return -1;
   }
 
-  pthread_mutex_init(&real_lock, NULL);
+  pthread_barrier_init(&startup_barrier, NULL, TEST1_THREADS);
+  DYNINSTinit_thelock(&test1lock);
 
-  (*DYNINSTunlock_thelock)(&test1lock);
-   /*  The way this is supposed to work is that we get a lock, then start a bunch of
-       threads, which all try to get the same lock, pretty much as soon as they start.
-       Then, after starting all the threads, we release the lock and let the threads
-       compete for it, checking to make sure that all threads get the lock at some point
-       and that no two threads have it at the same time.  
-    */
-  lockres = (*DYNINSTlock_thelock)(&test1lock);
+  DYNINSTlock_thelock(&test1lock);
   createThreads(TEST1_THREADS, thread_main1, test1threads);
 
-  sleep_ms(5);
-
   dprintf("%s[%d]:  doing initial unlock...\n", __FILE__, __LINE__);
-  /* (*DYNINSTunlock_thelock)(&test1lock); */
+  DYNINSTunlock_thelock(&test1lock);
 
-   (*DYNINSTunlock_thelock)(&test1lock);
-  /*pthread_mutex_unlock(&real_lock); */
-
-#endif
-
-  bigTIMEOUT = 5000;
-  timeout = 0;
-
-  /*   wait for all threads to exit */
-  while (timeout < bigTIMEOUT && ! all_threads_done()) {
-    timeout += 100;
-    sleep_ms(100);
+  for (int i = 0; i < TEST1_THREADS; i++) {
+    pthread_join(test1threads[i], NULL);
   }
 
   dlclose(RTlib);
+  pthread_barrier_destroy(&startup_barrier);
+  DYNINSTfree_thelock(&test1lock);
+
   return subtest1err;
 }
 
 /* skeleton test doesn't do anything besides say that it passed */
 int test_thread_1_mutatee() {
-  int status;
-
-  status = func1_1();
-  /* TODO Make sure this is correct */
-  if (status != 0) {
+  if (func1_1() != 0) {
     return -1; /* Error of some kind */
-  } else {
-    test_passes(testname);
-    return 0;
   }
+
+  test_passes(testname);
+  return 0;
 }
