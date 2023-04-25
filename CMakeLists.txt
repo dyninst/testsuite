@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13.0)
 
 # There is a bug in 3.19.0 that causes .S files to be treated like C files
 if(CMAKE_VERSION VERSION_EQUAL "3.19.0")
-    message(FATAL_ERROR "Dyninst cannot use CMake version 3.19.0")
+    message(FATAL_ERROR "Test Suite cannot use CMake version 3.19.0")
 endif()
 
 project(Dyninst-TestSuite)
