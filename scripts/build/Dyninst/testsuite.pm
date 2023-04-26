@@ -54,11 +54,10 @@ sub configure {
 		execute("cd $build_dir\n"
 			  . "$args->{'cmake'} "
 			  . "../src "
-			  . "-DCMAKE_INSTALL_PREFIX=$base_dir "
+			  . "-DCMAKE_INSTALL_PREFIX=$base_dir/tests "
 			  . "$args->{'cmake-args'} "
 			  . "$args->{'testsuite-cmake-args'} "
-			  . "-DINSTALL_DIR=$base_dir/tests "
-			  . "-DDyninst_DIR=../dyninst/lib/cmake/Dyninst "
+			  . "-DDyninst_DIR=\$PWD/../dyninst/lib/cmake/Dyninst "
 			  . "1>config.out 2>config.err");
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
@@ -147,13 +146,7 @@ sub _run_single {
 sub run_tests {
 	my ($args, $base_dir, $run_log) = @_;
 
-	# Grab the paths in the Dyninst build cache
-	my @lib_dirs = ('Boost_LIBRARY_DIRS', 'TBB_LIBRARY_DIRS', 'ElfUtils_LIBRARY_DIRS', 'LibIberty_LIBRARY_DIRS');
-	my $cache    = "$args->{'dyninst-cmake-cache-dir'}/CMakeCache.txt";
-	my @libs     = load_from_cache($cache, \@lib_dirs);
-
-	push @libs, ($base_dir, realpath("$base_dir/../dyninst/lib"));
-	my $paths = join(':', list_unique(@libs));
+	my $paths = realpath("$base_dir/../dyninst/lib");
 
 	# If user explicitly requests single-stepping, then only run that mode
 	if ($args->{'single-stepping'}) {
