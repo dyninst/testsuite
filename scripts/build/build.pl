@@ -12,7 +12,7 @@ if (eval { require FindBin; 1; }) {
 use Dyninst::logs;
 use Dyninst::dyninst;
 use Dyninst::testsuite;
-use Dyninst::utils qw(make_root upload canonicalize);
+use Dyninst::utils qw(make_root canonicalize);
 use Dyninst::options;
 use Dyninst::restart;
 use Dyninst::results;
@@ -66,15 +66,10 @@ Dyninst::dyninst::run($args, $root_dir, $logger);
 # Build and execute test suite
 Dyninst::testsuite::run($args, $root_dir, $logger);
 
-# Save the results in a tarball
+# Save the results in a the results log
 my $tarball_name = Dyninst::results::save($args, $root_dir);
 
 # Remove the generated files, if requested
 if ($args->{'purge'}) {
 	remove_tree($root_dir);
-}
-
-# Upload the results to the dashboard, if requested
-if ($args->{'upload'}) {
-	upload($tarball_name, $args->{'auth-token'});
 }

@@ -29,11 +29,9 @@ my %args = (
 	'purge'                => 0,
 	'help'                 => 0,
 	'restart'              => undef,
-	'upload'               => 0,
 	'ntestjobs'            => 1,
 	'nompthreads'          => 2,
 	'single-stepping'      => 0,
-	'auth-token'           => undef,
 	'sterile'              => 1,
 	'hostname'             => undef,
 	'debug-mode'           => 0,         # undocumented debug mode
@@ -60,10 +58,10 @@ sub parse {
 		'log-file=s',           'dyninst-pr=s',  'testsuite-pr=s',         'cmake-args=s',
 		'dyninst-cmake-args=s', 'cmake=s',       'testsuite-cmake-args=s', 'build-tests!',
 		'run-tests!',           'tests!',        'njobs=i',                'quiet',
-		'purge',                'help',          'restart=s',              'upload!',
-		'ntestjobs=i',          'nompthreads=i', 'single-stepping',        'auth-token=s',
-		'sterile!',             'hostname=s',    'debug-mode',             'limit=i',
-		'root=s',               'replay!',       'only-config'
+		'purge',                'help',          'restart=s',              'limit=i',
+		'ntestjobs=i',          'nompthreads=i', 'single-stepping',        'sterile!',
+		'hostname=s',           'debug-mode',    'root=s',                 'replay!',
+		'only-config'
 	) or pod2usage(-input => pod_where({ -inc => 1 }, __PACKAGE__), -exitval => 2);
 
 	# --no-tests is an alias for "--no-build-tests --no-run-tests"
@@ -73,10 +71,6 @@ sub parse {
 	}
 
 	# ------- Sanity Checks ---------------------------------------------
-	if ($args{'upload'} && !$args{'auth-token'}) {
-		die "Must specify authentication token when uploading\n";
-	}
-
 	if (defined($args{'restart'}) && defined($args{'root'})) {
 		die "Options --restart and --root are mutually exclusive\n";
 	}
@@ -125,11 +119,9 @@ build [options]
    --quiet                 Don't echo logging information to stdout (default: no)
    --purge                 Remove all files after running testsuite (default: no)
    --restart=ID            Restart the script for run 'ID'
-   --[no-]upload           Upload the results to the Dyninst dashboard (default: no)
    --ntestjobs             Number of tests to run in parallel (default: 1)
    --nompthreads           Number of OpenMP threads to use for parallel parsing when running tests (default: 2)
    --single-stepping       Run the tests one at a time (i.e., not in 'group' mode) (default: no)
-   --auth-token=STRING     The authentication token string. Required when uploading the results.
    --[no-]sterile          Use a sterile build- don't download dependencies (default: yes)
    --hostname              Override the hostname provided by `uname`
    --limit=n               Change group test limit in testsuite.
