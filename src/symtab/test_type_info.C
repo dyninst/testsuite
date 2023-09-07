@@ -38,6 +38,7 @@
 #include <array>
 #include <functional>
 #include <iostream>
+#include <boost/filesystem/convenience.hpp>
 
 using namespace Dyninst;
 using namespace SymtabAPI;
@@ -1100,10 +1101,8 @@ test_results_t test_type_info_Mutator::executeTest() {
   }
 
   for (unsigned int i = 0; i < mods.size(); ++i) {
-    std::string mname = mods[i]->fileName();
-    if (!strncmp("solo_mutatee", mname.c_str(), strlen("solo_mutatee")) ||
-        !strncmp("test_type_info_mutatee", mname.c_str(),
-                 strlen("test_type_info_mutatee"))) {
+    auto const& mname = boost::filesystem::path(mods[i]->fileName()).stem();
+    if (mname != "solo_mutatee" || mname != "test_type_info_mutatee") {
       if (mod)
         logerror("%s[%d]:  FIXME\n", FILE__, __LINE__);
       mod = mods[i];
