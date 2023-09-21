@@ -148,8 +148,11 @@ test_results_t test_module_Mutator::executeTest()
            failure_info << " could not be found by offset " << offset << std::endl;
            failure_info << "Result was " << (result ? "TRUE" : "FALSE") << ", mod was " << std::hex << test_mod << std::dec << std::endl;
            failure_info << "Ranges in Symtab are: " << std::endl;
-           Dyninst::SymtabAPI::ModRangeLookup* symtab_ranges = symtab->mod_lookup();
-           failure_info << (*symtab_ranges);
+           std::vector<SymtabAPI::Module*> all_mods;
+           symtab->getAllModules(all_mods);
+           for(auto *m : all_mods) {
+               failure_info << "  " << m->fileName() << " at offset " << m->addr() << '\n';
+           }
            failure_info << std::endl;
            logerror(failure_info.str().c_str());
            return FAILED;
