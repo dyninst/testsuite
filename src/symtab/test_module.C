@@ -130,11 +130,9 @@ test_results_t test_module_Mutator::executeTest()
 		   return FAILED;
 	   }
 
+	   auto *test_mod = symtab->findModuleByOffset(offset);
 
-	   test_mod = NULL;
-       result = symtab->findModuleByOffset(test_mod, offset);
-
-       if (!result || !test_mod)
+       if (!test_mod)
        {
            failure_info << " could not be found by offset " << offset << std::endl;
            failure_info << "Result was " << (result ? "TRUE" : "FALSE") << ", mod was " << std::hex << test_mod << std::dec << std::endl;
