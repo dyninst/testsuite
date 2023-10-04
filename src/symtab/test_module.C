@@ -130,15 +130,6 @@ test_results_t test_module_Mutator::executeTest()
 		   return FAILED;
 	   }
 
-	   test_mod = NULL;
-	   result = symtab->findModuleByName(test_mod, modfullname);
-
-	   if (!result || !test_mod)
-	   {
-           failure_info << " could not be found by full name " << modfullname << std::endl;
-           logerror(failure_info.str().c_str());
-		   return FAILED;
-	   }
 
 	   test_mod = NULL;
        result = symtab->findModuleByOffset(test_mod, offset);
