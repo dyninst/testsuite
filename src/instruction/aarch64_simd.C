@@ -34,7 +34,7 @@
 #include "Instruction.h"
 #include "InstructionDecoder.h"
 #include "Register.h"
-#include "dyn_regs.h"
+#include "registers/aarch64/aarch64_regs.h"
 #include <boost/assign/list_of.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
 #include <deque>
