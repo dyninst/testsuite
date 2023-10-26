@@ -35,7 +35,7 @@
 #include "InstructionDecoder.h"
 #include "Expression.h"
 #include "Result.h"
-
+#include "dyn_regs.h"
 #include <boost/assign/list_of.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
 

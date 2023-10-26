@@ -35,6 +35,8 @@
 #include "InstructionDecoder.h"
 #include <boost/assign/list_of.hpp>
 #include <deque>
+#include "dyn_regs.h"
+
 using namespace Dyninst;
 using namespace InstructionAPI;
 using namespace boost;

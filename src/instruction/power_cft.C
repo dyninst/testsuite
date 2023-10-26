@@ -34,7 +34,7 @@
 #include "Instruction.h"
 #include "InstructionDecoder.h"
 #include "Register.h"
-
+#include "dyn_regs.h"
 #include <boost/assign/list_of.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
 #include <deque>
@@ -160,6 +160,7 @@ test_results_t power_cft_Mutator::executeTest()
   cfts.push_back(cftExpected(true, 0x404, false, false, false, true));
   while(!decodedInsns.empty())
   {
+      logerror("Parsing instruction '%s'\n", decodedInsns.front().format().c_str());
       (void)(decodedInsns.front().getControlFlowTarget());
       for(Instruction::cftConstIter curCFT = decodedInsns.front().cft_begin();
           curCFT != decodedInsns.front().cft_end();
