@@ -35,9 +35,19 @@
 #include "InstructionDecoder.h"
 #include "Expression.h"
 #include "Result.h"
-
+#include "Architecture.h"
 #include <boost/assign/list_of.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
+
+#if defined(arch_x86_64_test)
+# include "registers/x86_64_regs.h"
+  Dyninst::Architecture curArch = Dyninst::Arch_x86_64;
+  using namespace Dyninst::x86_64;
+#elif defined(arch_x86_test)
+# include "registers/x86_regs.h"
+  Dyninst::Architecture curArch = Dyninst::Arch_x86;
+  using namespace Dyninst::x86;
+#endif
 
 using namespace Dyninst;
 using namespace InstructionAPI;

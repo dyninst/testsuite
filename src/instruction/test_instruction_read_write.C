@@ -35,6 +35,10 @@
 #include "InstructionDecoder.h"
 #include <boost/assign/list_of.hpp>
 #include <deque>
+#include "Architecture.h"
+#include "registers/x86_regs.h"
+#include "registers/x86_64_regs.h"
+
 using namespace Dyninst;
 using namespace InstructionAPI;
 using namespace boost;
