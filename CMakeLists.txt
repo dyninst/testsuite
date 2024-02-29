@@ -26,7 +26,7 @@ add_definitions(-D_GNU_SOURCE)
 find_package(Threads)
 
 set(_dyn_libs symtabAPI dyninstAPI pcontrol instructionAPI dyninstAPI_RT dyninstAPI_RT_static)
-find_package(Dyninst 12.3.0 REQUIRED COMPONENTS ${_dyn_libs})
+find_package(Dyninst 13.0.0 REQUIRED COMPONENTS ${_dyn_libs})
 
 # Make the aliases for the old-style targets
 #  The mutatees don't support the new style
