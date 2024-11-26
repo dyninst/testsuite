@@ -38,7 +38,7 @@
 #include <array>
 #include <functional>
 #include <iostream>
-#include <boost/filesystem/convenience.hpp>
+#include <boost/filesystem/path.hpp>
 
 using namespace Dyninst;
 using namespace SymtabAPI;
