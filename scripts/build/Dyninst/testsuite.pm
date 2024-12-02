@@ -40,13 +40,25 @@ sub setup {
 		$git_config = Dyninst::git::get_config($args->{'test-src'}, $base_dir);
 	}
 
+	my $dyninst_dir = canonicalize("$build_dir/../dyninst");
+	my @dyninst_lib_dirs = map {"$dyninst_dir/$_"} qw/lib lib64 lib32/;
+	my $dyninst_lib_dir;
+	foreach my $d (@dyninst_lib_dirs)  {
+	    if (-d $d)  {
+		$dyninst_lib_dir = $d;
+		last;
+	    }
+	}
+	die "Dyninst lib dir not found at " . join(' or ', @dyninst_lib_dirs) unless defined $dyninst_lib_dir;
+
 	Dyninst::git::save_config($base_dir, $git_config);
 
-	return ($base_dir, $build_dir);
+	return ($base_dir, $build_dir, $dyninst_dir, $dyninst_lib_dir);
 }
 
 sub configure {
-	my ($args, $base_dir, $build_dir) = @_;
+	my ($args, $base_dir, $build_dir, $dyninst_dir, $dyninst_lib_dir) = @_;
+
 
 	# Configure the Testsuite
 	# We need an 'eval' here since we are manually piping stderr
@@ -57,7 +69,7 @@ sub configure {
 			  . "-DCMAKE_INSTALL_PREFIX=$base_dir/tests "
 			  . "$args->{'cmake-args'} "
 			  . "$args->{'testsuite-cmake-args'} "
-			  . "-DDyninst_DIR=\$PWD/../dyninst/lib/cmake/Dyninst "
+			  . "-DDyninst_ROOT=$dyninst_dir "
 			  . "1>config.out 2>config.err");
 	};
 	die "Error configuring: see $build_dir/config.err for details" if $@;
@@ -93,7 +105,7 @@ sub _killed_by_watchdog {
 }
 
 sub _run_single {
-	my ($paths, $args, $base_dir, $run_log) = @_;
+	my ($paths, $args, $base_dir, $dyninst_dir, $dyninst_lib_dir, $run_log) = @_;
 
 	my $test_names_file = "$base_dir/../build/test_names.txt";
 	open my $fdTests, '<', $test_names_file     or die "Unable to open '$test_names_file': $!\n";
@@ -114,7 +126,7 @@ sub _run_single {
 
 		try {
 			execute("cd $base_dir\n"
-				  . "export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n"
+				  . "export DYNINSTAPI_RT_LIB=$dyninst_lib_dir/libdyninstAPI_RT.so\n"
 				  . "export OMP_NUM_THREADS=$args->{'nompthreads'}\n"
 				  . "LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH "
 				  . "./runTests -64 -all -test $test_name $limit -log tmp.log 1>stdout.tmp 2>stderr.tmp");
@@ -144,13 +156,13 @@ sub _run_single {
 }
 
 sub run_tests {
-	my ($args, $base_dir, $run_log) = @_;
+	my ($args, $base_dir, $run_log, $dyninst_dir, $dyninst_lib_dir) = @_;
 
-	my $paths = realpath("$base_dir/../dyninst/lib");
+	my $paths = $dyninst_lib_dir;
 
 	# If user explicitly requests single-stepping, then only run that mode
 	if ($args->{'single-stepping'}) {
-		_run_single($paths, $args, $base_dir, $run_log);
+		_run_single($paths, $args, $base_dir, $dyninst_dir, $dyninst_lib_dir, $run_log);
 		return;
 	}
 
@@ -160,7 +172,7 @@ sub run_tests {
 		my $limit = defined($args->{'limit'}) ? "-limit $args->{'limit'}" : '';
 
 		execute("cd $base_dir\n"
-			  . "export DYNINSTAPI_RT_LIB=$base_dir/../dyninst/lib/libdyninstAPI_RT.so\n"
+			  . "export DYNINSTAPI_RT_LIB=$dyninst_lib_dir/libdyninstAPI_RT.so\n"
 			  . "export OMP_NUM_THREADS=$args->{'nompthreads'}\n"
 			  . "LD_LIBRARY_PATH=$paths:\$LD_LIBRARY_PATH "
 			  . "./runTests -64 -all -log test.log -j$args->{'ntestjobs'} $limit 1>stdout.log 2>stderr.log");
@@ -181,7 +193,7 @@ sub run_tests {
 		}
 		if ($args->{'replay'}) {
 			$run_log->write("Running in group mode failed. Running single-step mode.\n");
-			_run_single($paths, $args, $base_dir, $run_log);
+			_run_single($paths, $args, $base_dir, $dyninst_dir, $dyninst_lib_dir, $run_log);
 		} else {
 			$run_log->write("Running in group mode failed, NO REPLAY.\n");
 		}
@@ -195,12 +207,12 @@ sub run {
 	return if !$args->{'tests'};
 
 	# Always set up logs, even if doing a restart
-	my ($base_dir, $build_dir) = setup($root_dir, $args);
+	my ($base_dir, $build_dir, $dyninst_dir, $dyninst_lib_dir) = setup($root_dir, $args);
 
 	try {
 		if ($args->{'build-tests'}) {
 			$logger->write("Configuring Testsuite... ", 'eol' => '');
-			configure($args, $base_dir, $build_dir);
+			configure($args, $base_dir, $build_dir, $dyninst_dir, $dyninst_lib_dir);
 			$logger->write("done\n");
 			
 			#NB: This only leaves the 'try' block, it does _NOT_ return from 'run'!
@@ -220,7 +232,7 @@ sub run {
 			my $run_log = Dyninst::logs->new("$base_dir/run.log");
 
 			$logger->write("running Testsuite... ", 'eol' => '');
-			run_tests($args, $base_dir, $run_log);
+			run_tests($args, $base_dir, $run_log, $dyninst_dir, $dyninst_lib_dir);
 			$logger->write("done.");
 		}
 	} catch {
