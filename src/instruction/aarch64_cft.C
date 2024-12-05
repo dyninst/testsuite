@@ -199,7 +199,9 @@ test_results_t aarch64_cft_Mutator::executeTest()
               logerror("FAILED: instruction %s expected CFT, wasn't present", decodedInsns.front().format().c_str());
               retVal = failure_accumulator(retVal, FAILED);
           }
-          cfts.pop_front();
+          if(!cfts.empty()) {
+            cfts.pop_front();
+          }
       }
 
       decodedInsns.pop_front();
