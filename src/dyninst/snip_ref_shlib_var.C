@@ -94,7 +94,6 @@ BPatch_snippet * snip_ref_shlib_var_Mutator::doVarAssign(const char *to, const c
 
 	BPatch_snippet *ret;
 	ret = new BPatch_arithExpr(BPatch_assign, *to_v, *from_v);
-	assert(ret);
 	return ret;
 }
 
@@ -120,7 +119,6 @@ BPatch_snippet * snip_ref_shlib_var_Mutator::doVarArrayAssign(
     BPatch_snippet *ret;
     ret = new BPatch_arithExpr(BPatch_assign,
            BPatch_arithExpr(BPatch_ref, *to_v, BPatch_constExpr(idx)), *from_v);
-    assert(ret);
 	return ret;
 }
 
