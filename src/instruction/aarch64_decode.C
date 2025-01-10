@@ -452,240 +452,236 @@ test_results_t aarch64_decode_Mutator::executeTest() {
 
   std::deque<registerSet> expectedRead, expectedWritten;
 
-  // ADD W0, W0, W0, ROR #1
+  // ADD W1, W10, W12
   expectedRead.push_back({w12,w10});
   expectedWritten.push_back({w1});
 
-  // ADD W1, W10, W12
+  // ADD W0, W5, W8, LSL #5
   expectedRead.push_back({w8,w5});
   expectedWritten.push_back({w0});
 
-  // ADD W0, W5, W8, LSL #5
+  // ADD X4, X7, X9, LSR #10
   expectedRead.push_back({x9,x7});
   expectedWritten.push_back({x4});
 
-  // ADD X4, X7, X9, LSR #10
+  // SUB W0, W2, W4
   expectedRead.push_back({w4,w2});
   expectedWritten.push_back({w0});
 
-  // SUB W0, W2, W4
+  // SUB X6, X8, X11, ASR #7
   expectedRead.push_back({x11,x8});
   expectedWritten.push_back({x6});
 
-  // SUB X6, X8, X11, ASR #7
+  // ADDS W0, W5, W8, LSL #5
   expectedRead.push_back({w8,w5});
   expectedWritten.push_back({w0,pstate});
 
-  // ADDS W0, W5, W8, LSL #5
+  // ADD W5, W10, W15
   expectedRead.push_back({x15,w10});
   expectedWritten.push_back({w5});
 
-  // ADD W5, W10, W15
+  // SUB X0, X1, X1, UXTB #0
   expectedRead.push_back({w1,x1});
   expectedWritten.push_back({x0});
 
-  // SUB X0, X1, X1, UXTB #0
+  // SUBS X2, X2, X2, SXTW #4
   expectedRead.push_back({x2,x2});
   expectedWritten.push_back({x2,pstate});
 
-  // SUBS X2, X2, X2, SXTW #4
+  // ADC W5, W22, W25
   expectedRead.push_back({w25,w22});
   expectedWritten.push_back({w5});
 
-  // ADC W5, W22, W25
+  // SBC X0, X1, X2
   expectedRead.push_back({x2,x1});
   expectedWritten.push_back({x0});
 
-  // SBC X0, X1, X2
+  // CCMN W7, #30, #11, 5
   expectedRead.push_back({w7,pstate});
   expectedWritten.push_back({pstate});
 
-  // CCMN W7, #30, #11, 5
+  // CCMP X20, #8, #0, 15
   expectedRead.push_back({x20,pstate});
   expectedWritten.push_back({pstate});
 
-  // CCMP X20, #8, #0, 15
+  // CCMN W5, W10, #7, 1
   expectedRead.push_back({w10,w5,pstate});
   expectedWritten.push_back({pstate});
 
-  // CCMN W5, W10, #7, 1
+  // CCMP X2, X4, #4, 10
   expectedRead.push_back({x2,x4,pstate});
   expectedWritten.push_back({pstate});
 
-  // CCMP X2, X4, #4, 10
+  // CSEL W5, W10, W15, 1
   expectedRead.push_back({w15,w10,pstate});
   expectedWritten.push_back({w5});
 
-  // CSEL W5, W10, W15, 1
+  // CSINC X0, X2, X4, 5
   expectedRead.push_back({x2,x4,pstate});
   expectedWritten.push_back({x0});
 
-  // CSINC X0, X2, X4, 5
+  // CSINV X20, X21, X22, 7
   expectedRead.push_back({x21,x22,pstate});
   expectedWritten.push_back({x20});
 
-  // CSINV X20, X21, X22, 7
+  // CSNEG W1, W5, W9, 10
   expectedRead.push_back({w5,w10,pstate});
   expectedWritten.push_back({w1});
 
-  // CSNEG W1, W5, W9, 10
+  // RBIT W1, W2
   expectedRead.push_back({w2});
   expectedWritten.push_back({w1});
 
-  // RBIT W1, W2
+  // REV X10, X20
   expectedRead.push_back({x20});
   expectedWritten.push_back({x10});
 
-  // REV X10, X20
+  // CLZ W30, W29
   expectedRead.push_back({w29});
   expectedWritten.push_back({w30});
 
-  // CLZ W30, W29
+  // CLS X11, X12
   expectedRead.push_back({x12});
   expectedWritten.push_back({x11});
 
-  // CLS X11, X12
+  // REV16 W0, W12
   expectedRead.push_back({w12});
   expectedWritten.push_back({w0});
 
-  // REV16 W0, W12
+  // UDIV W0, W2, W4
   expectedRead.push_back({w4,w2});
   expectedWritten.push_back({w0});
 
-  // UDIV W0, W2, W4
+  // SDIV X15, X20, X25
   expectedRead.push_back({x25,x20});
   expectedWritten.push_back({x15});
 
-  // SDIV X15, X20, X25
+  // LSLV W5, W8, W11
   expectedRead.push_back({w11,w8});
   expectedWritten.push_back({w5});
 
-  // LSLV W5, W8, W11
+  // ASRV X7, X9, X11
   expectedRead.push_back({x11,x9});
   expectedWritten.push_back({x7});
 
-  // ASRV X7, X9, X11
+  // RORV W16, W0, W4
   expectedRead.push_back({w4,w0});
   expectedWritten.push_back({w16});
 
-  // RORV W16, W0, W4
+  // MADD W1, W3, W2, W0
   expectedRead.push_back({w2,w0,w3});
   expectedWritten.push_back({w1});
 
-  // MADD W1, W3, W2, W0
+  // MSUB X4, X8, X16, X30
   expectedRead.push_back({x16,x30,x8});
   expectedWritten.push_back({x4});
 
-  // MSUB X4, X8, X16, X30
+  // SMSUBL X0, X0, X1, X1
   expectedRead.push_back({x1,w1,w0});
   expectedWritten.push_back({x0});
 
-  // SMSUBL X0, X0, X1, X1
+  // UMULH W5, W5, W10, W10
   expectedRead.push_back({x10,x5});
   expectedWritten.push_back({x5});
 
-  // UMULH W5, W5, W10, W10
+  // AND W1, W2, W3
   expectedRead.push_back({w3,w2});
   expectedWritten.push_back({w1});
 
-  // AND W1, W2, W3
+  // BIC X0, X5, X10, LSL #5
   expectedRead.push_back({x10,x5});
   expectedWritten.push_back({x0});
 
-  // BIC X0, X5, X10, LSL #5
+  // ORN W0, W0, W2, LSR #10
   expectedRead.push_back({w2,w0});
   expectedWritten.push_back({w0});
 
-  // ORN W0, W0, W2, LSR #10
+  // EOR X20, X21, X22, ASR #2
   expectedRead.push_back({x22,x21});
   expectedWritten.push_back({x20});
 
-  // EOR X20, X21, X22, ASR #2
+  // BICS X1, X1, X1, ROR #8
   expectedRead.push_back({x1,x1});
   expectedWritten.push_back({x1,pstate});
 
-  // BICS X1, X1, X1, ROR #8
+  // ADD W0, WSP, #11
   expectedRead.push_back({wsp});
   expectedWritten.push_back({w0});
 
-  // ADD W0, WSP, #11
+  // ADDS W5, W10, #0, LSL #12
   expectedRead.push_back({w10});
   expectedWritten.push_back({w5,pstate});
 
-  // ADDS W5, W10, #0, LSL #12
+  // SUB SP, X10, #12
   expectedRead.push_back({x10});
   expectedWritten.push_back({sp});
 
-  // SUB SP, X10, #12
+  // SBFM W12, W14, #25, #10
   expectedRead.push_back({w14});
   expectedWritten.push_back({w12});
 
-  // SBFM W12, W14, #25, #10
+  // BFM X0, X30, #63, #0
   expectedRead.push_back({x30});
   expectedWritten.push_back({x0});
 
-  // BFM X0, X30, #63, #0
-  expectedRead.push_back({x30});
+  // UBFM X20, X0, #8, #1
+  expectedRead.push_back({x0});
   expectedWritten.push_back({x20});
 
-  // UBFM X20, X0, #8, #1
+  // EXTR W10, W20, W30, #5
   expectedRead.push_back({w30,w20});
   expectedWritten.push_back({w10});
 
-  // EXTR W10, W20, W30, #5
+  // EXTR X0, X8, X16, #63
   expectedRead.push_back({x16,x8});
   expectedWritten.push_back({x0});
 
-  // EXTR X0, X8, X16, #63
+  // AND WSP, W24, #63
   expectedRead.push_back({w24});
   expectedWritten.push_back({wsp});
 
-  // AND WSP, W24, #63
+  // ORR SP, X30, #0
   expectedRead.push_back({x30});
   expectedWritten.push_back({sp});
 
-  // ORR SP, X30, #0
+  // EOR X20, X25, #
   expectedRead.push_back({x25});
   expectedWritten.push_back({x20});
 
-  // EOR X20, X25, #
+  // ANDS W5, W10, #9
   expectedRead.push_back({w10});
   expectedWritten.push_back({w5,pstate});
 
-  // ANDS W5, W10, #9
-  expectedRead.push_back({w10});
+  // MOVN W4, #23, LSL #1
+  expectedRead.push_back({});
   expectedWritten.push_back({w4});
 
-  // MOVN W4, #23, LSL #1
-  expectedRead.push_back({w10});
+  // MOVZ X20, #18, LSL #2
+  expectedRead.push_back({});
   expectedWritten.push_back({x20});
 
-  // MOVZ X20, #18, LSL #2
-  expectedRead.push_back({w10});
+  // MOVK X1, #256, LSL #3
+  expectedRead.push_back({});
   expectedWritten.push_back({x1});
 
-  // MOVK X1, #256, LSL #3
-  expectedRead.push_back({w10});
-  expectedWritten.push_back({w8});
-
   // MOVN W8, #8
-  expectedRead.push_back({pc});
-  expectedWritten.push_back({x0});
+  expectedRead.push_back({});
+  expectedWritten.push_back({w8});
 
   // ADR X0, #
   expectedRead.push_back({pc});
-  expectedWritten.push_back({x30});
+  expectedWritten.push_back({x0});
 
   // ADRP X30, #7
+  expectedRead.push_back({pc});
+  expectedWritten.push_back({x30});
+
+  // CBZ W15, #
   expectedRead.push_back({w15,pc});
   expectedWritten.push_back({pc});
 
-  // CBZ W15, #
-  expectedRead.push_back({x30,pc});
-  expectedWritten.push_back({pc});
-
   // CBNZ X30, #1
-  expectedRead.push_back({pc,pstate});
+  expectedRead.push_back({x30,pc});
   expectedWritten.push_back({pc});
 
   // B.NE #
@@ -693,19 +689,19 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   expectedWritten.push_back({pc});
 
   // B.GT #63
-  expectedRead.push_back({w4,pc});
+  expectedRead.push_back({pc,pstate});
   expectedWritten.push_back({pc});
 
   // TBZ W4, #30, #
-  expectedRead.push_back({x25,pc});
+  expectedRead.push_back({w4,pc});
   expectedWritten.push_back({pc});
 
   // TBNZ X25, #0, #16
-  expectedRead.push_back({wzr,pc});
+  expectedRead.push_back({x25,pc});
   expectedWritten.push_back({pc});
 
   // TBNZ WZR, #9, #12
-  expectedRead.push_back({pc});
+  expectedRead.push_back({wzr,pc});
   expectedWritten.push_back({pc});
 
   // B #
@@ -713,224 +709,224 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   expectedWritten.push_back({pc});
 
   // BL #8
-  expectedRead.push_back({x12});
+  expectedRead.push_back({pc});
   expectedWritten.push_back({pc});
 
   // BR X12
-  expectedRead.push_back({x30});
+  expectedRead.push_back({x12});
   expectedWritten.push_back({pc});
 
   // BLR X30
-  expectedRead.push_back({x0});
+  expectedRead.push_back({x30});
   expectedWritten.push_back({pc});
 
   // RET X0
+  expectedRead.push_back({x0});
+  expectedWritten.push_back({pc});
+
+  // FCMP S0, S31
   expectedRead.push_back({s31,s0});
   expectedWritten.push_back({pstate});
 
-  // FCMP S0, S31
+  // FCMP D16, #0.0
   expectedRead.push_back({s8});
   expectedWritten.push_back({pstate});
 
-  // FCMP D16, #0.0
-  expectedRead.push_back({d31,d30});
-  expectedWritten.push_back({pstate});
-
   // FCMP D31, D32
-  expectedRead.push_back({s31,s20,pstate});
+  expectedRead.push_back({d31,d30});
   expectedWritten.push_back({pstate});
 
   // FCCMP S20, S31, #8, 10
-  expectedRead.push_back({d2,d1,pstate});
+  expectedRead.push_back({s31,s20,pstate});
   expectedWritten.push_back({pstate});
 
   // FCCMP D1, D2, #5, 0
-  expectedRead.push_back({d11,d10,pstate});
+  expectedRead.push_back({d2,d1,pstate});
   expectedWritten.push_back({pstate});
 
   // FCCMPE D10, D1,, #9, 5
+  expectedRead.push_back({d11,d10,pstate});
+  expectedWritten.push_back({pstate});
+
+  // FCSEL S1, S, S3, 4
   expectedRead.push_back({s3,s2,pstate});
   expectedWritten.push_back({s1});
 
-  // FCSEL S1, S, S3, 4
+  // FMOV S5, S10
   expectedRead.push_back({s10});
   expectedWritten.push_back({s5});
 
-  // FMOV S5, S10
+  // FABS D30, D31
   expectedRead.push_back({d31});
   expectedWritten.push_back({d31});
 
-  // FABS D30, D31
+  // FRINTP D0, D2
   expectedRead.push_back({d2});
   expectedWritten.push_back({d0});
 
-  // FRINTP D0, D2
+  // FCVT S4, H5
   expectedRead.push_back({h5});
   expectedWritten.push_back({s4});
 
-  // FCVT S4, H5
+  // FCVT D0, H31
   expectedRead.push_back({h31});
   expectedWritten.push_back({d0});
 
-  // FCVT D0, H31
+  // FCVT D2, S0
   expectedRead.push_back({s0});
   expectedWritten.push_back({d2});
 
-  // FCVT D2, S0
+  // FCVT H31, D31
   expectedRead.push_back({d31});
   expectedWritten.push_back({h31});
 
-  // FCVT H31, D31
+  // FCVT S1, D1
   expectedRead.push_back({d1});
   expectedWritten.push_back({s1});
 
-  // FCVT S1, D1
+  // FCVT H8, S16
   expectedRead.push_back({s16});
   expectedWritten.push_back({h8});
 
-  // FCVT H8, S16
+  // FMUL S0, S1, S2
   expectedRead.push_back({s2,s1});
   expectedWritten.push_back({s0});
 
-  // FMUL S0, S1, S2
+  // FSUB D29, D30, D31
   expectedRead.push_back({d31,d30});
   expectedWritten.push_back({d29});
 
-  // FSUB D29, D30, D31
+  // FDIV D5, D10, D15
   expectedRead.push_back({d15,d10});
   expectedWritten.push_back({d5});
 
-  // FDIV D5, D10, D15
+  // FMAX S8, S16, S0
   expectedRead.push_back({s0,s16});
   expectedWritten.push_back({s8});
 
-  // FMAX S8, S16, S0
+  // FNINNM S1, S1, S1
   expectedRead.push_back({s1,s1});
   expectedWritten.push_back({s1});
 
-  // FNINNM S1, S1, S1
+  // FMADD S0, S1, S2, S3
   expectedRead.push_back({s2,s3,s1});
   expectedWritten.push_back({s0});
 
-  // FMADD S0, S1, S2, S3
+  // FMSUB D2, D4, D8, D16
   expectedRead.push_back({d8,d16,d4});
   expectedWritten.push_back({d2});
 
-  // FMSUB D2, D4, D8, D16
+  // FNMADD S10, S11, S11, S13
   expectedRead.push_back({s11,s13,s11});
   expectedWritten.push_back({s10});
 
-  // FNMADD S10, S11, S11, S13
+  // FNMSUB D8, D4, D2, D1
   expectedRead.push_back({d2,d1,d4});
   expectedWritten.push_back({d8});
 
-  // FNMSUB D8, D4, D2, D1
+  // FMOV S0, #88
   expectedRead.push_back({});
   expectedWritten.push_back({s0});
 
-  // FMOV S0, #88
+  // FMOV D31, #7F
   expectedRead.push_back({});
   expectedWritten.push_back({d31});
 
-  // FMOV D31, #7F
+  // SCVTF S0, W30, #59
   expectedRead.push_back({w30});
   expectedWritten.push_back({s0});
 
-  // SCVTF S0, W30, #59
+  // UCVTF D1, X0, #55
   expectedRead.push_back({x0});
   expectedWritten.push_back({d1});
 
-  // UCVTF D1, X0, #55
+  // SCVTF S5, W10, #64
   expectedRead.push_back({w10});
   expectedWritten.push_back({s5});
 
-  // SCVTF S5, W10, #64
+  // UCVTF D8, W2, #63
   expectedRead.push_back({w2});
   expectedWritten.push_back({d8});
 
-  // UCVTF D8, W2, #63
+  // FCVTZU W12, S0, #63
   expectedRead.push_back({s0});
   expectedWritten.push_back({w11});
 
-  // FCVTZU W12, S0, #63
+  // FCVTZS X30, D31, #0
   expectedRead.push_back({d31});
   expectedWritten.push_back({x30});
 
-  // FCVTZS X30, D31, #0
+  // FCVTZU X1, S10, #8
   expectedRead.push_back({s10});
   expectedWritten.push_back({x1});
 
-  // FCVTZU X1, S10, #8
+  // FCVTZS W9, D9, #4
   expectedRead.push_back({d9});
   expectedWritten.push_back({w9});
 
-  // FCVTZS W9, D9, #4
+  // FCVTNS W8, S5
   expectedRead.push_back({s5});
   expectedWritten.push_back({w8});
 
-  // FCVTNS W8, S5
-  expectedRead.push_back({w30});
-  expectedWritten.push_back({s1});
-
   // FMOV S1, W30
-  expectedRead.push_back({pstate});
+  expectedRead.push_back({w30});
   expectedWritten.push_back({s1});
 
   // SVC #32768
   expectedRead.push_back({pstate});
-  expectedWritten.push_back({s1});
+  expectedWritten.push_back({});
 
   // SMC #0
   expectedRead.push_back({pstate});
-  expectedWritten.push_back({s1});
+  expectedWritten.push_back({});
 
   // HLT #30
   expectedRead.push_back({pstate});
-  expectedWritten.push_back({s1});
+  expectedWritten.push_back({});
 
   // DCPS2 #2
   expectedRead.push_back({pstate});
-  expectedWritten.push_back({s1});
+  expectedWritten.push_back({});
 
   // CLREX
-  expectedRead.push_back({pstate});
-  expectedWritten.push_back({s1});
+  expectedRead.push_back({});
+  expectedWritten.push_back({});
 
   // DSB #4
-  expectedRead.push_back({pstate});
-  expectedWritten.push_back({s1});
+  expectedRead.push_back({});
+  expectedWritten.push_back({});
 
   // DMB #1
-  expectedRead.push_back({pstate});
-  expectedWritten.push_back({s1});
+  expectedRead.push_back({});
+  expectedWritten.push_back({});
 
   // HINT #5
-  expectedRead.push_back({pstate});
-  expectedWritten.push_back({pstate});
+  expectedRead.push_back({});
+  expectedWritten.push_back({});
 
   // MSR 30, #5
-  expectedRead.push_back({x0});
+  expectedRead.push_back({});
   expectedWritten.push_back({pstate});
 
   // SYS #1, #2, #3, #4, X0
   expectedRead.push_back({x0});
-  expectedWritten.push_back({x30});
+  expectedWritten.push_back({});
 
   // SYSL #1, #2, #3, #4, X30
+  expectedRead.push_back({});
+  expectedWritten.push_back({x30});
+
+  // MRS X1, PMCEID0_EL0
   expectedRead.push_back({pmceid0_el0});
   expectedWritten.push_back({x1});
 
-  // MRS X1, PMCEID0_EL0
+  // MRS X0, PMEVCNTR2_EL0
   expectedRead.push_back({pmevcntr2_el0});
   expectedWritten.push_back({x0});
 
-  // MRS X0, PMEVCNTR2_EL0
+  // MSR CNTPCT_EL0, X1
   expectedRead.push_back({x1});
   expectedWritten.push_back({cntpct_el0});
-
-  // MSR CNTPCT_EL0, X1
-  expectedRead.push_back({x0});
-  expectedWritten.push_back({pmevtyper30_el0});
 
   // MSR PMEVTYPER30_EL0, X0
   expectedRead.push_back({x0});
