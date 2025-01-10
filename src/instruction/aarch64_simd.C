@@ -1013,8 +1013,8 @@ test_results_t aarch64_simd_Mutator::executeTest()
 
   test_results_t retVal = PASSED;
   for(auto insn : decodedInsns) {
-    auto success = verify_read_write_sets(insn, expectedRead.front(), expectedWritten.front());
-    if(!success) {
+    auto status = verify_read_write_sets(insn, expectedRead.front(), expectedWritten.front());
+    if(status == FAILED) {
       retVal = FAILED;
     }
     expectedRead.pop_front();
