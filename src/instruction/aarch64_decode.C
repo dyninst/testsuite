@@ -70,10 +70,9 @@ static void reverseBuffer(unsigned char *buffer, int bufferSize) {
 }
 
 test_results_t aarch64_decode_Mutator::executeTest() {
-  constexpr auto num_tests = 121;
+  constexpr auto num_tests = 120;
 
   std::array<unsigned char, 4*num_tests> buffer = {
-    0x0B, 0xC0, 0x04, 0x00,		// ADD W0, W0, W0, ROR #1
     0x0B, 0x0C, 0x01, 0x41,		// ADD W1, W10, W12
     0x0B, 0x08, 0x14, 0xA0,		// ADD W0, W5, W8, LSL #5
     0x8B, 0x49, 0x28, 0xE4,		// ADD X4, X7, X9, LSR #10
