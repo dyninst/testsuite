@@ -47,7 +47,6 @@ using namespace InstructionAPI;
 class aarch64_simd_Mutator: public InstructionMutator {
 private:
   void setupRegisters();
-  void reverseBuffer(unsigned char*, int);
 public:
   aarch64_simd_Mutator() {}
   virtual test_results_t executeTest();
@@ -57,7 +56,7 @@ extern "C" DLLEXPORT TestMutator* aarch64_simd_factory() {
   return new aarch64_simd_Mutator();
 }
 
-void aarch64_simd_Mutator::reverseBuffer(unsigned char *buffer, int bufferSize) {
+static void reverseBuffer(unsigned char *buffer, int bufferSize) {
   int elementCount = bufferSize / 4;
 
   for (int loop_index = 0; loop_index < elementCount; loop_index++) {
