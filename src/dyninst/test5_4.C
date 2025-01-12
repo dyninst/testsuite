@@ -67,12 +67,21 @@ test_results_t test5_4_Mutator::executeTest() {
     logerror("    Unable to find function %s\n", fn);
     return FAILED;
   }
-  BPatch_function *f1 = bpfv[0];  
-  BPatch_Vector<BPatch_point *> *point4_1 = f1->findPoint(BPatch_subroutine);
-  BPatch_Vector<BPatch_point *> *point4_3 = f1->findPoint(BPatch_exit);
-  assert(point4_3);
-  assert(point4_1);
-  
+  BPatch_function *f1 = bpfv[0];
+  BPatch_Vector<BPatch_point*> *point4_1 = f1->findPoint(BPatch_subroutine);
+  if(!point4_1) {
+    logerror("**Failed** test #4 (static member)\n");
+    logerror("Didn't find subroutine point for 'static_test::func_cpp'\n");
+    return FAILED;
+  }
+
+  BPatch_Vector<BPatch_point*> *point4_3 = f1->findPoint(BPatch_exit);
+  if(!point4_3) {
+    logerror("**Failed** test #4 (static member)\n");
+    logerror("Didn't find exit point for 'static_test::func_cpp'\n");
+    return FAILED;
+  }
+
   int index = 0;
   BPatch_function *func;
   int bound = point4_1->size();
@@ -91,10 +100,13 @@ test_results_t test5_4_Mutator::executeTest() {
     }
     else if (!strcmp("static_test::call_cpp", func->getName(fn, 256))) {
       found_func = true;
-      BPatch_Vector<BPatch_point *> *point4_2 = func->findPoint(BPatch_exit);
-      assert(point4_2);
-      assert(!point4_2->empty());
-      
+      BPatch_Vector<BPatch_point*> *point4_2 = func->findPoint(BPatch_exit);
+      if(!point4_2 || point4_2->empty()) {
+        logerror("**Failed** test #4 (static member)\n");
+        logerror("Didn't find exit point for 'static_test::call_cpp'\n");
+        return FAILED;
+      }
+
       // use getComponent to access this "count". However, getComponent is
       // causing core dump at this point
       BPatch_variableExpr *var4_1 = appImage->findVariable(*(*point4_2)[0],

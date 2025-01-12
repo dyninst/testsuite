@@ -82,8 +82,6 @@ static void dynSiteCB(BPatch_point *dyn_site, BPatch_function *called_function)
   //  static int counter2 = 0;
   BPatch_point *pt = dyn_site;
   BPatch_function *func = called_function;
-  assert(pt);
-  assert(func);
 
   void *callsite_addr = pt->getAddress();
   dprintf("%s[%d]:  callsite addr = %p\n", __FILE__, __LINE__, callsite_addr);

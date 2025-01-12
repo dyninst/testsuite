@@ -81,7 +81,12 @@ std::vector<user_msg_t> elog;
 static BPatch_point *findPoint(BPatch_function *f, BPatch_procedureLocation loc,
                         int testno, const char *testname)
 {
-  assert(f);
+  if(!f) {
+    logerror("%s[%d]: Invaild BPatch_function\n", FILE__, __LINE__);
+    FAIL_MES(TESTNAME, TESTDESC);
+    return NULL;
+  }
+
   BPatch_Vector<BPatch_point *> *pts = f->findPoint(loc);
 
   if (!pts) {
@@ -112,7 +117,12 @@ test_callback_2_Mutator::at(BPatch_point * pt, BPatch_function *call,
   if (pttype == BPatch_entry) when = BPatch_callBefore;
   else if (pttype == BPatch_exit) when = BPatch_callAfter;
   else if (pttype == BPatch_subroutine) when = BPatch_callBefore;
-  else assert(0);
+  else {
+    logerror("%s[%d]: Unknown point type: '%d'\n", __FILE__, __LINE__, pttype);
+    FAIL_MES(TESTNAME, TESTDESC);
+    test7err = true;
+    return nullptr;
+  }
 
   BPatchSnippetHandle *ret;
   ret = appProc->insertSnippet(snip, *pt,when);

@@ -131,7 +131,10 @@ static bool waitForCompletion(int pid, bool &app_crash, int &app_return)
       return false;
    }
 
-   assert(!WIFSTOPPED(status));
+   if(WIFSTOPPED(status)) {
+     perror("In stopped state, but shouldn't be");
+     return false;
+   }
 
    if (WIFSIGNALED(status)) {
       app_crash = true;
@@ -142,7 +145,8 @@ static bool waitForCompletion(int pid, bool &app_crash, int &app_return)
       app_return = WEXITSTATUS(status);
    }
    else {
-      assert(0);
+     perror("In invalid WIF state");
+     return false;
    }
 
    return true;
@@ -272,7 +276,13 @@ bool runBinaryTest(RunGroup *group, ParameterDict &params, test_results_t &test_
 
    registerMutatee(mutatee_string);
    pid = getMutateePid(group);
-   assert(pid != NULL_PID);
+
+   if(pid == NULL_PID) {
+     dprintf("%s[%d]:  Invalid PID\n", __FILE__, __LINE__);
+     test_result = FAILED;
+     error = true;
+     goto done;
+   }
 
    result = waitForCompletion(pid, app_crash, app_return);
    if (!result)
