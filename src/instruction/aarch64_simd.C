@@ -56,7 +56,7 @@ extern "C" DLLEXPORT TestMutator* aarch64_simd_factory() {
   return new aarch64_simd_Mutator();
 }
 
-static void reverseBuffer(unsigned char *buffer, int bufferSize) {
+void reverseBuffer(unsigned char *buffer, int bufferSize) {
   int elementCount = bufferSize / 4;
 
   for (int loop_index = 0; loop_index < elementCount; loop_index++) {
@@ -548,11 +548,11 @@ test_results_t aarch64_simd_Mutator::executeTest()
   expectedWritten.push_back({q8});
 
   // MOVI D0, #8
-  expectedRead.push_back({q16,q2});
+  expectedRead.push_back({});
   expectedWritten.push_back({d0});
 
   // MOVI Q1, FF LSL #8
-  expectedRead.push_back({q16,q2});
+  expectedRead.push_back({});
   expectedWritten.push_back({q1});
 
   // ORR D5, #0 LSL #24
@@ -564,11 +564,11 @@ test_results_t aarch64_simd_Mutator::executeTest()
   expectedWritten.push_back({d5});
 
   // FMOV Q8, FF
-  expectedRead.push_back({d5});
+  expectedRead.push_back({});
   expectedWritten.push_back({q8});
 
   // MVNI Q0, #12 LSL #8
-  expectedRead.push_back({d5});
+  expectedRead.push_back({});
   expectedWritten.push_back({q0});
 
   // BIC D8, #24 LSL #0
@@ -576,7 +576,7 @@ test_results_t aarch64_simd_Mutator::executeTest()
   expectedWritten.push_back({q8});
 
   // MOVI D2, (all ones)
-  expectedRead.push_back({q8});
+  expectedRead.push_back({});
   expectedWritten.push_back({d2});
 
   // UZP1 D8, D16, D0
@@ -837,15 +837,15 @@ test_results_t aarch64_simd_Mutator::executeTest()
 
   // ST1 Q4, [X8]
   expectedRead.push_back({q4,x8});
-  expectedWritten.push_back({d4});
+  expectedWritten.push_back({});
 
   // ST2 D9, D10, [SP]
   expectedRead.push_back({d9,d10,sp});
-  expectedWritten.push_back({d4});
+  expectedWritten.push_back({});
 
   // ST1 Q2, Q3, [X30]
   expectedRead.push_back({q2,q3,x30});
-  expectedWritten.push_back({d4});
+  expectedWritten.push_back({});
 
   // LD1 Q30, Q31, Q0, [SP]
   expectedRead.push_back({sp});
@@ -901,27 +901,27 @@ test_results_t aarch64_simd_Mutator::executeTest()
 
   // ST1 Q5, [X2]
   expectedRead.push_back({q5,x2});
-  expectedWritten.push_back({x0});
+  expectedWritten.push_back({});
 
   // ST2 D4, D5, [SP]
   expectedRead.push_back({d4,d5,sp});
-  expectedWritten.push_back({x0});
+  expectedWritten.push_back({});
 
   // ST3 Q31, Q0, Q1, [X8]
   expectedRead.push_back({q0,q1,q31,x8});
-  expectedWritten.push_back({x0});
+  expectedWritten.push_back({});
 
   // ST4 D0, D1, D2, D3, [SP]
   expectedRead.push_back({d0,d1,d2,d3,sp});
-  expectedWritten.push_back({x0});
+  expectedWritten.push_back({});
 
   // ST2 Q21, Q22, [X30]
   expectedRead.push_back({q21,q22,x30});
-  expectedWritten.push_back({x0});
+  expectedWritten.push_back({});
 
   // ST4 D30, D31, D0, D1, [X0]
   expectedRead.push_back({d0,d1,d30,d31,x0});
-  expectedWritten.push_back({x0});
+  expectedWritten.push_back({});
 
   // LD1 Q5, [X2]
   expectedRead.push_back({x2});
