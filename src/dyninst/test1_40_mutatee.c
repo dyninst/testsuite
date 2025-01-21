@@ -49,11 +49,14 @@ int test1_40_call5(intFuncArg callme);
  * names.
  */
 
-unsigned int test1_40_addr_of_call1 = 0;
-unsigned int test1_40_addr_of_call2 = 0;
-unsigned int test1_40_addr_of_call3 = 0;
-
-unsigned test1_40_callsite5_addr =  0;
+// Some compilers put these in the .bss section, but BPatch_variableExpr::writeValue
+// doesn't allow for writing there. Force them into the .data section.
+#define INDATA __attribute__((section("data")))
+INDATA unsigned int test1_40_addr_of_call1 = 0;
+INDATA unsigned int test1_40_addr_of_call2 = 0;
+INDATA unsigned int test1_40_addr_of_call3 = 0;
+INDATA unsigned int test1_40_callsite5_addr = 0;
+#undef INDATA
 
 /* Internally used function prototypes.  These should be declared with the
  * keyword static so they don't interfere with other mutatees in the group.
