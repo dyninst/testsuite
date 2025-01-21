@@ -44,7 +44,9 @@
 
 #include "dyninst_comp.h"
 #include "test_lib.h"
+
 #include <array>
+#include <string>
 
 class test1_36_Mutator : public DyninstMutator {
 
@@ -114,36 +116,18 @@ test_results_t test1_36_Mutator::direct_call() {
     return FAILED;
   }
 
-  BPatch_variableExpr *expr36_1 = findVariable(appImage, "test1_36_globalVariable1", all_points36_1);
-  BPatch_variableExpr *expr36_2 = findVariable(appImage, "test1_36_globalVariable2", all_points36_1);
-  BPatch_variableExpr *expr36_3 = findVariable(appImage, "test1_36_globalVariable3", all_points36_1);
-  BPatch_variableExpr *expr36_4 = findVariable(appImage, "test1_36_globalVariable4", all_points36_1);
-  BPatch_variableExpr *expr36_5 = findVariable(appImage, "test1_36_globalVariable5", all_points36_1);
-  BPatch_variableExpr *expr36_6 = findVariable(appImage, "test1_36_globalVariable6", all_points36_1);
-  BPatch_variableExpr *expr36_7 = findVariable(appImage, "test1_36_globalVariable7", all_points36_1);
-  BPatch_variableExpr *expr36_8 = findVariable(appImage, "test1_36_globalVariable8", all_points36_1);
-  BPatch_variableExpr *expr36_9 = findVariable(appImage, "test1_36_globalVariable9", all_points36_1);
-  BPatch_variableExpr *expr36_10 = findVariable(appImage, "test1_36_globalVariable10", all_points36_1);
-
-  if (expr36_1 == NULL || expr36_2 == NULL || expr36_3 == NULL || expr36_4 == NULL || expr36_5 == NULL ||
-      expr36_6 == NULL || expr36_7 == NULL || expr36_8 == NULL || expr36_9 == NULL || expr36_10 == NULL) {
-    logerror("**Failed** test #36 (callsite parameter referencing)\n");
-    logerror("    Unable to locate at least one of "
-             "test1_36_globalVariable{1...10}\n");
-    return FAILED;
-  }
-
   BPatch_Vector<BPatch_snippet *> snippet_seq;
-  snippet_seq.push_back(makeTest36paramExpr(expr36_1, 0));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_2, 1));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_3, 2));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_4, 3));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_5, 4));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_6, 5));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_7, 6));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_8, 7));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_9, 8));
-  snippet_seq.push_back(makeTest36paramExpr(expr36_10, 9));
+  for(int idx=0; idx<10; idx++) {
+    auto var_num = std::to_string(idx + 1);
+    auto var_name = "test1_36_globalVariable" + var_num;
+    auto expr = findVariable(appImage, var_name.c_str(), all_points36_1);
+    if(!expr) {
+      logerror("**Failed** test #36 (callsite parameter referencing)\n");
+      logerror("    Unable to find variable '%s'\n", var_name.c_str());
+      return FAILED;
+    }
+    snippet_seq.push_back(makeTest36paramExpr(expr, idx));
+  }
 
   BPatch_sequence seqExpr(snippet_seq);
   appAddrSpace->insertSnippet(seqExpr, *point36_1);
