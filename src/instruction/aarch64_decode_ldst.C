@@ -531,7 +531,7 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest()
   RegisterAST::Ptr sp (new RegisterAST(aarch64::sp));
   RegisterAST::Ptr wsp (new RegisterAST(aarch64::wsp));
   RegisterAST::Ptr pc (new RegisterAST(aarch64::pc));
-  RegisterAST::Ptr pstate (new RegisterAST(aarch64::pstate));
+  RegisterAST::Ptr nzcv (new RegisterAST(aarch64::nzcv));
 
   std::deque<registerSet> expectedRead, expectedWritten;
   registerSet tmpRead, tmpWritten;
@@ -1782,10 +1782,10 @@ expectedWritten.push_back(tmpWritten);
 tmpRead.clear();
 tmpWritten.clear();
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-	tmpRead = {x1, x2, pstate};
+	tmpRead = {x1, x2, nzcv};
 	tmpWritten = {x0};
 #else
-	tmpRead = list_of(x2)(x1)(pstate);
+	tmpRead = list_of(x2)(x1)(nzcv);
 	tmpWritten = list_of(x0);
 #endif
 expectedRead.push_back(tmpRead);
@@ -1793,10 +1793,10 @@ expectedWritten.push_back(tmpWritten);
 tmpRead.clear();
 tmpWritten.clear();
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-	tmpRead = {x1, x2, pstate};
+	tmpRead = {x1, x2, nzcv};
 	tmpWritten = {x0};
 #else
-	tmpRead = list_of(x2)(x1)(pstate);
+	tmpRead = list_of(x2)(x1)(nzcv);
 	tmpWritten = list_of(x0);
 #endif
 expectedRead.push_back(tmpRead);
@@ -1804,10 +1804,10 @@ expectedWritten.push_back(tmpWritten);
 tmpRead.clear();
 tmpWritten.clear();
 #if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-	tmpRead = {x1, x2, pstate};
+	tmpRead = {x1, x2, nzcv};
 	tmpWritten = {x0};
 #else
-	tmpRead = list_of(x2)(x1)(pstate);
+	tmpRead = list_of(x2)(x1)(nzcv);
 	tmpWritten = list_of(x0);
 #endif
 expectedRead.push_back(tmpRead);
