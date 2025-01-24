@@ -28,190 +28,206 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "instruction_comp.h"
-#include "test_lib.h"
-
 #include "Instruction.h"
+#include "instruction_comp.h"
 #include "InstructionDecoder.h"
 #include "Register.h"
 #include "registers/aarch64_regs.h"
+#include "test_lib.h"
 
-#include <boost/assign/list_of.hpp>
-#include <boost/iterator/indirect_iterator.hpp>
-#include <deque>
+#include <array>
+#include <boost/range/combine.hpp>
+
 using namespace Dyninst;
 using namespace InstructionAPI;
-using namespace boost;
-using namespace boost::assign;
-
-using namespace std;
 
 class aarch64_cft_Mutator : public InstructionMutator {
-private:
-    void reverseBuffer(const unsigned char *, int);
 public:
-    aarch64_cft_Mutator() { };
-   virtual test_results_t executeTest();
+  aarch64_cft_Mutator() {}
+
+  virtual test_results_t executeTest() override;
 };
 
-extern "C" DLLEXPORT TestMutator* aarch64_cft_factory()
-{
-   return new aarch64_cft_Mutator();
+extern "C" DLLEXPORT TestMutator* aarch64_cft_factory() {
+  return new aarch64_cft_Mutator();
 }
 
-void aarch64_cft_Mutator::reverseBuffer(const unsigned char *buffer, int bufferSize)
-{
-    int elementCount = bufferSize/4;
-    unsigned char *currentElement = const_cast<unsigned char *>(buffer);
+static void reverseBuffer(unsigned char* buffer, int bufferSize) {
+  int elementCount = bufferSize / 4;
 
-    for(int loop_index = 0; loop_index < elementCount; loop_index++)
-    {
-	std::swap(currentElement[0], currentElement[3]);
-	std::swap(currentElement[1], currentElement[2]);
-
-	currentElement += 4;
-    }	
+  for(int loop_index = 0; loop_index < elementCount; loop_index++) {
+    std::swap(buffer[0], buffer[3]);
+    std::swap(buffer[1], buffer[2]);
+    buffer += 4;
+  }
 }
 
-struct cftExpected
-{
-    bool defined;
-    unsigned long long int expected;
-    bool call;
-    bool conditional;
-    bool indirect;
-    bool fallthrough;
-    cftExpected(bool d, unsigned int e, bool isCall, bool isCond, bool isIndir, bool isFT) :
-            defined(d), expected(e), call(isCall), conditional(isCond), indirect(isIndir),
-            fallthrough(isFT) {}
+struct cftExpected {
+  bool defined;
+  unsigned long long int expected;
+  bool call;
+  bool conditional;
+  bool indirect;
+  bool fallthrough;
 };
 
-test_results_t verifyTargetType(const Instruction::CFT& actual, const cftExpected& expected)
-{
-    if(actual.isCall != expected.call) {
-        logerror("FAILED: expected call = %d, actual = %d\n", expected.call, actual.isCall);
-        return FAILED;
-    }
-    if(actual.isIndirect != expected.indirect) {
-        logerror("FAILED: expected indirect = %d, actual = %d\n", expected.indirect, actual.isIndirect);
-        return FAILED;
-    }
-    if(actual.isConditional != expected.conditional) {
-        logerror("FAILED: expected conditional = %d, actual = %d\n", expected.conditional, actual.isConditional);
-        return FAILED;
-    }
-    if(actual.isFallthrough != expected.fallthrough) {
-        logerror("FAILED: expected fallthrough = %d, actual = %d\n", expected.fallthrough, actual.isFallthrough);
-        return FAILED;
-    }
-    return PASSED;
+test_results_t verifyTargetType(const Instruction::CFT& actual, const cftExpected& expected) {
+  if(actual.isCall != expected.call) {
+    logerror("FAILED: expected call = %d, actual = %d\n", expected.call, actual.isCall);
+    return FAILED;
+  }
+  if(actual.isIndirect != expected.indirect) {
+    logerror("FAILED: expected indirect = %d, actual = %d\n", expected.indirect, actual.isIndirect);
+    return FAILED;
+  }
+  if(actual.isConditional != expected.conditional) {
+    logerror("FAILED: expected conditional = %d, actual = %d\n", expected.conditional, actual.isConditional);
+    return FAILED;
+  }
+  if(actual.isFallthrough != expected.fallthrough) {
+    logerror("FAILED: expected fallthrough = %d, actual = %d\n", expected.fallthrough, actual.isFallthrough);
+    return FAILED;
+  }
+  return PASSED;
 }
 
-test_results_t aarch64_cft_Mutator::executeTest()
-{
-  const unsigned char buffer[] =
-  {
-	  	0x17, 0xFF, 0xFF, 0xFF,		// B #-1
-		0xD6, 0x1F, 0x01, 0x80,		// BR X12
-		0xD6, 0x5F, 0x01, 0x80,		// RET X12
-        0x34, 0xFF, 0xFF, 0xEF,		// CBZ W15, #-1
-		0x54, 0xFF, 0xFF, 0xE1,		// B.NE #-1
-		0x36, 0xF7, 0xFF, 0xE4,		// TBZ W4, #30, #-1
-		0xB7, 0x80, 0x02, 0x19,		// TBNZ X25, #0, #16
-		0x94, 0x00, 0x00, 0x05,		// BL #5
-		0xD6, 0x3F, 0x01, 0x80,		// BLR X12
+test_results_t aarch64_cft_Mutator::executeTest() {
+
+  struct test_insn {
+    std::array<uint8_t, 4> bytes;
+    std::vector<cftExpected> expected_targets;
   };
-  unsigned int size = sizeof(buffer);
-  unsigned int expectedInsns = size/4;
-  ++expectedInsns;
-  reverseBuffer(buffer, size);
-  InstructionDecoder d(buffer, size, Dyninst::Arch_aarch64);
 
-  std::deque<Instruction> decodedInsns;
-  Instruction i;
-  do
-  {
-    i = d.decode();
-    decodedInsns.push_back(i);
-  }
-  while(i.isValid());
-  if(decodedInsns.size() != expectedInsns)
-  {
-    logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-    for(std::deque<Instruction>::iterator curInsn = decodedInsns.begin();
-	curInsn != decodedInsns.end();
-	++curInsn)
+  // clang-format off
+  auto tests = std::vector<test_insn> {
     {
-        logerror("\t%s\n", curInsn->format().c_str());
+      // B #-1
+      {0x17, 0xFF, 0xFF, 0xFF},
+      {
+        {true, 0x3FC, false, false, false, false}
+      }
+    },
+    {
+      // BR X12
+      {0xD6, 0x1F, 0x01, 0x80},
+      {
+        {true, 0x90, false, false, true, false},
+      }
+    },
+    {
+      // RET X12
+      {0xD6, 0x5F, 0x01, 0x80},
+      {
+        {true, 0x90, false, false, true, false},
+      }
+    },
+    {
+      // CBZ W15, #-1
+      {0x34, 0xFF, 0xFF, 0xEF},
+      {
+        {true, 0x3FC, false, true, false, false},
+        {true, 0x404, false, true, false, true},
+      }
+    },
+    {
+      // B.NE #-1
+      {0x54, 0xFF, 0xFF, 0xE1},
+      {
+        {true, 0x3FC, false, true, false, false},
+        {true, 0x404, false, true, false, true},
+      }
+    },
+    {
+      // TBZ W4, #30, #-1
+      {0x36, 0xF7, 0xFF, 0xE4},
+      {
+        {true, 0x3FC, false, true, false, false},
+        {true, 0x404, false, true, false, true},
+      }
+    },
+    {
+      // TBNZ X25, #0, #16
+      {0xB7, 0x80, 0x02, 0x19},
+      {
+        {true, 0x440, false, true, false, false},
+        {true, 0x404, false, true, false, true},
+      }
+    },
+    {
+      // bl PC + 0x14
+      {0x94, 0x00, 0x00, 0x05},
+      {
+        {true, 0x414, true, false, false, false},
+        {true, 0x404, false, false, false, true},
+      }
+    },
+    {
+      // BLR X12
+      {0xD6, 0x3F, 0x01, 0x80},
+      {
+        {true, 0x90, true, false, true, false},
+        {true, 0x404, false, false, false, true},
+      }
     }
+  };
+  // clang-format on
 
-    return FAILED;
-  }
-  if(decodedInsns.back().isValid())
-  {
-    logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
-    return FAILED;
-  }
+  Expression::Ptr theIP(new RegisterAST(aarch64::pc));
+  Expression::Ptr link_reg(new RegisterAST(aarch64::x30));
+  Expression::Ptr x_reg(new RegisterAST(aarch64::x12));
 
   test_results_t retVal = PASSED;
+  auto test_id = 0;
 
-  decodedInsns.pop_back();
-  Expression* theIP = new RegisterAST(aarch64::pc);
-  Expression* link_reg = new RegisterAST(aarch64::x30);
-  Expression* x_reg = new RegisterAST(aarch64::x12);
+  for(auto&& t : tests) {
+    test_id++;
 
+    reverseBuffer(t.bytes.data(), t.bytes.size());
+    InstructionDecoder d(t.bytes.data(), t.bytes.size(), Dyninst::Arch_aarch64);
 
-  std::list<cftExpected> cfts;
-  cfts.push_back(cftExpected(true, 0x3FC, false, false, false, false));
-  cfts.push_back(cftExpected(true, 0x90, false, false, true, false));
-  cfts.push_back(cftExpected(true, 0x90, false, false, true, false));
-  cfts.push_back(cftExpected(true, 0x3FC, false, true, false, false));
-  cfts.push_back(cftExpected(true, 0x404, false, true, false, true));
-  cfts.push_back(cftExpected(true, 0x3FC, false, true, false, false));
-  cfts.push_back(cftExpected(true, 0x404, false, true, false, true));
-  cfts.push_back(cftExpected(true, 0x3FC, false, true, false, false));
-  cfts.push_back(cftExpected(true, 0x404, false, true, false, true));
-  cfts.push_back(cftExpected(true, 0x440, false, true, false, false));
-  cfts.push_back(cftExpected(true, 0x404, false, true, false, true));
-  cfts.push_back(cftExpected(true, 0x414, true, false, false, false));
-  cfts.push_back(cftExpected(true, 0x404, false, false, false, true));
-  cfts.push_back(cftExpected(true, 0x90, true, false, true, false));
-  cfts.push_back(cftExpected(true, 0x404, false, false, false, true));
+    Instruction insn = d.decode();
+    if(!insn.isValid()) {
+      logerror("Failed to decode test %d\n", test_id);
+      retVal = FAILED;
+      continue;
+    }
 
-  while(!decodedInsns.empty())
-  {
-      (void)(decodedInsns.front().getControlFlowTarget());
-      for(Instruction::cftConstIter curCFT = decodedInsns.front().cft_begin();
-          curCFT != decodedInsns.front().cft_end();
-          ++curCFT)
-      {
-          Expression::Ptr theCFT = curCFT->target;
-          if(theCFT)
-          {
+    const auto num_cft = std::distance(insn.cft_begin(), insn.cft_end());
+    const auto num_expected_cft = t.expected_targets.size();
 
-              theCFT->bind(theIP, Result(u64, 0x400));
-              theCFT->bind(x_reg, Result(u64, 0x90));
-              retVal = failure_accumulator(retVal, verifyCFT(theCFT, cfts.front().defined, cfts.front().expected, u64));
-              retVal = failure_accumulator(retVal, verifyTargetType(*curCFT, cfts.front()));
-          }
-          else
-          {
-              logerror("FAILED: instruction %s expected CFT, wasn't present", decodedInsns.front().format().c_str());
-              retVal = failure_accumulator(retVal, FAILED);
-          }
-          if(!cfts.empty()) {
-            cfts.pop_front();
-          }
+    if(num_cft != num_expected_cft) {
+      logerror("FAILED: Number of targets mismatched for test %d '%s'. Found %u, expected %u\n", test_id,
+               insn.format().c_str(), num_cft, num_expected_cft);
+      retVal = FAILED;
+      continue;
+    }
+
+    auto cft_all = boost::make_iterator_range(insn.cft_begin(), insn.cft_end());
+    for(auto&& cft : boost::combine(cft_all, t.expected_targets)) {
+      Instruction::CFT cft_cur = cft.get<0>();
+      auto target = cft_cur.target;
+
+      if(!target) {
+        logerror("FAILED: No target for '%s'\n", insn.format().c_str());
+        retVal = FAILED;
+        continue;
       }
 
-      decodedInsns.pop_front();
-  }
+      target->bind(theIP.get(), Result(u64, 0x400));
+      target->bind(x_reg.get(), Result(u64, 0x90));
 
-  if(!cfts.empty())
-  {
-      logerror("FAILED: didn't consume all expected CFTs, %d remain\n", cfts.size());
-      return FAILED;
+      cftExpected cft_expected = cft.get<1>();
+
+      auto status = verifyCFT(target, cft_expected.defined, cft_expected.expected, u64);
+      if(status == FAILED) {
+        retVal = FAILED;
+      }
+
+      status = verifyTargetType(cft_cur, cft_expected);
+      if(status == FAILED) {
+        retVal = FAILED;
+      }
+    }
   }
   return retVal;
 }
-
