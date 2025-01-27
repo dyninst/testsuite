@@ -60,7 +60,7 @@ namespace {
   constexpr auto num_tests = 23;
 
   // clang-format off
-  std::array<uint32_t const, num_tests> buffer = {
+  std::array<uint32_t const, 4*num_tests> buffer = {
     0x7d204215, // add. r9, r0, r8
     0x7d204214, // add r9, r0, r8
     0x7d204614, // addo r9, r0, r8
