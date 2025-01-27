@@ -56,7 +56,11 @@ extern "C" DLLEXPORT TestMutator* power_decode_factory() {
   return new power_decode_Mutator();
 }
 
-namespace {
+test_results_t power_decode_Mutator::executeTest() {
+
+  // Decoding in 64-bit mode uses 32-bit registers
+  auto const arch = Dyninst::Arch_ppc32;
+
   constexpr auto num_tests = 23;
 
   // clang-format off
@@ -86,28 +90,7 @@ namespace {
     0x7ca74a6e, // lhzux r9, r7, r5
   };
   // clang-format on
-}
 
-test_results_t power_decode_Mutator::executeTest() {
-  auto ret_val = PASSED;
-  {
-    logerror("**** Running ppc32 ********\n");
-    const auto status = this->run(Dyninst::Arch_ppc32);
-    if(status == FAILED) {
-      ret_val = FAILED;
-    }
-  }
-  {
-    logerror("**** Running ppc64 ********\n");
-    const auto status = this->run(Dyninst::Arch_ppc64);
-    if(status == FAILED) {
-      ret_val = FAILED;
-    }
-  }
-  return ret_val;
-}
-
-test_results_t power_decode_Mutator::run(Dyninst::Architecture arch) {
   std::vector<Instruction> decodedInsns;
   decodedInsns.reserve(num_tests);
 
@@ -123,36 +106,34 @@ test_results_t power_decode_Mutator::run(Dyninst::Architecture arch) {
     }
   }
 
-  const auto is_64 = (arch == Dyninst::Arch_ppc64);
-
-  RegisterAST::Ptr r0(new RegisterAST(is_64 ? ppc64::r0 : ppc32::r0));
-  RegisterAST::Ptr r1(new RegisterAST(is_64 ? ppc64::r1 : ppc32::r1));
-  RegisterAST::Ptr r2(new RegisterAST(is_64 ? ppc64::r2 : ppc32::r2));
-  RegisterAST::Ptr r5(new RegisterAST(is_64 ? ppc64::r5 : ppc32::r5));
-  RegisterAST::Ptr r7(new RegisterAST(is_64 ? ppc64::r7 : ppc32::r7));
-  RegisterAST::Ptr r8(new RegisterAST(is_64 ? ppc64::r8 : ppc32::r8));
-  RegisterAST::Ptr r9(new RegisterAST(is_64 ? ppc64::r9 : ppc32::r9));
-  RegisterAST::Ptr cr0(new RegisterAST(is_64 ? ppc64::cr0 : ppc32::cr0));
-  RegisterAST::Ptr cr2(new RegisterAST(is_64 ? ppc64::cr2 : ppc32::cr2));
-  RegisterAST::Ptr cr4(new RegisterAST(is_64 ? ppc64::cr4 : ppc32::cr4));
-  RegisterAST::Ptr cr6(new RegisterAST(is_64 ? ppc64::cr6 : ppc32::cr6));
-  RegisterAST::Ptr cr7(new RegisterAST(is_64 ? ppc64::cr7 : ppc32::cr7));
-  RegisterAST::Ptr xer(new RegisterAST(is_64 ? ppc64::xer : ppc32::xer));
-  RegisterAST::Ptr fpr0(new RegisterAST(is_64 ? ppc64::fpr0 : ppc32::fpr0));
-  RegisterAST::Ptr fpr1(new RegisterAST(is_64 ? ppc64::fpr1 : ppc32::fpr1));
-  RegisterAST::Ptr fpr2(new RegisterAST(is_64 ? ppc64::fpr2 : ppc32::fpr2));
-  RegisterAST::Ptr fsr0(new RegisterAST(is_64 ? ppc64::fsr0 : ppc32::fsr0));
-  RegisterAST::Ptr fsr1(new RegisterAST(is_64 ? ppc64::fsr1 : ppc32::fsr1));
-  RegisterAST::Ptr fsr2(new RegisterAST(is_64 ? ppc64::fsr2 : ppc32::fsr2));
-  RegisterAST::Ptr fpscw(new RegisterAST(is_64 ? ppc64::fpscw : ppc32::fpscw));
-  RegisterAST::Ptr fpscw0(new RegisterAST(is_64 ? ppc64::fpscw0 : ppc32::fpscw0));
-  RegisterAST::Ptr fpscw2(new RegisterAST(is_64 ? ppc64::fpscw2 : ppc32::fpscw2));
-  RegisterAST::Ptr fpscw4(new RegisterAST(is_64 ? ppc64::fpscw4 : ppc32::fpscw4));
-  RegisterAST::Ptr fpscw6(new RegisterAST(is_64 ? ppc64::fpscw6 : ppc32::fpscw6));
-  RegisterAST::Ptr fpscw7(new RegisterAST(is_64 ? ppc64::fpscw7 : ppc32::fpscw7));
-  RegisterAST::Ptr pc(new RegisterAST(is_64 ? ppc64::pc : ppc32::pc));
-  RegisterAST::Ptr ctr(new RegisterAST(is_64 ? ppc64::ctr : ppc32::ctr));
-  RegisterAST::Ptr lr(new RegisterAST(is_64 ? ppc64::lr : ppc32::lr));
+  RegisterAST::Ptr r0(new RegisterAST(ppc32::r0));
+  RegisterAST::Ptr r1(new RegisterAST(ppc32::r1));
+  RegisterAST::Ptr r2(new RegisterAST(ppc32::r2));
+  RegisterAST::Ptr r5(new RegisterAST(ppc32::r5));
+  RegisterAST::Ptr r7(new RegisterAST(ppc32::r7));
+  RegisterAST::Ptr r8(new RegisterAST(ppc32::r8));
+  RegisterAST::Ptr r9(new RegisterAST(ppc32::r9));
+  RegisterAST::Ptr cr0(new RegisterAST(ppc32::cr0));
+  RegisterAST::Ptr cr2(new RegisterAST(ppc32::cr2));
+  RegisterAST::Ptr cr4(new RegisterAST(ppc32::cr4));
+  RegisterAST::Ptr cr6(new RegisterAST(ppc32::cr6));
+  RegisterAST::Ptr cr7(new RegisterAST(ppc32::cr7));
+  RegisterAST::Ptr xer(new RegisterAST(ppc32::xer));
+  RegisterAST::Ptr fpr0(new RegisterAST(ppc32::fpr0));
+  RegisterAST::Ptr fpr1(new RegisterAST(ppc32::fpr1));
+  RegisterAST::Ptr fpr2(new RegisterAST(ppc32::fpr2));
+  RegisterAST::Ptr fsr0(new RegisterAST(ppc32::fsr0));
+  RegisterAST::Ptr fsr1(new RegisterAST(ppc32::fsr1));
+  RegisterAST::Ptr fsr2(new RegisterAST(ppc32::fsr2));
+  RegisterAST::Ptr fpscw(new RegisterAST(ppc32::fpscw));
+  RegisterAST::Ptr fpscw0(new RegisterAST(ppc32::fpscw0));
+  RegisterAST::Ptr fpscw2(new RegisterAST(ppc32::fpscw2));
+  RegisterAST::Ptr fpscw4(new RegisterAST(ppc32::fpscw4));
+  RegisterAST::Ptr fpscw6(new RegisterAST(ppc32::fpscw6));
+  RegisterAST::Ptr fpscw7(new RegisterAST(ppc32::fpscw7));
+  RegisterAST::Ptr pc(new RegisterAST(ppc32::pc));
+  RegisterAST::Ptr ctr(new RegisterAST(ppc32::ctr));
+  RegisterAST::Ptr lr(new RegisterAST(ppc32::lr));
 
   std::vector<registerSet> expectedRead, expectedWritten;
 
