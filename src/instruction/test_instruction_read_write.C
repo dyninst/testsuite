@@ -1,355 +1,254 @@
 /*
  * See the dyninst/COPYRIGHT file for copyright information.
- * 
+ *
  * We provide the Paradyn Tools (below described as "Paradyn")
  * on an AS IS basis, and do not warrant its validity or performance.
  * We reserve the right to update, modify, or discontinue this
  * software at any time.  We shall have no obligation to supply such
  * updates or modifications or any other form of support to you.
- * 
+ *
  * By your use of Paradyn, you understand and agree that we (or any
  * other person or entity with proprietary rights in Paradyn) are
  * under no obligation to provide either maintenance services,
  * update services, notices of latent defects, or correction of
  * defects for Paradyn.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#include "Instruction.h"
 #include "instruction_comp.h"
+#include "InstructionDecoder.h"
+#include "Register.h"
+#include "registers/x86_64_regs.h"
+#include "registers/x86_regs.h"
 #include "test_lib.h"
 
-#include "Instruction.h"
-#include "InstructionDecoder.h"
-#include <boost/assign/list_of.hpp>
-#include <deque>
-#include "Architecture.h"
-#include "registers/x86_regs.h"
-#include "registers/x86_64_regs.h"
+#include <array>
+#include <boost/range/combine.hpp>
+#include <boost/smart_ptr/make_shared.hpp>
+#include <vector>
 
 using namespace Dyninst;
 using namespace InstructionAPI;
-using namespace boost;
-using namespace boost::assign;
-
-using namespace std;
 
 class test_instruction_read_write_Mutator : public InstructionMutator {
+  test_results_t run(Dyninst::Architecture);
+  test_results_t run64_only();
+
 public:
-   test_instruction_read_write_Mutator() { };
-   virtual test_results_t executeTest();
+  test_instruction_read_write_Mutator() {}
+
+  virtual test_results_t executeTest() override;
 };
 
-extern "C" DLLEXPORT TestMutator* test_instruction_read_write_factory()
-{
-   return new test_instruction_read_write_Mutator();
+extern "C" DLLEXPORT TestMutator* test_instruction_read_write_factory() {
+  return new test_instruction_read_write_Mutator();
 }
 
-
-test_results_t test_instruction_read_write_Mutator::executeTest()
-{
-#if defined(arch_power_test) || defined(arch_aarch64_test)
-    return SKIPPED;
-#endif
-
-  const unsigned char buffer[] = 
+test_results_t test_instruction_read_write_Mutator::executeTest() {
+  auto ret_val = PASSED;
   {
-    0x05, 0xef, 0xbe, 0xad, 0xde, // ADD eAX, 0xDEADBEEF
-    0x50, // PUSH rAX
-    0x74, 0x10, // JZ +0x10(8)
-    0xE8, 0x20, 0x00, 0x00, 0x00, // CALL +0x20(32)
-    0xF8, // CLC
-    0x04, 0x30, // ADD AL, 0x30(8)
-    0xc7, 0x45, 0xfc, 0x01, 0x00, 0x00, 0x00, // MOVL 0x01, -0x4(EBP)
-    0x88, 0x55, 0xcc, // MOVB DL, -0x34(EBP)
-    0xF2, 0x0F, 0x12, 0xC0, // MOVDDUP XMM0, XMM1
-    0x66, 0x0F, 0x7C, 0xC9,  // HADDPD XMM1, XMM1
-    0x8d, 0x83, 0x18, 0xff, 0xff, 0xff // LEA -0xe8(%ebx), %eax
-  };
-  unsigned int size = 40;
-  unsigned int expectedInsns = 12;
-  InstructionDecoder d(buffer, size, Dyninst::Arch_x86);
-  std::deque<Instruction> decodedInsns;
-  Instruction i;
-  do
-  {
-    i = d.decode();
-    decodedInsns.push_back(i);
-  }
-  while(i.isValid());
-  if(decodedInsns.size() != expectedInsns)
-  {
-    logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-    for(std::deque<Instruction>::iterator curInsn = decodedInsns.begin();
-	curInsn != decodedInsns.end();
-	++curInsn)
-    {
-      logerror("\t%s\n", curInsn->format().c_str());
+    logerror("**** Running x86 ********\n");
+    const auto status = this->run(Dyninst::Arch_x86);
+    if(status == FAILED) {
+      ret_val = FAILED;
     }
-    
-    return FAILED;
   }
-  if(decodedInsns.back().isValid())
   {
-    logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
-    return FAILED;
+    logerror("**** Running x86_64 ********\n");
+    auto status = this->run(Dyninst::Arch_x86_64);
+    if(status == FAILED) {
+      ret_val = FAILED;
+    }
+    status = this->run64_only();
+    if(status == FAILED) {
+      ret_val = FAILED;
+    }
   }
-  
-  Architecture curArch = Arch_x86;
-  registerSet expectedRead, expectedWritten;
-  test_results_t retVal = PASSED;
-  Instruction callInsn;
-  {
-      using namespace x86;
-  
-  RegisterAST::Ptr r_eax(new RegisterAST(eax));
-  RegisterAST::Ptr r_ebx(new RegisterAST(ebx));
-  RegisterAST::Ptr r_adjust(new RegisterAST(af));
-  RegisterAST::Ptr r_zero(new RegisterAST(zf));
-  RegisterAST::Ptr r_overflow(new RegisterAST(of));
-  RegisterAST::Ptr r_parity(new RegisterAST(pf));
-  RegisterAST::Ptr r_sign(new RegisterAST(sf));
-  RegisterAST::Ptr r_carry(new RegisterAST(cf));
+  return ret_val;
+}
 
-  expectedRead.insert(expectedRead.begin(), r_eax);
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedWritten = { r_eax, r_adjust, r_zero, r_overflow, r_parity, r_sign, r_carry };
-#else
-  expectedWritten = list_of(r_eax)(r_adjust)(r_zero)(r_overflow)(r_parity)(r_sign)(r_carry);
-#endif
-  
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), expectedRead, expectedWritten));
-  decodedInsns.pop_front();
-  
-  RegisterAST::Ptr r_esp(new RegisterAST(esp));
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_esp, r_eax };
-  expectedWritten = { r_esp };
-#else
-  expectedRead = list_of(r_esp)(r_eax);
-  expectedWritten = list_of(r_esp);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), expectedRead, expectedWritten));
-  decodedInsns.pop_front();
-  
-  expectedRead.clear();
-  expectedWritten.clear();
-  RegisterAST::Ptr ip(new RegisterAST(MachRegister::getPC(curArch)));
-  // Jccs are all documented as "may read zero, sign, carry, parity, overflow", so a JZ comes back as reading all
-  // of these flags
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_zero, r_sign, r_carry, r_parity, r_overflow, ip };
-  expectedWritten = { ip };
-#else
-  expectedRead = list_of(r_zero)(r_sign)(r_carry)(r_parity)(r_overflow)(ip);
-  expectedWritten = list_of(ip);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
-  							      expectedRead, expectedWritten));
-  decodedInsns.pop_front();
-  
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_esp, ip };
-  expectedWritten = { r_esp, ip };
-#else
-  expectedRead = list_of(r_esp)(ip);
-  expectedWritten = list_of(r_esp)(ip);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
-							      expectedRead, expectedWritten));
-  callInsn = decodedInsns.front();
-  decodedInsns.pop_front();
+test_results_t test_instruction_read_write_Mutator::run(Dyninst::Architecture arch) {
+  constexpr auto num_tests = 11;
 
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedWritten = { r_carry };
-#else
-  expectedWritten = list_of(r_carry);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
-							      expectedRead, expectedWritten));
-  decodedInsns.pop_front();
-
-  expectedRead.clear();
-  expectedWritten.clear();
-  RegisterAST::Ptr r_al(new RegisterAST(al));
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_al };
-  expectedWritten = { r_al, r_zero, r_carry, r_sign, r_overflow, r_parity, r_adjust };
-#else
-  expectedRead = list_of(r_al);
-  expectedWritten = list_of(r_al)(r_zero)(r_carry)(r_sign)(r_overflow)(r_parity)(r_adjust);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
-							      expectedRead, expectedWritten));
-  decodedInsns.pop_front();
- 
-  RegisterAST::Ptr r_bp(new RegisterAST(ebp));
-  
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_bp };
-#else
-  expectedRead = list_of(r_bp);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
-							      expectedRead, expectedWritten));
-  decodedInsns.pop_front();
-  
-  
-  RegisterAST::Ptr r_dl(new RegisterAST(dl));
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_bp, r_dl };
-#else
-  expectedRead = list_of(r_bp)(r_dl);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
-							      expectedRead, expectedWritten));
-  decodedInsns.pop_front();
-  
-
-  RegisterAST::Ptr r_xmm0(new RegisterAST(xmm0));
-  RegisterAST::Ptr r_xmm1(new RegisterAST(xmm1));
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_xmm0 };
-  expectedWritten = { r_xmm0 };
-#else
-  expectedRead = list_of(r_xmm0);
-  expectedWritten = list_of(r_xmm0);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), 
-							      expectedRead, expectedWritten));
-  if(decodedInsns.front().size() != 4) {
-    logerror("FAILURE: movddup expected size 4, decoded to %s, had size %d\n",
-             decodedInsns.front().format().c_str(), decodedInsns.front().size());
-    retVal = FAILED;
-  }
-  decodedInsns.pop_front();
-
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_xmm1 };
-  expectedWritten = { r_xmm1 };
-#else
-  expectedRead = list_of(r_xmm1);
-  expectedWritten = list_of(r_xmm1);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), expectedRead, expectedWritten));
-  if(decodedInsns.front().size() != 4) {
-    logerror("FAILURE: haddpd expected size 4, decoded to %s, had size %d\n",
-             decodedInsns.front().format().c_str(), decodedInsns.front().size());
-    retVal = FAILED;
-  }  
-  decodedInsns.pop_front();
-  
-  expectedRead.clear();
-  expectedWritten.clear();
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_ebx };
-  expectedWritten = { r_eax };
-#else
-  expectedRead = list_of(r_ebx);
-  expectedWritten = list_of(r_eax);
-#endif
-  retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), expectedRead, expectedWritten));
-  decodedInsns.pop_front();    
-  }
-
-  
-#if defined(arch_x86_64_test)
-  const unsigned char amd64_specific[] = 
-  {
-    0x44, 0x89, 0x45, 0xc4
+  // clang-format off
+  constexpr std::array<const uint8_t, 40> buffer = {
+      0x05, 0xef, 0xbe, 0xad, 0xde,             // add eax, 0xdeadbeef
+      0x50,                                     // push eax
+      0x74, 0x10,                               // jz +0x10(8)
+      0xe8, 0x20, 0x00, 0x00, 0x00,             // call +0x20(32)
+      0xf8,                                     // clc
+      0x04, 0x30,                               // add al, 0x30(8)
+      0xc7, 0x45, 0xfc, 0x01, 0x00, 0x00, 0x00, // movl 0x01, -0x4(ebp)
+      0x88, 0x55, 0xcc,                         // movb dl, -0x34(ebp)
+      0xf2, 0x0f, 0x12, 0xc0,                   // movddup xmm0, xmm0
+      0x66, 0x0f, 0x7c, 0xc9,                   // haddpd xmm1, xmm1
+      0x8d, 0x83, 0x18, 0xff, 0xff, 0xff        // lea -0xe8(%ebx), %eax
   };
-  unsigned int amd64_size = 4;
-  unsigned int amd64_num_valid_insns = 1;
-  deque<Instruction> amd64Insns;
-  
-  InstructionDecoder amd64_decoder(amd64_specific, amd64_size, Dyninst::Arch_x86_64);
-  Instruction tmp;
-  do
-  {
-    tmp = amd64_decoder.decode();
-    amd64Insns.push_back(tmp);
-  } while(tmp.isValid());
-  amd64Insns.pop_back();
-  if(amd64Insns.size() != amd64_num_valid_insns) 
-  {
-    logerror("FAILED: expected %d instructions in AMD64-specific part, got %d\n", amd64_num_valid_insns,
-	     amd64Insns.size());
-    return FAILED;
-  }
-  {
-      using namespace x86_64;
-  RegisterAST::Ptr r_r8(new RegisterAST(r8d));
-  RegisterAST::Ptr r_rbp(new RegisterAST(rbp));
-  
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  expectedRead = { r_rbp, r_r8 };
-#else
-  expectedRead = list_of(r_rbp)(r_r8);
-#endif
-  expectedWritten.clear();
-  
-  retVal = failure_accumulator(retVal, verify_read_write_sets(amd64Insns.front(), expectedRead, expectedWritten));
-  amd64Insns.pop_front();
-  }
-#endif
+  // clang-format on
 
+  std::vector<Instruction> decodedInsns;
+  decodedInsns.reserve(num_tests);
 
-  Expression::Ptr cft = callInsn.getControlFlowTarget();
-  if(!cft) {
-    logerror("FAILED: call had no control flow target\n");
-    return FAILED;
+  InstructionDecoder d(buffer.data(), buffer.size(), arch);
+  for(int idx = 0; idx < num_tests; idx++) {
+    Instruction insn = d.decode();
+    if(!insn.isValid()) {
+      logerror("Failed to decode x86 test %d\n", idx + 1);
+      return FAILED;
+    }
+    decodedInsns.push_back(insn);
   }
-  RegisterAST* the_ip = new RegisterAST(MachRegister::getPC(curArch));
-  
-  if(!cft->bind(the_ip, Result(u32, 0))) {
-    logerror("FAILED: bind found no IP in call Jz CFT\n");
-    return FAILED;
-  }
-  Result theTarget = cft->eval();
-  if(!theTarget.defined) {
-    logerror("FAILED: bind of IP on a Jz operand did not resolve all dependencies\n");
-    return FAILED;
-  }
-  if(theTarget.type != u32) {
-    logerror("FAILED: CFT was not address type\n");
-    logerror("   %s\n", theTarget.format().c_str());
-    return FAILED;
-  }
-  // Call target should be to IP + displacement + size
-  if(theTarget.val.u32val != 0x25) {
-    logerror("FAILED: expected call to %x, got call to %x\n", 0x20, theTarget.val.u32val);
-    logerror("   %s\n", theTarget.format().c_str());
-    return FAILED;
-  }
-  logerror("PASSED call CFT subtest\n");
-  delete the_ip;
 
+  auto create = [](MachRegister reg) {
+    return boost::make_shared<RegisterAST>(reg);
+  };
+
+  const auto is_64 = (arch == Dyninst::Arch_x86_64);
+
+  RegisterAST::Ptr eax = create(is_64 ? x86_64::eax : x86::eax);
+  RegisterAST::Ptr ebx = create(is_64 ? x86_64::rbx : x86::ebx);
+  RegisterAST::Ptr af = create(is_64 ? x86_64::af : x86::af);
+  RegisterAST::Ptr zf = create(is_64 ? x86_64::zf : x86::zf);
+  RegisterAST::Ptr of = create(is_64 ? x86_64::of : x86::of);
+  RegisterAST::Ptr pf = create(is_64 ? x86_64::pf : x86::pf);
+  RegisterAST::Ptr sf = create(is_64 ? x86_64::sf : x86::sf);
+  RegisterAST::Ptr cf = create(is_64 ? x86_64::cf : x86::cf);
+  RegisterAST::Ptr al = create(is_64 ? x86_64::al : x86::al);
+  RegisterAST::Ptr bp = create(is_64 ? x86_64::rbp : x86::ebp);
+  RegisterAST::Ptr dl = create(is_64 ? x86_64::dl : x86::dl);
+  RegisterAST::Ptr xmm0 = create(is_64 ? x86_64::xmm0 : x86::xmm0);
+  RegisterAST::Ptr xmm1 = create(is_64 ? x86_64::xmm1 : x86::xmm1);
+
+  RegisterAST::Ptr sp = create(MachRegister::getStackPointer(arch));
+  RegisterAST::Ptr ip = create(MachRegister::getPC(arch));
+
+  RegisterAST::Ptr rax = create(x86_64::rax);
+
+  std::vector<registerSet> expectedRead, expectedWritten;
+
+  // add eax, 0xdeadbeef
+  expectedRead.push_back({eax});
+  expectedWritten.push_back({eax, af, zf, of, pf, sf, cf});
+
+  // push eax
+  expectedRead.push_back({sp, (is_64 ? rax : eax)});
+  expectedWritten.push_back({sp});
+
+  // jz +0x10(8)
+  expectedRead.push_back({zf, sf, cf, pf, of, ip});
+  expectedWritten.push_back({ip});
+
+  // call +0x20(32)
+  expectedRead.push_back({sp, ip});
+  expectedWritten.push_back({sp, ip});
+
+  // clc
+  expectedRead.push_back({});
+  expectedWritten.push_back({cf});
+
+  // add al, 0x30(8)
+  expectedRead.push_back({al});
+  expectedWritten.push_back({al, zf, cf, sf, of, pf, af});
+
+  // movl 0x01, -0x4(ebp)
+  expectedRead.push_back({bp});
+  expectedWritten.push_back({});
+
+  // movb dl, -0x34(ebp)
+  expectedRead.push_back({bp, dl});
+  expectedWritten.push_back({});
+
+  // movddup xmm0, xmm0
+  expectedRead.push_back({xmm0});
+  expectedWritten.push_back({xmm0});
+
+  // haddpd xmm1, xmm1
+  expectedRead.push_back({xmm1});
+  expectedWritten.push_back({xmm1});
+
+  // lea -0xe8(%ebx), %eax
+  expectedRead.push_back({ebx});
+  expectedWritten.push_back({eax});
+
+  if(expectedRead.size() != expectedWritten.size()) {
+    logerror("FATAL: expectedRead.size() != expectedWritten.size()");
+    return FAILED;
+  }
+
+  if(expectedRead.size() != decodedInsns.size()) {
+    logerror("FATAL: expectedRead.size() != decodedInsns.size()");
+    return FAILED;
+  }
+
+  test_results_t retVal = PASSED;
+  for(auto&& x : boost::combine(decodedInsns, expectedRead, expectedWritten)) {
+    auto insn = x.get<0>();
+    auto read = x.get<1>();
+    auto written = x.get<2>();
+
+    auto status = verify_read_write_sets(insn, read, written);
+    if(status == FAILED) {
+      retVal = FAILED;
+    }
+  }
   return retVal;
 }
 
+test_results_t test_instruction_read_write_Mutator::run64_only() {
+  constexpr auto arch = Dyninst::Arch_x86_64;
+  constexpr auto num_tests = 1;
+
+  // clang-format off
+  constexpr std::array<const uint8_t, 4> buffer = {
+      0x44, 0x89, 0x45, 0xc4 // mov dword ptr [rbp - 0x3c], r8d
+  };
+  // clang-format on
+
+  std::vector<Instruction> decodedInsns;
+  decodedInsns.reserve(num_tests);
+
+  InstructionDecoder d(buffer.data(), buffer.size(), arch);
+  for(int idx = 0; idx < num_tests; idx++) {
+    Instruction insn = d.decode();
+    if(!insn.isValid()) {
+      logerror("Failed to decode x86_64 test %d\n", idx + 1);
+      return FAILED;
+    }
+    decodedInsns.push_back(insn);
+  }
+
+  RegisterAST::Ptr r8 = boost::make_shared<RegisterAST>(x86_64::r8d);
+  RegisterAST::Ptr rbp = boost::make_shared<RegisterAST>(x86_64::rbp);
+
+  std::vector<registerSet> expectedRead, expectedWritten;
+
+  expectedRead.push_back({rbp, r8});
+  expectedWritten.push_back({});
+
+  test_results_t retVal = PASSED;
+  for(auto&& x : boost::combine(decodedInsns, expectedRead, expectedWritten)) {
+    auto insn = x.get<0>();
+    auto read = x.get<1>();
+    auto written = x.get<2>();
+
+    auto status = verify_read_write_sets(insn, read, written);
+    if(status == FAILED) {
+      retVal = FAILED;
+    }
+  }
+  return retVal;
+}
