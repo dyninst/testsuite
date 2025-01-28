@@ -1,121 +1,111 @@
 /*
  * See the dyninst/COPYRIGHT file for copyright information.
- * 
+ *
  * We provide the Paradyn Tools (below described as "Paradyn")
  * on an AS IS basis, and do not warrant its validity or performance.
  * We reserve the right to update, modify, or discontinue this
  * software at any time.  We shall have no obligation to supply such
  * updates or modifications or any other form of support to you.
- * 
+ *
  * By your use of Paradyn, you understand and agree that we (or any
  * other person or entity with proprietary rights in Paradyn) are
  * under no obligation to provide either maintenance services,
  * update services, notices of latent defects, or correction of
  * defects for Paradyn.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "instruction_comp.h"
-#include "test_lib.h"
-
 #include "Instruction.h"
+#include "instruction_comp.h"
 #include "InstructionDecoder.h"
 #include "Register.h"
 #include "registers/ppc32_regs.h"
-#include <boost/assign/list_of.hpp>
-#include <boost/iterator/indirect_iterator.hpp>
-#include <deque>
+#include "registers/ppc64_regs.h"
+#include "test_lib.h"
+
+#include <array>
+#include <boost/range/combine.hpp>
+#include <vector>
+
 using namespace Dyninst;
 using namespace InstructionAPI;
-using namespace boost;
-using namespace boost::assign;
-
-using namespace std;
 
 class power_decode_Mutator : public InstructionMutator {
+  test_results_t run(Dyninst::Architecture);
+
 public:
-    power_decode_Mutator() { };
-   virtual test_results_t executeTest();
+  power_decode_Mutator() {}
+
+  virtual test_results_t executeTest() override;
 };
 
-extern "C" DLLEXPORT TestMutator* power_decode_factory()
-{
-   return new power_decode_Mutator();
+extern "C" DLLEXPORT TestMutator* power_decode_factory() {
+  return new power_decode_Mutator();
 }
 
-test_results_t power_decode_Mutator::executeTest()
-{
-  const uint32_t buffer[] = 
-  {
-      0x7d204215, // add. r9, r0, r8
-      0x7d204214,  // add r9, r0, r8
-      0x7d204614,  // addo r9, r0, r8
-      0xfc01102a, // fadd fpr0, fpr1, fpr2
-      0xfc01102b, // fadd. fpr0, fpr1, fpr2
-      0x38200001, // addi r1, 0, 1
-      0x38210001, // addi r1, r1, 1
-      0xff800800, // fcmpu fpscr7, fpr0, fpr1
-      0x7f800800, // fcmpu cr7, r0, r1
-      0x7c0aa120, // mtcrf cr0, cr2, cr4, cr6, r0
-      0xfd54058e, // mtfsf fpscr0, fpscr2, fpscr4, fpscr6, fpr0
-      0x80010000, // lwz r0, 0(r1)
-      0x84010000, // lwzu r0, 0(r1)
-      0x7c01102e, // lwzx r0, r2(r1)
-      0x7c01106e, // lwzux r0, r2(r1)
-      0x7801440c, // rlimi r0, r1
-      0x00010090, // fpmul fpr0, fpr1
-      0x00010092, // fxmul fpr0, fpr1, or qvfxmadds 
-      0x00010094, // fxcpmul fpr0, fpr1
-      0x00010096, // fxcsmul fpr0, fpr1, or qvfxxnpmadds
-      0x40010101, // bdnzl cr0, +0x100
-      0x40010100, // bdnz cr0, +0x100
-      0x7ca74a6e, // lhzux r9, r7, r5
+test_results_t power_decode_Mutator::executeTest() {
+
+  // Decoding in 64-bit mode uses 32-bit registers
+  auto const arch = Dyninst::Arch_ppc32;
+
+  constexpr auto num_tests = 23;
+
+  // clang-format off
+  std::array<uint32_t const, 4*num_tests> buffer = {
+    0x7d204215, // add. r9, r0, r8
+    0x7d204214, // add r9, r0, r8
+    0x7d204614, // addo r9, r0, r8
+    0xfc01102a, // fadd fpr0, fpr1, fpr2
+    0xfc01102b, // fadd. fpr0, fpr1, fpr2
+    0x38200001, // addi r1, 0, 1
+    0x38210001, // addi r1, r1, 1
+    0xff800800, // fcmpu fpscw7, fpr0, fpr1
+    0x7f800800, // fcmpu cr7, r0, r1
+    0x7c0aa120, // mtcrf cr0, cr2, cr4, cr6, r0
+    0xfd54058e, // mtfsf fpscw0, fpscw2, fpscw4, fpscw6, fpr0
+    0x80010000, // lwz r0, 0(r1)
+    0x84010000, // lwzu r0, 0(r1)
+    0x7c01102e, // lwzx r0, r2(r1)
+    0x7c01106e, // lwzux r0, r2(r1)
+    0x7801440c, // rlimi r0, r1
+    0x00010090, // fpmul fpr0, fpr1
+    0x00010092, // fxmul fpr0, fpr1, or qvfxmadds
+    0x00010094, // fxcpmul fpr0, fpr1
+    0x00010096, // fxcsmul fpr0, fpr1, or qvfxxnpmadds
+    0x40010101, // bdnzl cr0, +0x100
+    0x40010100, // bdnz cr0, +0x100
+    0x7ca74a6e, // lhzux r9, r7, r5
   };
-  unsigned int expectedInsns = 23;
-  unsigned int size = expectedInsns * 4;
-  ++expectedInsns;
-  InstructionDecoder d(buffer, size, Dyninst::Arch_ppc32);
-  
-  std::deque<Instruction> decodedInsns;
-  Instruction i;
-  do
+  // clang-format on
+
+  std::vector<Instruction> decodedInsns;
+  decodedInsns.reserve(num_tests);
+
   {
-    i = d.decode();
-    decodedInsns.push_back(i);
-  }
-  while(i.isValid());
-  if(decodedInsns.size() != expectedInsns)
-  {
-    logerror("FAILED: Expected %d instructions, decoded %d\n", expectedInsns, decodedInsns.size());
-    for(std::deque<Instruction>::iterator curInsn = decodedInsns.begin();
-	curInsn != decodedInsns.end();
-	++curInsn)
-    {
-        logerror("\t%s\n", curInsn->format().c_str());
+    InstructionDecoder d(buffer.data(), buffer.size(), arch);
+    for(int idx = 0; idx < num_tests; idx++) {
+      Instruction insn = d.decode();
+      if(!insn.isValid()) {
+        logerror("Failed to decode test %d\n", idx + 1);
+        return FAILED;
+      }
+      decodedInsns.push_back(insn);
     }
-    
-    return FAILED;
   }
-  if(decodedInsns.back().isValid())
-  {
-    logerror("FAILED: Expected instructions to end with an invalid instruction, but they didn't");
-    return FAILED;
-  }
-  std::deque<registerSet> expectedRead, expectedWritten;
-  registerSet tmpRead, tmpWritten;
+
   RegisterAST::Ptr r0(new RegisterAST(ppc32::r0));
   RegisterAST::Ptr r1(new RegisterAST(ppc32::r1));
   RegisterAST::Ptr r2(new RegisterAST(ppc32::r2));
@@ -135,321 +125,144 @@ test_results_t power_decode_Mutator::executeTest()
   RegisterAST::Ptr fsr0(new RegisterAST(ppc32::fsr0));
   RegisterAST::Ptr fsr1(new RegisterAST(ppc32::fsr1));
   RegisterAST::Ptr fsr2(new RegisterAST(ppc32::fsr2));
-  RegisterAST::Ptr fpscr(new RegisterAST(ppc32::fpscw));
-  RegisterAST::Ptr fpscr0(new RegisterAST(ppc32::fpscw0));
-  RegisterAST::Ptr fpscr2(new RegisterAST(ppc32::fpscw2));
-  RegisterAST::Ptr fpscr4(new RegisterAST(ppc32::fpscw4));
-  RegisterAST::Ptr fpscr6(new RegisterAST(ppc32::fpscw6));
-  RegisterAST::Ptr fpscr7(new RegisterAST(ppc32::fpscw7));
+  RegisterAST::Ptr fpscw(new RegisterAST(ppc32::fpscw));
+  RegisterAST::Ptr fpscw0(new RegisterAST(ppc32::fpscw0));
+  RegisterAST::Ptr fpscw2(new RegisterAST(ppc32::fpscw2));
+  RegisterAST::Ptr fpscw4(new RegisterAST(ppc32::fpscw4));
+  RegisterAST::Ptr fpscw6(new RegisterAST(ppc32::fpscw6));
+  RegisterAST::Ptr fpscw7(new RegisterAST(ppc32::fpscw7));
   RegisterAST::Ptr pc(new RegisterAST(ppc32::pc));
   RegisterAST::Ptr ctr(new RegisterAST(ppc32::ctr));
   RegisterAST::Ptr lr(new RegisterAST(ppc32::lr));
-  // add.
-  test_results_t retVal = PASSED;
-  
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r0, r8 };
-  tmpWritten = { r9, cr0 };
-#else
-  tmpRead = list_of(r0)(r8);
-  tmpWritten = list_of(r9)(cr0);
-#endif
-  expectedRead.push_back(tmpRead);
 
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // add
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r0, r8 };
-  tmpWritten = { r9 };
-#else
-  tmpRead = list_of(r0)(r8);
-  tmpWritten = list_of(r9);
-#endif
-  expectedRead.push_back(tmpRead);
+  std::vector<registerSet> expectedRead, expectedWritten;
 
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // addo
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r0, r8 };
-  tmpWritten = { r9, xer };
-#else
-  tmpRead = list_of(r0)(r8);
-  tmpWritten = list_of(r9)(xer);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
+  //  add. r9, r0, r8
+  expectedRead.push_back({r0, r8});
+  expectedWritten.push_back({r9, cr0});
 
-  // fadd
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr1, fpr2 };
-  tmpWritten = { fpr0 };
-#else
-  tmpRead = list_of(fpr1)(fpr2);
-  tmpWritten = list_of(fpr0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // fadd.
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr1, fpr2 };
-  tmpWritten = { fpr0, fpscr };
-#else
-  tmpRead = list_of(fpr1)(fpr2);
-  tmpWritten = list_of(fpr0)(fpscr);
-#endif
+  //  add r9, r0, r8
+  expectedRead.push_back({r0, r8});
+  expectedWritten.push_back({r9});
 
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // addi, r0
+  //  addo r9, r0, r8
+  expectedRead.push_back({r0, r8});
+  expectedWritten.push_back({r9, xer});
 
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpWritten = { r1 };
-#else
-  tmpWritten = list_of(r1);
-#endif
+  //  fadd fpr0, fpr1, fpr2
+  expectedRead.push_back({fpr1, fpr2});
+  expectedWritten.push_back({fpr0});
 
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // addi, r1
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r1 };
-  tmpWritten = { r1 };
-#else
-  tmpRead = list_of(r1);
-  tmpWritten = list_of(r1);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // fcmpu fpscr7, fpr0, fpr1
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr0, fpr1 };
-  tmpWritten = {fpscr7 };
-#else
-  tmpRead = list_of(fpr0)(fpr1);
-  tmpWritten = list_of(fpscr7);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // cmp cr7, r0, r1
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r0, r1 };
-  tmpWritten = { cr7 };
-#else
-  tmpRead = list_of(r0)(r1);
-  tmpWritten = list_of(cr7);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // mtcrf cr0, cr2, cr4, cr6, r0
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r0 };
-  tmpWritten = { cr0, cr2, cr4, cr6 };
-#else
-  tmpRead = list_of(r0);
-  tmpWritten = list_of(cr0)(cr2)(cr4)(cr6);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // mtfsf fpscr0, fpscr2, fpscr4, fpscr6, fpr0
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr0 };
-  tmpWritten = { fpscr0, fpscr2, fpscr4, fpscr6 };
-#else
-  tmpRead = list_of(fpr0);
-  tmpWritten = list_of(fpscr0)(fpscr2)(fpscr4)(fpscr6);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // lwz r0, 0(r1)
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r1 };
-  tmpWritten = { r0 };
-#else
-  tmpRead = list_of(r1);
-  tmpWritten = list_of(r0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // lwzu r0, 0(r1)
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r1 };
-  tmpWritten = { r0, r1 };
-#else
-  tmpRead = list_of(r1);
-  tmpWritten = list_of(r0)(r1);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // lwzx r0, r2(r1)
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r1, r2 };
-  tmpWritten = { r0 };
-#else
-  tmpRead = list_of(r1)(r2);
-  tmpWritten = list_of(r0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // lwzux r0, r2(r1)
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r1, r2 };
-  tmpWritten = { r0, r1 };
-#else
-  tmpRead = list_of(r1)(r2);
-  tmpWritten = list_of(r0)(r1);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // rlimi r0, r1
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r0 };
-  tmpWritten = { r1 };
-#else
-  tmpRead = list_of(r0);
-  tmpWritten = list_of(r1);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // fpmul fpr0, fpr1, fpr2
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr1, fpr2, fsr1, fsr2 };
-  tmpWritten = { fpr0, fsr0 };
-#else
-  tmpRead = list_of(fpr1)(fpr2)(fsr1)(fsr2);
-  tmpWritten = list_of(fpr0)(fsr0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // fxmul fpr0, fpr1
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr1, fpr2, fsr1, fsr2 };
-  tmpWritten = { fpr0, fsr0 };
-#else
-  tmpRead = list_of(fpr1)(fpr2)(fsr1)(fsr2);
-  tmpWritten = list_of(fpr0)(fsr0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
+  //  fadd. fpr0, fpr1, fpr2
+  expectedRead.push_back({fpr1, fpr2});
+  expectedWritten.push_back({fpr0, fpscw});
 
-  // fxcpmul fpr0, fpr1
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr1, fpr2, fsr2 };
-  tmpWritten = { fpr0, fsr0 };
-#else
-  tmpRead = list_of(fpr1)(fpr2)(fsr2);
-  tmpWritten = list_of(fpr0)(fsr0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // fxcsmul fpr0, fpr1
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { fpr2, fsr1, fsr2 };
-  tmpWritten = { fpr0, fsr0 };
-#else
-  tmpRead = list_of(fpr2)(fsr1)(fsr2);
-  tmpWritten = list_of(fpr0)(fsr0);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
+  //  addi r1, 0, 1
+  expectedRead.push_back({});
+  expectedWritten.push_back({r1});
 
-  // bdnzl cr0, +0x100
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { pc, cr0, ctr };
-  tmpWritten = {pc, ctr, lr };
-#else
-  tmpRead = list_of(pc)(cr0)(ctr);
-  tmpWritten = list_of(pc)(ctr)(lr);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // bdnz cr0, +0x100
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { pc, cr0, ctr };
-  tmpWritten = { pc, ctr };
-#else
-  tmpRead = list_of(pc)(cr0)(ctr);
-  tmpWritten = list_of(pc)(ctr);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
-  // lhzux r5, r7, r9
-#if !defined(NO_INITIALIZER_LIST_SUPPORT) && (!defined(os_windows) || _MSC_VER >= 1900)
-  tmpRead = { r7, r9 };
-  tmpWritten = { r5, r7 };
-#else
-  tmpRead = list_of(r7)(r9);
-  tmpWritten = list_of(r5)(r7);
-#endif
-  expectedRead.push_back(tmpRead);
-  expectedWritten.push_back(tmpWritten);
-  tmpRead.clear();
-  tmpWritten.clear();
+  //  addi r1, r1, 1
+  expectedRead.push_back({r1});
+  expectedWritten.push_back({r1});
 
-  decodedInsns.pop_back();
-  while(!decodedInsns.empty())
-  {
-      retVal = failure_accumulator(retVal, verify_read_write_sets(decodedInsns.front(), expectedRead.front(),
-                                   expectedWritten.front()));
-      // TEMP
-      if(decodedInsns.size() == 1)
-      {
-          if(!decodedInsns.front().readsMemory())
-          {
-              logerror("**FAILED**: insn %s did not read memory, expected lhzux r5, r7, r9\n",
-                       decodedInsns.front().format().c_str());
-              return FAILED;
-          }
-      }
-      decodedInsns.pop_front();
-  
-      expectedRead.pop_front();
-      expectedWritten.pop_front();
+  //  fcmpu fpscw7, fpr0, fpr1
+  expectedRead.push_back({fpr0, fpr1});
+  expectedWritten.push_back({fpscw7});
+
+  //  fcmpu cr7, r0, r1
+  expectedRead.push_back({r0, r1});
+  expectedWritten.push_back({cr7});
+
+  //  mtcrf cr0, cr2, cr4, cr6, r0
+  expectedRead.push_back({r0});
+  expectedWritten.push_back({cr0, cr2, cr4, cr6});
+
+  //  mtfsf fpscw0, fpscw2, fpscw4, fpscw6, fpr0
+  expectedRead.push_back({fpr0});
+  expectedWritten.push_back({fpscw0, fpscw2, fpscw4, fpscw6});
+
+  //  lwz r0, 0(r1)
+  expectedRead.push_back({r1});
+  expectedWritten.push_back({r0});
+
+  //  lwzu r0, 0(r1)
+  expectedRead.push_back({r1});
+  expectedWritten.push_back({r0, r1});
+
+  //  lwzx r0, r2(r1)
+  expectedRead.push_back({r1, r2});
+  expectedWritten.push_back({r0});
+
+  //  lwzux r0, r2(r1)
+  expectedRead.push_back({r1, r2});
+  expectedWritten.push_back({r0, r1});
+
+  //  rlimi r0, r1
+  expectedRead.push_back({r0});
+  expectedWritten.push_back({r1});
+
+  //  fpmul fpr0, fpr1
+  expectedRead.push_back({fpr1, fpr2, fsr1, fsr2});
+  expectedWritten.push_back({fpr0, fsr0});
+
+  //  fxmul fpr0, fpr1, or qvfxmadds
+  expectedRead.push_back({fpr1, fpr2, fsr1, fsr2});
+  expectedWritten.push_back({fpr0, fsr0});
+
+  //  fxcpmul fpr0, fpr1
+  expectedRead.push_back({fpr1, fpr2, fsr2});
+  expectedWritten.push_back({fpr0, fsr0});
+
+  //  fxcsmul fpr0, fpr1, or qvfxxnpmadds
+  expectedRead.push_back({fpr2, fsr1, fsr2});
+  expectedWritten.push_back({fpr0, fsr0});
+
+  //  bdnzl cr0, +0x100
+  expectedRead.push_back({pc, cr0, ctr});
+  expectedWritten.push_back({pc, ctr, lr});
+
+  //  bdnz cr0, +0x100
+  expectedRead.push_back({pc, cr0, ctr});
+  expectedWritten.push_back({pc, ctr});
+
+  //  lhzux r9, r7, r5
+  expectedRead.push_back({r7, r9});
+  expectedWritten.push_back({r5, r7});
+
+  if(expectedRead.size() != expectedWritten.size()) {
+    logerror("FATAL: expectedRead.size() != expectedWritten.size()");
+    return FAILED;
   }
 
+  if(expectedRead.size() != decodedInsns.size()) {
+    logerror("FATAL: expectedRead.size() != decodedInsns.size()");
+    return FAILED;
+  }
+
+  test_results_t retVal = PASSED;
+  for(auto&& x : boost::combine(decodedInsns, expectedRead, expectedWritten)) {
+    auto insn = x.get<0>();
+    auto read = x.get<1>();
+    auto written = x.get<2>();
+
+    auto status = verify_read_write_sets(insn, read, written);
+    if(status == FAILED) {
+      retVal = FAILED;
+    }
+  }
+
+  {
+    uint32_t lhzux = 0x7ca74a6e; // lhzux r9, r7, r5
+    InstructionDecoder d(&lhzux, 1, arch);
+    Instruction insn = d.decode();
+    if(!insn.isValid()) {
+      logerror("Failed to decode for memory test %d\n");
+      return FAILED;
+    }
+    if(!insn.readsMemory()) {
+      logerror("**FAILED**: insn '%s' did not read memory.\n", insn.format().c_str());
+      return FAILED;
+    }
+  }
   return retVal;
 }
-
