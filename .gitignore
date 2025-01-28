@@ -1,6 +1,8 @@
-CMakeFiles
-Makefile
-CMakeCache.txt
+# build artifacts
+build/
+CMakeFiles/
+Makefile/
+CMakeCache.txt/
 *.so
 *#*
 cmake_install.cmake
