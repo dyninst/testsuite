@@ -1,4 +1,6 @@
-CMakeFiles
+# build artifacts
+build/
+CMakeFiles/
 Makefile
 CMakeCache.txt
 *.so
