@@ -444,7 +444,7 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   RegisterAST::Ptr sp = create(aarch64::sp);
   RegisterAST::Ptr wsp = create(aarch64::wsp);
   RegisterAST::Ptr pc = create(aarch64::pc);
-  RegisterAST::Ptr nzcv = create(aarch64::nzcv);
+  RegisterAST::Ptr pstate = create(aarch64::pstate);
 
   RegisterAST::Ptr pmceid0_el0 = create(aarch64::pmceid0_el0);
   RegisterAST::Ptr pmevcntr2_el0 = create(aarch64::pmevcntr2_el0);
@@ -474,8 +474,8 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   expectedWritten.push_back({x6});
 
   // ADDS W0, W5, W8, LSL #5
-  expectedRead.push_back({w8, w5});
-  expectedWritten.push_back({w0, nzcv});
+  expectedRead.push_back({w8,w5});
+  expectedWritten.push_back({w0,pstate});
 
   // ADD W5, W10, W15
   expectedRead.push_back({x15, w10});
@@ -486,8 +486,8 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   expectedWritten.push_back({x0});
 
   // SUBS X2, X2, X2, SXTW #4
-  expectedRead.push_back({x2, x2});
-  expectedWritten.push_back({x2, nzcv});
+  expectedRead.push_back({x2,x2});
+  expectedWritten.push_back({x2,pstate});
 
   // ADC W5, W22, W25
   expectedRead.push_back({w25, w22});
@@ -498,35 +498,35 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   expectedWritten.push_back({x0});
 
   // CCMN W7, #30, #11, 5
-  expectedRead.push_back({w7, nzcv});
-  expectedWritten.push_back({nzcv});
+  expectedRead.push_back({w7,pstate});
+  expectedWritten.push_back({pstate});
 
   // CCMP X20, #8, #0, 15
-  expectedRead.push_back({x20, nzcv});
-  expectedWritten.push_back({nzcv});
+  expectedRead.push_back({x20,pstate});
+  expectedWritten.push_back({pstate});
 
   // CCMN W5, W10, #7, 1
-  expectedRead.push_back({w10, w5, nzcv});
-  expectedWritten.push_back({nzcv});
+  expectedRead.push_back({w10,w5,pstate});
+  expectedWritten.push_back({pstate});
 
   // CCMP X2, X4, #4, 10
-  expectedRead.push_back({x2, x4, nzcv});
-  expectedWritten.push_back({nzcv});
+  expectedRead.push_back({x2,x4,pstate});
+  expectedWritten.push_back({pstate});
 
   // CSEL W5, W10, W15, 1
-  expectedRead.push_back({w15, w10, nzcv});
+  expectedRead.push_back({w15,w10,pstate});
   expectedWritten.push_back({w5});
 
   // CSINC X0, X2, X4, 5
-  expectedRead.push_back({x2, x4, nzcv});
+  expectedRead.push_back({x2,x4,pstate});
   expectedWritten.push_back({x0});
 
   // CSINV X20, X21, X22, 7
-  expectedRead.push_back({x21, x22, nzcv});
+  expectedRead.push_back({x21,x22,pstate});
   expectedWritten.push_back({x20});
 
   // CSNEG W1, W5, W9, 10
-  expectedRead.push_back({w5, w10, nzcv});
+  expectedRead.push_back({w5,w10,pstate});
   expectedWritten.push_back({w1});
 
   // RBIT W1, W2
@@ -603,7 +603,7 @@ test_results_t aarch64_decode_Mutator::executeTest() {
 
   // BICS X1, X1, X1, ROR #8
   expectedRead.push_back({x1, x1});
-  expectedWritten.push_back({x1, nzcv});
+  expectedWritten.push_back({x1, pstate});
 
   // ADD W0, WSP, #11
   expectedRead.push_back({wsp});
@@ -611,7 +611,7 @@ test_results_t aarch64_decode_Mutator::executeTest() {
 
   // ADDS W5, W10, #0, LSL #12
   expectedRead.push_back({w10});
-  expectedWritten.push_back({w5, nzcv});
+  expectedWritten.push_back({w5, pstate});
 
   // SUB SP, X10, #12
   expectedRead.push_back({x10});
@@ -651,7 +651,7 @@ test_results_t aarch64_decode_Mutator::executeTest() {
 
   // ANDS W5, W10, #9
   expectedRead.push_back({w10});
-  expectedWritten.push_back({w5, nzcv});
+  expectedWritten.push_back({w5, pstate});
 
   // MOVN W4, #23, LSL #1
   expectedRead.push_back({});
@@ -686,11 +686,11 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   expectedWritten.push_back({pc});
 
   // B.NE #
-  expectedRead.push_back({pc, nzcv});
+  expectedRead.push_back({pc, pstate});
   expectedWritten.push_back({pc});
 
   // B.GT #63
-  expectedRead.push_back({pc, nzcv});
+  expectedRead.push_back({pc, pstate});
   expectedWritten.push_back({pc});
 
   // TBZ W4, #30, #
@@ -727,30 +727,30 @@ test_results_t aarch64_decode_Mutator::executeTest() {
 
   // FCMP S0, S31
   expectedRead.push_back({s31, s0});
-  expectedWritten.push_back({nzcv});
+  expectedWritten.push_back({pstate});
 
   // FCMP D16, #0.0
   expectedRead.push_back({s8});
-  expectedWritten.push_back({nzcv});
+  expectedWritten.push_back({pstate});
 
   // FCMP D31, D32
   expectedRead.push_back({d31, d30});
-  expectedWritten.push_back({nzcv});
+  expectedWritten.push_back({pstate});
 
   // FCCMP S20, S31, #8, 10
-  expectedRead.push_back({s31, s20, nzcv});
-  expectedWritten.push_back({nzcv});
+  expectedRead.push_back({s31, s20, pstate});
+  expectedWritten.push_back({pstate});
 
   // FCCMP D1, D2, #5, 0
-  expectedRead.push_back({d2, d1, nzcv});
-  expectedWritten.push_back({nzcv});
+  expectedRead.push_back({d2, d1, pstate});
+  expectedWritten.push_back({pstate});
 
   // FCCMPE D10, D1,, #9, 5
-  expectedRead.push_back({d11, d10, nzcv});
-  expectedWritten.push_back({nzcv});
+  expectedRead.push_back({d11, d10, pstate});
+  expectedWritten.push_back({pstate});
 
   // FCSEL S1, S, S3, 4
-  expectedRead.push_back({s3, s2, nzcv});
+  expectedRead.push_back({s3, s2, pstate});
   expectedWritten.push_back({s1});
 
   // FMOV S5, S10
@@ -874,19 +874,19 @@ test_results_t aarch64_decode_Mutator::executeTest() {
   expectedWritten.push_back({s1});
 
   // SVC #32768
-  expectedRead.push_back({nzcv});
+  expectedRead.push_back({pstate});
   expectedWritten.push_back({});
 
   // SMC #0
-  expectedRead.push_back({nzcv});
+  expectedRead.push_back({pstate});
   expectedWritten.push_back({});
 
   // HLT #30
-  expectedRead.push_back({nzcv});
+  expectedRead.push_back({pstate});
   expectedWritten.push_back({});
 
   // DCPS2 #2
-  expectedRead.push_back({nzcv});
+  expectedRead.push_back({pstate});
   expectedWritten.push_back({});
 
   // CLREX
@@ -907,7 +907,7 @@ test_results_t aarch64_decode_Mutator::executeTest() {
 
   // MSR 30, #5
   expectedRead.push_back({});
-  expectedWritten.push_back({nzcv});
+  expectedWritten.push_back({pstate});
 
   // SYS #1, #2, #3, #4, X0
   expectedRead.push_back({x0});

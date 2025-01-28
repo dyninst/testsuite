@@ -500,7 +500,7 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest() {
   RegisterAST::Ptr sp = create(aarch64::sp);
   RegisterAST::Ptr wsp = create(aarch64::wsp);
   RegisterAST::Ptr pc = create(aarch64::pc);
-  RegisterAST::Ptr nzcv = create(aarch64::nzcv);
+  RegisterAST::Ptr pstate = create(aarch64::pstate);
 
   std::vector<registerSet> expectedRead, expectedWritten;
 
@@ -937,15 +937,15 @@ test_results_t aarch64_decode_ldst_Mutator::executeTest() {
   expectedWritten.push_back({x1});
 
   // csinc x0, x1, x2, eq
-  expectedRead.push_back({x1, x2, nzcv});
+  expectedRead.push_back({x1, x2, pstate});
   expectedWritten.push_back({x0});
 
   // csinv x0, x1, x2, eq
-  expectedRead.push_back({x1, x2, nzcv});
+  expectedRead.push_back({x1, x2, pstate});
   expectedWritten.push_back({x0});
 
   // csneg x0, x1, x2, eq
-  expectedRead.push_back({x1, x2, nzcv});
+  expectedRead.push_back({x1, x2, pstate});
   expectedWritten.push_back({x0});
 
   // ubfiz x0, x1, #1, #1
