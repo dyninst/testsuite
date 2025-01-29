@@ -37,6 +37,8 @@
 #include "Symtab.h"
 #include "Region.h"
 
+#include <vector>
+
 using namespace Dyninst;
 using namespace InstructionAPI;
 using namespace SymtabAPI;
