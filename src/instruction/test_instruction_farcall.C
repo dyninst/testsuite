@@ -33,6 +33,8 @@
 #include "InstructionDecoder.h"
 #include "test_lib.h"
 
+#include <array>
+
 using namespace Dyninst;
 using namespace InstructionAPI;
 
