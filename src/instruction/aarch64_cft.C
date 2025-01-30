@@ -37,6 +37,7 @@
 
 #include <array>
 #include <boost/range/combine.hpp>
+#include <vector>
 
 using namespace Dyninst;
 using namespace InstructionAPI;

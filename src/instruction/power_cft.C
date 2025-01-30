@@ -36,9 +36,7 @@
 #include "registers/ppc64_regs.h"
 #include "test_lib.h"
 
-#include <array>
 #include <boost/range/combine.hpp>
-#include <boost/smart_ptr/make_shared.hpp>
 #include <tuple>
 #include <vector>
 

@@ -39,6 +39,7 @@
 #include <boost/range/combine.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
 #include <deque>
+#include <vector>
 
 using namespace Dyninst;
 using namespace InstructionAPI;

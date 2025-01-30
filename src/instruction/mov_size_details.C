@@ -33,6 +33,7 @@
 #include "InstructionDecoder.h"
 #include "test_lib.h"
 
+#include <array>
 #include <boost/range/combine.hpp>
 #include <tuple>
 #include <vector>
