@@ -168,7 +168,7 @@ test_results_t test_add_symbols_Mutator::executeTest()
     return FAILED;
   }
   unsigned libraryAdjust = 0;
-  if (newSymtab->getObjectType() == obj_SharedLib)
+  if (newSymtab->isSharedLibrary())
     libraryAdjust = getpagesize();
   if (lookupSyms[0]->getOffset() != libraryAdjust + syms[0]->getOffset()) {
     logerror("[%s:%u]: added symbol offset 0x%lx not equal to expected 0x%lx\n", __FILE__, __LINE__,
