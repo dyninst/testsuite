@@ -140,10 +140,10 @@ void ParseThat::setup_env(std::string plat) {
 bool ParseThat::setup_args(std::vector<std::string> &pt_args)
 {
 	pt_args.push_back(std::string("-i"));
-	pt_args.push_back(utos((unsigned) inst_level_));
+	pt_args.push_back(std::to_string(static_cast<unsigned>(inst_level_)));
 	pt_args.push_back(std::string("-p"));
-	pt_args.push_back(utos((unsigned) parse_level));
-	pt_args.push_back(std::string("-v ") + utos(verbosity));
+	pt_args.push_back(std::to_string(static_cast<unsigned>(parse_level)));
+	pt_args.push_back(std::string("-v ") + std::to_string(verbosity));
 
 	if (include_libs_) 
 		pt_args.push_back(std::string("--include-libs"));
@@ -167,10 +167,10 @@ bool ParseThat::setup_args(std::vector<std::string> &pt_args)
 		pt_args.push_back(std::string("--summary"));
 
 	if (timeout_secs) 
-		pt_args.push_back(std::string("-t ") + utos(timeout_secs));
+		pt_args.push_back(std::string("-t ") + std::to_string(timeout_secs));
 
 	if (do_trace) 
-		pt_args.push_back(std::string("-T ") + utos(tracelength));
+		pt_args.push_back(std::string("-T ") + std::to_string(tracelength));
 
 	if (suppress_ipc) 
 		pt_args.push_back(std::string("--suppress-ipc"));
@@ -333,7 +333,7 @@ test_results_t ParseThat::operator()(int pid)
 		return FAILED;
 	}
 
-	pt_args.push_back(std::string("--pid=") + itos(pid));
+	pt_args.push_back(std::string("--pid=") + std::to_string(pid));
 
 	return pt_execute(pt_args);
 }
