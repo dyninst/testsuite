@@ -245,7 +245,7 @@ bool runBinaryTest(RunGroup *group, ParameterDict &params, test_results_t &test_
       //  set, add a uniqification parameter to the filename, as well as a 
       //  report file that indicates which tests are represented in the
       //  binary
-      outfile += std::string("_") + Dyninst::utos((unsigned)clock());
+      outfile += std::string("_") + std::to_string(static_cast<unsigned>(clock()));
       std::string reportfile = outfile + std::string(".report");
       FILE *myrep = fopen(reportfile.c_str(), "w");
       fprintf(myrep, "Test group contains:\n");
