@@ -167,9 +167,8 @@ test_results_t test_add_symbols_Mutator::executeTest()
     logerror("[%s:%u]: got unexpected number of symbols matching add_sym_newsymbol: %d != 1\n", __FILE__, __LINE__, lookupSyms.size());
     return FAILED;
   }
-  unsigned libraryAdjust = 0;
-  if (newSymtab->isSharedLibrary())
-    libraryAdjust = getpagesize();
+
+  unsigned const libraryAdjust = newSymtab->isPositionIndependent() ? getpagesize() : 0;
   if (lookupSyms[0]->getOffset() != libraryAdjust + syms[0]->getOffset()) {
     logerror("[%s:%u]: added symbol offset 0x%lx not equal to expected 0x%lx\n", __FILE__, __LINE__,
 	     lookupSyms[0]->getOffset(), syms[0]->getOffset());
