@@ -280,7 +280,7 @@ test_results_t InstructionMutator::verify_read_write_sets(Instruction i, const r
         }
         return FAILED;
     }
-    logerror("PASSED: Instruction %s had read, write sets as expected\n", i.format().c_str());
+    logstatus("PASSED: Instruction %s had read, write sets as expected\n", i.format().c_str());
     return PASSED;
 }
 
