@@ -61,7 +61,7 @@ test_results_t power_decode_Mutator::executeTest() {
   // Decoding in 64-bit mode uses 32-bit registers
   auto const arch = Dyninst::Arch_ppc32;
 
-  constexpr auto num_tests = 23;
+  constexpr auto num_tests = 27;
 
   // clang-format off
   std::array<uint32_t const, 4*num_tests> buffer = {
@@ -75,6 +75,7 @@ test_results_t power_decode_Mutator::executeTest() {
     0xff800800, // fcmpu fpscw7, fpr0, fpr1
     0x7f800800, // fcmpu cr7, r0, r1
     0x7c0aa120, // mtcrf cr0, cr2, cr4, cr6, r0
+      // 10
     0xfd54058e, // mtfsf fpscw0, fpscw2, fpscw4, fpscw6, fpr0
     0x80010000, // lwz r0, 0(r1)
     0x84010000, // lwzu r0, 0(r1)
@@ -85,9 +86,14 @@ test_results_t power_decode_Mutator::executeTest() {
     0x00010092, // fxmul fpr0, fpr1, or qvfxmadds
     0x00010094, // fxcpmul fpr0, fpr1
     0x00010096, // fxcsmul fpr0, fpr1, or qvfxxnpmadds
+      // 20
     0x40010101, // bdnzl cr0, +0x100
     0x40010100, // bdnz cr0, +0x100
     0x7ca74a6e, // lhzux r9, r7, r5
+    0x4e800020, // bclr (with BH=0, return from subroutine)
+    0x4e800021, // blrl
+    0x4e800420, // bctr  (LK=0)
+    0x4e800421, // bctr  (LK=1)
   };
   // clang-format on
 
@@ -229,13 +235,29 @@ test_results_t power_decode_Mutator::executeTest() {
   expectedRead.push_back({r7, r9});
   expectedWritten.push_back({r5, r7});
 
+  // bclr (with BH=0, return from subroutine)
+  expectedRead.push_back({ctr, lr, cr0});
+  expectedWritten.push_back({pc, ctr});
+
+  // bclrl
+  expectedRead.push_back({ctr, lr, cr0});
+  expectedWritten.push_back({ctr, lr, pc});
+
+  // bctr  (LK=0)
+  expectedRead.push_back({ctr, cr0});
+  expectedWritten.push_back({pc});
+
+  // bctr  (LK=1)
+  expectedRead.push_back({lr, ctr, cr0});
+  expectedWritten.push_back({lr, pc});
+
   if(expectedRead.size() != expectedWritten.size()) {
-    logerror("FATAL: expectedRead.size() != expectedWritten.size()");
+    logerror("FATAL: expectedRead.size() != expectedWritten.size()\n");
     return FAILED;
   }
 
   if(expectedRead.size() != decodedInsns.size()) {
-    logerror("FATAL: expectedRead.size() != decodedInsns.size()");
+    logerror("FATAL: expectedRead.size() != decodedInsns.size()\n");
     return FAILED;
   }
 
