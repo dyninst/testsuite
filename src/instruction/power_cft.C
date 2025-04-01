@@ -321,7 +321,7 @@ namespace {
         {},
         test_cft{lr_value, {!is_call, is_conditional, is_indirect, !is_fallthrough}},
         {},
-        test_cft{pc_value + 4, {!is_call, !is_conditional, is_indirect, is_fallthrough}},
+        test_cft{pc_value + 4, {!is_call, !is_conditional, !is_indirect, is_fallthrough}},
       },
       { // bdnzfl gt, 0x100
         0x40010101, !is_branch, !is_return,
