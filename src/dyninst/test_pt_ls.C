@@ -135,7 +135,9 @@ test_results_t test_pt_ls_Mutator::executeTest()
             // We only need to check the tail end of the output file.
             fseek(fp, 0, SEEK_END);
             if (fseek(fp, -(sizeof(buf)-1), SEEK_CUR) != 0) rewind(fp);
-            fread(buf, sizeof(char), sizeof(buf)-1, fp);
+            if(fread(buf, sizeof(char), sizeof(buf)-1, fp) == EOF) {
+              perror("Read failed");
+            }
 
             ptr = strstr(buf, "CPU:");
             if (ptr && sscanf(ptr, "CPU: %ld.%ld", &c.tv_sec, &c.tv_usec)==2) {

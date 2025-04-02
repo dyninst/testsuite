@@ -76,7 +76,9 @@ test_results_t init_fini_callback_Mutator::postExecution()
         }
     }
     char buffer[2];
-    read(fd, buffer, 2);
+    if(read(fd, buffer, 2) == -1) {
+      return FAILED;
+    }
     close(fd);
     //unlink(filename);
     if(strncmp(buffer, "OK", 2) == 0)
@@ -105,8 +107,8 @@ test_results_t init_fini_callback_Mutator::executeTest()
     strncpy(libNameA, libNameAroot, 127);
     addLibArchExt(libNameA,127, pointer_size);
 
-    char libA[128];
-    snprintf(libA, 128, "./%s", libNameA);
+    char libA[sizeof(libNameA) + 2];
+    snprintf(libA, sizeof(libA), "./%s", libNameA);
 
     if (!appAddrSpace->loadLibrary(libA))
     {

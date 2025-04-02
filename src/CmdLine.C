@@ -37,6 +37,8 @@
 #include <algorithm>
 #include <time.h>
 
+#include <boost/date_time.hpp>
+
 #include "help.h"
 #include "CmdLine.h"
 #include "ResumeLog.h"
@@ -161,7 +163,7 @@ static bool measureMEMCPU = false;
 static bool dry_run = false;
 static char *humanlog_name = NULL;
 static char *logfilename = NULL;
-static char *dbfilename = NULL;
+static std::string dbfilename{};
 static char *debug_out_filename = NULL;
 
 static std::vector<RunGroup *> group_list;
@@ -219,7 +221,7 @@ void setupArgDictionary(ParameterDict &params)
    params["logfilename"] = new ParamString(logfilename);
    params["mutatee_resumelog"] = new ParamString("mutatee_resumelog");
    params["humanlogname"] = new ParamString(humanlog_name);
-   params["dboutput"] = new ParamString(dbfilename);
+   params["dboutput"] = new ParamString(dbfilename.c_str());
 
    if (given_mutatee != std::string("") && given_mutator != -1)
    {
@@ -531,19 +533,15 @@ static int handleArgs(int argc, char *argv[])
             if (argv[i+1][0] != '-' || argv[i+1][1] == '\0') {
                //either it doesn't start with - or it's exactly -
                i++;
-               dbfilename = argv[i];
+               if(argv[i]) {
+                 dbfilename = argv[i];
+               }
             }
          }
-         if (!dbfilename) {
-            time_t rawtime;
-            struct tm * timeinfo = (tm *)malloc(sizeof(struct tm));
-
-            time(&rawtime);
-            timeinfo = localtime(&rawtime);
-
-            dbfilename = (char*)malloc(sizeof(char) * strlen("sql_dblog-xxxx-xx-xx0"));
-            sprintf(dbfilename, "sql_dblog-%4d-%02d-%02d",
-                    timeinfo->tm_year + 1900, timeinfo->tm_mon + 1, timeinfo->tm_mday);
+         if (dbfilename.empty()) {
+           namespace bg = boost::gregorian;
+           auto day = bg::date(bg::day_clock::universal_day());
+           dbfilename = "sql_dblog-" + to_iso_extended_string(day);
          }
       }
       else if (strcmp(argv[i], "-given_mutatee") == 0) {

@@ -364,7 +364,10 @@ bool ProcControlComponent::waitForSignalFD(int signal_fd)
    }
 
    char c;
-   read(signal_fd, &c, sizeof(char));
+   if(read(signal_fd, &c, sizeof(char)) == -1) {
+     logerror("'read' failed\n");
+     return false;
+   }
 #endif
    return true;
 }

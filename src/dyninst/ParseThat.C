@@ -254,17 +254,15 @@ test_results_t ParseThat::sys_execute(std::string cmd, std::vector<std::string> 
 		}
 	}
 
-	char cmdbuf[2048];
-	sprintf(cmdbuf, "%s", cmd.c_str());
-
 	for (unsigned int i = 0; i < args.size(); ++i)
 	{
-		sprintf(cmdbuf, "%s %s", cmdbuf, args[i].c_str());
+	  cmd.append(" ");
+	  cmd.append(args[i]);
 	}
 
 	logerror("%s[%d]:  about to issue command: \n\t\t'%s'\n", 
-			FILE__, __LINE__, cmdbuf);
-	int res = system(cmdbuf);
+			FILE__, __LINE__, cmd.c_str());
+	int res = system(cmd.c_str());
 
 	if (WIFEXITED(res))
 	{

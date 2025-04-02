@@ -102,11 +102,11 @@ int runScript(const char *name, ...)
    vsnprintf(test, 1024, name, ap);
    va_end(ap);
 
-   char test2[1024];
+   char test2[2048];
    if ((outlog != NULL) && (outlog != stdout)) {
-      snprintf(test2, 1024, "sh -c \"%s\" >>%s 2>&1", test, logfilename);
+      snprintf(test2, sizeof(test2), "sh -c \"%s\" >>%s 2>&1", test, logfilename);
    } else {
-      snprintf(test2, 1024, "%s", test);
+      snprintf(test2, sizeof(test2), "%s", test);
    }
 
    // Flush before/after script run
@@ -751,7 +751,10 @@ void updateSearchPaths(const char *filename) {
 
    char *execpath;
    char pathname[PATH_MAX];
-   getcwd(pathname, PATH_MAX);
+   if(!getcwd(pathname, PATH_MAX)) {
+     perror("Failed to get cwd");
+     return;
+   }
 
    if (filename[0] == '/') {
       // If it begins with a slash, it's an absolute path

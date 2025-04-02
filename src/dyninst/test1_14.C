@@ -90,8 +90,8 @@ test_results_t test1_14_Mutator::executeTest() {
     strncpy(libNameA, libNameAroot, 127);
     addLibArchExt(libNameA,127, pointer_size, isStatic);
 
-    char libA[128];
-    snprintf(libA, 128, "./%s", libNameA);
+    char libA[sizeof(libNameA) + 2];
+    snprintf(libA, sizeof(libA), "./%s", libNameA);
     
     if (!appAddrSpace->loadLibrary(libA)) {
         logerror("**Failed test1_14 (replace function call)\n");

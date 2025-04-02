@@ -62,7 +62,7 @@ void func_relocations_mutatee()
 	printf("a");
 	fprintf(stderr,"a");
 	sprintf(buf,"a");
-	snprintf(buf,2, "%s", "aaaaaa");
+	snprintf(buf,sizeof(buf), "%s", "aaaaaa");
 	memcpy(buf, "aaaa", 4*sizeof(char));
 	if (strcmp(buf, "aaaa")) {};
 	memset(buf, 0, 4*sizeof(char));

@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
 
 #ifdef os_windows_test
 #define MAX_USER_NAME	256
@@ -153,14 +154,16 @@ void DatabaseOutputDriver::vlog(TestOutputStream stream, const char *fmt,
 #endif
     if (NULL == dbout) {
       fprintf(stderr, "[%s:%u] - Error opening temp log file\n", __FILE__, __LINE__);
-    } else { // FIXME Check return values
+    } else {
       int count = vfprintf(dbout, fmt, args);
       fflush(dbout);
       fseek(dbout, 0, SEEK_SET);
-      char *buffer = new char[count];
-      fread(buffer, sizeof (char), count, dbout);
-      pretestLog.write(buffer, count);
-      delete [] buffer;
+      std::vector<char> buffer(count);
+      auto const nbytes = fread(buffer.data(), sizeof (char), count, dbout);
+      if(nbytes != buffer.size()) {
+        fprintf(stderr, "[%s:%u] - Read less than expected\n", __FILE__, __LINE__);
+      }
+      pretestLog.write(buffer.data(), count);
       fclose(dbout);
     }
   } else {
@@ -300,7 +303,10 @@ void DatabaseOutputDriver::writeSQLLog() {
        long size = ftell(fh);
        fseek(fh, 0, SEEK_SET);
        char *buffer = new char[size + 1];
-       fread(buffer, sizeof(char), size, fh);
+       if(fread(buffer, sizeof(char), size, fh) != size) {
+         fprintf(stderr, "[%s:%u] - Failed to fully read file\n",
+                 __FILE__, __LINE__);
+       }
        fclose(fh);
        buffer[size] = '\0';
 

@@ -130,7 +130,9 @@ void getInput(const char *filename, string& output)
    result = (char *) calloc(1024,sizeof(char));
    text = popen(filename, "r");
    // Wait for program to terminate
-   fscanf(text, "%s\n", result);
+   if(fscanf(text, "%s\n", result) != 0) {
+     output = "";
+   }
    pclose(text);
 
    output = result;

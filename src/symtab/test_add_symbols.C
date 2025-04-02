@@ -144,7 +144,10 @@ test_results_t test_add_symbols_Mutator::executeTest()
 
   // 2) Emit this into a tmpfile
   char *filename = strdup("./binaries/test_add_syms_XXXXXX");
-  mkstemp(filename);
+  if(mkstemp(filename) == -1) {
+    logerror("[%s:%u]: mkstemp failed to create '%s'\n", __FILE__, __LINE__, filename);
+    return FAILED;
+  }
   if (!symtab->emit(filename)) {
     logerror("[%s:%u]: failed to emit test to %s\n", __FILE__, __LINE__, filename);
     return FAILED;

@@ -82,7 +82,10 @@ static int readResult(int pid)
 	logerror("ERROR: unable to open output file %s\n", filename);
 	return FAILED;
     }
-    fscanf(fp, "%d\n", &ret);
+    if(fscanf(fp, "%d\n", &ret) == EOF) {
+      perror("Failed to read result from file");
+      ret = -1;
+    }
     fclose(fp);
     // don't need the file any longer so delete it now
     unlink(filename);
