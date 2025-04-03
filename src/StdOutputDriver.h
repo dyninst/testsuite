@@ -39,10 +39,10 @@
 
 class StdOutputDriver : public TestOutputDriver {
 protected:
-  std::map<TestOutputStream, std::string> streams;
-  std::map<std::string, std::string> *attributes;
-  TestInfo *last_test;
-  RunGroup *last_group;
+  std::map<TestOutputStream, std::string> streams{};
+  std::map<std::string, std::string> *attributes{};
+  TestInfo *last_test{};
+  RunGroup *last_group{};
 
   //Column widths
   static const int name_len = 26;
@@ -55,7 +55,7 @@ protected:
   static const int pic_len = 7;
   static const int pmode_len = 5;
 
-  bool printed_header;
+  bool printed_header{false};
   void printHeader(FILE *out);
   public:
   TESTLIB_DLL_EXPORT StdOutputDriver(void * data);
