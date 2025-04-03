@@ -61,7 +61,6 @@ extern "C" DLLEXPORT TestMutator* test_reloc_factory()
 // Start Test Case test_reloc
 //
 test_results_t test_reloc_Mutator::executeTest() {
-    const char *testname = "Relocate all functions in binary without any instrumentation";
 
     //Get all procedures from binary (only binary procuderes, not the ones in linked libraries too)
 
