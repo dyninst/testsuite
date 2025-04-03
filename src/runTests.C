@@ -253,7 +253,6 @@ int main(int argc, char *argv[])
    setupVars(useLog, logfile);
 
    setLibPath();
-   int numFailed = 0;
    bool failed = false;
    int invocation = 0;
 
@@ -279,7 +278,7 @@ int main(int argc, char *argv[])
    }
 
    test_drivers.resize(parallel_copies);
-   for (unsigned i=0; i<parallel_copies; i++) {
+   for (int i=0; i<parallel_copies; i++) {
       char unique_cs[32];
       int unique = i+1;
       snprintf(unique_cs, 32, "%d", unique);
@@ -425,7 +424,7 @@ int main(int argc, char *argv[])
       unlink(scriptname);
    }
    
-   for (unsigned i=0; i<parallel_copies; i++)
+   for (int i=0; i<parallel_copies; i++)
    {
       char s[32];
       snprintf(s, 32, "%d", i+1);
