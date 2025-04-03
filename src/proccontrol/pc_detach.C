@@ -41,7 +41,7 @@ extern "C" DLLEXPORT TestMutator* pc_detach_factory()
 }
 
 static bool signal_error = false;
-Process::cb_ret_t on_signal(Event::const_ptr ev)
+Process::cb_ret_t on_signal(Event::const_ptr)
 {
    //We should not see any of the signals if the detach worked
    logerror("Error. Recieved signal\n");
