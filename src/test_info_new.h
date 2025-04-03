@@ -96,20 +96,20 @@ class TestInfo {
   static int global_max_test_name_length;
 
 public:
-  const char *name;
-  const char *mutator_name;
-  const char *soname;
-  const char *label;
-  TestMutator *mutator;
-  bool disabled;
-  bool limit_disabled;
-  bool enabled;
-  unsigned int index;
-  unsigned int group_index;
+  const char *name{};
+  const char *mutator_name{};
+  const char *soname{};
+  const char *label{};
+  TestMutator *mutator{};
+  bool disabled{false};
+  bool limit_disabled{false};
+  bool enabled{false};
+  unsigned int index{};
+  unsigned int group_index{};
   
-  test_results_t results[NUM_RUNSTATES];
-  bool result_reported;
-  UsageMonitor usage;
+  test_results_t results[NUM_RUNSTATES]{};
+  bool result_reported{false};
+  UsageMonitor usage{};
   
   TESTLIB_DLL_EXPORT static int getMaxTestNameLength();
   TESTLIB_DLL_EXPORT static void setMaxTestNameLength(int newlen);
