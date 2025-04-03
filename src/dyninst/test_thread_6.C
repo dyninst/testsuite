@@ -101,7 +101,7 @@ template <typename Container> void clear(Container &c, std::mutex &m) {
   c.clear();
 }
 template <typename Container, typename Value>
-bool has_value(Container const &c, std::mutex &m, Value v) {
+bool has_value(Container const &, std::mutex &m, Value v) {
   std::lock_guard<std::mutex> l{m};
   for (auto const &p : tids) {
     if (p.second == v) {
@@ -272,7 +272,7 @@ static bool wait_thread_termination() {
   return true;
 }
 
-test_results_t test_thread_6_Mutator::mutatorTest(BPatch *bpatch) {
+test_results_t test_thread_6_Mutator::mutatorTest(BPatch *) {
   this->appProc->continueExecution();
 
   // Register callbacks for threads in this process
