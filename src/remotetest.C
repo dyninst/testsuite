@@ -170,8 +170,8 @@ static char *decodeGroup(RunGroup* &group, vector<RunGroup *> &groups, char *buf
    assert(strcmp(cur, GROUP_ARG) == 0);
    unsigned int group_index;
    cur = my_strtok(NULL, ":;");
-   sscanf(cur, "%d", &group_index);
-   assert(group_index >= 0 && group_index < groups.size());
+   sscanf(cur, "%u", &group_index);
+   assert(static_cast<size_t>(group_index) < groups.size());
    group = groups[group_index];
    return strchr(buffer, ';')+1;
 }
@@ -190,13 +190,13 @@ static char *decodeTest(TestInfo* &test, vector<RunGroup *> &groups, char *buffe
    unsigned int group_index, test_index;
 
    cur = my_strtok(NULL, ":;");
-   sscanf(cur, "%d", &group_index);
-   assert(group_index >= 0 && group_index < groups.size());
+   sscanf(cur, "%u", &group_index);
+   assert(static_cast<size_t>(group_index) < groups.size());
    RunGroup *group = groups[group_index];
 
    cur = my_strtok(NULL, ":;");
-   sscanf(cur, "%d", &test_index);
-   assert(test_index >= 0 && test_index < group->tests.size());
+   sscanf(cur, "%u", &test_index);
+   assert(static_cast<size_t>(test_index) < group->tests.size());
    
    test = group->tests[test_index];
 
@@ -575,8 +575,8 @@ RemoteTestFE *RemoteTestFE::createRemoteTestFE(TestInfo *t, Connection *c) {
 }
 
 RemoteBE::RemoteBE(vector<RunGroup *> &g, Connection *c) :
-   groups(g),
-   connection(c)
+   connection(c),
+   groups(g)
 {
 }
 
@@ -688,7 +688,7 @@ void RemoteBE::dispatchComp(char *message)
    ParameterDict params;
    RunGroup *group;
    TestInfo *test;
-   test_results_t result;
+   test_results_t result{};
    if (strcmp(tag, COMPONENT_PROGRAM_SETUP) == 0) {
       args = decodeParams(params, args);
       result = compbe->program_setup(params);
@@ -752,7 +752,7 @@ void RemoteBE::setenv_on_local(char *message)
    connection->send_message(buffer);
 }
 
-void RemoteBE::dispatchExit(char *message)
+void RemoteBE::dispatchExit(char *)
 {
    exit(0);
 }
@@ -858,17 +858,17 @@ void RemoteOutputDriver::startNewTest(std::map<std::string, std::string> &, Test
    assert(0); //Not expected to be called from BE
 }
 
-void RemoteOutputDriver::redirectStream(TestOutputStream stream, const char * filename)
+void RemoteOutputDriver::redirectStream(TestOutputStream, const char *)
 {
    assert(0); //Not expected to be called from BE   
 }
 
-void RemoteOutputDriver::logResult(test_results_t result, int stage)
+void RemoteOutputDriver::logResult(test_results_t, int)
 {
    assert(0); //Not expected to be called from BE
 }
 
-void RemoteOutputDriver::logCrash(std::string testname)
+void RemoteOutputDriver::logCrash(std::string)
 {
    assert(0); //Not expected to be called from BE
 }
@@ -1002,8 +1002,8 @@ bool sendGo(Connection *c) {
 }
 
 void handle_message(char *buffer) {
-   TestOutputStream stream;
-   std::string string;
+   TestOutputStream stream{};
+   std::string string{};
 
    buffer = decodeInt(stream, buffer);
    decodeString(string, buffer);
