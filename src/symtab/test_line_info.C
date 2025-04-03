@@ -68,14 +68,14 @@ public:
 	   }
 
 	   //  check for -1L because that's used in the default statement ctor.
-	   if ( (0 == s->startAddr()) || (-1L == s->startAddr()))
+	   if ( (0UL == s->startAddr()) || (static_cast<Offset>(-1L) == s->startAddr()))
 	   {
 		   logerror( "%s[%d]:  statement with NULL startAddr: %s[%d]: %lu\n", 
 				   FILE__, __LINE__, s->getFile().c_str(), s->getLine(), s->startAddr());
 		   return false;
 	   }
 	   //  check for -1L because that's used in the default statement ctor.
-	   if ( (0 == s->endAddr()) || (-1L == s->endAddr()))
+	   if ( (0UL == s->endAddr()) || (static_cast<Offset>(-1L) == s->endAddr()))
 	   {
 		   logerror( "%s[%d]:  statement with NULL endAddr: %s[%d]: %lu\n", 
 				   FILE__, __LINE__, s->getFile().c_str(), s->getLine(), s->endAddr());
