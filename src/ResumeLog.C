@@ -202,10 +202,16 @@ void parse_resumelog(std::vector<RunGroup *> &groups)
       assert(runstate_int >= 0 && runstate_int < NUM_RUNSTATES);
       runstate = (test_runstate_t) runstate_int;
 
-      res = fscanf(f, "%d\n", reinterpret_cast<int*>(&result));
-      if (res != 1) {
-         result = CRASHED;
+      {
+        int tmp{};
+        res = fscanf(f, "%d\n", &tmp);
+        if (res != 1) {
+           result = CRASHED;
+        } else {
+          result = static_cast<test_results_e>(tmp);
+        }
       }
+
       switch (runstate) {
          case test_setup_rs:
          case test_init_rs:
