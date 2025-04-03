@@ -81,7 +81,6 @@ static int msgid;
 
 static void prepareTestCase5(procType proc_type, BPatch_thread *thread, forkWhen when)
 {
-   static BPatchSnippetHandle *parSnippetHandle5;
    logerror("prepareTestCase5, %d, %p, %d\n",
 	    proc_type, thread, when);
    
@@ -115,8 +114,7 @@ static void prepareTestCase5(procType proc_type, BPatch_thread *thread, forkWhen
 
       BPatch_arithExpr expr7_5p(BPatch_plus, *var7_5p, BPatch_constExpr(9));
       BPatch_arithExpr b_expr7_5p(BPatch_assign, *var7_5p, expr7_5p);
-      parSnippetHandle5 =
-              thread->getProcess()->insertSnippet(b_expr7_5p, *point7_5p, BPatch_callBefore);
+      thread->getProcess()->insertSnippet(b_expr7_5p, *point7_5p, BPatch_callBefore);
    } else if(proc_type == Parent_p  &&  when == PostFork) {
        BPatch_image *parImage = thread->getProcess()->getImage();
 
@@ -146,14 +144,12 @@ static void prepareTestCase5(procType proc_type, BPatch_thread *thread, forkWhen
 
       BPatch_arithExpr a_expr7_5p(BPatch_plus, *var7_5p, BPatch_constExpr(11));
       BPatch_arithExpr b_expr7_5p(BPatch_assign, *var7_5p, a_expr7_5p);
-      parSnippetHandle5 =
-              thread->getProcess()->insertSnippet(b_expr7_5p, *point7_5p, BPatch_callBefore,
+      thread->getProcess()->insertSnippet(b_expr7_5p, *point7_5p, BPatch_callBefore,
 			       BPatch_lastSnippet);
 
       BPatch_arithExpr c_expr7_5p(BPatch_plus, *var7_5p, BPatch_constExpr(13));
       BPatch_arithExpr d_expr7_5p(BPatch_assign, *var7_5p, c_expr7_5p);
-      parSnippetHandle5 =
-              thread->getProcess()->insertSnippet(d_expr7_5p, *point7_5p, BPatch_callBefore);
+      thread->getProcess()->insertSnippet(d_expr7_5p, *point7_5p, BPatch_callBefore);
    } else if(proc_type == Child_p  &&  when == PostFork) {
        BPatch_image *childImage = thread->getProcess()->getImage();
 
@@ -183,13 +179,11 @@ static void prepareTestCase5(procType proc_type, BPatch_thread *thread, forkWhen
 
       BPatch_arithExpr a_expr7_5c(BPatch_plus, *var7_5c, BPatch_constExpr(5));
       BPatch_arithExpr b_expr7_5c(BPatch_assign, *var7_5c, a_expr7_5c);
-      parSnippetHandle5 =
-              thread->getProcess()->insertSnippet(b_expr7_5c, *point7_5c, BPatch_callBefore,
+      thread->getProcess()->insertSnippet(b_expr7_5c, *point7_5c, BPatch_callBefore,
 			      BPatch_lastSnippet);
       BPatch_arithExpr c_expr7_5c(BPatch_plus, *var7_5c, BPatch_constExpr(3));
       BPatch_arithExpr d_expr7_5c(BPatch_assign, *var7_5c, c_expr7_5c);
-      parSnippetHandle5 =
-              thread->getProcess()->insertSnippet(d_expr7_5c, *point7_5c, BPatch_callBefore);
+      thread->getProcess()->insertSnippet(d_expr7_5c, *point7_5c, BPatch_callBefore);
    }
 }
 
@@ -221,7 +215,7 @@ static void postForkFunc(BPatch_thread *parent, BPatch_thread *child)
 }
 
 /* And verify them when they exit */
-static void exitFunc(BPatch_thread *thread, BPatch_exitType exit_type) {
+static void exitFunc(BPatch_thread *thread, BPatch_exitType) {
     dprintf("Exit func called\n");
     if (thread == parentThread) {
         dprintf("Parent exit reached, checking...\n");
