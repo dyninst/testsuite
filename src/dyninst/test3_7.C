@@ -48,10 +48,10 @@
 
 #include "dyninst_comp.h"
 class test3_7_Mutator : public DyninstMutator {
-  BPatch_exitType expectedSignal;
-  int debugPrint;
-  char *pathname;
-  BPatch *bpatch;
+  BPatch_exitType expectedSignal{};
+  int debugPrint{};
+  char *pathname{};
+  BPatch *bpatch{};
 
 public:
   test3_7_Mutator();
@@ -63,8 +63,7 @@ extern "C" DLLEXPORT  TestMutator *test3_7_factory() {
   return new test3_7_Mutator();
 }
 
-test3_7_Mutator::test3_7_Mutator()
-  : pathname(NULL), bpatch(NULL) {
+test3_7_Mutator::test3_7_Mutator() {
   expectedSignal = ExitedViaSignal;
 }
 
@@ -120,8 +119,7 @@ test_results_t test3_7_Mutator::executeTest() {
     }
 
 	// Register a callback that we will use to check for done-ness
-    BPatchOneTimeCodeCallback oldCallback =
-        bpatch->registerOneTimeCodeCallback(test7_oneTimeCodeCallback);
+  bpatch->registerOneTimeCodeCallback(test7_oneTimeCodeCallback);
 
     dprintf("Letting mutatee processes run a short while (2s).\n");
     for (n=0; n<Mutatees; n++) appProc[n]->continueExecution();
