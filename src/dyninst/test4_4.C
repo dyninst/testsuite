@@ -46,13 +46,12 @@
 
 #include "dyninst_comp.h"
 class test4_4_Mutator : public DyninstMutator {
-  const unsigned int MAX_TEST;
-  BPatch *bpatch;
-  char *pathname;
-  int debugPrint;
+  BPatch *bpatch{};
+  char *pathname{};
+  int debugPrint{};
 
 public:
-  test4_4_Mutator();
+  test4_4_Mutator() = default;
   virtual bool hasCustomExecutionPath() { return true; }
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t executeTest();
@@ -62,16 +61,13 @@ extern "C" DLLEXPORT  TestMutator *test4_4_factory() {
   return new test4_4_Mutator();
 }
 
-test4_4_Mutator::test4_4_Mutator()
-  : MAX_TEST(4), bpatch(NULL), pathname(NULL), debugPrint(0) {
-}
-
 static bool passedTest;
 static int threadCount;
 static BPatch_process *mythreads[25];
 
 static BPatch_thread *test4Child;
 static BPatch_thread *test4Parent;
+constexpr auto MAX_TEST = 4;
 
 static void forkFunc(BPatch_thread *parent, BPatch_thread *child)
 {
