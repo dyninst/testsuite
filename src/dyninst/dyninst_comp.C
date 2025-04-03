@@ -131,7 +131,7 @@ test_results_t DyninstComponent::program_setup(ParameterDict &params)
    return PASSED;
 }
 
-test_results_t DyninstComponent::program_teardown(ParameterDict &params)
+test_results_t DyninstComponent::program_teardown(ParameterDict &)
 {
    delete bpatch;
    bpatch = NULL;
@@ -329,9 +329,7 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
       return PASSED;
    }
 
-   bool mutateeExitedViaSignal = false;
    if(appProc->terminationStatus() == ExitedViaSignal) {
-      mutateeExitedViaSignal = true;
       int signalNum = appProc->getExitSignal();
       getOutput()->log(LOGINFO, "Mutatee exited from signal 0x%x\n", signalNum);
    }
@@ -345,12 +343,12 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
    return UNKNOWN;
 }
 
-test_results_t DyninstComponent::test_setup(TestInfo *test, ParameterDict &parms)
+test_results_t DyninstComponent::test_setup(TestInfo *, ParameterDict &)
 {
    return PASSED;
 }
 
-test_results_t DyninstComponent::test_teardown(TestInfo *test, ParameterDict &parms)
+test_results_t DyninstComponent::test_teardown(TestInfo *test, ParameterDict &)
 {
     // Take care of the things the test can delete out from under us
     DyninstMutator* theMutator = dynamic_cast<DyninstMutator*>(test->mutator);
@@ -1230,7 +1228,7 @@ int instEffAddr(BPatch_addressSpace* as, const char* fname,
 
         }
         else {
-            for(int i = 0; i < (*res2).size(); i++)
+            for(unsigned int i = 0; i < (*res2).size(); i++)
             {
                 BPatch_Vector<BPatch_snippet*> listArgs2;
                 std::string insn = (*res2)[i]->getInsnAtPoint().format();
@@ -1351,13 +1349,13 @@ bool hasExtraUnderscores(const char *str)
 /* WARNING: This function is not thread safe. */
 const char *fixUnderscores(const char *str)
 {
-	static char buf[256];
+	static char buf[256]{};
 
 	assert( str );
 	assert( strlen(str) < sizeof(buf) );
 
 	while (*str == '_') ++str;
-	strncpy(buf, str, 256);
+	strncpy(buf, str, 255);
 
 	char *ptr = buf + strlen(buf) - 1;
 	while (ptr > buf && *ptr == '_') *(ptr--) = 0;
@@ -1556,7 +1554,7 @@ int letOriginalMutateeFinish(BPatch_process *appThread){
 
 	while( !appThread->isTerminated());
 
-	int retVal;
+	int retVal{};
 
 	if(appThread->terminationStatus() == ExitedNormally) {
 		retVal = appThread->getExitCode();
