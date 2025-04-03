@@ -275,7 +275,7 @@ bool Connection::recv_message(char* &buffer)
       return false;
    }
    msg_size = ntohl(enc_msg_size);
-   fprintf(stderr,"[%d] - Recv size of %lu, (encoded 0x%lx, result = %d)\n",
+   fprintf(stderr,"[%d] - Recv size of %lu, (encoded 0x%x, result = %d)\n",
                 getpid(), (unsigned long) msg_size, enc_msg_size, (int) result);
 
    assert(msg_size < (1024*1024)); //No message over 1MB--should be plenty
