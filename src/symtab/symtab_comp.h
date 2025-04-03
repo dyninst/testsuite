@@ -40,12 +40,12 @@
 
 class COMPLIB_DLL_EXPORT SymtabMutator : public TestMutator {
   protected:
-   create_mode_t createmode;
-   std::string mutatee;
-   std::string compiler;
+   create_mode_t createmode{};
+   std::string mutatee{};
+   std::string compiler{};
  public:
-   Dyninst::SymtabAPI::Symtab *symtab;
-   SymtabMutator();
+   Dyninst::SymtabAPI::Symtab *symtab{};
+   SymtabMutator() = default;
    virtual test_results_t setup(ParameterDict &param);
    virtual ~SymtabMutator();
 };
