@@ -43,11 +43,18 @@ using namespace std;
 
 #include <sys/time.h>
 #include <sys/resource.h>
-#define log_printf(str, args...) do { if (getDebugLog()) { fprintf(getDebugLog(), str, args); fflush(getDebugLog()); } } while (0)
+
+template <typename... Args>
+static void log_printf(char const* str, Args... args) {
+  if(getDebugLog()) {
+    fprintf(getDebugLog(), str, args...);
+    fflush(getDebugLog());
+  }
+}
 
 static void getPortHostnameFD(int argc, char *argv[], int &port, std::string &hostname, int &fd)
 {
-   for (unsigned i=0; i<argc; i++) {
+   for (int i=0; i<argc; i++) {
       if (strcmp(argv[i], "-hostname") == 0) {
          hostname = argv[++i];
       }
@@ -68,9 +75,9 @@ int be_main(int argc, char *argv[])
    struct rlimit infin;
    infin.rlim_cur = RLIM_INFINITY;
    infin.rlim_max = RLIM_INFINITY;
-   int result = setrlimit(RLIMIT_CORE, &infin);
+   setrlimit(RLIMIT_CORE, &infin);
 
-   int port;
+   int port{};
    string hostname;
    int fd = -1;
    getPortHostnameFD(argc, argv, port, hostname, fd);
