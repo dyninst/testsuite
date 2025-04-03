@@ -137,10 +137,10 @@ class TESTLIB_DLL_EXPORT RemoteTestFE : public TestMutator {
 
 class TESTLIB_DLL_EXPORT RemoteBE {
   private:
-   Connection *connection;
+   Connection *connection{};
    std::vector<RunGroup *> &groups;
-   std::map<std::string, ComponentTester *> nameToComponent;
-   std::map<std::pair<int, int>, TestMutator *> testToMutator;
+   std::map<std::string, ComponentTester *> nameToComponent{};
+   std::map<std::pair<int, int>, TestMutator *> testToMutator{};
 
    void dispatchComp(char *message);
    void dispatchTest(char *message);
