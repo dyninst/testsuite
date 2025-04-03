@@ -170,7 +170,7 @@ test_results_t pc_thread_contMutator::executeTest()
                error = true;
            }
 
-           if( (*i)->threads().size() != comp->num_threads+1 ) {
+           if( (*i)->threads().size() != static_cast<size_t>(comp->num_threads+1) ) {
                logerror("Unexpected size of thread pool\n");
                error = true;
            }
@@ -218,7 +218,7 @@ test_results_t pc_thread_contMutator::executeTest()
        }
 
        // Continue a single thread and wait for it to exit
-       for (unsigned j=0; j < comp->num_threads; j++) {
+       for (int j=0; j < comp->num_threads; j++) {
 
           for (i = comp->procs.begin(); i != comp->procs.end(); i++) {
              Process::ptr proc = *i;
