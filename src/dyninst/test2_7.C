@@ -54,6 +54,7 @@ extern "C" DLLEXPORT  TestMutator *test2_7_factory() {
   return new test2_7_Mutator();
 }
 
+#if defined(os_windows_test)
 static void lcase(char *s) {
     while (*s) {
         if (*s >= 'A' && *s <= 'Z')
@@ -61,6 +62,7 @@ static void lcase(char *s) {
         s++;
     }
 }
+#endif
 
 // static int mutatorTest(BPatch_thread *thread, BPatch_image *img)
 test_results_t test2_7_Mutator::executeTest() {
@@ -90,8 +92,8 @@ test_results_t test2_7_Mutator::executeTest() {
 	BPatch_Vector<BPatch_object *> obj;
 	appImage->getObjects(obj);
 	for (auto i = obj.begin(); i != obj.end(); i++) {
-		char name[80];
-		strncpy(name, (*i)->name().c_str(), 80);
+		char name[80]{};
+		strncpy(name, (*i)->name().c_str(), sizeof(name) - 1UL);
 #if defined(os_windows_test)
         //Windows files don't have case sensitive names, so make
         //sure we have a consistent name.
