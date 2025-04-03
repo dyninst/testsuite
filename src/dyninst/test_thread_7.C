@@ -45,18 +45,18 @@
 
 class test_thread_7_Mutator : public DyninstMutator {
 protected:
-  BPatch *bpatch;
-  bool create_proc;
-  char *filename;
-  BPatch_process *proc;
-  const char *args[MAX_ARGS];
-  unsigned num_args;
+  BPatch *bpatch{};
+  bool create_proc{true};
+  char *filename{};
+  BPatch_process *proc{};
+  const char *args[MAX_ARGS]{};
+  unsigned num_args{};
 
   BPatch_process *getProcess();
   void instr_func(BPatch_function *func, BPatch_function *lvl1func);
 
 public:
-  test_thread_7_Mutator();
+  test_thread_7_Mutator() = default;
   virtual bool hasCustomExecutionPath() { return true; }
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t executeTest();
@@ -65,15 +65,10 @@ extern "C" DLLEXPORT TestMutator *test_thread_7_factory() {
   return new test_thread_7_Mutator();
 }
 
-test_thread_7_Mutator::test_thread_7_Mutator()
-  : bpatch(NULL), create_proc(true), filename(NULL), num_args(0) {
-}
-
 // static FILE *outlog = NULL;
 // static FILE *errlog = NULL;
 
 
-static bool debug_flag = true;
 #define dprintf if (debug_flag) fprintf
 
 void test_thread_7_Mutator::instr_func(BPatch_function *func,
