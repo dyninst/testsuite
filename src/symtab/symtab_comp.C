@@ -43,12 +43,12 @@ SymtabComponent::~SymtabComponent()
 {
 }
 
-test_results_t SymtabComponent::program_setup(ParameterDict &params)
+test_results_t SymtabComponent::program_setup(ParameterDict &)
 {
    return PASSED;
 }
 
-test_results_t SymtabComponent::program_teardown(ParameterDict &params)
+test_results_t SymtabComponent::program_teardown(ParameterDict &)
 {
    return PASSED;
 }
@@ -85,18 +85,18 @@ test_results_t SymtabComponent::group_setup(RunGroup *group, ParameterDict &para
    return PASSED;
 }
 
-test_results_t SymtabComponent::group_teardown(RunGroup *group, ParameterDict &params)
+test_results_t SymtabComponent::group_teardown(RunGroup *, ParameterDict &)
 {
    symtab = NULL;
    return PASSED;
 }
 
-test_results_t SymtabComponent::test_setup(TestInfo *test, ParameterDict &params)
+test_results_t SymtabComponent::test_setup(TestInfo *, ParameterDict &)
 {
    return PASSED;
 }
 
-test_results_t SymtabComponent::test_teardown(TestInfo *test, ParameterDict &params)
+test_results_t SymtabComponent::test_teardown(TestInfo *, ParameterDict &)
 {
    return PASSED;
 }
@@ -108,11 +108,6 @@ test_results_t SymtabMutator::setup(ParameterDict &param)
    //mutatee = std::string((const char *)param["mutatee"]->getString());
    compiler = std::string((const char *)param["compiler"]->getString());
    return PASSED;
-}
-
-SymtabMutator::SymtabMutator() :
-   symtab(NULL)
-{
 }
 
 SymtabMutator::~SymtabMutator()
