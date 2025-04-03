@@ -46,7 +46,6 @@
 
 #include "dyninst_comp.h"
 class test4_3_Mutator : public DyninstMutator {
-  const unsigned int MAX_TEST;
   BPatch *bpatch;
   char *pathname;
 
@@ -62,20 +61,20 @@ extern "C" DLLEXPORT  TestMutator *test4_3_factory() {
 }
 
 test4_3_Mutator::test4_3_Mutator()
-  : MAX_TEST(4), bpatch(NULL), pathname(NULL) {
+  : bpatch(NULL), pathname(NULL) {
 }
 
 static bool passedTest = false;
 static int threadCount = 0;
 static BPatch_process *mythreads[25];
 static int debugPrint_;
+constexpr auto MAX_TEST = 4;
 
 static void forkFunc(BPatch_thread *parent, BPatch_thread *child)
 {
   // I think this test should set failure in the fork callback.  The test4_3
   // mutatee doesn't call fork..
     dprintf("forkFunc called with parent %p, child %p\n", parent, child);
-    BPatch_image *appImage;
     BPatch_Vector<BPatch_function *> bpfv;
     BPatch_Vector<BPatch_snippet *> nullArgs;
 
