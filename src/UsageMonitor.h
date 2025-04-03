@@ -29,6 +29,7 @@ class UsageMonitor
 
 public:
     TESTLIB_DLL_EXPORT UsageMonitor();
+    TESTLIB_DLL_EXPORT UsageMonitor(UsageMonitor const&) = default;
     TESTLIB_DLL_EXPORT void start();
     TESTLIB_DLL_EXPORT void end();
     TESTLIB_DLL_EXPORT void clear();
