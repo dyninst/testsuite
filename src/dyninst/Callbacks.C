@@ -89,9 +89,10 @@ void errorFunc(BPatchErrorLevel level, int num, const char * const *params)
           if ( expectErrors ) {
             dprintf("Error (expected) #%d (level %d): %s\n", num, level, line);
           } else {
-            if(num != 112)
+            if(num != 112) {
                if ( errorPrint )
                   printf("Error #%d (level %d): %s\n", num, level, line);
+            }
         
                // We consider some errors fatal.
                if (num == 101) {
