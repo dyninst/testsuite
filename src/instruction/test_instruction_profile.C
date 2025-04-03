@@ -111,7 +111,7 @@ test_results_t test_instruction_profile_Mutator::executeTest()
     return SKIPPED;
 #endif
 
-    long offset = 0;
+    uint64_t offset = 0;
 
     // simulate parsing via vector-per-basic-block
     while(offset < (*curReg)->getDiskSize() - InstructionDecoder::maxInstructionLength)
