@@ -45,26 +45,21 @@
 
 #include "dyninst_comp.h"
 class test1_41_Mutator : public DyninstMutator {
-  BPatch_exitType expectedSignal;
-  int debugPrint;
-  const int iterations;
-  char *pathname;
-  BPatch *bpatch;
+  BPatch_exitType expectedSignal{ExitedNormally};
+  int debugPrint{};
+  const int iterations{2};
+  char *pathname{};
+  BPatch *bpatch{};
   
   virtual bool hasCustomExecutionPath() { return true; }
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t executeTest();
 
 public:
-  test1_41_Mutator();
+  test1_41_Mutator() = default;
 };
 extern "C" DLLEXPORT  TestMutator *test1_41_factory() {
   return new test1_41_Mutator();
-}
-
-test1_41_Mutator::test1_41_Mutator()
-  : expectedSignal(ExitedNormally), iterations(2) {
-  TestMutator();
 }
 
 // static int mutatorTest(char *pathname, BPatch *bpatch)
