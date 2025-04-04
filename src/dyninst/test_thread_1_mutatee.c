@@ -77,13 +77,13 @@ static void *thread_main1(void *arg) {
   canary = id;
 
   // Introduce some noise
-  pthread_yield();
+  sched_yield();
 
   if (canary != id)
     subtest1err = 1;
 
   canary = id;
-  pthread_yield();
+  sched_yield();
 
   DYNINSTunlock_thelock(&test1lock);
 

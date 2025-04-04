@@ -443,7 +443,10 @@ void setupVars(bool useLog, string &logfile)
       {
          cout << testslogdir << "does not exist (yet)!" << endl;
          cmd = "mkdir -p " + testslogdir;
-         system(cmd.c_str());
+         if(system(cmd.c_str()) != 0) {
+           cout << cmd << " failed\n";
+           exit(1);
+         }
          if ( ! isDir(testslogdir) )
          {
             cout << testslogdir << " creation failed - aborting!" << endl;
@@ -460,7 +463,10 @@ void setupVars(bool useLog, string &logfile)
       else
       {
          cmd = "touch " + logfile;
-         system(cmd.c_str());
+         if(system(cmd.c_str()) != 0) {
+           cout << cmd << " failed\n";
+           exit(1);
+         }
       }
    
       cmd = logfile + ".gz";

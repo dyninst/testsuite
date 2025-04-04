@@ -30,12 +30,17 @@
 
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <sstream>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
+
+#include <boost/date_time.hpp>
+
 
 #ifdef os_windows_test
 #define MAX_USER_NAME	256
@@ -153,14 +158,16 @@ void DatabaseOutputDriver::vlog(TestOutputStream stream, const char *fmt,
 #endif
     if (NULL == dbout) {
       fprintf(stderr, "[%s:%u] - Error opening temp log file\n", __FILE__, __LINE__);
-    } else { // FIXME Check return values
+    } else {
       int count = vfprintf(dbout, fmt, args);
       fflush(dbout);
       fseek(dbout, 0, SEEK_SET);
-      char *buffer = new char[count];
-      fread(buffer, sizeof (char), count, dbout);
-      pretestLog.write(buffer, count);
-      delete [] buffer;
+      std::vector<char> buffer(count);
+      auto const nbytes = fread(buffer.data(), sizeof (char), count, dbout);
+      if(nbytes != buffer.size()) {
+        fprintf(stderr, "[%s:%u] - Read less than expected\n", __FILE__, __LINE__);
+      }
+      pretestLog.write(buffer.data(), count);
       fclose(dbout);
     }
   } else {
@@ -259,79 +266,69 @@ void DatabaseOutputDriver::finalizeOutput() {
 // It writes the test results to a log file that can be read or later
 // resubmitted to the database
 void DatabaseOutputDriver::writeSQLLog() {
-   static volatile int recursion_guard = 0;
-   assert(!recursion_guard);
-   recursion_guard = 1;
+  static volatile int recursion_guard = 0;
+  assert(!recursion_guard);
+  recursion_guard = 1;
 
-   FILE *out;
-   out = fopen(sqlLogFilename.c_str(), "a");
-   assert(out);
+  std::ofstream sql_log(sqlLogFilename, std::ofstream::app);
+  if(!sql_log) {
+   std::cerr << "Failed to open SQL log file '" << sqlLogFilename << "'\n";
+   return;
+  }
 
-   // 1. Write a test label to the file
-   time_t rawtime;
-   struct tm * timeinfo;
+  auto datetime = []() {
+   namespace bg = boost::gregorian;
+   namespace bp = boost::posix_time;
+   auto date = bg::day_clock::universal_day();
+   auto time = bp::second_clock::universal_time();
+   return to_iso_extended_string(date) + " " + to_iso_extended_string(time);
+  }();
 
-   time(&rawtime);
-   timeinfo = localtime(&rawtime);
+  sql_log << "BEGIN TEST\n" << datetime << '\n';
 
-   fprintf(out, "BEGIN TEST\n");
-   fprintf(out, "%4d-%02d-%02d %02d:%02d:%02d\n", timeinfo->tm_year + 1900,
-           timeinfo->tm_mon + 1, timeinfo->tm_mday, timeinfo->tm_hour,
-           timeinfo->tm_min, timeinfo->tm_sec);
+  sql_log << "{";
+  if(attributes) {
+    bool first = true;
+    for(auto const &attr : *attributes) {
+      if(!first) sql_log << ", ";
+      sql_log << std::get<0>(attr) << ": " << std::get<1>(attr);
+      first = false;
+    }
+  }
+  sql_log << "}\n";
 
-   fprintf(out, "{");
-   std::map<std::string, std::string>::iterator iter;
-   for (iter = attributes->begin(); iter != attributes->end(); iter++) {
-       fprintf(out, "%s: %s", iter->first.c_str(), iter->second.c_str());
-       std::map<std::string, std::string>::iterator testiter = iter;
-       if (++testiter != attributes->end()) {
-           fprintf(out, ", ");
-       }
-   }
-   fprintf(out, "}\n");
+  std::ifstream db_log(dblogFilename);
+  if(!db_log) {
+   std::cerr << "Failed to open database log file '" << dblogFilename << "'\n';";
+   return;
+  }
 
-   std::string buf;
-   FILE *fh = fopen(dblogFilename.c_str(), "rb");
-   if (!fh) {
-       fprintf(stderr, "[%s:%u] - Error opening file: %s\n", 
-               __FILE__, __LINE__, dblogFilename.c_str());
-   } else {
-       fseek(fh, 0, SEEK_END);
-       long size = ftell(fh);
-       fseek(fh, 0, SEEK_SET);
-       char *buffer = new char[size + 1];
-       fread(buffer, sizeof(char), size, fh);
-       fclose(fh);
-       buffer[size] = '\0';
+  auto data = std::string(std::istream_iterator<char>(db_log),{});
 
-       //remove trailing whitespace from buffer
-       buf = std::string(buffer);
-       size_t found = buf.find_last_not_of(" \t\f\v\n\r");
-       if (found != std::string::npos)
-           buf.erase(found + 1);
-       else
-           buf.clear();
+  //remove trailing whitespace
+  size_t found = data.find_last_not_of(" \t\f\v\n\r");
+  if(found != std::string::npos)
+    data.erase(found + 1);
+  else
+    data.clear();
 
-       fprintf(out, "%s", buf.c_str());
-       delete [] buffer;
-   }
-   if (buf.rfind("RESULT:") == std::string::npos) {
-       fprintf(out, "\nRESULT: %d", result);
-       if (currTest && currTest->usage.has_data()) {
-           fprintf(out, "\nCPU: %ld.%06ld\nMEMORY: %ld",
-                   currTest->usage.cpuUsage().tv_sec,
-                   currTest->usage.cpuUsage().tv_usec,
-                   currTest->usage.memUsage());
-       }
-   }
-   fprintf(out, "\n\n");
+  sql_log << data;
 
-   fflush(out);
-   fclose(out);
+  if(data.rfind("RESULT:") == std::string::npos) {
+    sql_log << "\nRESULT: " << result;
+    if(currTest && currTest->usage.has_data()) {
+      // %ld.%06ld
+      auto const& usage = currTest->usage;
+      sql_log << "\nCPU: " << usage.cpuUsage().tv_sec
+              << "." << std::setw(6) << std::setfill('0') << usage.cpuUsage().tv_usec
+              << "MEMORY: " << currTest->usage.memUsage();
+    }
+  }
+  sql_log << "\n\n";
 
-   unlink(dblogFilename.c_str());
-   dblogFilename.clear();
-   recursion_guard = 0;
+  unlink(dblogFilename.c_str());
+  dblogFilename.clear();
+  recursion_guard = 0;
 }
 
 void DatabaseOutputDriver::getMutateeArgs(std::vector<std::string> &args) {

@@ -68,7 +68,10 @@ static pid_t fork_mutatee() {
    pid_t gchild_pid, child_pid;
    int filedes[2];
 
-   pipe(filedes);
+   if(pipe(filedes) == -1) {
+     perror("Failed to fork mutatee");
+     return pid_t{};
+   }
 
    child_pid = fork();
    if (child_pid < 0) { // This is an error

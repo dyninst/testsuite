@@ -74,7 +74,10 @@
 #define TESTLIB_DLL_EXPORT __attribute__((visibility ("default")))
 #define TEST_DLL_EXPORT __attribute__((visibility ("default")))
 #define COMPLIB_DLL_EXPORT __attribute__((visibility ("default")))
+
+#ifndef DLLEXPORT
 #define DLLEXPORT __attribute__((visibility ("default")))
+#endif
 #endif /* _MSC_VER */
 
 #endif /* TEST_LIB_DLL_H */
