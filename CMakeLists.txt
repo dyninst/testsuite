@@ -105,7 +105,7 @@ if(UNIX)
               src/test_lib_soExecution.C
               ${LIBTESTSUITE_COMMON_SRCS})
   add_library(testlaunch SHARED ${LIBTESTLAUNCH_SRCS})
-	target_link_libraries(testlaunch testSuite)
+	target_link_libraries(testlaunch testSuite Dyninst::Boost)
   set(TESTSUITE_TESTLAUNCH_LINK testSuite testlaunch)
 else()
   add_library(testSuite
@@ -122,7 +122,7 @@ set_target_properties(${TESTSUITE_TESTLAUNCH_LINK}
 target_link_libraries(testSuite ${CMAKE_DL_LIBS})
 
 add_library(DatabaseOutputDriver SHARED src/DatabaseOutputDriver.C)
-target_link_libraries(DatabaseOutputDriver testSuite)
+target_link_libraries(DatabaseOutputDriver testSuite Dyninst::Boost)
 set_target_properties(DatabaseOutputDriver PROPERTIES PREFIX "")
 
 if(WIN32)
