@@ -249,14 +249,6 @@ TEST_DLL_EXPORT ComponentTester *componentTesterFactory()
    return (ComponentTester *) new ProcControlComponent();
 }
 
-ProcControlMutator::ProcControlMutator()
-{
-}
-
-ProcControlMutator::~ProcControlMutator()
-{
-}
-
 test_results_t ProcControlMutator::setup(ParameterDict &param)
 {
    comp = (ProcControlComponent *) param["ProcControlComponent"]->getPtr();
@@ -268,13 +260,7 @@ test_results_t ProcControlMutator::pre_init(ParameterDict &param)
    return PASSED;
 }
 
-ProcControlComponent::ProcControlComponent() :
-   sockfd(0),
-   sockname(NULL),
-   notification_fd(-1),
-   num_processes(0),
-   num_threads(0)
-{
+ProcControlComponent::ProcControlComponent() {
    notification_fd = evNotify()->getFD();
 #if defined(os_windows_test)
    WORD wsVer = MAKEWORD(2,2);
