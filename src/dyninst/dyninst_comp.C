@@ -53,25 +53,25 @@ using namespace std;
 class DyninstComponent : public ComponentTester
 {
 private:
-   BPatch *bpatch;
-   char *libRTname;
-   char *libRTname_m_abi;
-   std::string err_msg;
+   BPatch *bpatch{};
+   char *libRTname{};
+   char *libRTname_m_abi{};
+   std::string err_msg{};
 
-   ParamPtr bpatch_ptr;
-   ParamPtr bp_appThread;
-   ParamPtr bp_appAddrSpace;
-   ParamPtr bp_appProc;
-   ParamPtr bp_appBinEdit;
+   ParamPtr bpatch_ptr{};
+   ParamPtr bp_appThread{};
+   ParamPtr bp_appAddrSpace{};
+   ParamPtr bp_appProc{};
+   ParamPtr bp_appBinEdit{};
 
-   ParamInt is_xlc;
-   BPatch_thread *appThread;
-   BPatch_addressSpace *appAddrSpace;
-   BPatch_process *appProc;
-   BPatch_binaryEdit *appBinEdit;
+   ParamInt is_xlc{false};
+   BPatch_thread *appThread{};
+   BPatch_addressSpace *appAddrSpace{};
+   BPatch_process *appProc{};
+   BPatch_binaryEdit *appBinEdit{};
 
 public:
-   DyninstComponent();
+   DyninstComponent() = default;
    virtual test_results_t program_setup(ParameterDict &params);
    virtual test_results_t program_teardown(ParameterDict &params);
    virtual test_results_t group_setup(RunGroup *group, ParameterDict &params);
@@ -81,21 +81,12 @@ public:
 
    virtual std::string getLastErrorMsg();
 
-   virtual ~DyninstComponent();
+   virtual ~DyninstComponent() = default;
 };
 
 bool isMutateeMABI32(const char *name);
 bool isMutateeXLC(const char *name);
 
-DyninstComponent::DyninstComponent() :
-   bpatch(NULL),
-   libRTname(NULL),
-   libRTname_m_abi(NULL),
-   bp_appThread(NULL),
-   is_xlc(0),
-   appThread(NULL)
-{
-}
 
 test_results_t DyninstComponent::program_setup(ParameterDict &params)
 {
@@ -412,23 +403,6 @@ extern "C" {
 
 COMPLIB_DLL_EXPORT ComponentTester *componentTesterFactory() {
    return new DyninstComponent();
-}
-
-DyninstComponent::~DyninstComponent()
-{
-}
-
-// All the constructor does is set the instance fields to NULL
-DyninstMutator::DyninstMutator() :
-    appThread(NULL),
-	appAddrSpace(NULL),
-	appBinEdit(NULL),
-	appProc(NULL),
-    appImage(NULL)
-{
-}
-
-DyninstMutator::~DyninstMutator() {
 }
 
 // Standard setup; this does the setup for the "simple" class of tests.
