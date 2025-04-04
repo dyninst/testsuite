@@ -34,9 +34,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern FILE *outlog;
-extern FILE *errlog;
-
 #if !defined(os_windows_test)
 #include <sys/types.h>
 #include <errno.h>
