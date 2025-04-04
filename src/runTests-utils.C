@@ -237,7 +237,9 @@ test_pid_t RunTest(unsigned int iteration, bool useLog, bool staticTests,
    return child_pid;
 }
 
+#if defined(m_abi)
 string ReplaceAllWith(const string &in, const string &replace, const string &with);
+#endif
 
 std::vector<std::string> generateTestArgs(bool resume, bool useLog,
                       bool staticTests, string logfile, int testLimit,
