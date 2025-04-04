@@ -88,8 +88,6 @@ char **gargv;
 void initModuleIfNecessary(RunGroup *group, std::vector<RunGroup *> &groups, 
                            ParameterDict &params);
 
-bool collectInvocation(Dyninst::PID mpirun_pid, int session);
-
 int setupLogs(ParameterDict &params);
 
 #if !defined(os_windows_test)
