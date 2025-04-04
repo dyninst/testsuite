@@ -163,6 +163,7 @@ bool Connection::recv_return(char* &buffer) {
          handle_message(msg+2);
       }
    }
+   return false;
 }
 
 int Connection::sockfd = -1;
@@ -216,11 +217,6 @@ bool Connection::hasError()
 
 #define SOCKTYPE_UNIX
 
-#if defined(CONNECTION_DEBUG)
-#define debug_printf(str, ...) do { if (getDebugLog()) { fprintf(getDebugLog(), str, ## __VA_ARGS__); fflush(getDebugLog()); } } while (0)
-#else
-#define debug_printf(str, args...)
-#endif
 #include <sys/time.h>
 #include <sys/select.h>
 #include <sys/socket.h>
@@ -240,31 +236,17 @@ bool Connection::send_message(MessageBuffer &buffer)
 
    ssize_t result = send(fd, &msg_size, sizeof(uint32_t), 0);
    if (result == -1) {
-      debug_printf("[%s:%u] - Error sending data count on socket\n", __FILE__, __LINE__);
+      fprintf(stderr,"[%s:%u] - Error sending data count on socket\n", __FILE__, __LINE__);
       return false;
    }
-   debug_printf("[%d] - Send size of %lu, (encoded 0x%lx)\n", 
+   fprintf(stderr,"[%d] - Send size of %lu, (encoded 0x%lx)\n",
            getpid(), (unsigned long) msg_size_unenc, (unsigned long) msg_size);
    
    result = send(fd, buffer.get_buffer(), msg_size_unenc, 0);
    if (result == -1) {
-     debug_printf("[%s:%u] - Error sending raw data on socket\n", __FILE__, __LINE__);
+     fprintf(stderr,"[%s:%u] - Error sending raw data on socket\n", __FILE__, __LINE__);
       return false;
    }
-#if defined(CONNECTION_DEBUG)
-   if (getDebugLog()) {
-      debug_printf("[%d] - Sent buffer ", getpid());
-      char *c = buffer.get_buffer();
-      for (unsigned i=0; i<buffer.get_buffer_size(); i++) {
-         if (*c == '\0')
-            debug_printf(" ");
-         else
-            debug_printf("%c", *c);
-         c++;
-      }
-      debug_printf("\n");
-   }
-#endif
    return true;
 }
 
@@ -277,7 +259,7 @@ bool Connection::recv_message(char* &buffer)
    if (!waitForAvailData(fd, recv_timeout, sock_error))
       return false;
    if (sock_error) {
-     debug_printf("[%d] - Recv sock exception\n", getpid());
+     fprintf(stderr,"[%d] - Recv sock exception\n", getpid());
    }
    
    uint32_t msg_size = 0, enc_msg_size = 0;
@@ -285,15 +267,15 @@ bool Connection::recv_message(char* &buffer)
    result = recv(fd, &enc_msg_size, sizeof(uint32_t), MSG_WAITALL);
    if (result == -1) {
       int errornum = errno;
-      debug_printf("Error receiving data size on socket: %s\n", strerror(errornum));
+      fprintf(stderr,"Error receiving data size on socket: %s\n", strerror(errornum));
       return false;
    }
    if (result == 0) {
-      debug_printf("[%d] - Recv zero, other side shutdown.\n", getpid());
+      fprintf(stderr,"[%d] - Recv zero, other side shutdown.\n", getpid());
       return false;
    }
    msg_size = ntohl(enc_msg_size);
-   debug_printf("[%d] - Recv size of %lu, (encoded 0x%lx, result = %d)\n",
+   fprintf(stderr,"[%d] - Recv size of %lu, (encoded 0x%lx, result = %d)\n",
                 getpid(), (unsigned long) msg_size, enc_msg_size, (int) result);
 
    assert(msg_size < (1024*1024)); //No message over 1MB--should be plenty
@@ -315,25 +297,11 @@ bool Connection::recv_message(char* &buffer)
 
    result = recv(fd, cur_buffer, msg_size, MSG_WAITALL);
    if (result == -1) {
-      debug_printf("[%s:%u] - Error receiving data on socket\n", __FILE__, __LINE__);
+      fprintf(stderr,"[%s:%u] - Error receiving data on socket\n", __FILE__, __LINE__);
       return false;
    }
 
    buffer = cur_buffer;
-#if defined(CONNECTION_DEBUG)
-   if (getDebugLog()) {
-      debug_printf("[%d] - Recv of buffer ", getpid());
-      char *c = cur_buffer;
-      for (unsigned i=0; i<msg_size; i++) {
-         if (*c == '\0')
-            debug_printf(" ");
-         else
-            debug_printf("%c", *c);
-         c++;
-      }
-      debug_printf("\n");
-   }
-#endif
    return true;
 }
 
@@ -354,16 +322,16 @@ bool Connection::waitForAvailData(int sock, int timeout_s, bool &sock_error)
    sock_error = false;
 
    for (;;) {
-      debug_printf("Waiting for available data on fd %d\n", sock);
+      fprintf(stderr,"Waiting for available data on fd %d\n", sock);
       int result = select(sock+1, &readfds, &writefds, &exceptfds, &timeout);
       if (result == -1 && errno == EINTR) 
          continue;
       else if (result == -1) {
-         debug_printf("[%s:%u] - Error selecting to accept connections\n", __FILE__, __LINE__);
+         fprintf(stderr,"[%s:%u] - Error selecting to accept connections\n", __FILE__, __LINE__);
          return false;
       }
       else if (result == 0) {
-         debug_printf("[%s:%u] - Timeout accepting connections\n", __FILE__, __LINE__);
+         fprintf(stderr,"[%s:%u] - Timeout accepting connections\n", __FILE__, __LINE__);
          return false;
       }
       else if (result >= 1) {
@@ -384,6 +352,7 @@ bool Connection::waitForAvailData(int sock, int timeout_s, bool &sock_error)
          assert(0);
       }
    }
+   return false;
 }
 
 bool Connection::server_accept()
@@ -392,7 +361,7 @@ bool Connection::server_accept()
    socklen_t socklen = sizeof(struct sockaddr_in);
    bool sock_error;
 
-   debug_printf("[%s:%u] - server_accept waiting for connection\n", __FILE__, __LINE__);
+   fprintf(stderr,"[%s:%u] - server_accept waiting for connection\n", __FILE__, __LINE__);
    if (!waitForAvailData(sockfd, accept_timeout, sock_error))
       return false;
        
@@ -400,26 +369,26 @@ bool Connection::server_accept()
 
    fd = accept(sockfd, (sockaddr *) &addr, &socklen);
    if (fd == -1) {
-     debug_printf("[%s:%u] - Error accepting connection\n", __FILE__, __LINE__);
+     fprintf(stderr,"[%s:%u] - Error accepting connection\n", __FILE__, __LINE__);
       return false;
    }
-   debug_printf("server_accept recieved new connection on fd %d\n", fd);
+   fprintf(stderr,"server_accept recieved new connection on fd %d\n", fd);
    
    return true;
 }
 
 bool Connection::client_connect()
 {
-   debug_printf("Trying client_connect to %s:%d\n", hostname.c_str(), port);
+   fprintf(stderr,"Trying client_connect to %s:%d\n", hostname.c_str(), port);
 
    assert(has_hostport);
    fd = socket(PF_INET, SOCK_STREAM, 0);
    if (fd == -1) {
-      debug_printf("Unable to create client socket: %s\n", strerror(errno));
+      fprintf(stderr,"Unable to create client socket: %s\n", strerror(errno));
       return false;
    }
 
-   debug_printf("Trying to get hostname for %s\n", hostname.c_str());
+   fprintf(stderr,"Trying to get hostname for %s\n", hostname.c_str());
    struct addrinfo *ai, *p;
    struct addrinfo hints;
  
@@ -431,13 +400,13 @@ bool Connection::client_connect()
  
    string portstr = std::to_string(port);
    if (getaddrinfo(hostname.c_str(), portstr.c_str(), &hints, &ai)) {
-      debug_printf("Error looking up hostname %s\n", hostname.c_str());
+      fprintf(stderr,"Error looking up hostname %s\n", hostname.c_str());
       return false;
    }
 
-   debug_printf("Got a size %d address for hostname %s\n", ai->ai_addrlen, hostname.c_str());
+   fprintf(stderr,"Got a size %d address for hostname %s\n", ai->ai_addrlen, hostname.c_str());
    if (ai == NULL) {
-      debug_printf("No addresses with hostname %s\n", hostname.c_str());
+      fprintf(stderr,"No addresses with hostname %s\n", hostname.c_str());
       return false;
    } 
 
@@ -459,22 +428,22 @@ bool Connection::client_connect()
        inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);             
        result = connect(fd, (struct sockaddr *) &sockaddr, sizeof(sockaddr));
      }
-     debug_printf("Connecting to %s:%u\n", ipstr, port);
+     fprintf(stderr,"Connecting to %s:%u\n", ipstr, port);
    }
 
    if (result == -1) {
-      debug_printf("[%s:%u] - Error connecting to server\n", __FILE__, __LINE__);
+      fprintf(stderr,"[%s:%u] - Error connecting to server\n", __FILE__, __LINE__);
       return false;
    }
 
-   debug_printf("Successfully connected to %s\n", hostname.c_str());
+   fprintf(stderr,"Successfully connected to %s\n", hostname.c_str());
    return true;
 }
 
 bool Connection::server_setup(string &hostname_, int &port_)
 {
    if (has_hostport) {
-      debug_printf("server_setup returning existing hostname/port %s/%d",
+      fprintf(stderr,"server_setup returning existing hostname/port %s/%d",
                    hostname.c_str(), port);
       hostname_ = hostname;
       port_ = port;
@@ -484,10 +453,10 @@ bool Connection::server_setup(string &hostname_, int &port_)
 
    sockfd = socket(PF_INET, SOCK_STREAM, 0);
    if (sockfd == -1) {
-      debug_printf("Unable to create socket: %s\n", strerror(errno));
+      fprintf(stderr,"Unable to create socket: %s\n", strerror(errno));
       return false;
    }
-   debug_printf("server_setup socket call returned %d\n", sockfd);
+   fprintf(stderr,"server_setup socket call returned %d\n", sockfd);
    
    struct sockaddr_in addr;
    socklen_t socklen = sizeof(struct sockaddr_in);
@@ -499,21 +468,21 @@ bool Connection::server_setup(string &hostname_, int &port_)
    
    int result = ::bind(sockfd, (struct sockaddr *) &addr, socklen);
    if (result != 0){
-      debug_printf("Unable to bind socket: %s\n", strerror(errno));
+      fprintf(stderr,"Unable to bind socket: %s\n", strerror(errno));
       return false;
    }
-   debug_printf("[%s:%u] - server_setup successful bind on socket\n", __FILE__, __LINE__);
+   fprintf(stderr,"[%s:%u] - server_setup successful bind on socket\n", __FILE__, __LINE__);
 
    result = listen(sockfd, 16);
    if (result == -1) {
-     debug_printf("Unable to listen on socket: %s\n", strerror(errno));
+     fprintf(stderr,"Unable to listen on socket: %s\n", strerror(errno));
       return false;
    }
-   debug_printf("[%s:%u] - server_setup successful listen on socket\n", __FILE__, __LINE__);
+   fprintf(stderr,"[%s:%u] - server_setup successful listen on socket\n", __FILE__, __LINE__);
 
    result = getsockname(sockfd, (sockaddr *) &addr, &socklen);
    if (result != 0) {
-      debug_printf("[%s:%u] - Unable to getsockname on socket\n", __FILE__, __LINE__);
+      fprintf(stderr,"[%s:%u] - Unable to getsockname on socket\n", __FILE__, __LINE__);
       return false;
    }
 
@@ -525,7 +494,7 @@ bool Connection::server_setup(string &hostname_, int &port_)
       char name_buffer[1024];
       result = gethostname(name_buffer, 1024);
       if (result != 0) {
-         debug_printf("[%s:%u] - Unable to get hostname\n", __FILE__, __LINE__);
+         fprintf(stderr,"[%s:%u] - Unable to get hostname\n", __FILE__, __LINE__);
          return false;
       }
       hostname = name_buffer;
@@ -537,7 +506,7 @@ bool Connection::server_setup(string &hostname_, int &port_)
    port_ = port;
    has_hostport = true;
 
-   debug_printf("[%s:%u] - server_setup returning new hostname/port %s/%d\n",
+   fprintf(stderr,"[%s:%u] - server_setup returning new hostname/port %s/%d\n",
                 __FILE__, __LINE__, hostname.c_str(), port);
    return true;
 }
