@@ -938,7 +938,7 @@ int setupLogs(ParameterDict &params)
    }
 
    char *dbname = params["dboutput"]->getString();
-   if (dbname) {
+   if (dbname && strlen(dbname) != 0UL) {
       TestOutputDriver *newoutput = loadOutputDriver(const_cast<char *>("DatabaseOutputDriver"), dbname);
       //make sure it loaded correctly before replacing default output
       if (newoutput != NULL) {
