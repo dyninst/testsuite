@@ -110,7 +110,7 @@ static void* openSO(const char *soname, bool local)
 int setupMutatorsForRunGroup(RunGroup *group)
 {
   int tests_found = 0;
-  for (int i = 0; i < group->tests.size(); i++) {
+  for (size_t i = 0; i < group->tests.size(); i++) {
     TestInfo *test = group->tests[i];
     if (test->disabled)
        continue;

@@ -62,21 +62,6 @@ extern "C" DLLEXPORT  TestMutator *test1_37_factory()
 // Start Test Case #37 - (loop instrumentation)
 //
 
-// sort basic blocks ascending by block number
-static void sort_blocks(BPatch_Vector<BPatch_basicBlock*> &a, int n) 
-{
-	for (int i=0; i<n-1; i++) 
-	{
-		for (int j=0; j<n-1-i; j++)
-			if (a[j+1]->getBlockNumber() < a[j]->getBlockNumber()) 
-			{
-				BPatch_basicBlock* tmp = a[j]; 
-				a[j] = a[j+1];
-				a[j+1] = tmp;
-			}
-	}
-}
-
 /* This method instruments the entry and exit edges of a loop with 
    the passed-in function. It accomplishes this by looking up the entry
    and exit blocks of the loop, finding the edges that do not come from

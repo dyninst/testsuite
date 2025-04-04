@@ -62,7 +62,7 @@ extern "C" DLLEXPORT TestMutator* pc_groups_factory()
   return new pc_groupsMutator();
 }
 
-Process::cb_ret_t on_bp(Event::const_ptr ev) {
+Process::cb_ret_t on_bp(Event::const_ptr) {
    num_bp_events++;
    return Process::cbProcContinue;
 }
@@ -79,7 +79,7 @@ void pc_groupsMutator::waitfor_sync() {
       error = true;
    }
    
-   for (unsigned int i = 0; i < comp->num_processes; i++) {
+   for (int i = 0; i < comp->num_processes; i++) {
       if (syncs[i].code != SYNCLOC_CODE) {
          logerror("Received bad syncloc message in group test\n");
          error = true;

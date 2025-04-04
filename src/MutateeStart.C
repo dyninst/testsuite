@@ -222,7 +222,6 @@ static std::string launchMutatee_plat(const std::string &exec_name, const std::v
       setenv("LD_LIBRARY_PATH", new_ld_path, 1);
 
       char **argv = getCParams(exec_name, args);
-      const char *c_exec_name = exec_name.c_str();
 
       execvp(exec_name.c_str(), (char * const *) argv);
 
@@ -385,7 +384,7 @@ static std::string launchMutatee_plat(const std::string &exec_name, const std::v
 }
 #endif
 
-bool shouldLaunch(RunGroup *group, ParameterDict &params)
+bool shouldLaunch(RunGroup *, ParameterDict &)
 {
 	return true;
 }
@@ -395,7 +394,6 @@ std::string launchMutatee(std::string executable, std::vector<std::string> &args
    char group_num[32];
    snprintf(group_num, 32, "%d", group->index);
 
-   bool in_runtests = params["in_runtests"]->getInt();
    if (!shouldLaunch(group, params))
       return std::string(group_num) + ":-1";
 
@@ -542,7 +540,7 @@ Dyninst::PID getMutateePid(RunGroup *group)
    int pid;
 
    sscanf(mutatee_string.c_str(), "%d:%d", &group_id, &pid);
-   assert(group->index == group_id || group_id == -1);
+   assert(group->index == static_cast<unsigned>(group_id) || group_id == -1);
 
    spawned_mutatees.erase(i);
 

@@ -135,7 +135,7 @@ class namespace_test : public cpp_test_util
 
    private :
 
-      int class_variable;
+      int class_variable{};
 };
 
 class exception_test : public cpp_test_util

@@ -52,14 +52,14 @@ extern "C" DLLEXPORT TestMutator* pc_breakpoint_factory()
 #define NUM_BREAKPOINTS 4
 #define NUM_BREAKPOINT_SPINS 16
 
-Dyninst::Address bp_addrs[NUM_PARALLEL_PROCS][NUM_BREAKPOINTS];
-Breakpoint::ptr bps[NUM_PARALLEL_PROCS][NUM_BREAKPOINTS];
-std::pair<unsigned, unsigned> indexes[NUM_PARALLEL_PROCS*NUM_BREAKPOINTS];
-unsigned cur_index;
-std::map<Thread::const_ptr, unsigned> hit_counts;
-unsigned num_breakpoints_hit;
+Dyninst::Address bp_addrs[NUM_PARALLEL_PROCS][NUM_BREAKPOINTS]{};
+Breakpoint::ptr bps[NUM_PARALLEL_PROCS][NUM_BREAKPOINTS]{};
+std::pair<unsigned, unsigned> indexes[NUM_PARALLEL_PROCS*NUM_BREAKPOINTS]{};
+unsigned cur_index{};
+std::map<Thread::const_ptr, unsigned> hit_counts{};
+int num_breakpoints_hit{};
 bool haserror = false;
-unsigned my_num_processes;
+unsigned my_num_processes{};
 
 Process::cb_ret_t on_breakpoint(Event::const_ptr ev)
 {
@@ -129,8 +129,6 @@ test_results_t pc_breakpointMutator::executeTest()
    cur_index = 0;
    num_breakpoints_hit = 0;
    hit_counts.clear();
-   memset(indexes, 0, sizeof(indexes));
-   memset(bp_addrs, 0, sizeof(bp_addrs));
    my_num_processes = comp->num_processes;
 
    for (unsigned i=0; i<my_num_processes; i++) {

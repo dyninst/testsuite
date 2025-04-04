@@ -97,14 +97,13 @@ void copy_iolibs()
 int main(int argc, char *argv[])
 {
    struct rlimit infin;
-   int result;
 
 // static volatile int loop = 0;
 // while (loop == 0);
    
    infin.rlim_cur = RLIM_INFINITY;
    infin.rlim_max = RLIM_INFINITY;
-   result = setrlimit(RLIMIT_CORE, &infin);
+   setrlimit(RLIMIT_CORE, &infin);
 
    gargc = argc;
    gargv = argv;
@@ -315,7 +314,7 @@ static void parse_args(int argc, char *argv[])
    }
 }
 
-void handle_message(char *buffer) {
+void handle_message(char*) {
    assert(0);
 }
 

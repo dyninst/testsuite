@@ -170,9 +170,9 @@ test_results_t snip_change_shlib_var_Mutator::executeTest()
 
         bool isStatic = appAddrSpace->isStaticExecutable();
 
-	strncpy(libNameA, libNameAroot, 128);
+	memcpy(libNameA, libNameAroot, 128);
 	addLibArchExt(libNameA,128, pointer_size, isStatic);
-	strncpy(libNameB, libNameBroot, 128);
+	memcpy(libNameB, libNameBroot, 128);
 	addLibArchExt(libNameB,128, pointer_size, isStatic);
 
 	char libA[128], libB[128];

@@ -53,25 +53,25 @@ using namespace std;
 class DyninstComponent : public ComponentTester
 {
 private:
-   BPatch *bpatch;
-   char *libRTname;
-   char *libRTname_m_abi;
-   std::string err_msg;
+   BPatch *bpatch{};
+   char *libRTname{};
+   char *libRTname_m_abi{};
+   std::string err_msg{};
 
-   ParamPtr bpatch_ptr;
-   ParamPtr bp_appThread;
-   ParamPtr bp_appAddrSpace;
-   ParamPtr bp_appProc;
-   ParamPtr bp_appBinEdit;
+   ParamPtr bpatch_ptr{};
+   ParamPtr bp_appThread{};
+   ParamPtr bp_appAddrSpace{};
+   ParamPtr bp_appProc{};
+   ParamPtr bp_appBinEdit{};
 
-   ParamInt is_xlc;
-   BPatch_thread *appThread;
-   BPatch_addressSpace *appAddrSpace;
-   BPatch_process *appProc;
-   BPatch_binaryEdit *appBinEdit;
+   ParamInt is_xlc{false};
+   BPatch_thread *appThread{};
+   BPatch_addressSpace *appAddrSpace{};
+   BPatch_process *appProc{};
+   BPatch_binaryEdit *appBinEdit{};
 
 public:
-   DyninstComponent();
+   DyninstComponent() = default;
    virtual test_results_t program_setup(ParameterDict &params);
    virtual test_results_t program_teardown(ParameterDict &params);
    virtual test_results_t group_setup(RunGroup *group, ParameterDict &params);
@@ -81,21 +81,12 @@ public:
 
    virtual std::string getLastErrorMsg();
 
-   virtual ~DyninstComponent();
+   virtual ~DyninstComponent() = default;
 };
 
 bool isMutateeMABI32(const char *name);
 bool isMutateeXLC(const char *name);
 
-DyninstComponent::DyninstComponent() :
-   bpatch(NULL),
-   libRTname(NULL),
-   libRTname_m_abi(NULL),
-   bp_appThread(NULL),
-   is_xlc(0),
-   appThread(NULL)
-{
-}
 
 test_results_t DyninstComponent::program_setup(ParameterDict &params)
 {
@@ -140,7 +131,7 @@ test_results_t DyninstComponent::program_setup(ParameterDict &params)
    return PASSED;
 }
 
-test_results_t DyninstComponent::program_teardown(ParameterDict &params)
+test_results_t DyninstComponent::program_teardown(ParameterDict &)
 {
    delete bpatch;
    bpatch = NULL;
@@ -338,9 +329,7 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
       return PASSED;
    }
 
-   bool mutateeExitedViaSignal = false;
    if(appProc->terminationStatus() == ExitedViaSignal) {
-      mutateeExitedViaSignal = true;
       int signalNum = appProc->getExitSignal();
       getOutput()->log(LOGINFO, "Mutatee exited from signal 0x%x\n", signalNum);
    }
@@ -354,12 +343,12 @@ test_results_t DyninstComponent::group_teardown(RunGroup *group,
    return UNKNOWN;
 }
 
-test_results_t DyninstComponent::test_setup(TestInfo *test, ParameterDict &parms)
+test_results_t DyninstComponent::test_setup(TestInfo *, ParameterDict &)
 {
    return PASSED;
 }
 
-test_results_t DyninstComponent::test_teardown(TestInfo *test, ParameterDict &parms)
+test_results_t DyninstComponent::test_teardown(TestInfo *test, ParameterDict &)
 {
     // Take care of the things the test can delete out from under us
     DyninstMutator* theMutator = dynamic_cast<DyninstMutator*>(test->mutator);
@@ -412,23 +401,6 @@ extern "C" {
 
 COMPLIB_DLL_EXPORT ComponentTester *componentTesterFactory() {
    return new DyninstComponent();
-}
-
-DyninstComponent::~DyninstComponent()
-{
-}
-
-// All the constructor does is set the instance fields to NULL
-DyninstMutator::DyninstMutator() :
-    appThread(NULL),
-	appAddrSpace(NULL),
-	appBinEdit(NULL),
-	appProc(NULL),
-    appImage(NULL)
-{
-}
-
-DyninstMutator::~DyninstMutator() {
 }
 
 // Standard setup; this does the setup for the "simple" class of tests.
@@ -1256,7 +1228,7 @@ int instEffAddr(BPatch_addressSpace* as, const char* fname,
 
         }
         else {
-            for(int i = 0; i < (*res2).size(); i++)
+            for(unsigned int i = 0; i < (*res2).size(); i++)
             {
                 BPatch_Vector<BPatch_snippet*> listArgs2;
                 std::string insn = (*res2)[i]->getInsnAtPoint().format();
@@ -1377,13 +1349,13 @@ bool hasExtraUnderscores(const char *str)
 /* WARNING: This function is not thread safe. */
 const char *fixUnderscores(const char *str)
 {
-	static char buf[256];
+	static char buf[256]{};
 
 	assert( str );
 	assert( strlen(str) < sizeof(buf) );
 
 	while (*str == '_') ++str;
-	strncpy(buf, str, 256);
+	strncpy(buf, str, 255);
 
 	char *ptr = buf + strlen(buf) - 1;
 	while (ptr > buf && *ptr == '_') *(ptr--) = 0;
@@ -1582,7 +1554,7 @@ int letOriginalMutateeFinish(BPatch_process *appThread){
 
 	while( !appThread->isTerminated());
 
-	int retVal;
+	int retVal{};
 
 	if(appThread->terminationStatus() == ExitedNormally) {
 		retVal = appThread->getExitCode();

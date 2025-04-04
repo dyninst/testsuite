@@ -52,12 +52,12 @@
 
 #include "dyninst_comp.h"
 class test3_6_Mutator : public DyninstMutator {
-  BPatch_exitType expectedSignal;
-  unsigned int Mutatees;
-  std::vector<int> pids;
-  int debugPrint;
-  BPatch *bpatch;
-  char *pathname;
+  BPatch_exitType expectedSignal{};
+  unsigned int Mutatees{3};
+  std::vector<int> pids{};
+  int debugPrint{};
+  BPatch *bpatch{};
+  char *pathname{};
 
 public:
   test3_6_Mutator();
@@ -71,8 +71,7 @@ extern "C" DLLEXPORT  TestMutator *test3_6_factory() {
   return new test3_6_Mutator();
 }
 
-test3_6_Mutator::test3_6_Mutator()
-  : Mutatees(3), bpatch(NULL), pathname(NULL) {
+test3_6_Mutator::test3_6_Mutator() {
 #if defined(os_windows_test)
   expectedSignal = ExitedNormally;
 #else
@@ -88,9 +87,7 @@ test3_6_Mutator::test3_6_Mutator()
 #if !defined (os_windows_test)
 static int forkNewMutatee(const char *filename, const char *child_argv[])
 {
-  int pid;
-  static int pgid = 0;
-  pid = fork();
+  int pid = fork();
   if (pid == 0) {
     // child, do exec
     dprintf("%s[%d]:  before exec in new mutatee %s, pid = %d\n", __FILE__, __LINE__, filename, getpid());
@@ -190,7 +187,6 @@ test_results_t test3_6_Mutator::executeTest() {
         dprintf("Terminated mutatee [%d] from signal 0x%x\n", n, signalNum);
     }
     for (n=0; n<Mutatees; n++) {
-        int status;
         //int ret = waitpid(pids[n], &status, WNOHANG);
         //if (ret == -1 && errno == ECHILD) {
         int ret = kill(pids[n], SIGKILL);

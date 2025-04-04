@@ -79,7 +79,7 @@ int callback_counter = 0;
 std::vector<user_msg_t> elog;
 
 static BPatch_point *findPoint(BPatch_function *f, BPatch_procedureLocation loc,
-                        int testno, const char *testname)
+                        int, const char *)
 {
   if(!f) {
     logerror("%s[%d]: Invaild BPatch_function\n", FILE__, __LINE__);
@@ -108,7 +108,7 @@ static BPatch_point *findPoint(BPatch_function *f, BPatch_procedureLocation loc,
 //     -- modify to take snippet vector args if necessary.
 BPatchSnippetHandle *
 test_callback_2_Mutator::at(BPatch_point * pt, BPatch_function *call,
-			    int testno, const char *testname)
+			    int, const char *)
 {
   BPatch_Vector<BPatch_snippet *> args;
   BPatch_funcCallExpr snip(*call, args);
@@ -188,7 +188,7 @@ static void test7cb(BPatch_process *  proc, void *buf, unsigned int bufsize)
 
   elog.push_back(*msg);
 
-  if (proc->getPid() != tid)
+  if (static_cast<uint64_t>(proc->getPid()) != tid)
   {
 	  fprintf(stderr, "%s[%d]:  ERROR:  got event for pid %lu, not %d\n", FILE__, __LINE__, tid, proc->getPid());
   }

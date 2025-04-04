@@ -51,12 +51,12 @@ extern "C" DLLEXPORT TestMutator* test_anno_basic_types_factory()
 class TestClass
 {
    public:
-      TestClass() {}
+      TestClass() = default;
       
-      int somestuff1;
-      long somestuff2;
-      float somestuff3;
-      char *somestuff4;
+      int somestuff1{};
+      long somestuff2{};
+      float somestuff3{};
+      char *somestuff4{};
 };
 
 class TestClassSparse : public TestClass, public AnnotatableSparse

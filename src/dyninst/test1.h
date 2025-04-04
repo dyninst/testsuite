@@ -33,8 +33,8 @@
 
 unsigned long get_pointer()
 {
-    unsigned long val;
-    for(short i = 0; i < sizeof(void *); i++) {
+    unsigned long val = 0UL;
+    for(short i = 0; i < (short)(sizeof(void *)); i++) {
         val = (val << 8)|((i&0xFF)|0xA0);
     }
     return val;

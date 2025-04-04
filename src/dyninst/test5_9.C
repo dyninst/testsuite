@@ -104,7 +104,7 @@ test_results_t test5_9_Mutator::executeTest() {
          return FAILED;
    }
 
-   int index = 0;
+   size_t index = 0;
    while ( index < fields->size() ) {
        if ( !strcmp("call_cpp", (*fields)[index]->getName()) ||
            !strcmp("cpp_test_util::call_cpp", (*fields)[index]->getName())) {

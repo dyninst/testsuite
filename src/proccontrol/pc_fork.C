@@ -217,9 +217,9 @@ test_results_t pc_forkMutator::executeTest()
          done = (fork_data.is_done != 0);
          proc_info_fork &pi = pinfo[fork_data.pid];
          if (pi.parent != proc) {
-            fprintf(stderr, "pi.parent = %p\n", pi.parent.get());
-            fprintf(stderr, "proc = %p\n", proc.get());
-            fprintf(stderr, "pi.child = %p\n", pi.child.get());
+            fprintf(stderr, "pi.parent = %p\n", reinterpret_cast<void const*>(pi.parent.get()));
+            fprintf(stderr, "proc = %p\n", reinterpret_cast<void const*>(proc.get()));
+            fprintf(stderr, "pi.child = %p\n", reinterpret_cast<void const*>(pi.child.get()));
             fprintf(stderr, "pi.parent = %d\n", pi.parent->getPid());
             fprintf(stderr, "proc = %d\n", proc->getPid());
             fprintf(stderr, "pi.child = %d\n", pi.child->getPid());
@@ -227,7 +227,7 @@ test_results_t pc_forkMutator::executeTest()
             myerror = true;
             continue;
          }
-         if (pi.child->getPid() != fork_data.pid) {
+         if (static_cast<uint32_t>(pi.child->getPid()) != fork_data.pid) {
             logerror("Unexpected pid\n");
             myerror = true;
             continue;

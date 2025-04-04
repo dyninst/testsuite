@@ -249,32 +249,18 @@ TEST_DLL_EXPORT ComponentTester *componentTesterFactory()
    return (ComponentTester *) new ProcControlComponent();
 }
 
-ProcControlMutator::ProcControlMutator()
-{
-}
-
-ProcControlMutator::~ProcControlMutator()
-{
-}
-
 test_results_t ProcControlMutator::setup(ParameterDict &param)
 {
    comp = (ProcControlComponent *) param["ProcControlComponent"]->getPtr();
    return PASSED;
 }
 
-test_results_t ProcControlMutator::pre_init(ParameterDict &param)
+test_results_t ProcControlMutator::pre_init(ParameterDict &)
 {
    return PASSED;
 }
 
-ProcControlComponent::ProcControlComponent() :
-   sockfd(0),
-   sockname(NULL),
-   notification_fd(-1),
-   num_processes(0),
-   num_threads(0)
-{
+ProcControlComponent::ProcControlComponent() {
    notification_fd = evNotify()->getFD();
 #if defined(os_windows_test)
    WORD wsVer = MAKEWORD(2,2);
@@ -321,7 +307,7 @@ bool ProcControlComponent::registerEventCounter(EventType et)
    return Process::registerEventCallback(et, eventCounterFunction);
 }
 
-bool ProcControlComponent::checkThread(const Thread &thread)
+bool ProcControlComponent::checkThread(const Thread &)
 {
    return true;
 }
@@ -397,7 +383,7 @@ ProcessSet::ptr ProcControlComponent::startMutateeSet(RunGroup *group, Parameter
 
    if (do_create) {
       vector<ProcessSet::CreateInfo> cinfo;
-      for (unsigned i=0; i<num_processes; i++) {
+      for (int i=0; i<num_processes; i++) {
          ProcessSet::CreateInfo ci;
          getMutateeParams(group, params, ci.executable, ci.argv);
          ci.error_ret = err_none;
@@ -412,7 +398,7 @@ ProcessSet::ptr ProcControlComponent::startMutateeSet(RunGroup *group, Parameter
    }
    else {
       vector<ProcessSet::AttachInfo> ainfo;
-      for (unsigned i=0; i<num_processes; i++) {
+      for (int i=0; i<num_processes; i++) {
          ProcessSet::AttachInfo ai;
          vector<string> argv;
          getMutateeParams(group, params, ai.executable, argv);
@@ -666,7 +652,7 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
 
       if (support_lwps && check_threads_on_startup)
       {
-         while (eventsRecieved[EventType(EventType::None, EventType::LWPCreate)].size() < num_procs*num_threads) {
+         while (eventsRecieved[EventType(EventType::None, EventType::LWPCreate)].size() < static_cast<size_t>(num_procs*num_threads)) {
             bool result = Process::handleEvents(true);
             if (!result) {
                logerror("Failed to handle events during thread create\n");
@@ -678,7 +664,7 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
 
       if (support_user_threads && check_threads_on_startup)
       {
-         while (eventsRecieved[EventType(EventType::None, EventType::UserThreadCreate)].size() < num_procs*num_threads) {
+         while (eventsRecieved[EventType(EventType::None, EventType::UserThreadCreate)].size() < static_cast<size_t>(num_procs*num_threads)) {
             bool result = Process::handleEvents(true);
             if (!result) {
                logerror("Failed to handle events during thread create\n");
@@ -692,7 +678,7 @@ bool ProcControlComponent::startMutatees(RunGroup *group, ParameterDict &param)
    {
       for (std::vector<Process::ptr>::iterator j = procs.begin(); j != procs.end(); j++) {
          Process::ptr proc = *j;
-         if (proc->threads().size() != num_threads+1) {
+         if (proc->threads().size() != static_cast<size_t>(num_threads+1)) {
             logerror("Process has incorrect number of threads");
             error = true;
          }
@@ -730,7 +716,7 @@ test_results_t ProcControlComponent::program_setup(ParameterDict &params)
 	return PASSED;
 }
 
-test_results_t ProcControlComponent::program_teardown(ParameterDict &params)
+test_results_t ProcControlComponent::program_teardown(ParameterDict &)
 {
 
 	cleanSocket();
@@ -865,12 +851,12 @@ test_results_t ProcControlComponent::group_teardown(RunGroup *group, ParameterDi
    return error ? FAILED : PASSED;
 }
 
-test_results_t ProcControlComponent::test_setup(TestInfo *test, ParameterDict &parms)
+test_results_t ProcControlComponent::test_setup(TestInfo *, ParameterDict &)
 {
    return PASSED;
 }
 
-test_results_t ProcControlComponent::test_teardown(TestInfo *test, ParameterDict &parms)
+test_results_t ProcControlComponent::test_teardown(TestInfo *, ParameterDict &)
 {
    return PASSED;
 }
@@ -891,15 +877,16 @@ ProcControlComponent::~ProcControlComponent()
 
 void handleError(const char* msg)
 {
-	char details[1024];
 #if defined(os_windows_test)
 	int err = WSAGetLastError();
-    ::FormatMessage(0, NULL, err, 0, details, 1024, NULL);
+	char buf[1024];
+  ::FormatMessage(0, NULL, err, 0, details, 1024, NULL);
+  std::string details(buf);
 #else
-	strncpy(details, strerror(errno), 1024);
+	std::string details = strerror(errno);
 #endif
-	fprintf(stderr, "handleError: %s\n", details);
-	logerror(msg, details);
+	fprintf(stderr, "handleError: %s\n", details.c_str());
+	logerror(msg, details.c_str());
 }
 
 bool ProcControlComponent::setupServerSocket(ParameterDict &param)
@@ -960,7 +947,7 @@ bool ProcControlComponent::acceptConnections(int num, int *attach_sock)
    vector<int> socks;
    assert(num == 1 || !attach_sock);  //If attach_sock, then num == 1
 
-   while (socks.size() < num) {
+   while (socks.size() < static_cast<size_t>(num)) {
       fd_set readset; FD_ZERO(&readset);
       fd_set writeset; FD_ZERO(&writeset);
       fd_set exceptset; FD_ZERO(&exceptset);
@@ -1005,7 +992,7 @@ bool ProcControlComponent::acceptConnections(int num, int *attach_sock)
       }
    }
 
-   for (unsigned i=0; i<num; i++) {
+   for (int i=0; i<num; i++) {
       send_pid msg;
       bool result;
       result = recv_message((unsigned char *) &msg, sizeof(send_pid), socks[i]);
@@ -1195,7 +1182,6 @@ bool ProcControlComponent::send_message(unsigned char *msg, unsigned msg_size, i
 bool ProcControlComponent::send_broadcast(unsigned char *msg, unsigned msg_size)
 {
    assert(!process_pids.empty());
-   unsigned char *cur_pos = msg;
    for (std::map<Dyninst::PID, Process::ptr>::iterator i = process_pids.begin(); i != process_pids.end(); i++) {
       bool result = send_message(msg, msg_size, i->second);
       if (!result)

@@ -44,15 +44,12 @@
 #include <assert.h>
 #include <stdlib.h>
 
-StdOutputDriver::StdOutputDriver(void * data) : attributes(NULL), streams() {
+StdOutputDriver::StdOutputDriver(void *) {
   streams[STDOUT] = std::string("-");
   streams[STDERR] = std::string("-");
   streams[LOGINFO] = std::string("-");
   streams[LOGERR] = std::string("-");
   streams[HUMAN] = std::string("-");
-  last_test = NULL;
-  last_group = NULL;
-  printed_header = false;
 }
 
 StdOutputDriver::~StdOutputDriver() {
@@ -257,7 +254,7 @@ FILE *StdOutputDriver::getHumanFile()  {
     return out;
 }
 
-void StdOutputDriver::logCrash(std::string testname) {
+void StdOutputDriver::logCrash(std::string) {
   // TODO Do something here
 }
 
@@ -281,7 +278,7 @@ void StdOutputDriver::vlog(TestOutputStream stream, const char *fmt, va_list arg
   }
 
   const char *fn = streams[stream].c_str();
-  FILE *out;
+  FILE *out{};
   if (strcmp(fn, "-") == 0) {
     // We're printing to the default file
     switch(stream) {
@@ -294,6 +291,8 @@ void StdOutputDriver::vlog(TestOutputStream stream, const char *fmt, va_list arg
     case STDERR:
     case LOGERR:
       out = stderr;
+      break;
+    case OUTPUT_STREAMS_SIZE:
       break;
     }
   } else {

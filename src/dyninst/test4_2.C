@@ -46,13 +46,12 @@
 
 #include "dyninst_comp.h"
 class test4_2_Mutator : public DyninstMutator {
-  const unsigned int MAX_TEST;
-  int debugPrint;
-  BPatch *bpatch;
-  char *pathname;
+  int debugPrint{};
+  BPatch *bpatch{};
+  char *pathname{};
 
 public:
-  test4_2_Mutator();
+  test4_2_Mutator() = default;
   virtual bool hasCustomExecutionPath() { return true; }
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t executeTest();
@@ -62,16 +61,13 @@ extern "C" DLLEXPORT TestMutator *test4_2_factory() {
   return new test4_2_Mutator();
 }
 
-test4_2_Mutator::test4_2_Mutator()
-  : MAX_TEST(4), bpatch(NULL), pathname(NULL) {
-}
-
 static bool passedTest;
 static int threadCount;
 static BPatch_process *mythreads[25];
 static BPatch_thread *test2Child;
 static BPatch_thread *test2Parent;
 static int exited;
+constexpr auto MAX_TEST = 4;
 
 static void forkFunc(BPatch_thread *parent, BPatch_thread *child)
 {
@@ -204,7 +200,7 @@ static void exitFunc(BPatch_thread *thread, BPatch_exitType exit_type)
     }
 }
 
-static void execFunc(BPatch_thread *thread)
+static void execFunc(BPatch_thread *)
 {
     logerror("**Failed Test #2\n");
     logerror("    execCallback invoked, but exec was not called!\n");

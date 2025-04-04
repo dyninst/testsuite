@@ -45,7 +45,7 @@
 using namespace Dyninst;
 using namespace SymtabAPI;
 
-bool resolve_libc_name(char *buf)
+bool resolve_libc_name(char *)
 {
 #if defined(os_windows_test)
 	return false;
@@ -55,10 +55,10 @@ bool resolve_libc_name(char *buf)
 }
 
 class test_relocations_Mutator : public SymtabMutator {
-	std::vector<relocationEntry> relocs;
-	char libc_name[1024];
-	Symtab *libc;
-	std::vector<std::string> expected_libc_relocations;
+	std::vector<relocationEntry> relocs{};
+	char libc_name[1024]{};
+	Symtab *libc{};
+	std::vector<std::string> expected_libc_relocations{};
 
 	bool open_libc()
 	{
@@ -172,7 +172,6 @@ test_results_t test_relocations_Mutator::executeTest()
 
 	for (unsigned int i = 0; i < expected_libc_relocations.size(); ++i)
 	{
-		int relocation_index ;
 		bool found = false;
 		for (unsigned int j = 0; j < relocs.size(); ++j)
 		{
@@ -180,7 +179,6 @@ test_results_t test_relocations_Mutator::executeTest()
 			if (relname == expected_libc_relocations[i])
 			{
 				found = true;
-				relocation_index = i;
 				break;
 			}
 		}
@@ -253,7 +251,7 @@ test_results_t test_relocations_Mutator::executeTest()
 	expected_relocs.push_back(std::string("relocation_test_function2"));
 	//expected_relocs.push_back(std::string("relocation_test_variable1"));
 	//expected_relocs.push_back(std::string("relocation_test_variable2"));
-	int num_found = 0;
+	size_t num_found{};
 	for (unsigned int i = 0; i < expected_relocs.size(); ++i)
 	{
 		bool foundit =  false;
@@ -273,7 +271,7 @@ test_results_t test_relocations_Mutator::executeTest()
 
 	if (num_found != expected_relocs.size())
 	{
-		fprintf(stderr, "%s[%d]:  found %d relocs, not the expected %ld\n", 
+		fprintf(stderr, "%s[%d]:  found %lu relocs, not the expected %lu\n",
 				FILE__, __LINE__, num_found, expected_relocs.size());
 		return FAILED;
 	}

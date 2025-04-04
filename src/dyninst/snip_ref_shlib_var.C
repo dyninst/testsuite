@@ -126,7 +126,6 @@ test_results_t snip_ref_shlib_var_Mutator::mutatorTest()
 {
 	//  The check function returns 1 on success (value changed as expected)
 	//  or 0 on failure.
-	const char *check_fname  = "check_snip_ref_shlib_var";
 	const char *inst_func_name = "srsv1";
 	BPatch_Vector<BPatch_function *> funcs;
 
@@ -205,9 +204,9 @@ test_results_t snip_ref_shlib_var_Mutator::executeTest()
 #endif
         bool isStatic = appAddrSpace->isStaticExecutable();
 
-	strncpy(libNameA, libNameAroot, 128);
+	memcpy(libNameA, libNameAroot, 128);
 	addLibArchExt(libNameA,128, pointer_size, isStatic);
-	strncpy(libNameB, libNameBroot, 128);
+	memcpy(libNameB, libNameBroot, 128);
 	addLibArchExt(libNameB,128, pointer_size, isStatic);
 
 	char libA[128], libB[128];

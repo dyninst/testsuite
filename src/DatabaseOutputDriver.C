@@ -65,8 +65,8 @@ extern "C" {
 
 DatabaseOutputDriver::DatabaseOutputDriver(void * data)
   : attributes(NULL),
-    submittedResults(false),
     wroteLogHeader(false),
+    submittedResults(false),
     currTest(NULL),
     result(UNKNOWN)
 {
@@ -89,7 +89,7 @@ DatabaseOutputDriver::~DatabaseOutputDriver() {
 
 void
 DatabaseOutputDriver::startNewTest(std::map<std::string, std::string> &attrs,
-                                   TestInfo *test, RunGroup *group)
+                                   TestInfo *test, RunGroup *)
 {
   currTest = test;
 
@@ -116,11 +116,11 @@ DatabaseOutputDriver::startNewTest(std::map<std::string, std::string> &attrs,
   result = UNKNOWN;
 }
 
-void DatabaseOutputDriver::redirectStream(TestOutputStream stream, const char * filename) {
+void DatabaseOutputDriver::redirectStream(TestOutputStream, const char *) {
   // This is a no-op for database output
 }
 
-void DatabaseOutputDriver::logResult(test_results_t res, int stage) {
+void DatabaseOutputDriver::logResult(test_results_t res, int) {
   // What does this do, exactly?  Store the result code for database check-in
   // I guess..
   // Do I want to submit the results to the database in this method, or use
@@ -128,7 +128,7 @@ void DatabaseOutputDriver::logResult(test_results_t res, int stage) {
   result = res;
 }
 
-void DatabaseOutputDriver::logCrash(std::string crashedTest) {
+void DatabaseOutputDriver::logCrash(std::string) {
   // New idea: we've already called startNewTest for this test, so
   // dblogFilename is set to recover the old log data for the test.
   // All we need to do is register a crashed result for the test.
@@ -142,7 +142,7 @@ void DatabaseOutputDriver::log(TestOutputStream stream, const char *fmt, ...) {
   va_end(args);
 }
 
-void DatabaseOutputDriver::vlog(TestOutputStream stream, const char *fmt,
+void DatabaseOutputDriver::vlog(TestOutputStream, const char *fmt,
 				va_list args)
 {
   FILE *dbout = NULL;
@@ -245,7 +245,7 @@ void DatabaseOutputDriver::finalizeOutput() {
 					__FILE__, __LINE__, sqlLogFilename.c_str());
 			//TODO handle error
 		}
-		int size = strlen(logHeader.c_str());
+		auto size = strlen(logHeader.c_str());
 		if (fwrite(logHeader.c_str(), sizeof(char), size, sqlLog) != size) {
 			fprintf(stderr, "[%s:%u] - Error writing to log file.\n", __FILE__, __LINE__);
 			//TODO handle error

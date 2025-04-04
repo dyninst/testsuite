@@ -30,7 +30,7 @@
 
 static void createBuffer(Process::ptr proc,
                          Dyninst::Address calltarg,
-                         Dyninst::Address tocval,
+                         Dyninst::Address,
                          unsigned char* &buffer, unsigned &buffer_size,
                          unsigned long &start_offset)
 {

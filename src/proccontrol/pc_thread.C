@@ -331,7 +331,7 @@ static Process::cb_ret_t lwp_destroy(Event::const_ptr ev)
 
 static void checkThreadMsg(threadinfo tinfo, Process::ptr proc)
 {
-   if (tinfo.pid != proc->getPid()) {
+   if (tinfo.pid != static_cast<uint64_t>(proc->getPid())) {
       logerror("Error.  Mismatched pids in checkThreadMsg\n", tinfo.pid, proc->getPid());
       has_error = true;
    }
@@ -478,11 +478,10 @@ test_results_t pc_threadMutator::executeTest()
       }
    }   
 
-   int num_thrds = comp->num_processes * comp->num_threads;
    int num_noninit_thrds = comp->num_processes * (comp->num_threads - 1);
 
    for (i = comp->procs.begin(); i != comp->procs.end(); i++) {
-      for (unsigned j=0; j < comp->num_threads+1; j++) {
+      for (int j=0; j < comp->num_threads+1; j++) {
          threadinfo tinfo;
          bool result = comp->recv_message((unsigned char *) &tinfo, sizeof(threadinfo), *i);
          if (!result) {
@@ -505,7 +504,7 @@ test_results_t pc_threadMutator::executeTest()
    while ((has_thr && user_exit_cb_count < num_noninit_thrds) ||
           (has_lwp && lwp_exit_cb_count < num_noninit_thrds)) 
    {
-      if (exited_processes.size() >= comp->num_processes) {
+      if (exited_processes.size() >= static_cast<size_t>(comp->num_processes)) {
          logerror("Process exited while waiting for thread termination events.\n");
          has_error = true;
          break;

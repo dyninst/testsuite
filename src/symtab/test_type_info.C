@@ -289,7 +289,7 @@ bool test_type_info_Mutator::verify_type_array(typeArray *t, int *exp_low, int *
 		//  special case -- if low bound is zero and
 		//  highbound is -1, the array is not specified with a proper range, so
 		//  ignore
-		if (! (t->getLow() == 0L && t->getHigh() == -1L))
+		if (! (t->getLow() == 0UL && t->getHigh() == static_cast<size_t>(-1)))
 		{
 			logerror( "%s[%d]:  bad ranges [%lu--%lu] for type %s!\n", 
 					FILE__, __LINE__, t->getLow(), t->getHigh(), tn.c_str());
@@ -307,7 +307,7 @@ bool test_type_info_Mutator::verify_type_array(typeArray *t, int *exp_low, int *
 
 	if (exp_low)
 	{
-		if (*exp_low != t->getLow())
+		if (static_cast<size_t>(*exp_low) != t->getLow())
 		{
 			logerror( "%s[%d]:  unexpected lowbound %d (not %d) for type %s!\n", 
 					FILE__, __LINE__, t->getLow(), *exp_low, tn.c_str());
@@ -317,7 +317,7 @@ bool test_type_info_Mutator::verify_type_array(typeArray *t, int *exp_low, int *
 
 	if (exp_hi)
 	{
-		if (*exp_hi != t->getHigh())
+		if (static_cast<size_t>(*exp_hi) != t->getHigh())
 		{
 			logerror( "%s[%d]:  unexpected hibound %d (not %d) for type %s!\n", 
 					FILE__, __LINE__, t->getHigh(), *exp_hi, tn.c_str());
@@ -344,7 +344,7 @@ bool test_type_info_Mutator::verify_field(Field *f) {
     return false;
   }
 
-  if (0 == f->getName().length()) {
+  if (0UL == f->getName().length()) {
     logerror("%s[%d]:  unnamed field\n", FILE__, __LINE__);
   }
 
@@ -423,7 +423,6 @@ bool test_type_info_Mutator::verify_field_list(
         std::string fieldname = f1->getName();
         std::string fieldtypename =
             f1->getType() ? f1->getType()->getName() : "";
-        Type *ft = f1->getType();
 
         std::string expected_fieldname = (expected_fields.size() > i)
                                              ? expected_fields[i].second
@@ -492,9 +491,8 @@ bool test_type_info_Mutator::verify_type_union(
   return true;
 }
 
-bool test_type_info_Mutator::verify_type_scalar(typeScalar *t) {
+bool test_type_info_Mutator::verify_type_scalar(typeScalar *) {
   got_type_scalar = true;
-  std::string &tn = t->getName();
 
   //  uh... nothing to do here....  (maybe check sizes??)
 
