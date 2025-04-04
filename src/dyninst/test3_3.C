@@ -48,23 +48,19 @@
 
 #include "dyninst_comp.h"
 class test3_3_Mutator : public DyninstMutator {
-  unsigned int Mutatees;
-  int debugPrint;
-  char *pathname;
-  BPatch *bpatch;
+  unsigned int Mutatees{3};
+  int debugPrint{};
+  char *pathname{};
+  BPatch *bpatch{};
 
 public:
-  test3_3_Mutator();
+  test3_3_Mutator() = default;
   virtual bool hasCustomExecutionPath() { return true; }
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t executeTest();
 };
 extern "C" DLLEXPORT  TestMutator *test3_3_factory() {
   return new test3_3_Mutator();
-}
-
-test3_3_Mutator::test3_3_Mutator() 
-  : Mutatees(3), pathname(NULL), bpatch(NULL) {
 }
 
 //
