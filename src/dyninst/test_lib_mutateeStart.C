@@ -37,7 +37,6 @@
 
 #include "dyninst_comp.h"
 #include "test_lib.h"
-#include "util.h"
 #include "ResumeLog.h"
 #include "MutateeStart.h"
 #include <stdlib.h>

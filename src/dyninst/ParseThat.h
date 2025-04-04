@@ -34,7 +34,7 @@
 #include <vector>
 #include "test_lib.h"
 //#include "dyninst_comp.h"
-#include "util.h"
+
 //  A (hopefully simple) c++ class interface for issuing parseThat commands
 //  inside the testsuite
 

@@ -38,13 +38,13 @@
 #include "TestData.h"
 #include "test_info_new.h"
 #include "test_lib_dll.h"
-#include "util.h"
 #include <errno.h>
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "dyntypes.h"
 
 #if !defined(P_sleep)
 #if defined(os_windows_test)
