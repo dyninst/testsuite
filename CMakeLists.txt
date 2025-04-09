@@ -7,6 +7,8 @@ endif()
 
 project(Dyninst-TestSuite)
 
+option(DYNINST_ENABLE_32BIT_TESTS "Enable 32-bit tests" OFF)
+
 list(INSERT CMAKE_MODULE_PATH 0
     "${PROJECT_SOURCE_DIR}/cmake"
     "${PROJECT_SOURCE_DIR}/cmake/Modules"
@@ -289,7 +291,11 @@ install(TARGETS testA
         RUNTIME DESTINATION ${INSTALL_DIR}
         ARCHIVE DESTINATION ${INSTALL_DIR})
 
-if(UNIX)
+if(DYNINST_ENABLE_32BIT_TESTS)
+  if(NOT TARGET Dyninst::dyninstAPI_RT_m32)
+    message(FATAL_ERROR "32-bit tests require the 32-bit Dyninst runtime")
+  endif()
+  
   check_mutatee_compiler(${M_gnu_cc} "-m32" "-m32" C "" m32_works)
   if(${m32_works})
     message(STATUS "Building 32-bit helper libraries")
