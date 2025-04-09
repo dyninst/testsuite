@@ -255,17 +255,21 @@ namespace {
        */
       { //  b +16
         0x48000010, is_branch, !is_return,
-        test_cft{pc_value + 16, {!is_call, !is_conditional, !is_indirect, !is_fallthrough}}
+        test_cft{pc_value + 16, {!is_call, !is_conditional, !is_indirect, !is_fallthrough}},
+        {}, {}, {}, {}
       },
       { //  ba -48
-        0x4bffffd2, is_branch, !is_return
+        0x4bffffd2, is_branch, !is_return,
+        {}, {}, {}, {}, {}
       },
       { //  bl 0x100
         0x48000101, !is_branch, !is_return,
-        test_cft{pc_value + 0x100, {is_call, !is_conditional, !is_indirect, !is_fallthrough}}
+        test_cft{pc_value + 0x100, {is_call, !is_conditional, !is_indirect, !is_fallthrough}},
+        {}, {}, {}, {}
       },
       { //  bla 0x100
-        0x48000103, !is_branch, !is_return
+        0x48000103, !is_branch, !is_return,
+        {}, {}, {}, {}, {}
       },
 
       /*
@@ -314,6 +318,8 @@ namespace {
         {},
         {},
         test_cft{lr_value, {!is_call, !is_conditional, is_indirect, !is_fallthrough}},
+        {},
+        {}
       },
       { // bclrl  (LK=1)
         0x4e800021, is_branch, !is_return,
@@ -344,6 +350,8 @@ namespace {
         {},
         {},
         test_cft{lr_value, {!is_call, !is_conditional, is_indirect, !is_fallthrough}},
+        {},
+        {}
       },
 
       /*
@@ -353,16 +361,19 @@ namespace {
         0x4e800420, is_branch, !is_return,
         {},
         test_cft{ctr_value, {!is_call, !is_conditional, is_indirect, !is_fallthrough}},
+        {}, {}, {}
       },
       { //  bctrl  (LK=1)
         0x4e800421, !is_branch, !is_return,
         {},
         test_cft{ctr_value, {is_call, !is_conditional, is_indirect, !is_fallthrough}},
+        {}, {}, {}
       },
       { //  bcctr 0x17, 4*cr4+lt, 0
         0x4ef00420, is_branch, !is_return,
         {},
-        test_cft{ctr_value, {!is_call, !is_conditional, is_indirect, !is_fallthrough}}
+        test_cft{ctr_value, {!is_call, !is_conditional, is_indirect, !is_fallthrough}},
+        {}, {}, {}
       },
 
       /*

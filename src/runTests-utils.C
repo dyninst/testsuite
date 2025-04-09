@@ -81,13 +81,13 @@ void cleanupMutatees(char *pidFilename) {
 }
 
 static bool timed_out;
-static void sigalrm_action(int sig, siginfo_t *siginfo, void *context) {
+static void sigalrm_action(int, siginfo_t*, void*) {
   // Note that the child has timed out and return
   timed_out = true;
 }
 
 static bool interrupted;
-static void sigint_action(int sig, siginfo_t *siginfo, void *context) {
+static void sigint_action(int, siginfo_t*, void*) {
   interrupted = true;
 }
 
@@ -98,7 +98,7 @@ int CollectTestResults(vector<test_driver_t> &test_drivers, int parallel_copies)
    struct sigaction old_sigalrm_a;
    struct sigaction sigint_a;
    struct sigaction old_sigint_a;
-   int retval;
+   int retval{};
 
    timed_out = false;
    sigalrm_a.sa_sigaction = sigalrm_action;
@@ -139,7 +139,7 @@ int CollectTestResults(vector<test_driver_t> &test_drivers, int parallel_copies)
          else
             fprintf(stderr, "*** SIGINT received.  Reaping children.\n");
 
-         for (unsigned i = 0; i < parallel_copies; i++) {
+         for (int i = 0; i < parallel_copies; i++) {
             if (!test_drivers[i].pid)
                continue;
             kill(test_drivers[i].pid, SIGKILL);
@@ -171,7 +171,7 @@ int CollectTestResults(vector<test_driver_t> &test_drivers, int parallel_copies)
          } else {
             child_ret = (signed char) WEXITSTATUS(child_status);
          }
-         for (unsigned i=0; i<parallel_copies; i++)
+         for (int i=0; i<parallel_copies; i++)
          {
             if (test_drivers[i].pid == waiting_pid) {
                test_drivers[i].pid = 0;
@@ -237,10 +237,12 @@ test_pid_t RunTest(unsigned int iteration, bool useLog, bool staticTests,
    return child_pid;
 }
 
+#if defined(m_abi)
 string ReplaceAllWith(const string &in, const string &replace, const string &with);
+#endif
 
 std::vector<std::string> generateTestArgs(bool resume, bool useLog,
-                      bool staticTests, string logfile, int testLimit,
+                      bool, string logfile, int testLimit,
                       const char *pidFilename, std::string const& hostname)
 {
   vector<std::string> args;
@@ -285,7 +287,7 @@ std::vector<std::string> generateTestArgs(bool resume, bool useLog,
 void generateTestString(bool resume, bool useLog, bool staticTests,
 			string &logfile, int testLimit,
 			vector<char *>& child_argv, string& shellString,
-			char *pidFilename)
+			char *)
 {
    stringstream testString;
    if (staticTests) {

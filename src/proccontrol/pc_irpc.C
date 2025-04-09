@@ -73,12 +73,12 @@ struct rpc_data_t {
 };
 
 struct proc_info_t {
-   Dyninst::Address val;
-   Dyninst::Address irpc_calltarg;
-   Dyninst::Address irpc_tocval;
-   Dyninst::Address busywait;
-   std::vector<rpc_data_t *> rpcs;
-   proc_info_t() : val(0), irpc_calltarg(0) {}
+   Dyninst::Address val{};
+   Dyninst::Address irpc_calltarg{};
+   Dyninst::Address irpc_tocval{};
+   Dyninst::Address busywait{};
+   std::vector<rpc_data_t *> rpcs{};
+   proc_info_t() = default;
    void clear() {
       for (unsigned i=0; i<rpcs.size(); i++) {
          delete rpcs[i];
@@ -343,7 +343,6 @@ void pc_irpcMutator::runIRPCs() {
            j != proc->threads().end(); j++)
       {
          Thread::ptr thr = *j;
-         thread_info_t &t = tinfo[thr];
          if(!thr->isUser())
          {
             continue;
@@ -382,14 +381,13 @@ void pc_irpcMutator::runIRPCs() {
    {
       Thread::const_ptr thr = i->first;
       Process::const_ptr proc = thr->getProcess();
-      thread_info_t &t = i->second;
 
 	  if(!thr->isUser())
 	  {
 		  continue;
 	  }
       int num_to_post_now = (post_time == post_all_once) ? NUM_IRPCS : 1;
-      for (unsigned j=0; j<num_to_post_now; j++)
+      for (int j=0; j<num_to_post_now; j++)
       {
          post_irpc(thr);
       }
@@ -398,8 +396,6 @@ void pc_irpcMutator::runIRPCs() {
    /**
     * Wait for completion
     **/
-   bool done = false;
-
    while (!myerror) {
       while (has_pending_irpcs()) {
          /**
@@ -510,7 +506,7 @@ void pc_irpcMutator::runIRPCs() {
          logerror("Failure reading from process memory\n");
          myerror = true;
       }
-      if (val != (comp->num_threads+1) * NUM_IRPCS) {
+      if (val != static_cast<uint32_t>((comp->num_threads+1) * NUM_IRPCS)) {
          logerror("val = %d, expected = %d\n", val, (comp->num_threads+1)*NUM_IRPCS);
          logerror("IRPCS did not update val\n");
          myerror = true;
@@ -585,7 +581,7 @@ Process::cb_ret_t on_irpc(Event::const_ptr ev)
 
    int &cur = t.cur;
 
-   assert(cur < t.rpcs.size());
+   assert(static_cast<size_t>(cur) < t.rpcs.size());
    if (t.rpcs[cur] != rpcdata) {
       if (post_to != post_to_proc)
       {

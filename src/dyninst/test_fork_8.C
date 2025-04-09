@@ -80,7 +80,6 @@ static int msgid;
 
 static void prepareTestCase4(procType proc_type, BPatch_thread *thread, forkWhen when)
 {
-   static BPatchSnippetHandle *parSnippetHandle4;
 
    if(proc_type == Child_p  &&  when == PostFork) {
        BPatch_image *childImage = thread->getProcess()->getImage();
@@ -110,8 +109,7 @@ static void prepareTestCase4(procType proc_type, BPatch_thread *thread, forkWhen
 
       BPatch_arithExpr a_expr7_4c(BPatch_plus, *var7_4c,BPatch_constExpr(211));
       BPatch_arithExpr b_expr7_4c(BPatch_assign, *var7_4c, a_expr7_4c);
-      parSnippetHandle4 =
-              thread->getProcess()->insertSnippet(b_expr7_4c, *point7_4c, BPatch_callBefore);
+      thread->getProcess()->insertSnippet(b_expr7_4c, *point7_4c, BPatch_callBefore);
    }
 }
 
@@ -142,7 +140,7 @@ static void postForkFunc(BPatch_thread *parent, BPatch_thread *child)
 }
 
 /* And verify them when they exit */
-static void exitFunc(BPatch_thread *thread, BPatch_exitType exit_type) {
+static void exitFunc(BPatch_thread *thread, BPatch_exitType) {
     dprintf("Exit func called\n");
     if (thread == parentThread) {
         dprintf("Parent exit reached, checking...\n");

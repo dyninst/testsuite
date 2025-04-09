@@ -41,19 +41,19 @@
 // Base class for the mutator part of a test
 class COMPLIB_DLL_EXPORT DyninstMutator : public TestMutator {
 public:
-  BPatch_thread *appThread;
-  BPatch_addressSpace *appAddrSpace;
-  BPatch_binaryEdit *appBinEdit;
-  BPatch_process *appProc;
+  BPatch_thread *appThread{};
+  BPatch_addressSpace *appAddrSpace{};
+  BPatch_binaryEdit *appBinEdit{};
+  BPatch_process *appProc{};
   // FIXME This field (appImage) probably isn't necessary.  It looks looks like
   // appImage is easily derivable from appThread.
-  BPatch_image *appImage;
+  BPatch_image *appImage{};
 
-  create_mode_t runmode;
+  create_mode_t runmode{};
 
-  DyninstMutator();
+  DyninstMutator() = default;
   virtual test_results_t setup(ParameterDict &param);
-  virtual ~DyninstMutator();
+  virtual ~DyninstMutator() = default;
 };
 extern "C" {
 	TEST_DLL_EXPORT TestMutator *TestMutator_factory();

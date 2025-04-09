@@ -60,23 +60,23 @@ private:
    ProcessSet::ptr startMutateeSet(RunGroup *group, ParameterDict &param);
    bool startMutatees(RunGroup *group, ParameterDict &param);
 public:
-   int sockfd;
-   char *sockname;
-   int notification_fd;
-   bool check_threads_on_startup;
+   int sockfd{};
+   char *sockname{};
+   int notification_fd{-1};
+   bool check_threads_on_startup{};
 
-   int num_processes;
-   int num_threads;
+   int num_processes{};
+   int num_threads{};
 
-   bool curgroup_self_cleaning;
+   bool curgroup_self_cleaning{};
 
-   std::map<Process::ptr, int> process_socks;
-   std::map<Dyninst::PID, Process::ptr> process_pids;
-   std::vector<Process::ptr> procs;
-   ProcessSet::ptr pset;
-   std::map<EventType, std::vector<Event::const_ptr>, eventtype_cmp > eventsRecieved;
+   std::map<Process::ptr, int> process_socks{};
+   std::map<Dyninst::PID, Process::ptr> process_pids{};
+   std::vector<Process::ptr> procs{};
+   ProcessSet::ptr pset{};
+   std::map<EventType, std::vector<Event::const_ptr>, eventtype_cmp > eventsRecieved{};
 
-   ParamPtr me;
+   ParamPtr me{};
 
 #if defined(os_windows_test)
    HANDLE winsock_event;
@@ -118,12 +118,12 @@ public:
 // Base class for the mutator part of a test
 class COMPLIB_DLL_EXPORT ProcControlMutator : public TestMutator {
 public:
-  ProcControlMutator();
+  ProcControlMutator() = default;
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t pre_init(ParameterDict &param);
-  virtual ~ProcControlMutator();
+  virtual ~ProcControlMutator() = default;
 
-  ProcControlComponent *comp;
+  ProcControlComponent *comp{};
 };
 
 extern "C" {

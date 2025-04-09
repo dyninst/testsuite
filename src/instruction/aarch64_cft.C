@@ -193,7 +193,7 @@ test_results_t aarch64_cft_Mutator::executeTest() {
       continue;
     }
 
-    const auto num_cft = std::distance(insn.cft_begin(), insn.cft_end());
+    const size_t num_cft = std::distance(insn.cft_begin(), insn.cft_end());
     const auto num_expected_cft = t.expected_targets.size();
 
     if(num_cft != num_expected_cft) {

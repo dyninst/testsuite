@@ -137,8 +137,7 @@ test_results_t test5_8_Mutator::executeTest() {
 	strcpy(fieldName, (*fields)[index]->getName());
        if ( !strcmp("CPP_TEST_UTIL_VAR", (*fields)[index]->getName()) ) {
            dprintf("Inserted snippet2\n");
-	       BPatchSnippetHandle *handle;
-           handle = appAddrSpace->insertSnippet(call8Expr, *point8_1);
+           appAddrSpace->insertSnippet(call8Expr, *point8_1);
            return PASSED;
        }
        

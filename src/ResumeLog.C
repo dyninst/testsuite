@@ -170,13 +170,13 @@ void parse_resumelog(std::vector<RunGroup *> &groups)
    
    for (;;)
    {
-      int res = fscanf(f, "%d,%d,%d\n", &groupnum, &testnum, &runstate_int);
+      int res = fscanf(f, "%u,%u,%d\n", &groupnum, &testnum, &runstate_int);
       if (res != 3)
          break;
       
-      assert(groupnum >= 0 && groupnum < groups.size());
+      assert(static_cast<size_t>(groupnum) < groups.size());
       assert(groups[groupnum]);
-      assert(testnum >= 0);
+      assert(testnum >= 0UL);
       assert(testnum < groups[groupnum]->tests.size());
       if (runstate_int == RESULT_REPORTED)
       {

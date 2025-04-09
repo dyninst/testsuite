@@ -74,8 +74,8 @@ test_results_t test5_7_Mutator::executeTest() {
    int flag = 0;
    BPatch_function *func;
    int bound = point7_1->size();
-   BPatch_variableExpr *content7_1;
-   BPatch_variableExpr *content7_2;
+   BPatch_variableExpr *content7_1{};
+   BPatch_variableExpr *content7_2{};
 
    while (index < bound) {
      if ((func = (*point7_1)[index]->getCalledFunction()) == NULL) {
