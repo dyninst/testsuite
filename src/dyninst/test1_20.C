@@ -115,8 +115,7 @@ test_results_t test1_20_Mutator::executeTest()
 
         std::set<BPatch_basicBlock *> blocks;
 
-	if (!cfg->getAllBasicBlocks(blocks))
-		assert(0); // This can't return false :)
+	cfg->getAllBasicBlocks(blocks);
 
 	if (blocks.size() == 0) 
 	{
@@ -134,14 +133,22 @@ test_results_t test1_20_Mutator::executeTest()
 	for (; blockIter != blocks.end(); blockIter++) 
 	{
 		BPatch_basicBlock *block = *blockIter;
-		assert(block);
+
+    if(!block) {
+     logerror("%s[%d]: Invalid block in 'func20_2'\n", __FILE__, __LINE__);
+     return FAILED;
+    }
 
 		dprintf("%s[%d]:  inserting arbitrary inst in basic block at addr %p\n", 
                         FILE__, __LINE__, (void *) block->getStartAddress());
 
                 
                 BPatch_Vector<BPatch_point*> * points = block->findPoint(nullFilter);
-                assert(points);
+                if(!points) {
+                 logerror("%s[%d]: Could not find point in 'func20_2'\n", __FILE__, __LINE__);
+                 return FAILED;
+                }
+
                 for(unsigned int i = 0; i < points->size(); i++)
                 {
                     BPatch_point* pt = (*points)[i];
