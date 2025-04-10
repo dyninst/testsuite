@@ -30,6 +30,7 @@
 
 #include "instruction_comp.h"
 #include <iterator>
+#include <set>
 
 using namespace Dyninst;
 using namespace InstructionAPI;
@@ -124,8 +125,8 @@ TEST_DLL_EXPORT ComponentTester *componentTesterFactory()
 test_results_t InstructionMutator::verify_read_write_sets(Instruction i, const registerSet& expectedRead,
                                       const registerSet& expectedWritten)
 {
-    set<RegisterAST::Ptr> actualRead_uo;
-    set<RegisterAST::Ptr> actualWritten_uo;
+    std::set<RegisterAST::Ptr> actualRead_uo;
+    std::set<RegisterAST::Ptr> actualWritten_uo;
     i.getWriteSet(actualWritten_uo);
     i.getReadSet(actualRead_uo);
     registerSet actualRead, actualWritten;
