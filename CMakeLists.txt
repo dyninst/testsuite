@@ -18,6 +18,15 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
 
+set(_warning_flags "-Werror -Wall -Wextra -Wpedantic")
+if(NOT CMAKE_C_FLAGS)
+  set(CMAKE_C_FLAGS ${_warning_flags})
+endif()
+
+if(NOT CMAKE_CXX_FLAGS)
+  set(CMAKE_CXX_FLAGS ${_warning_flags})
+endif()
+
 include(LanguageStandards)
 include(optimization)
 
