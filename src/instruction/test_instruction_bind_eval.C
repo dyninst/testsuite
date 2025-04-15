@@ -126,13 +126,12 @@ test_results_t test_instruction_bind_eval_Mutator::run(Dyninst::Architecture arc
     if(verifyCFT(theCFT, false, 0x1000, u32) == FAILED) {
       return FAILED;
     }
-    vector<Expression::Ptr> tmp;
-    theCFT->getChildren(tmp);
-    if(tmp.size() != 1) {
-      logerror("FAILED: expected dereference with one child, got %d children\n", tmp.size());
+    auto subExpressions = theCFT->getSubexpressions();
+    if(subExpressions.size() != 1) {
+      logerror("FAILED: expected dereference with one child, got %d children\n", subExpressions.size());
       return FAILED;
     }
-    Expression::Ptr memRef = tmp[0];
+    Expression::Ptr memRef = subExpressions[0];
     if(!memRef) {
       logerror("FAILED: memRef was not an expression\n");
       return FAILED;
