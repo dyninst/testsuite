@@ -134,10 +134,10 @@ test_results_t test1_20_Mutator::executeTest()
 	{
 		BPatch_basicBlock *block = *blockIter;
 
-    if(!block) {
-     logerror("%s[%d]: Invalid block in 'func20_2'\n", __FILE__, __LINE__);
-     return FAILED;
-    }
+		if(!block) {
+			logerror("%s[%d]: Invalid block in 'func20_2'\n", __FILE__, __LINE__);
+			return FAILED;
+		}
 
 		dprintf("%s[%d]:  inserting arbitrary inst in basic block at addr %p\n", 
                         FILE__, __LINE__, (void *) block->getStartAddress());
