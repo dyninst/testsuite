@@ -79,7 +79,7 @@ test_results_t test5_3_Mutator::executeTest() {
 
   unsigned int index = 0;
   char fn3[256];
-  BPatch_function *func;
+  BPatch_function *func{};
   while (index < point3_1->size()) {
      if ((func = (*point3_1)[index]->getCalledFunction()) != NULL &&
          !strcmp("overload_op_test::operator++", func->getName(fn3, 256)))

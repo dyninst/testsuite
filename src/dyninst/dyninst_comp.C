@@ -806,7 +806,7 @@ int pointerSize(BPatch_image *img) {
 
    return pointerSize;
 #else
-   return sizeof(void*);
+   return sizeof(img);
 #endif
 }
 
