@@ -88,8 +88,6 @@ char **gargv;
 void initModuleIfNecessary(RunGroup *group, std::vector<RunGroup *> &groups, 
                            ParameterDict &params);
 
-bool collectInvocation(Dyninst::PID mpirun_pid, int session);
-
 int setupLogs(ParameterDict &params);
 
 #if !defined(os_windows_test)
@@ -342,7 +340,6 @@ bool setupConnectionToRemote(RunGroup *group, ParameterDict &params)
    if (!result) {
       fprintf(stderr, "Failed to collect mutatee params\n");
    }
-   char **c_mutatee_args = getCParams(mutatee_exec, mutatee_args);
 
    //driver params;
    vector<string> driver_args;
@@ -368,9 +365,6 @@ bool setupConnectionToRemote(RunGroup *group, ParameterDict &params)
       driver_args.push_back("-redirect-debug");
       driver_args.push_back(redirect_file);
    }
-
-   char **c_driver_args = getCParams(driver_exec, driver_args);
-   bool attach_mode = (group->createmode == USEATTACH);
 
    result = con->server_accept();
    if (!result) {
@@ -655,7 +649,7 @@ void startAllTests(std::vector<RunGroup *> &groups, ParameterDict &param)
       if (param["dry_run"]->getInt()) 
 	{
 	  // StdOutputDriver does the results display
-	  for (int gti = 0; gti < groups[i]->tests.size(); gti++) {
+	  for (auto gti = 0UL; gti < groups[i]->tests.size(); gti++) {
 	    TestInfo *test = groups[i]->tests[gti];
 	    const char *mode_str [] = { "create", "attach","rewriter","" };
 	    const char *link_str [] = { "static", "dynamic" };

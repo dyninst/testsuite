@@ -55,9 +55,8 @@ static const char *extract_name(const char *tag, const char *label)
 // The constructor for TestInfo
 TestInfo::TestInfo(unsigned int i, const char *iname, const char *imrname,
                    const char *isoname, const char *ilabel) :
-	index(i), name(iname), mutator_name(imrname), soname(isoname),
-	label(ilabel), mutator(NULL), disabled(false), limit_disabled(false),
-	enabled(false), result_reported(false)
+	name(iname), mutator_name(imrname), soname(isoname),
+	label(ilabel), index(i)
 {
    assert(name);
    assert(mutator_name);
@@ -71,13 +70,8 @@ TestInfo::TestInfo(unsigned int i, const char *iname, const char *imrname,
 }
 
 TestInfo::TestInfo(unsigned int i, const char *libsuffix, const char *ilabel) :
-   index(i),
    label(ilabel),
-   mutator(NULL),
-   disabled(false),
-   limit_disabled(false),
-   enabled(false),
-   result_reported(false)
+   index(i)
 {
    name = extract_name("test: ", label);
    mutator_name = extract_name("mutator: ", label);

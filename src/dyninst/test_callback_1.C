@@ -70,7 +70,6 @@ static int mutateeXLC = 0;
 static BPatch_Vector<BPatch_point *> test2handles;
 static BPatch_Vector<BPatch_point *> dyncalls;
 static BPatch_process *globalThread = NULL;
-extern BPatch *bpatch;
   static int counter = 0;
   static int counter2 = 0;
 

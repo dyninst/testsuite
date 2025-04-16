@@ -102,7 +102,7 @@ test_results_t test_pt_ls_Mutator::executeTest()
     std::vector<std::string> args;
     args.push_back(std::string("/"));
 
-    test_results_t res;
+    test_results_t res{UNKNOWN};
     if (runmode == CREATE) {
         res = parseThat(cmd, args);
     } else if (runmode == DISK) {
@@ -135,7 +135,7 @@ test_results_t test_pt_ls_Mutator::executeTest()
             // We only need to check the tail end of the output file.
             fseek(fp, 0, SEEK_END);
             if (fseek(fp, -(sizeof(buf)-1), SEEK_CUR) != 0) rewind(fp);
-            if(fread(buf, sizeof(char), sizeof(buf)-1, fp) == EOF) {
+            if(fread(buf, sizeof(char), sizeof(buf)-1, fp) == 0UL && feof(fp) != 0) {
               perror("Read failed");
             }
 

@@ -92,7 +92,7 @@ void pc_statMutator::waitfor_sync() {
       error = true;
    }
    
-   for (unsigned int i = 0; i < comp->num_processes; i++) {
+   for (int i = 0; i < comp->num_processes; i++) {
       if (syncs[i].code != SYNCLOC_CODE) {
          logerror("Received bad syncloc message in group test\n");
          error = true;
@@ -270,12 +270,12 @@ test_results_t pc_statMutator::executeTest()
    pset = comp->pset;
 
    spin_addrs = getAddresses(pset);
-   if (error || spin_addrs->size() != comp->num_processes) {
+   if (error || spin_addrs->size() != static_cast<size_t>(comp->num_processes)) {
       logerror("Error getting addresses from mutatee\n");
       return FAILED;
    }
 
-   for (unsigned i=0; i < 10; i++) {
+   for (int i=0; i < 10; i++) {
       waitfor_sync();
       if (error)
          return FAILED;

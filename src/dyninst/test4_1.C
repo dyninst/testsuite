@@ -47,12 +47,12 @@
 
 #include "dyninst_comp.h"
 class test4_1_Mutator : public DyninstMutator {
-  int debugPrint;
-  BPatch *bpatch;
-  char *pathname;
+  int debugPrint{};
+  BPatch *bpatch{};
+  char *pathname{};
 
 public:
-  test4_1_Mutator();
+  test4_1_Mutator() = default;
   virtual bool hasCustomExecutionPath() { return true; }
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t executeTest();
@@ -60,10 +60,6 @@ public:
 };
 extern "C" DLLEXPORT  TestMutator *test4_1_factory() {
   return new test4_1_Mutator();
-}
-
-test4_1_Mutator::test4_1_Mutator()
-  : bpatch(NULL), pathname(NULL) {
 }
 
 static bool passedTest = false;
@@ -122,7 +118,7 @@ static void exitFunc(BPatch_thread *thread, BPatch_exitType exit_type)
   } else assert(false);
 }
 
-static void execFunc(BPatch_thread *thread)
+static void execFunc(BPatch_thread *)
 {
     logerror("**Failed Test #1\n");
     logerror("    execCallback invoked, but exec was not called!\n");

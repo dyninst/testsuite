@@ -59,7 +59,7 @@ static bool myerror;
 const char *exec_name = "pc_exec_targ";
 const char *libtestA = "libtestA";
 
-static bool hasLibrary(std::string lib, Process::const_ptr proc)
+static bool hasLibrary(std::string, Process::const_ptr proc)
 {
    LibraryPool::const_iterator i = proc->libraries().begin();
    for (; i != proc->libraries().end(); i++) {
@@ -102,8 +102,6 @@ Process::cb_ret_t on_fork(Event::const_ptr ev)
       myerror = true;
       return Process::cbDefault;
    }
-
-   proc_info_forkexec &pi = pinfo[child_proc];
 
    if (child_proc->libraries().size() != parent_proc->libraries().size())
    {
@@ -173,7 +171,7 @@ test_results_t pc_fork_execMutator::executeTest()
       }
    }
 
-   if (pinfo.size() != comp->num_processes * (comp->num_threads+1)) {
+   if (pinfo.size() != static_cast<size_t>(comp->num_processes * (comp->num_threads+1))) {
       logerror("Did not recieve expected number of callbacks\n");
       myerror = true;
    }

@@ -57,7 +57,6 @@ extern "C" {
 #include "mutatee_call_info.h"
    extern mutatee_call_info_t mutatee_funcs[];
    extern int passedTest[];
-   extern unsigned int MAX_TEST;
 
 #include "test_results.h"
 

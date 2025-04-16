@@ -40,36 +40,33 @@
 #include "BPatch_thread.h"
 #include "BPatch_snippet.h"
 #include "BPatch_statement.h"
-
 #include "test_lib.h"
-
 #include "dyninst_comp.h"
+
+#include <vector>
+
+
 class test1_41_Mutator : public DyninstMutator {
-  BPatch_exitType expectedSignal;
-  int debugPrint;
-  const int iterations;
-  char *pathname;
-  BPatch *bpatch;
+  BPatch_exitType expectedSignal{ExitedNormally};
+  int debugPrint{};
+  const int iterations{2};
+  char *pathname{};
+  BPatch *bpatch{};
   
   virtual bool hasCustomExecutionPath() { return true; }
   virtual test_results_t setup(ParameterDict &param);
   virtual test_results_t executeTest();
 
 public:
-  test1_41_Mutator();
+  test1_41_Mutator() = default;
 };
 extern "C" DLLEXPORT  TestMutator *test1_41_factory() {
   return new test1_41_Mutator();
 }
 
-test1_41_Mutator::test1_41_Mutator()
-  : expectedSignal(ExitedNormally), iterations(2) {
-  TestMutator();
-}
-
 // static int mutatorTest(char *pathname, BPatch *bpatch)
 test_results_t test1_41_Mutator::executeTest() {
-   unsigned int n=0;
+   int n=0;
    const char *child_argv[5];
    child_argv[n++] = pathname;
    if (debugPrint) child_argv[n++] = const_cast<char*>("-verbose");
@@ -77,7 +74,7 @@ test_results_t test1_41_Mutator::executeTest() {
    child_argv[n++] = const_cast<char*>("test1_41"); // run test41 in mutatee
    child_argv[n++] = NULL;
 
-   int counts[iterations];
+   std::vector<int> counts(iterations);
 
    // Run the mutatee twice, querying line info each time & store the info
    for (n = 0; n < iterations; n++) {

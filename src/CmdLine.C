@@ -811,7 +811,7 @@ static void disableUnwantedTests(std::vector<RunGroup *> &groups)
 
    if (unique_id && max_unique_id && testLimit) {
       unsigned cur_test = 0;
-      unsigned cur_test_limitgroup = 0;
+      int cur_test_limitgroup = 0;
       for (unsigned i=0; i < groups.size(); i++) 
       {
          if (groups[i]->disabled) continue;
@@ -833,7 +833,7 @@ static void disableUnwantedTests(std::vector<RunGroup *> &groups)
    }
    else if (unique_id && max_unique_id && groupLimit) {
       unsigned cur_group = 0;
-      unsigned cur_limitgroup = 0;
+      int cur_limitgroup = 0;
       for (unsigned i=0; i < groups.size(); i++) 
       {
          if (groups[i]->disabled) continue;
@@ -916,7 +916,7 @@ static void disableUnwantedTests(std::vector<RunGroup *> &groups)
    }
    if (given_mutator != -1) {
       for (unsigned  i = 0; i < groups.size(); i++) {
-         if (i != given_mutator && !groups[i]->disabled) {
+         if (static_cast<int>(i) != given_mutator && !groups[i]->disabled) {
             for (unsigned j=0; j<groups[i]->tests.size(); j++) 
             {
                if (!groups[i]->tests[j]->disabled) {
@@ -988,8 +988,6 @@ static bool mutateeListContains(std::vector<char *> mutatee_list, const char *mu
 // don't match.  All tests start out enabled, and we previously disabled any
 // that are crashing while we were parsing the resume log.
 static bool testListContains(TestInfo * test, std::vector<char *> &testsn) {
-   bool match_found = false;
-
    for (size_t i = 0; i < testsn.size(); i++) {
       if (nameMatches(testsn[i], test->name))
          return true;

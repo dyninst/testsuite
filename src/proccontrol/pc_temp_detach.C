@@ -42,7 +42,7 @@ extern "C" DLLEXPORT TestMutator* pc_temp_detach_factory()
 
 static bool event_source_error = false;
 static bool not_expecting_event = true;
-Process::cb_ret_t on_event_source_event(Event::const_ptr ev)
+Process::cb_ret_t on_event_source_event(Event::const_ptr)
 {
    if( not_expecting_event ) {
        //We should not see any of the signals if the detach worked
