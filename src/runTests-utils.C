@@ -122,7 +122,7 @@ int CollectTestResults(vector<test_driver_t> &test_drivers, int parallel_copies)
    for (;;) 
    {
       // Wait for child to exit
-      pid_t waiting_pid;
+      pid_t waiting_pid{};
       int child_status;
       //fprintf(stderr, "%s[%d]:  before waitpid(%d)\n", __FILE__, __LINE__, child_pid);
       if (!timed_out && !interrupted) {
