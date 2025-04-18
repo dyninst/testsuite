@@ -776,6 +776,8 @@ void addLibArchExt(char *dest, unsigned int dest_max_len, int psize)
       strncat(dest,"_m32", dest_max_len - dest_len);
       dest_len += 4;   
    }
+#else
+   (void)psize;
 #endif
 
 #if defined(os_windows_test)
