@@ -2267,6 +2267,22 @@ test_runmode('power_cft', 'disk').
 test_start_state('power_cft', 'stopped').
 tests_module('power_cft', 'instruction').
 
+test('riscv64_decode', 'riscv64_decode', none).
+test_description('riscv64_decode', 'Tests the read & write sets of RISCV64 instructions.').
+test_platform('riscv64_decode', Platform) :-
+        platform(Platform),
+        platform('i386', _, _, Platform);
+        platform('power32', _, _, Platform);
+        platform('power64', _, _, Platform);
+        platform('powerpc', _, _, Platform);
+        platform('aarch64', _, _, Platform);
+        platform('riscv64', _, _, Platform);
+        platform('x86_64', _, _, Platform).
+mutator('riscv64_decode', ['riscv64_decode.C']).
+test_runmode('riscv64_decode', 'disk').
+test_start_state('riscv64_decode', 'stopped').
+tests_module('riscv64_decode', 'instruction').
+
 test('fucompp', 'fucompp', none).
 test_description('fucompp', 'Tests the fucompp instruction').
 test_platform('fucompp', Platform) :-
