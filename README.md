@@ -1,23 +1,41 @@
 # Testsuite for the Dyninst tool for binary instrumentation, analysis, and modification
 
-## Usage
+## Building Testsuite
 
-Because Dyninst and its testsuite are tightly integrated, it is highly recommended to use the build script located in `scripts/build/build.pl`.
+To build testsuite, please first have the Dyninst version you want to test installed.
+Then one can build the testsuite using cmake by specifying the path of dyninst installation using Dyninst\_ROOT.
 
-Example usage on Linux:
+  > mkdir build
+  > cd build; 
+  > cmake .. -DDyninst\_ROOT=/path/to/your/dyninst/installation -DCMAKE\_INSTALL\_PREFIX=/path/to/your/testsuite/intallation
 
-	> export PERL5LIB=testsuite/scripts/build
-	> perl testsuite/scripts/build/build.pl --njobs=4
-	
-The build script has several options for configuring library locations. See `build.pl --help` for details.
+## Running Testsuite
 
-### Running tests for pull requests
+To run the testsuite, three paths need to be set through the enviromental variable:
+DYNINSTAPI\_RT\_LIB should point to the libdyninstAPI\_RT.so under the Dyninst installation path.
+LD\_LIBRARY\_PATH should include both the path of tht Dyninst installation and the path of the testsuite installation.
 
-By default, the build script uses the current state of the repositories contained in the directories specified by `--dyninst-src` and `--test-src`. The test script comes with the ability to fetch and update pull requests directly from the Dyninst Github repository. These are controlled through the `--dyninst-pr` and `--testsuite-pr` switches for dyninst and the testsuite, respectively. Note, however, that if the current git tree has any outstanding changes, the script will raise an error accordingly.
+To enable debugging, one can run the testsuite with the following arguments
 
-The format of the input is *remote/id* where *remote* is the name given to the remote repository (this is usually "origin") and *id* is the pull request id from Github. In the case that the remote's name is 'origin', it can be omitted. Hence, `--dyninst-pr=origin/123` is the same as `--dyninst-pr=123`; the same for `--testsuite-pr`.
+> -v -log logfilename -debugPrint
 
-The build script will also update the pull request (via a squashed merge commit) to the current HEAD of the remote's `master` branch the first time the PR is tested locally. As such, this feature should only be used to test PRs against the official Dyninst repository. This process creates a local branch name `PR<ID>` where `<ID>` is the *id* of the PR specified on the command line. If this local branch already exists, then a `pull` is issued and no merge commit against the remote's master is performed. This can cause trouble if a local branch with that name already exists.
+The testsuite can be run two modes: The full run mode and a one-test mode.
 
-	NOTE: It is best not to have any local branches with names of the form 'PR<ID>' when using the build script
+### runTests
+
+The runTests executable will run all tests the comes with the testsuite.
+
+Example usage :
+> DYNINSTAPI\_RT\_LIB=dyninst-install/lib/libdyninstAPI\_RT.so LD\_LIBRARY\_PATH=dyninst-install/lib/:./:$LD\_LIBRARY\_PATH ./runTests -v -log output.log -debugPrint
+
+### test\_driver
+
+The test\_driver allows you to specify which test you want to run by passing hte following argument
+
+> -test test-name
+
+Example usage :
+> DYNINSTAPI\_RT\_LIB=dyninst-install/lib/libdyninstAPI\_RT.so LD\_LIBRARY\_PATH=dyninst-install/lib/:./:$LD\_LIBRARY\_PATH ./test\_driver -v -log output.log -debugPrint -test pc\_irpc
+
+### Documentation for additional control(WIP)
 
