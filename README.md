@@ -36,7 +36,9 @@ The runTests executable will run all tests the comes with the testsuite.
 Example usage:
 
 ```
-DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH ./runTests -v -log output.log -debugPrint
+export DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so
+export LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH
+./runTests -v -log output.log -debugPrint -all
 ```
 
 ## test\_driver
