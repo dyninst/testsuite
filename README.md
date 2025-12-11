@@ -3,7 +3,9 @@
 ## Building and Installing Testsuite
 
 The testsuite needs to be installed as it cannot be run from within the build directory.
+
 To build testsuite, please first have the Dyninst version you want to test installed.
+
 Then one can build the testsuite using cmake by specifying the path of dyninst installation using `Dyninst_ROOT`.
 
 ```
