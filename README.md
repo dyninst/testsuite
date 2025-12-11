@@ -3,7 +3,7 @@
 ## Building Testsuite
 
 To build testsuite, please first have the Dyninst version you want to test installed.
-Then one can build the testsuite using cmake by specifying the path of dyninst installation using Dyninst\_ROOT.
+Then one can build the testsuite using cmake by specifying the path of dyninst installation using `Dyninst_ROOT`.
 
 ```
 mkdir build
