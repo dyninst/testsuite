@@ -19,7 +19,7 @@ To run the testsuite, three paths need to be set through the enviromental variab
 
 * DYNINSTAPI\_RT\_LIB should point to the libdyninstAPI\_RT.so under the Dyninst installation path.
 
-* LD\_LIBRARY\_PATH should include both the path of tht Dyninst installation and the path of the testsuite installation.
+* `LD_LIBRARY_PATH` should include both the path of tht Dyninst installation and the path of the testsuite installation.
 
 To enable debugging, one can run the testsuite with the following arguments
 
