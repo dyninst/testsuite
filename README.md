@@ -17,7 +17,7 @@ cmake .. -DDyninst_ROOT=/path/to/your/dyninst/installation -DCMAKE_INSTALL_PREFI
 
 To run the testsuite, three paths need to be set through the enviromental variable:
 
-* DYNINSTAPI\_RT\_LIB should point to the libdyninstAPI\_RT.so under the Dyninst installation path.
+* `DYNINSTAPI_RT_LIB` should point to the `libdyninstAPI_RT.so` under the Dyninst installation path.
 
 * `LD_LIBRARY_PATH` should include both the path of tht Dyninst installation and the path of the testsuite installation.
 
@@ -52,7 +52,9 @@ The test\_driver allows you to specify which test you want to run by passing the
 Example usage:
 
 ```
-DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH ./test_driver -v -log output.log -debugPrint -test pc_irpc
+export DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so
+export LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH
+./test_driver -v -log output.log -debugPrint -test pc_irpc
 ```
 
 ### Documentation for additional control(WIP)
