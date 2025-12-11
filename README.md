@@ -41,7 +41,7 @@ DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so LD_LIBRARY_PATH=dynins
 
 ## test\_driver
 
-The test\_driver allows you to specify which test you want to run by passing hte following argument
+The test\_driver allows you to specify which test you want to run by passing the following argument
 
 `
 -test test-name
