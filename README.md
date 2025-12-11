@@ -1,7 +1,8 @@
 # Testsuite for the Dyninst tool for binary instrumentation, analysis, and modification
 
-## Building Testsuite
+## Building and Installing Testsuite
 
+The testsuite needs to be installed as it cannot be run from within the build directory.
 To build testsuite, please first have the Dyninst version you want to test installed.
 Then one can build the testsuite using cmake by specifying the path of dyninst installation using `Dyninst_ROOT`.
 
@@ -36,6 +37,7 @@ The runTests executable will run all tests the comes with the testsuite.
 Example usage:
 
 ```
+cd /path/to/your/testsuite/intallation
 export DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so
 export LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH
 ./runTests -v -log output.log -debugPrint -all
@@ -52,6 +54,7 @@ The test\_driver allows you to specify which test you want to run by passing the
 Example usage:
 
 ```
+cd /path/to/your/testsuite/intallation
 export DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so
 export LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH
 ./test_driver -v -log output.log -debugPrint -test pc_irpc
