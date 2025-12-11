@@ -4,7 +4,7 @@
 
 The testsuite needs to be installed as it cannot be run from within the build directory.
 
-To build testsuite, please first have the Dyninst version you want to test installed.
+To build the testsuite, please first have the Dyninst version you want to test installed.
 
 Then one can build the testsuite using cmake by specifying the path of dyninst installation using `Dyninst_ROOT`.
 
@@ -30,11 +30,11 @@ To enable debugging, one can run the testsuite with the following arguments
 -v -log logfilename -debugPrint
 ```
 
-The testsuite can be run two modes: The full run mode and a one-test mode.
+The testsuite can be run two modes: To run all tests or to run a specific test.
 
 ## runTests
 
-The runTests executable will run all tests the comes with the testsuite.
+The runTests executable will run all the tests that comes with the testsuite.
 
 Example usage:
 
@@ -47,7 +47,7 @@ export LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH
 
 ## test\_driver
 
-The test\_driver allows you to specify which test you want to run by passing the following argument
+The test\_driver executable allows you run a specific test by passing the following argument
 
 `
 -test test-name
