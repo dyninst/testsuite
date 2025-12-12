@@ -8,12 +8,33 @@ To build the testsuite, please first have the Dyninst version you want to test i
 
 Then one can build the testsuite using cmake by specifying the path of dyninst installation using `Dyninst_ROOT`.
 
-```
-mkdir build
+### define variable used here and in the rest of this README
 
-cd build
+```shell
+DYNINST_INSTALL=/path/to/your/Dyninst/installation
+TESTSUITE_DIR=/path/to/the/testsuite
+TESTSUITE_BUILD=$TESTSUITE_DIR/build
+TESTSUITE_INSTALL=$TESTSUITE_DIR/install
 
-cmake .. -DDyninst_ROOT=/path/to/your/dyninst/installation -DCMAKE_INSTALL_PREFIX=/path/to/your/testsuite/intallation
+mkdir $TESTSUITE_BUILD
+cd $TESTSUITE_BUILD
+
+# configure
+cmake -DDyninst_ROOT=$DYNINST_INSTALL -DCMAKE_INSTALL_PREFIX=$TESTSUITE_INSTALL ..
+
+# build and install
+make -j install
+
+# find the Dyninst lib directory (varies by platform, so use glob)
+DYNINST_INSTALL_LIB=$(echo $DYNINST_INSTALL/lib*)
+if [ ! -d "$DYNINST_INSTALL_LIB" ]; then
+    # check that lib directory exists; detect no or more than 1 glob match
+    echo "ERROR: Dyninst install lib directory not found: $DYNINST_INSTALL_LIB" 1>&2
+fi
+
+# define more variables needed to run the test suite
+export DYNINSTAPI_RT_LIB=$DYNINST_INSTALL_LIB/libdyninstAPI_RT.so
+TESTSUITE_LD_LIBRARY_PATH=$DYNINST_INSTALL_LIB:$TESTSUITE_INSTALL:$LD_LIBRARY_PATH
 ```
 
 ## Running Testsuite
@@ -38,11 +59,9 @@ The runTests executable will run all the tests that comes with the testsuite.
 
 Example usage:
 
-```
-cd /path/to/your/testsuite/intallation
-export DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so
-export LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH
-./runTests -v -log output.log -debugPrint -all
+```shell
+cd $TESTSUITE_INSTALL
+LD_LIBRARY_PATH=$TESTSUITE_LD_LIBRARY_PATH ./runTests -v -log output.log -debugPrint -all
 ```
 
 ## test\_driver
@@ -55,11 +74,9 @@ The test\_driver executable allows you run a specific test by passing the follow
 
 Example usage:
 
-```
-cd /path/to/your/testsuite/intallation
-export DYNINSTAPI_RT_LIB=dyninst-install/lib/libdyninstAPI_RT.so
-export LD_LIBRARY_PATH=dyninst-install/lib/:./:$LD_LIBRARY_PATH
-./test_driver -v -log output.log -debugPrint -test pc_irpc
+```shell
+cd $TESTSUITE_INSTALL
+LD_LIBRARY_PATH=$TESTSUITE_LD_LIBRARY_PATH ./test_driver -v -log output.log -debugPrint -test pc_irpc
 ```
 
 ### Documentation for additional control(WIP)
