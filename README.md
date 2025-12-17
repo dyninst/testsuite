@@ -1,23 +1,83 @@
 # Testsuite for the Dyninst tool for binary instrumentation, analysis, and modification
 
-## Usage
+## Building and Installing Testsuite
 
-Because Dyninst and its testsuite are tightly integrated, it is highly recommended to use the build script located in `scripts/build/build.pl`.
+The testsuite needs to be installed as it cannot be run from within the build directory.
 
-Example usage on Linux:
+To build the testsuite, please first have the Dyninst version you want to test installed.
 
-	> export PERL5LIB=testsuite/scripts/build
-	> perl testsuite/scripts/build/build.pl --njobs=4
-	
-The build script has several options for configuring library locations. See `build.pl --help` for details.
+Then one can build the testsuite using cmake by specifying the path of dyninst installation using `Dyninst_ROOT`.
 
-### Running tests for pull requests
+### define variable used here and in the rest of this README
 
-By default, the build script uses the current state of the repositories contained in the directories specified by `--dyninst-src` and `--test-src`. The test script comes with the ability to fetch and update pull requests directly from the Dyninst Github repository. These are controlled through the `--dyninst-pr` and `--testsuite-pr` switches for dyninst and the testsuite, respectively. Note, however, that if the current git tree has any outstanding changes, the script will raise an error accordingly.
+```shell
+DYNINST_INSTALL=/path/to/your/Dyninst/installation
+TESTSUITE_DIR=/path/to/the/testsuite
+TESTSUITE_BUILD=$TESTSUITE_DIR/build
+TESTSUITE_INSTALL=$TESTSUITE_DIR/install
 
-The format of the input is *remote/id* where *remote* is the name given to the remote repository (this is usually "origin") and *id* is the pull request id from Github. In the case that the remote's name is 'origin', it can be omitted. Hence, `--dyninst-pr=origin/123` is the same as `--dyninst-pr=123`; the same for `--testsuite-pr`.
+mkdir $TESTSUITE_BUILD
+cd $TESTSUITE_BUILD
 
-The build script will also update the pull request (via a squashed merge commit) to the current HEAD of the remote's `master` branch the first time the PR is tested locally. As such, this feature should only be used to test PRs against the official Dyninst repository. This process creates a local branch name `PR<ID>` where `<ID>` is the *id* of the PR specified on the command line. If this local branch already exists, then a `pull` is issued and no merge commit against the remote's master is performed. This can cause trouble if a local branch with that name already exists.
+# configure
+cmake -DDyninst_ROOT=$DYNINST_INSTALL -DCMAKE_INSTALL_PREFIX=$TESTSUITE_INSTALL ..
 
-	NOTE: It is best not to have any local branches with names of the form 'PR<ID>' when using the build script
+# build and install
+make -j install
+
+# find the Dyninst lib directory (varies by platform, so use glob)
+DYNINST_INSTALL_LIB=$(echo $DYNINST_INSTALL/lib*)
+if [ ! -d "$DYNINST_INSTALL_LIB" ]; then
+    # check that lib directory exists; detect no or more than 1 glob match
+    echo "ERROR: Dyninst install lib directory not found: $DYNINST_INSTALL_LIB" 1>&2
+fi
+
+# define more variables needed to run the test suite
+export DYNINSTAPI_RT_LIB=$DYNINST_INSTALL_LIB/libdyninstAPI_RT.so
+TESTSUITE_LD_LIBRARY_PATH=$DYNINST_INSTALL_LIB:$TESTSUITE_INSTALL:$LD_LIBRARY_PATH
+```
+
+## Running Testsuite
+
+To run the testsuite, three paths need to be set through the enviromental variable:
+
+* `DYNINSTAPI_RT_LIB` should point to the `libdyninstAPI_RT.so` under the Dyninst installation path.
+
+* `LD_LIBRARY_PATH` should include both the path of tht Dyninst installation and the path of the testsuite installation.
+
+To enable debugging, one can run the testsuite with the following arguments
+
+```
+-v -log logfilename -debugPrint
+```
+
+The testsuite can be run two modes: To run all tests or to run a specific test.
+
+## runTests
+
+The runTests executable will run all the tests that comes with the testsuite.
+
+Example usage:
+
+```shell
+cd $TESTSUITE_INSTALL
+LD_LIBRARY_PATH=$TESTSUITE_LD_LIBRARY_PATH ./runTests -v -log output.log -debugPrint -all
+```
+
+## test\_driver
+
+The test\_driver executable allows you run a specific test by passing the following argument
+
+`
+-test test-name
+`
+
+Example usage:
+
+```shell
+cd $TESTSUITE_INSTALL
+LD_LIBRARY_PATH=$TESTSUITE_LD_LIBRARY_PATH ./test_driver -v -log output.log -debugPrint -test pc_irpc
+```
+
+### Documentation for additional control(WIP)
 
