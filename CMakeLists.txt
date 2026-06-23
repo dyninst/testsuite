@@ -336,3 +336,5 @@ if(DYNINST_ENABLE_32BIT_TESTS)
 endif()
 
 include(${DYNINST_PLATFORM}/cmake-mutatees.txt)
+
+include(CTest)
