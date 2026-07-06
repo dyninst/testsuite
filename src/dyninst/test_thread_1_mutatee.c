@@ -142,9 +142,11 @@ int func1_1() {
     pthread_join(test1threads[i], NULL);
   }
 
+  /* The lock must be freed before dlclose: DYNINSTfree_thelock points into
+   * the RT library and is invalid once the library is unmapped. */
+  DYNINSTfree_thelock(&test1lock);
   dlclose(RTlib);
   pthread_barrier_destroy(&startup_barrier);
-  DYNINSTfree_thelock(&test1lock);
 
   return subtest1err;
 }
