@@ -50,6 +50,10 @@
 
 using namespace std;
 
+// Defined in test_lib_mutateeStart.C: select this driver instance's binedit
+// directory and remove files a previous run left behind.
+extern void initBinEditDirCleanup(int unique_id);
+
 class DyninstComponent : public ComponentTester
 {
 private:
@@ -90,6 +94,12 @@ bool isMutateeXLC(const char *name);
 
 test_results_t DyninstComponent::program_setup(ParameterDict &params)
 {
+   // Sweep stale rewritten binaries (possibly including rewritten system
+   // libraries) out of the binedit directory before any test runs: the
+   // harness puts that directory on every mutatee's LD_LIBRARY_PATH, so
+   // leftovers from a previous run poison this run's create/attach tests.
+   initBinEditDirCleanup(params["unique_id"]->getInt());
+
    if (measure) um_program.start();  // Measure resource usage.
 
    bpatch = new BPatch();

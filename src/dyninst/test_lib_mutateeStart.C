@@ -81,6 +81,40 @@ static void clearBinEditFiles()
    free(files);
 }
 
+// Select the binedit directory for this test_driver instance (honoring
+// -unique, mirroring runRewriterTest) and clear anything left behind by a
+// PREVIOUS run. Rewritten binaries -- including rewritten copies of system
+// libraries such as libc.so.6 (test_reloc) -- are written here, and the
+// harness prepends this directory to every mutatee's LD_LIBRARY_PATH. The
+// per-group cleanup at the end of runRewriterTest never runs when
+// test_driver is killed mid-group (timeout, crash), and create/attach
+// groups run before any rewriter group in the next invocation -- so without
+// this run-start sweep, the previous run's final rewriter group leaks its
+// rewritten libraries into every create/attach mutatee of the next run
+// (observed: a stale rewritten libc.so.6 hanging all attach-mode launches).
+void initBinEditDirCleanup(int unique_id)
+{
+   // program_setup can run more than once per test_driver instance (once per
+   // component module program-init); sweeping stale files once is enough.
+   static bool cleaned = false;
+   if (cleaned)
+      return;
+   cleaned = true;
+
+   if (unique_id) {
+      unsigned buffer_len = strlen(BINEDIT_BASENAME) + 32;
+      char *buffer = (char *) malloc(buffer_len);
+      snprintf(buffer, buffer_len-1, "%s.%d", BINEDIT_BASENAME, unique_id);
+      if (strcmp(buffer, get_binedit_dir()) == 0) {
+         free(buffer);
+      }
+      else {
+         set_binedit_dir(buffer);
+      }
+   }
+   clearBinEditFiles();
+}
+
 static bool cdBinDir()
 {
    const char *binedit_dir = get_binedit_dir();
@@ -168,6 +202,11 @@ static void killWaywardChild(int pid)
 void clearBinEditFiles()
 {
    assert(0); //IMPLEMENT ME
+}
+
+void initBinEditDirCleanup(int)
+{
+   // Binary-rewriter tests are not implemented on Windows; nothing to clean.
 }
 
 static bool cdBinDir()
