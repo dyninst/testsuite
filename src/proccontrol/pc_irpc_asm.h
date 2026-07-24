@@ -66,29 +66,6 @@ static void createBuffer(Process::ptr proc,
          start_offset = 4;
          break;
       }
-      case Dyninst::Arch_ppc32: {
-         buffer_size = 6*4;
-         buffer = (unsigned char *)malloc(buffer_size);
-         uint32_t addr32 = (uint32_t) calltarg;
-         // nop
-         buffer[0] = 0x60; buffer[1] = 0x00; buffer[2] = 0x00; buffer[3] = 0x00;
-         // lis r0, 0
-         buffer[4] = 0x3c; buffer[5] = 0x00; buffer[6] = 0x00; buffer[7] = 0x00;
-         // ori r0, r0, 0
-         buffer[8] = 0x60; buffer[9] = 0x00; buffer[10] = 0x00; buffer[11] = 0x00;
-         // mtctr r0
-         buffer[12] = 0x7c; buffer[13] = 0x09; buffer[14] = 0x03; buffer[15] = 0xa6;
-         // bctrl
-         buffer[16] = 0x4e; buffer[17] = 0x80; buffer[18] = 0x04; buffer[19] = 0x21;
-         // trap
-         buffer[20] = 0x7d; buffer[21] = 0x82; buffer[22] = 0x10; buffer[23] = 0x08;
-         start_offset = 4;
-
-         // copy address into buffer
-         *((uint16_t *) (buffer + 6)) = (uint16_t)(addr32 >> 16);
-         *((uint16_t *) (buffer + 10)) = (uint16_t)addr32;
-         break;
-      }
       case Dyninst::Arch_ppc64: {
          //
          // Since PPC opcodes are all 32 bits, work with them in their native
