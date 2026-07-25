@@ -4838,13 +4838,6 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 		local, local, no_launch, 
 		DynamicLink, true, nonPIC, 
 		"instruction", "", "none", "64", "NONE");
-  add_test(rg, "{test: test_instruction_read_write, mutator: test_instruction_read_write, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: local, compiler: , run_mode: disk}");
-  fini_group(rg);
-  rg = new RunGroup("", 
-		STOPPED, DISK, TNone, PNone, 
-		local, local, no_launch, 
-		DynamicLink, true, nonPIC, 
-		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: test_instruction_profile, mutator: test_instruction_profile, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: local, compiler: , run_mode: disk}");
   fini_group(rg);
   rg = new RunGroup("", 
@@ -4853,27 +4846,6 @@ void initialize_mutatees(std::vector<RunGroup *> &t) {
 		DynamicLink, true, nonPIC, 
 		"instruction", "", "none", "64", "NONE");
   add_test(rg, "{test: aarch64_decode, mutator: aarch64_decode, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: local, compiler: , run_mode: disk}");
-  fini_group(rg);
-  rg = new RunGroup("", 
-		STOPPED, DISK, TNone, PNone, 
-		local, local, no_launch, 
-		DynamicLink, true, nonPIC, 
-		"instruction", "", "none", "64", "NONE");
-  add_test(rg, "{test: aarch64_cft, mutator: aarch64_cft, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: local, compiler: , run_mode: disk}");
-  fini_group(rg);
-  rg = new RunGroup("", 
-		STOPPED, DISK, TNone, PNone, 
-		local, local, no_launch, 
-		DynamicLink, true, nonPIC, 
-		"instruction", "", "none", "64", "NONE");
-  add_test(rg, "{test: aarch64_decode_ldst, mutator: aarch64_decode_ldst, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: local, compiler: , run_mode: disk}");
-  fini_group(rg);
-  rg = new RunGroup("", 
-		STOPPED, DISK, TNone, PNone, 
-		local, local, no_launch, 
-		DynamicLink, true, nonPIC, 
-		"instruction", "", "none", "64", "NONE");
-  add_test(rg, "{test: aarch64_simd, mutator: aarch64_simd, grouped: false, pic: none, start_state: stopped, format: dynamicMutatee, process_mode: None, abi: 64, thread_mode: None, mutateeruntime: no_launch, platmode: NONE, mutatee: none, mutatorstart: local, optimization: none, mutateestart: local, compiler: , run_mode: disk}");
   fini_group(rg);
   rg = new RunGroup("dyninst_group_test.dyn_gcc_64_pic_none", 
 		STOPPED, DISK, TNone, PNone, 

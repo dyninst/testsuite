@@ -257,33 +257,13 @@ set (dyninst_OBJS_ALL_MUTATORS
 
 include_directories ("../src/instruction")
 set (instruction_MUTATORS
-	test_instruction_read_write
-	test_instruction_farcall
-	test_instruction_bind_eval
 	test_instruction_profile
-	power_decode
 	aarch64_decode
-	aarch64_cft
-	aarch64_decode_ldst
-	aarch64_simd
-	power_cft
-	fucompp
-	mov_size_details
 )
 
 set (instruction_OBJS_ALL_MUTATORS
-	test_instruction_read_write.o
-	test_instruction_farcall.o
-	test_instruction_bind_eval.o
 	test_instruction_profile.o
-	power_decode.o
 	aarch64_decode.o
-	aarch64_cft.o
-	aarch64_decode_ldst.o
-	aarch64_simd.o
-	power_cft.o
-	fucompp.o
-	mov_size_details.o
 )
 
 
@@ -313,13 +293,8 @@ set (symtab_OBJS_ALL_MUTATORS
 )
 
 set (MUTATOR_NAME_LIST
-	aarch64_cft
 	aarch64_decode
-	aarch64_decode_ldst
-	aarch64_simd
-	fucompp
 	init_fini_callback
-	mov_size_details
 	pc_addlibrary
 	pc_breakpoint
 	pc_detach
@@ -335,8 +310,6 @@ set (MUTATOR_NAME_LIST
 	pc_thread
 	pc_thread_cont
 	pc_tls
-	power_cft
-	power_decode
 	snip_change_shlib_var
 	snip_ref_shlib_var
 	test1_1
@@ -423,10 +396,7 @@ set (MUTATOR_NAME_LIST
 	test_fork_7
 	test_fork_8
 	test_fork_9
-	test_instruction_bind_eval
-	test_instruction_farcall
 	test_instruction_profile
-	test_instruction_read_write
 	test_line_info
 	test_local_var_locations
 	test_local_var_lookup
@@ -454,12 +424,7 @@ set (MUTATOR_NAME_LIST
 
 set (MUTATOR_MODULE_LIB_LIST
 	testinstruction
-	testinstruction
-	testinstruction
-	testinstruction
-	testinstruction
 	testdyninst
-	testinstruction
 	testproccontrol
 	testproccontrol
 	testproccontrol
@@ -475,8 +440,6 @@ set (MUTATOR_MODULE_LIB_LIST
 	testproccontrol
 	testproccontrol
 	testproccontrol
-	testinstruction
-	testinstruction
 	testdyninst
 	testdyninst
 	testdyninst
@@ -563,9 +526,6 @@ set (MUTATOR_MODULE_LIB_LIST
 	testdyninst
 	testdyninst
 	testdyninst
-	testinstruction
-	testinstruction
-	testinstruction
 	testinstruction
 	testsymtab
 	testsymtab
@@ -594,13 +554,8 @@ set (MUTATOR_MODULE_LIB_LIST
 
 set (SRC src)
 set (MUTATOR_SOURCE_LIST
-	${SRC}/instruction/aarch64_cft.C
 	${SRC}/instruction/aarch64_decode.C
-	${SRC}/instruction/aarch64_decode_ldst.C
-	${SRC}/instruction/aarch64_simd.C
-	${SRC}/instruction/fucompp.C
 	${SRC}/dyninst/init_fini_callback.C
-	${SRC}/instruction/mov_size_details.C
 	${SRC}/proccontrol/pc_addlibrary.C
 	${SRC}/proccontrol/pc_breakpoint.C
 	${SRC}/proccontrol/pc_detach.C
@@ -616,8 +571,6 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/proccontrol/pc_thread.C
 	${SRC}/proccontrol/pc_thread_cont.C
 	${SRC}/proccontrol/pc_tls.C
-	${SRC}/instruction/power_cft.C
-	${SRC}/instruction/power_decode.C
 	${SRC}/dyninst/snip_change_shlib_var.C
 	${SRC}/dyninst/snip_ref_shlib_var.C
 	${SRC}/dyninst/test1_1.C
@@ -704,10 +657,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_fork_7.C
 	${SRC}/dyninst/test_fork_8.C
 	${SRC}/dyninst/test_fork_9.C
-	${SRC}/instruction/test_instruction_bind_eval.C
-	${SRC}/instruction/test_instruction_farcall.C
 	${SRC}/instruction/test_instruction_profile.C
-	${SRC}/instruction/test_instruction_read_write.C
 	${SRC}/symtab/test_line_info.C
 	${SRC}/symtab/test_local_var_locations.C
 	${SRC}/symtab/test_local_var_lookup.C
@@ -733,7 +683,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_write_param.C
 	)
 
-foreach (val RANGE 136)
+foreach (val RANGE 126)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)
