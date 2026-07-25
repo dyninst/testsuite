@@ -716,8 +716,9 @@ foreach (val RANGE 130)
 	if(NOT SKIP)
 		add_library (${lib} ${source})
 		target_link_libraries (${lib} ${comp_dep} ${LIBTESTSUITE})
-		install (TARGETS ${lib}
+		install (TARGETS ${lib} 
 		         RUNTIME DESTINATION ${INSTALL_DIR}
 		         LIBRARY DESTINATION ${INSTALL_DIR})
 	endif()
 endforeach()
+

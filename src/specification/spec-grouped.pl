@@ -3041,17 +3041,17 @@ compiler_s('pgcxx', 'pgCC').
 % FIXME Im also not sure that all these compilers default to no optimization
 compiler_opt_trans(Comp, 'none', '-g -O0') :- \+ member(Comp, ['VC++', 'VC']).
 compiler_opt_trans(Comp, 'low', '-O1') :-
-    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
 compiler_opt_trans(Comp, 'low', '/O1 /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 compiler_opt_trans(IBM, 'low', '-O') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'high', '-O2') :-
-    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
 compiler_opt_trans(Comp, 'high', '/O2 /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 compiler_opt_trans(IBM, 'high', '-O3') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'max', '-O3') :-
-    member(Comp, ['gcc', 'g++', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'icc', 'icpc', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
 compiler_opt_trans(IBM, 'max', '-O5') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'max', '/Ox /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
