@@ -81,7 +81,6 @@ platform_module(P, 'instruction') :- platform('power64', _, _, P).
 platform_module(P, 'instruction') :- platform('aarch64', _, _, P).
 platform_module(P, 'proccontrol') :- platform(_, 'linux', _, P).
 platform_module(P, 'proccontrol') :- platform(_, 'freebsd', _, P).
-platform_module(P, 'proccontrol') :- platform(_, 'bluegene', _, P).
 platform_module(P, 'proccontrol') :- platform(_, 'windows', _, P).
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -498,7 +497,7 @@ test_description('init_fini_callback', 'Adds callbacks for rewritten module on l
 % ELF platforms only
     test_platform('init_fini_callback', Platform) :-
     platform(Arch, OS, _, Platform),
-    member(OS, ['linux', 'freebsd', 'bluegene']),
+    member(OS, ['linux', 'freebsd']),
     member(Arch, ['i386', 'x86_64', 'power32', 'power64']).
 mutator('init_fini_callback', ['init_fini_callback.C']).
 mutatee('init_fini_callback', ['init_fini_callback_mutatee.c']).
@@ -684,8 +683,7 @@ test_description('test1_40', 'Verify that we can monitor call sites').
 % test1_40 should not run on Windows or IA64 Linux
 test_platform('test1_40', Platform) :-
         platform(Platform),
-        \+ platform(_, 'windows', _, Platform),
-        \+ platform(_, 'bluegene', _, Platform).
+        \+ platform(_, 'windows', _, Platform).
 groupable_test('test1_40').
 mutator('test1_40', ['test1_40.C']).
 mutatee('test1_40', ['test1_40_mutatee.c']).
@@ -978,7 +976,7 @@ test('test5_1', 'test5_1', 'dyninst_cxx_group_test').
 % test5_1 only runs on Linux, Solaris, and Windows
 test_platform('test5_1', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_1', ['test5_1.C']).
 test_runmode('test5_1', 'staticdynamic').
 test_start_state('test5_1', 'stopped').
@@ -990,7 +988,7 @@ test('test5_2', 'test5_2', 'dyninst_cxx_group_test').
 % test5_2 only runs on Linux, Solaris, and Windows
 test_platform('test5_2', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_2', ['test5_2.C']).
 test_runmode('test5_2', 'staticdynamic').
 test_start_state('test5_2', 'stopped').
@@ -1011,7 +1009,7 @@ test('test5_4', 'test5_4', 'dyninst_cxx_group_test').
 % test5_4 only runs on Linux, Solaris, and Windows
 test_platform('test5_4', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_4', ['test5_4.C']).
 test_runmode('test5_4', 'staticdynamic').
 test_start_state('test5_4', 'stopped').
@@ -1023,7 +1021,7 @@ test('test5_5', 'test5_5', 'dyninst_cxx_group_test').
 % test5_5 only runs on Linux, Solaris, and Windows
 test_platform('test5_5', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_5', ['test5_5.C']).
 test_runmode('test5_5', 'staticdynamic').
 test_start_state('test5_5', 'stopped').
@@ -1035,7 +1033,7 @@ test('test5_6', 'test5_6', 'dyninst_cxx_group_test').
 % test5_6 only runs on x86 Linux
 test_platform('test5_6', Platform) :-
     platform('i386', OS, _, Platform),
-    member(OS, ['linux', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'freebsd']).
 mutator('test5_6', ['test5_6.C']).
 test_runmode('test5_6', 'staticdynamic').
 test_start_state('test5_6', 'stopped').
@@ -1047,7 +1045,7 @@ test('test5_7', 'test5_7', 'dyninst_cxx_group_test').
 % test5_7 only runs on Linux, Solaris, and Windows
 test_platform('test5_7', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_7', ['test5_7.C']).
 test_runmode('test5_7', 'staticdynamic').
 test_start_state('test5_7', 'stopped').
@@ -1060,7 +1058,7 @@ test('test5_8', 'test5_8', 'dyninst_cxx_group_test').
 % test5_8 only runs on Linux, Solaris, and Windows
 test_platform('test5_8', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_8', ['test5_8.C']).
 test_runmode('test5_8', 'staticdynamic').
 test_start_state('test5_8', 'stopped').
@@ -1073,7 +1071,7 @@ test('test5_9', 'test5_9', 'dyninst_cxx_group_test').
 % test5_9 only runs on Linus, Solaris, and Windows
 test_platform('test5_9', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_9', ['test5_9.C']).
 test_runmode('test5_9', 'staticdynamic').
 test_start_state('test5_9', 'stopped').
@@ -2296,12 +2294,10 @@ pcPlatforms(P) :- platform(_, 'linux', _, P).
 pcPlatforms(P) :- platform(_, 'windows', _, P).
 pcPlatforms(P) :- platform('i386', 'freebsd', _,P).
 pcPlatforms(P) :- platform('x86_64', 'freebsd', _,P).
-pcPlatforms(P) :- platform(_, 'bluegene', _, P).
 
 % ELF platforms
 rewriteablePlatforms(P) :- platform(_, 'linux', _, P).
 rewriteablePlatforms(P) :- platform(_, 'freebsd', _, P).
-%rewriteablePlatforms(P) :- platform(_, 'bluegene', _, P).
 
 pcMutateeLibs(Libs) :-
    current_platform(P),
@@ -2339,8 +2335,7 @@ optimization_for_mutatee('pc_launch', _, Opt) :- member(Opt, ['none']).
 test('pc_thread_cont', 'pc_thread_cont', 'pc_thread_cont').
 test_description('pc_thread_cont', 'Test process running').
 test_platform('pc_thread_cont', Platform) :- 
-   pcPlatforms(Platform),
-   \+ platform(_, 'bluegene', _, Platform).
+   pcPlatforms(Platform).
 mutator('pc_thread_cont', ['pc_thread_cont.C']).
 test_runmode('pc_thread_cont', 'dynamic').
 test_threadmode('pc_thread_cont', 'Threading').
@@ -2521,8 +2516,7 @@ optimization_for_mutatee('pc_detach', _, Opt) :- member(Opt, ['none']).
 
 test('pc_temp_detach', 'pc_temp_detach', 'pc_temp_detach').
 test_description('pc_temp_detach', 'Temoprarily detach from processes').
-test_platform('pc_temp_detach', Platform) :- pcPlatforms(Platform),
-   \+ platform(_, 'bluegene', _, Platform).
+test_platform('pc_temp_detach', Platform) :- pcPlatforms(Platform).
 mutator('pc_temp_detach', ['pc_temp_detach.C']).
 test_runmode('pc_temp_detach', 'dynamic').
 test_threadmode('pc_temp_detach', 'Threading').
@@ -2636,7 +2630,6 @@ platform('x86_64', 'linux', 'cnl', 'x86_64_cnl').
 platform('power64', 'linux', 'linux2.6', 'ppc64_linux').
 platform('i386', 'freebsd', 'freebsd7.2', 'i386-unknown-freebsd7.2').
 platform('x86_64', 'freebsd', 'freebsd7.2', 'amd64-unknown-freebsd7.2').
-platform('power64', 'bluegene', 'bluegeneq', 'ppc64_bgq_ion').
 platform('aarch64', 'linux', 'linux', 'aarch64-unknown-linux').
 
 % Platform Defns
@@ -2657,8 +2650,7 @@ mutatee_abi(32).
 mutatee_abi(64).
 
 % platform_format (Platform, Format)
-platform_format(P, 'dynamicMutatee') :- platform(_, _, S, P),
-   S \= 'bluegenel'.
+platform_format(P, 'dynamicMutatee') :- platform(_, _, _, P).
 platform_format(P, 'staticMutatee') :- platform(_, O, _, P),
    O \= 'windows'.
 
@@ -2698,7 +2690,6 @@ platform_abi(Platform, 32) :-
     platform(_, _, _, Platform),
     \+ member(Platform, ['amd64-unknown-freebsd7.2',
                          'ppc64_linux',
-                         'ppc64_bgq_ion',
 			 'aarch64-unknown-linux']).
 
 % A smaller list of platforms with for 64-bit mutatees
@@ -2707,7 +2698,6 @@ platform_abi('ppc64_linux', 64).
 platform_abi('rs6000-ibm-aix64-5.2', 64).
 platform_abi('x86_64_cnl', 64).
 platform_abi('amd64-unknown-freebsd7.2', 64).
-platform_abi('ppc64_bgq_ion', 64).
 platform_abi('aarch64-unknown-linux', 64).
 
 runmode_launch_params(Runmode, Platform, Mutator, Mutatee, Launchtime) :-
@@ -2724,9 +2714,9 @@ runmode_launch_params(Runmode, Platform, Mutator, Mutatee, Launchtime) :-
    ),
    mutatee_launchtime(Runmode, Launchtime).
 
-remote_platform(P) :- 
-   platform(_, OS, _, P),
-   member(OS, ['bluegene']).
+% No remote platforms remain (BlueGene was the only one), but the
+% predicate is still consulted by runmode_launch_params.
+remote_platform(_) :- fail.
 
 % Mutator and mutatee run remotely, test will launch mutatee
 remote_runmode_mutator('createProcess', 'remote').
@@ -2796,8 +2786,8 @@ library_suffix(Platform, Suffix) :-
 
 % Platform Compilers Constraints
 % gcc and g++ run on everything but Windows
-compiler_platform('gcc', Plat) :- platform(_, OS, _, Plat), OS \= 'windows', OS \= 'bluegene'.
-compiler_platform('g++', Plat) :- platform(_, OS, _, Plat), OS \= 'windows', OS \= 'bluegene'.
+compiler_platform('gcc', Plat) :- platform(_, OS, _, Plat), OS \= 'windows'.
+compiler_platform('g++', Plat) :- platform(_, OS, _, Plat), OS \= 'windows'.
 % gfortran only runs on i386 Linux
 compiler_platform('gfortran', 'i386-unknown-linux2.4').
 compiler_platform('gfortran', 'i386-unknown-linux2.6').
@@ -2823,9 +2813,9 @@ compiler_platform('icpc', Plat) :-
     platform(Arch, OS, _, Plat), Arch == 'x86_64', OS == 'linux'.
 
 % BlueGene gets its own versions of GNU compilers
-mutatee_compiler_platform_exclude('gcc', Plat) :- platform(_, 'bluegene', _, Plat).
-mutatee_compiler_platform_exclude('g++', Plat) :- platform(_, 'bluegene', _, Plat).
-mutatee_compiler_platform_exclude('gfortran', Plat) :- platform(_, 'bluegene', _, Plat).
+% No exclusions remain (BlueGene was the only source), but the predicate
+% is still consulted when pairing mutatees with compilers.
+mutatee_compiler_platform_exclude(_, _) :- fail.
 
 % Bluegene xlc ccompilers	 
 
@@ -2856,7 +2846,7 @@ aux_compiler_for_platform(Platform, 'att_asm', 'gcc') :-
     platform(_, OS, _, Platform),
     % AIX is excluded because both att_asm and power_asm use the '.s' extension
     % and we cant have multiple compilers use the same extension on a platform
-    \+ member(OS, ['windows', 'aix', 'bluegene']).
+    \+ member(OS, ['windows', 'aix']).
 aux_compiler_for_platform(Platform, 'power_asm', 'ibm_as') :-
         platform('power32', 'aix', _, Platform).
 
@@ -3336,24 +3326,8 @@ test_processmode(Test, 'None') :- tests_module(Test, Module),
    module(Module),
    \+ member(Module, ['proccontrol']).
 
-bg_vn_exclude('VN', 'MultiThreaded').
-
-% platform_mode is currently only used by BG/P to specify the modes
-% the system can run in: Virtual, Dual, or SMP
-platform_mode(P, M, RM, TM) :-
-   current_platform(P),
-   platform(_, 'bluegene', 'bluegenep', P),
-   member(M, ['DUAL', 'VN', 'SMP']),
-   member(RM, ['createProcess', 'useAttach', 'binary']),
-   \+ bg_vn_exclude(M, TM).
-
-platform_mode(P, 'NONE', 'disk', _) :-
-   current_platform(P),
-   platform(_, 'bluegene', 'bluegenep', P).
-
-platform_mode(P, 'NONE', _, _) :- 
-   current_platform(P),
-   \+ platform(_, 'bluegene', 'bluegenep', P).   
+platform_mode(P, 'NONE', _, _) :-
+   current_platform(P).
 
 % runmode/1
 % runmode(+RunMode)
@@ -3387,10 +3361,8 @@ test_runmode(Test, 'binary') :- test_runmode(Test, 'static').
 % runmode_platform(?Platform, ?Runmode, ?Module)
 % This specifies what platforms support which runmodes, essentially
 % specify binary rewriter support for Dyninst
-runmode_platform(P, 'createProcess', 'dyninst') :- platform(_, S, _, P),
-  S \= 'bluegene'.
-runmode_platform(P, 'useAttach', 'dyninst') :- platform(_, S, _, P),
-  S \= 'bluegene'.
+runmode_platform(P, 'createProcess', 'dyninst') :- platform(_, _, _, P).
+runmode_platform(P, 'useAttach', 'dyninst') :- platform(_, _, _, P).
 runmode_platform(P, 'createProcess', 'proccontrol') :- platform(_, _, _, P).
 runmode_platform(P, 'useAttach', 'proccontrol') :- platform(_, _, _, P).
 runmode_platform(P, 'createProcess', 'instruction') :- platform(_, _, _, P).
@@ -3399,8 +3371,6 @@ runmode_platform(P, 'binary', _) :- platform('x86_64', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('aarch64', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('power32', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('power64', 'linux', _, P).
-runmode_platform(P, 'binary', _) :- platform('power32', 'bluegene', _, P).
-runmode_platform(P, 'binary', _) :- platform('power64', 'bluegene', _, P).
 runmode_platform(P, 'binary', _) :- platform('i386', 'freebsd', _, P).
 runmode_platform(P, 'binary', _) :- platform('x86_64', 'freebsd', _,P).
 % runmode_platform(P, 'binary', _) :- platform('i386', 'windows', _,P).
