@@ -2291,7 +2291,6 @@ test_start_state('mov_size_details', 'stopped').
 tests_module('mov_size_details', 'instruction').                                                             
 
 
-
 % ProcessControlAPI Tests
 pcPlatforms(P) :- platform(_, 'linux', _, P).
 pcPlatforms(P) :- platform(_, 'windows', _, P).
@@ -2317,7 +2316,7 @@ compiler_for_mutatee(Mutatee, Compiler) :-
     test(T, _, Mutatee),
     \+ member(Mutatee, ['pc_tls']),
     tests_module(T, 'proccontrol'),
-    member(Compiler, ['gcc', 'g++', 'VC', 'VC++', 'bg_gcc', 'bg_g++', 'bgq_gcc', 'bgq_g++']).
+    member(Compiler, ['gcc', 'g++', 'VC', 'VC++']).
 
 mutatee_format(Mutatee, 'staticMutatee') :-
     test(T, _, Mutatee),
@@ -2592,8 +2591,6 @@ compiler_for_mutatee('pc_tls', Compiler) :-
     \+ member(Compiler, ['pgcc', 'pgcxx']).
 
 
-
-
 % test_start_state/2
 % test_start_state(?Test, ?State) specifies that Test should be run with its
 % mutatee in state State, with State in {stopped, running, selfstart, selfattach, delayedattach}
@@ -2672,15 +2669,6 @@ compiler_format('g++', 'staticMutatee').
 compiler_format('gcc', 'staticMutatee').
 compiler_format('gfortran', 'staticMutatee').
 
-compiler_format('bg_gcc', 'staticMutatee').
-compiler_format('bg_g++', 'staticMutatee').
-compiler_format('bg_gfortran', 'staticMutatee').
-compiler_format('bgq_gcc', 'staticMutatee').
-compiler_format('bgq_g++', 'staticMutatee').
-compiler_format('bgq_gfortran', 'staticMutatee').
-% Also XLC for BG, people
-compiler_format('bgxlc', 'staticMutatee').
-compiler_format('bgxlc++', 'staticMutatee').
 
 % format_runmode (Platform, RunMode, Format)
 format_runmode(_, 'binary', 'staticMutatee').
@@ -2835,19 +2823,11 @@ compiler_platform('icpc', Plat) :-
     platform(Arch, OS, _, Plat), Arch == 'x86_64', OS == 'linux'.
 
 % BlueGene gets its own versions of GNU compilers
-compiler_platform('bg_gcc', Plat) :- platform(_, _, 'bluegenep', Plat).
-compiler_platform('bg_g++', Plat) :- platform(_, _, 'bluegenep', Plat).
-compiler_platform('bg_gfortran', Plat) :- platform(_, _, 'bluegenep', Plat).
-compiler_platform('bgq_gcc', Plat) :- platform(_, _, 'bluegeneq', Plat).
-compiler_platform('bgq_g++', Plat) :- platform(_, _, 'bluegeneq', Plat).
-compiler_platform('bgq_gfortran', Plat) :- platform(_, _, 'bluegeneq', Plat).
 mutatee_compiler_platform_exclude('gcc', Plat) :- platform(_, 'bluegene', _, Plat).
 mutatee_compiler_platform_exclude('g++', Plat) :- platform(_, 'bluegene', _, Plat).
 mutatee_compiler_platform_exclude('gfortran', Plat) :- platform(_, 'bluegene', _, Plat).
 
 % Bluegene xlc ccompilers	 
-compiler_platform('bgxlc', Plat) :- platform(_, 'bluegene', _, Plat).
-compiler_platform('bgxlc++', Plat) :- platform(_, 'bluegene', _, Plat).
 
 % linker/2
 % linker(?Platform, ?Linker)
@@ -2936,10 +2916,10 @@ insane('Too many compilers on platform P1 for extension P2',
 % Compiler/language constraints
 comp_lang('gfortran', 'fortran').
 comp_lang(Compiler, 'c') :-
-    member(Compiler, ['gcc', 'pgcc', 'VC', 'xlc', 'icc', 'bg_gcc', 'bgq_gcc', 'bgxlc']);
-    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc', 'bg_g++', 'bgq_g++', 'bgxlc++']).
+    member(Compiler, ['gcc', 'pgcc', 'VC', 'xlc', 'icc']);
+    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc']).
 comp_lang(Compiler, 'c++') :-
-    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc', 'bg_g++', 'bgq_g++', 'bgxlc++']).
+    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc']).
 comp_lang('gcc', 'att_asm') :-
     % We dont use gcc for assembly files on AIX
     current_platform(Platform),
@@ -2958,14 +2938,6 @@ mutatee_comp('xlc').
 mutatee_comp('xlC').
 mutatee_comp('icc').
 mutatee_comp('icpc').
-mutatee_comp('bg_gcc').
-mutatee_comp('bg_g++').
-mutatee_comp('bg_gfortran').
-mutatee_comp('bgq_gcc').
-mutatee_comp('bgq_g++').
-mutatee_comp('bgq_gfortran').
-mutatee_comp('bgxlc').
-mutatee_comp('bgxlc++').
 
 % compiler_presence_def/2
 % compiler_presence_def(Compiler, EnvironmentVariable)
@@ -2995,14 +2967,6 @@ compiler_define_string('icc', 'intel_cc').
 compiler_define_string('icpc', 'intel_CC').
 compiler_define_string_32('icc', 'intel_cc_32').
 compiler_define_string_32('icpc', 'intel_CC_32').
-compiler_define_string('bg_gcc', 'gnu_cc').
-compiler_define_string('bg_g++', 'gnu_xx').
-compiler_define_string('bg_gfortran', 'gnu_fc').
-compiler_define_string('bgq_gcc', 'mpi_cc').
-compiler_define_string('bgq_g++', 'mpi_cxx').
-compiler_define_string('bgq_gfortran', 'gnu_fc').
-compiler_define_string('bgxlc', 'mpi_xlc').
-compiler_define_string('bgxlc++', 'mpi_xlcxx').
 
 %%%%%%%%%%
 % *_s relations translate various internal atoms into strings than are
@@ -3025,12 +2989,6 @@ compiler_s('VC', 'cl').
 compiler_s('VC++', 'cl').
 compiler_s('icc', 'icc').
 compiler_s('icpc', 'icpc').
-compiler_s('bg_gcc', 'powerpc-bgp-linux-gcc').
-compiler_s('bg_g++', 'powerpc-bgp-linux-g++').
-compiler_s('bg_gfortran', 'powerpc-bgp-linux-gfortran').
-compiler_s('bgq_gcc', 'mpicc').
-compiler_s('bgq_g++', 'mpic++').
-compiler_s('bgq_gfortran', 'mpif90').
 compiler_s('pgcxx', 'pgCC').
 
 
@@ -3041,17 +2999,17 @@ compiler_s('pgcxx', 'pgCC').
 % FIXME Im also not sure that all these compilers default to no optimization
 compiler_opt_trans(Comp, 'none', '-g -O0') :- \+ member(Comp, ['VC++', 'VC']).
 compiler_opt_trans(Comp, 'low', '-O1') :-
-    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc']).
 compiler_opt_trans(Comp, 'low', '/O1 /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 compiler_opt_trans(IBM, 'low', '-O') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'high', '-O2') :-
-    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc']).
 compiler_opt_trans(Comp, 'high', '/O2 /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 compiler_opt_trans(IBM, 'high', '-O3') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'max', '-O3') :-
-    member(Comp, ['gcc', 'g++', 'icc', 'icpc', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'icc', 'icpc']).
 compiler_opt_trans(IBM, 'max', '-O5') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'max', '/Ox /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
@@ -3059,11 +3017,9 @@ compiler_opt_trans(Comp, 'none', '/Od /Zi /MDd /D_DEBUG') :- Comp == 'VC++'; Com
 
 compiler_pic_trans(_, 'none', '-no-pie').
 compiler_pic_trans(Comp, 'pic', '-fPIC -fPIE -pie') :-
-    member(Comp, ['gcc', 'g++', 'gfortran', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'gfortran', 'icc', 'icpc']).
 compiler_pic_trans(Comp, 'pic', '-KPIC') :-
     member(Comp, ['pgcc', 'pgcxx']).
-compiler_pic_trans(Comp, 'pic', '-qpic') :-
-    member(Comp, ['bgxlc', 'bgxlc++']).
 compiler_pic_trans(Comp, 'pic', '') :-
         member(Comp, ['VC++', 'VC']).
 
@@ -3073,15 +3029,7 @@ compiler_pic('pgcxx', 'pic').
 compiler_pic('pgcc', 'pic').
 compiler_pic('icpc', 'pic').
 compiler_pic('icc', 'pic').
-compiler_pic('bgxlc', 'pic').
-compiler_pic('bgxlc++', 'pic').
 compiler_pic('gfortran', 'pic').
-compiler_pic('bg_gcc', 'pic').
-compiler_pic('bg_g++', 'pic').
-compiler_pic('bg_gfortran', 'pic').
-compiler_pic('bgq_gcc', 'pic').
-compiler_pic('bgq_g++', 'pic').
-compiler_pic('bgq_gfortran', 'pic').
 compiler_pic(C, 'none') :-
         mutatee_comp(C).
         
@@ -3096,44 +3044,29 @@ insane('P1 not defined as a compiler, but has optimization translation defined',
 % partial_compile: compile to an object file rather than an executable
 compiler_parm_trans(Comp, 'partial_compile', '-c') :-
     member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 
-                  'xlc', 'xlC', 'gfortran', 'VC', 'VC++', 'icc', 'icpc',
-                  'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgxlc', 'bgxlc++',
-                  'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+                  'xlc', 'xlC', 'gfortran', 'VC', 'VC++', 'icc', 'icpc']).
 
 % Mutator compiler defns
 mutator_comp('g++').
 mutator_comp('pgcxx').
 mutator_comp('VC++').
 mutator_comp('xlC').
-mutator_comp('bgxlc++').
 
 % Per-compiler link options for building mutatees
-mutatee_link_options(Gnu_family, '${MUTATEE_LDFLAGS_GNU}') :- member(Gnu_family, ['icc', 'gcc', 'g++', 'icpc', 'bg_gcc', 'bg_g++', 'bgq_gcc', 'bgq_g++']).
+mutatee_link_options(Gnu_family, '${MUTATEE_LDFLAGS_GNU}') :- member(Gnu_family, ['icc', 'gcc', 'g++', 'icpc']).
 mutatee_link_options(Native_cc, '${MUTATEE_CFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}') :-
     member(Native_cc, ['xlc', 'pgcc']).
 mutatee_link_options(Native_cxx, '${MUTATEE_CXXFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}') :-
     member(Native_cxx, ['xlC', 'pgcxx']).
 mutatee_link_options('VC', '${CMAKE_EXE_LINKER_FLAGS} ${MUTATEE_LDFLAGS_NATIVE}').
 mutatee_link_options('VC++', '${CMAKE_EXE_LINKER_FLAGS} ${MUTATEE_LDFLAGS_NATIVE}').
-mutatee_link_options('bgxlc', '${MUTATEE_LDFLAGS_NATIVE}').
-mutatee_link_options('bgxlc++', '${MUTATEE_LDFLAGS_NATIVE}').
 
 % Static and dynamic linking
 compiler_static_link('g++', P, '-static') :- platform(_,'linux', _, P).
 compiler_static_link('gcc', P, '-static') :- platform(_,'linux', _, P).
 compiler_static_link('g++', P, '-static') :- platform(_,'freebsd', _,P).
 compiler_static_link('gcc', P, '-static') :- platform(_,'freebsd', _,P).
-compiler_static_link('bg_g++', P, '-static') :- platform(_,'bluegene', 'bluegenep', P).
-compiler_static_link('bg_gcc', P, '-static') :- platform(_,'bluegene', 'bluegenep', P).
-compiler_static_link('bgq_g++', P, '-static') :- platform(_, _, 'bluegeneq', P).
-compiler_static_link('bgq_gcc', P, '-static') :- platform(_, _, 'bluegeneq', P).
 
-compiler_dynamic_link('bg_g++', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegenep', P).
-compiler_dynamic_link('bg_gcc', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegenep', P).
-compiler_dynamic_link('bgq_g++', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegeneq', P).
-compiler_dynamic_link('bgq_gcc', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegeneq', P).
-compiler_dynamic_link('bgxlc', P, '-qnostaticlink') :- platform(_, _, 'bluegeneq', P).
-compiler_dynamic_link('bgxlc++', P, '-qnostaticlink') :- platform(_, _, 'bluegeneq', P).
 compiler_dynamic_link('g++', _, '-Wl,-export-dynamic').
 compiler_dynamic_link('gcc', _, '-Wl,-export-dynamic').
 compiler_dynamic_link('icc', _, '-Xlinker -export-dynamic').
@@ -3144,26 +3077,14 @@ comp_std_flags_str('gcc', '${CFLAGS}').
 comp_std_flags_str('g++', '${CXXFLAGS}').
 comp_std_flags_str('xlc', '${CFLAGS_NATIVE}').
 comp_std_flags_str('pgcc', '${CFLAGS_NATIVE}').
-comp_std_flags_str('bgxlc', '${CFLAGS}').
-comp_std_flags_str('bgxlc++', '${CXXFLAGS}').
 % FIXME Make sure that these flags for cxx are correct, or tear out cxx (Alpha)
 comp_std_flags_str('xlC', '${CXXFLAGS_NATIVE}').
 comp_std_flags_str('pgcxx', '${CXXFLAGS_NATIVE}').
-comp_std_flags_str('bg_gcc', '${CFLAGS}').
-comp_std_flags_str('bg_g++', '${CXXFLAGS}').
-comp_std_flags_str('bgq_gcc', '${CFLAGS}').
-comp_std_flags_str('bgq_g++', '${CXXFLAGS}').
 
 comp_mutatee_flags_str('gcc', '${MUTATEE_CFLAGS_GNU} ').
 comp_mutatee_flags_str('g++', '${MUTATEE_CXXFLAGS_GNU} ').
 comp_mutatee_flags_str('xlc', '${MUTATEE_CFLAGS_NATIVE} ').
 comp_mutatee_flags_str('pgcc', '${MUTATEE_CFLAGS_NATIVE} ').
-comp_mutatee_flags_str('bg_gcc', '${MUTATEE_CFLAGS_GNU} ').
-comp_mutatee_flags_str('bg_g++', '${MUTATEE_CXXFLAGS_GNU} ').
-comp_mutatee_flags_str('bgq_gcc', '${MUTATEE_CFLAGS_GNU} ').
-comp_mutatee_flags_str('bgq_g++', '${MUTATEE_CXXFLAGS_GNU} ').
-comp_mutatee_flags_str('bgxlc', '${CFLAGS}').
-comp_mutatee_flags_str('bgxlc++', '${CXXFLAGS}').
 % FIXME Make sure that these flags for cxx are correct, or tear out cxx (Alpha)
 comp_mutatee_flags_str('xlC', '${MUTATEE_CXXFLAGS_NATIVE} ').
 comp_mutatee_flags_str('pgcxx', '${MUTATEE_CXXFLAGS_NATIVE} ').
