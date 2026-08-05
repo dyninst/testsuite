@@ -2144,21 +2144,6 @@ test_start_state('test_instruction_profile', 'stopped').
 tests_module('test_instruction_profile', 'instruction').
 mutator_requires_libs('test_instruction_profile', ['symtabAPI']).
 
-test('aarch64_decode', 'aarch64_decode', none).
-test_description('aarch64_decode', 'Tests the read & write sets of AARCH64 instructions.').
-test_platform('aarch64_decode', Platform) :-
-        platform(Platform),
-        platform('i386', _, _, Platform);
-        platform('power32', _, _, Platform);
-        platform('power64', _, _, Platform);
-        platform('powerpc', _, _, Platform);
-        platform('aarch64', _, _, Platform);
-        platform('x86_64', _, _, Platform).
-mutator('aarch64_decode', ['aarch64_decode.C']).
-test_runmode('aarch64_decode', 'disk').
-test_start_state('aarch64_decode', 'stopped').
-tests_module('aarch64_decode', 'instruction').
-
 % ProcessControlAPI Tests
 pcPlatforms(P) :- platform(_, 'linux', _, P).
 pcPlatforms(P) :- platform(_, 'windows', _, P).

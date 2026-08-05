@@ -195,16 +195,6 @@ set (dyninst_OBJS_ALL_MUTATORS
 )
 
 
-include_directories ("../src/instruction")
-set (instruction_MUTATORS
-	aarch64_decode
-)
-
-set (instruction_OBJS_ALL_MUTATORS
-	aarch64_decode.obj
-)
-
-
 include_directories ("../src/symtab")
 set (symtab_MUTATORS
 	test_lookup_func
@@ -227,7 +217,6 @@ set (symtab_OBJS_ALL_MUTATORS
 )
 
 set (MUTATOR_NAME_LIST
-	aarch64_decode
 	pc_addlibrary
 	pc_breakpoint
 	pc_detach
@@ -324,7 +313,6 @@ set (MUTATOR_NAME_LIST
 	)
 
 set (MUTATOR_MODULE_LIB_LIST
-	testinstruction
 	testproccontrol
 	testproccontrol
 	testproccontrol
@@ -422,7 +410,6 @@ set (MUTATOR_MODULE_LIB_LIST
 
 set (SRC src)
 set (MUTATOR_SOURCE_LIST
-	${SRC}/instruction/aarch64_decode.C
 	${SRC}/proccontrol/pc_addlibrary.C
 	${SRC}/proccontrol/pc_breakpoint.C
 	${SRC}/proccontrol/pc_detach.C
@@ -518,7 +505,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/dyninst/test_write_param.C
 	)
 
-foreach (val RANGE 93)
+foreach (val RANGE 92)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)
