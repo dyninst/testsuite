@@ -81,7 +81,6 @@ platform_module(P, 'instruction') :- platform('power64', _, _, P).
 platform_module(P, 'instruction') :- platform('aarch64', _, _, P).
 platform_module(P, 'proccontrol') :- platform(_, 'linux', _, P).
 platform_module(P, 'proccontrol') :- platform(_, 'freebsd', _, P).
-platform_module(P, 'proccontrol') :- platform(_, 'bluegene', _, P).
 platform_module(P, 'proccontrol') :- platform(_, 'windows', _, P).
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -498,7 +497,7 @@ test_description('init_fini_callback', 'Adds callbacks for rewritten module on l
 % ELF platforms only
     test_platform('init_fini_callback', Platform) :-
     platform(Arch, OS, _, Platform),
-    member(OS, ['linux', 'freebsd', 'bluegene']),
+    member(OS, ['linux', 'freebsd']),
     member(Arch, ['i386', 'x86_64', 'power32', 'power64']).
 mutator('init_fini_callback', ['init_fini_callback.C']).
 mutatee('init_fini_callback', ['init_fini_callback_mutatee.c']).
@@ -684,8 +683,7 @@ test_description('test1_40', 'Verify that we can monitor call sites').
 % test1_40 should not run on Windows or IA64 Linux
 test_platform('test1_40', Platform) :-
         platform(Platform),
-        \+ platform(_, 'windows', _, Platform),
-        \+ platform(_, 'bluegene', _, Platform).
+        \+ platform(_, 'windows', _, Platform).
 groupable_test('test1_40').
 mutator('test1_40', ['test1_40.C']).
 mutatee('test1_40', ['test1_40_mutatee.c']).
@@ -978,7 +976,7 @@ test('test5_1', 'test5_1', 'dyninst_cxx_group_test').
 % test5_1 only runs on Linux, Solaris, and Windows
 test_platform('test5_1', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_1', ['test5_1.C']).
 test_runmode('test5_1', 'staticdynamic').
 test_start_state('test5_1', 'stopped').
@@ -990,7 +988,7 @@ test('test5_2', 'test5_2', 'dyninst_cxx_group_test').
 % test5_2 only runs on Linux, Solaris, and Windows
 test_platform('test5_2', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_2', ['test5_2.C']).
 test_runmode('test5_2', 'staticdynamic').
 test_start_state('test5_2', 'stopped').
@@ -1011,7 +1009,7 @@ test('test5_4', 'test5_4', 'dyninst_cxx_group_test').
 % test5_4 only runs on Linux, Solaris, and Windows
 test_platform('test5_4', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_4', ['test5_4.C']).
 test_runmode('test5_4', 'staticdynamic').
 test_start_state('test5_4', 'stopped').
@@ -1023,7 +1021,7 @@ test('test5_5', 'test5_5', 'dyninst_cxx_group_test').
 % test5_5 only runs on Linux, Solaris, and Windows
 test_platform('test5_5', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_5', ['test5_5.C']).
 test_runmode('test5_5', 'staticdynamic').
 test_start_state('test5_5', 'stopped').
@@ -1035,7 +1033,7 @@ test('test5_6', 'test5_6', 'dyninst_cxx_group_test').
 % test5_6 only runs on x86 Linux
 test_platform('test5_6', Platform) :-
     platform('i386', OS, _, Platform),
-    member(OS, ['linux', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'freebsd']).
 mutator('test5_6', ['test5_6.C']).
 test_runmode('test5_6', 'staticdynamic').
 test_start_state('test5_6', 'stopped').
@@ -1047,7 +1045,7 @@ test('test5_7', 'test5_7', 'dyninst_cxx_group_test').
 % test5_7 only runs on Linux, Solaris, and Windows
 test_platform('test5_7', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_7', ['test5_7.C']).
 test_runmode('test5_7', 'staticdynamic').
 test_start_state('test5_7', 'stopped').
@@ -1060,7 +1058,7 @@ test('test5_8', 'test5_8', 'dyninst_cxx_group_test').
 % test5_8 only runs on Linux, Solaris, and Windows
 test_platform('test5_8', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_8', ['test5_8.C']).
 test_runmode('test5_8', 'staticdynamic').
 test_start_state('test5_8', 'stopped').
@@ -1073,7 +1071,7 @@ test('test5_9', 'test5_9', 'dyninst_cxx_group_test').
 % test5_9 only runs on Linus, Solaris, and Windows
 test_platform('test5_9', Platform) :-
     platform(_, OS, _, Platform),
-    member(OS, ['linux', 'windows', 'aix', 'freebsd', 'bluegene']).
+    member(OS, ['linux', 'windows', 'aix', 'freebsd']).
 mutator('test5_9', ['test5_9.C']).
 test_runmode('test5_9', 'staticdynamic').
 test_start_state('test5_9', 'stopped').
@@ -2291,18 +2289,15 @@ test_start_state('mov_size_details', 'stopped').
 tests_module('mov_size_details', 'instruction').                                                             
 
 
-
 % ProcessControlAPI Tests
 pcPlatforms(P) :- platform(_, 'linux', _, P).
 pcPlatforms(P) :- platform(_, 'windows', _, P).
 pcPlatforms(P) :- platform('i386', 'freebsd', _,P).
 pcPlatforms(P) :- platform('x86_64', 'freebsd', _,P).
-pcPlatforms(P) :- platform(_, 'bluegene', _, P).
 
 % ELF platforms
 rewriteablePlatforms(P) :- platform(_, 'linux', _, P).
 rewriteablePlatforms(P) :- platform(_, 'freebsd', _, P).
-%rewriteablePlatforms(P) :- platform(_, 'bluegene', _, P).
 
 pcMutateeLibs(Libs) :-
    current_platform(P),
@@ -2317,7 +2312,7 @@ compiler_for_mutatee(Mutatee, Compiler) :-
     test(T, _, Mutatee),
     \+ member(Mutatee, ['pc_tls']),
     tests_module(T, 'proccontrol'),
-    member(Compiler, ['gcc', 'g++', 'VC', 'VC++', 'bg_gcc', 'bg_g++', 'bgq_gcc', 'bgq_g++']).
+    member(Compiler, ['gcc', 'g++', 'VC', 'VC++']).
 
 mutatee_format(Mutatee, 'staticMutatee') :-
     test(T, _, Mutatee),
@@ -2340,8 +2335,7 @@ optimization_for_mutatee('pc_launch', _, Opt) :- member(Opt, ['none']).
 test('pc_thread_cont', 'pc_thread_cont', 'pc_thread_cont').
 test_description('pc_thread_cont', 'Test process running').
 test_platform('pc_thread_cont', Platform) :- 
-   pcPlatforms(Platform),
-   \+ platform(_, 'bluegene', _, Platform).
+   pcPlatforms(Platform).
 mutator('pc_thread_cont', ['pc_thread_cont.C']).
 test_runmode('pc_thread_cont', 'dynamic').
 test_threadmode('pc_thread_cont', 'Threading').
@@ -2522,8 +2516,7 @@ optimization_for_mutatee('pc_detach', _, Opt) :- member(Opt, ['none']).
 
 test('pc_temp_detach', 'pc_temp_detach', 'pc_temp_detach').
 test_description('pc_temp_detach', 'Temoprarily detach from processes').
-test_platform('pc_temp_detach', Platform) :- pcPlatforms(Platform),
-   \+ platform(_, 'bluegene', _, Platform).
+test_platform('pc_temp_detach', Platform) :- pcPlatforms(Platform).
 mutator('pc_temp_detach', ['pc_temp_detach.C']).
 test_runmode('pc_temp_detach', 'dynamic').
 test_threadmode('pc_temp_detach', 'Threading').
@@ -2592,8 +2585,6 @@ compiler_for_mutatee('pc_tls', Compiler) :-
     \+ member(Compiler, ['pgcc', 'pgcxx']).
 
 
-
-
 % test_start_state/2
 % test_start_state(?Test, ?State) specifies that Test should be run with its
 % mutatee in state State, with State in {stopped, running, selfstart, selfattach, delayedattach}
@@ -2639,7 +2630,6 @@ platform('x86_64', 'linux', 'cnl', 'x86_64_cnl').
 platform('power64', 'linux', 'linux2.6', 'ppc64_linux').
 platform('i386', 'freebsd', 'freebsd7.2', 'i386-unknown-freebsd7.2').
 platform('x86_64', 'freebsd', 'freebsd7.2', 'amd64-unknown-freebsd7.2').
-platform('power64', 'bluegene', 'bluegeneq', 'ppc64_bgq_ion').
 platform('aarch64', 'linux', 'linux', 'aarch64-unknown-linux').
 
 % Platform Defns
@@ -2660,8 +2650,7 @@ mutatee_abi(32).
 mutatee_abi(64).
 
 % platform_format (Platform, Format)
-platform_format(P, 'dynamicMutatee') :- platform(_, _, S, P),
-   S \= 'bluegenel'.
+platform_format(P, 'dynamicMutatee') :- platform(_, _, _, P).
 platform_format(P, 'staticMutatee') :- platform(_, O, _, P),
    O \= 'windows'.
 
@@ -2672,15 +2661,6 @@ compiler_format('g++', 'staticMutatee').
 compiler_format('gcc', 'staticMutatee').
 compiler_format('gfortran', 'staticMutatee').
 
-compiler_format('bg_gcc', 'staticMutatee').
-compiler_format('bg_g++', 'staticMutatee').
-compiler_format('bg_gfortran', 'staticMutatee').
-compiler_format('bgq_gcc', 'staticMutatee').
-compiler_format('bgq_g++', 'staticMutatee').
-compiler_format('bgq_gfortran', 'staticMutatee').
-% Also XLC for BG, people
-compiler_format('bgxlc', 'staticMutatee').
-compiler_format('bgxlc++', 'staticMutatee').
 
 % format_runmode (Platform, RunMode, Format)
 format_runmode(_, 'binary', 'staticMutatee').
@@ -2710,7 +2690,6 @@ platform_abi(Platform, 32) :-
     platform(_, _, _, Platform),
     \+ member(Platform, ['amd64-unknown-freebsd7.2',
                          'ppc64_linux',
-                         'ppc64_bgq_ion',
 			 'aarch64-unknown-linux']).
 
 % A smaller list of platforms with for 64-bit mutatees
@@ -2719,7 +2698,6 @@ platform_abi('ppc64_linux', 64).
 platform_abi('rs6000-ibm-aix64-5.2', 64).
 platform_abi('x86_64_cnl', 64).
 platform_abi('amd64-unknown-freebsd7.2', 64).
-platform_abi('ppc64_bgq_ion', 64).
 platform_abi('aarch64-unknown-linux', 64).
 
 runmode_launch_params(Runmode, Platform, Mutator, Mutatee, Launchtime) :-
@@ -2736,9 +2714,9 @@ runmode_launch_params(Runmode, Platform, Mutator, Mutatee, Launchtime) :-
    ),
    mutatee_launchtime(Runmode, Launchtime).
 
-remote_platform(P) :- 
-   platform(_, OS, _, P),
-   member(OS, ['bluegene']).
+% No remote platforms remain (BlueGene was the only one), but the
+% predicate is still consulted by runmode_launch_params.
+remote_platform(_) :- fail.
 
 % Mutator and mutatee run remotely, test will launch mutatee
 remote_runmode_mutator('createProcess', 'remote').
@@ -2808,8 +2786,8 @@ library_suffix(Platform, Suffix) :-
 
 % Platform Compilers Constraints
 % gcc and g++ run on everything but Windows
-compiler_platform('gcc', Plat) :- platform(_, OS, _, Plat), OS \= 'windows', OS \= 'bluegene'.
-compiler_platform('g++', Plat) :- platform(_, OS, _, Plat), OS \= 'windows', OS \= 'bluegene'.
+compiler_platform('gcc', Plat) :- platform(_, OS, _, Plat), OS \= 'windows'.
+compiler_platform('g++', Plat) :- platform(_, OS, _, Plat), OS \= 'windows'.
 % gfortran only runs on i386 Linux
 compiler_platform('gfortran', 'i386-unknown-linux2.4').
 compiler_platform('gfortran', 'i386-unknown-linux2.6').
@@ -2835,19 +2813,11 @@ compiler_platform('icpc', Plat) :-
     platform(Arch, OS, _, Plat), Arch == 'x86_64', OS == 'linux'.
 
 % BlueGene gets its own versions of GNU compilers
-compiler_platform('bg_gcc', Plat) :- platform(_, _, 'bluegenep', Plat).
-compiler_platform('bg_g++', Plat) :- platform(_, _, 'bluegenep', Plat).
-compiler_platform('bg_gfortran', Plat) :- platform(_, _, 'bluegenep', Plat).
-compiler_platform('bgq_gcc', Plat) :- platform(_, _, 'bluegeneq', Plat).
-compiler_platform('bgq_g++', Plat) :- platform(_, _, 'bluegeneq', Plat).
-compiler_platform('bgq_gfortran', Plat) :- platform(_, _, 'bluegeneq', Plat).
-mutatee_compiler_platform_exclude('gcc', Plat) :- platform(_, 'bluegene', _, Plat).
-mutatee_compiler_platform_exclude('g++', Plat) :- platform(_, 'bluegene', _, Plat).
-mutatee_compiler_platform_exclude('gfortran', Plat) :- platform(_, 'bluegene', _, Plat).
+% No exclusions remain (BlueGene was the only source), but the predicate
+% is still consulted when pairing mutatees with compilers.
+mutatee_compiler_platform_exclude(_, _) :- fail.
 
 % Bluegene xlc ccompilers	 
-compiler_platform('bgxlc', Plat) :- platform(_, 'bluegene', _, Plat).
-compiler_platform('bgxlc++', Plat) :- platform(_, 'bluegene', _, Plat).
 
 % linker/2
 % linker(?Platform, ?Linker)
@@ -2876,7 +2846,7 @@ aux_compiler_for_platform(Platform, 'att_asm', 'gcc') :-
     platform(_, OS, _, Platform),
     % AIX is excluded because both att_asm and power_asm use the '.s' extension
     % and we cant have multiple compilers use the same extension on a platform
-    \+ member(OS, ['windows', 'aix', 'bluegene']).
+    \+ member(OS, ['windows', 'aix']).
 aux_compiler_for_platform(Platform, 'power_asm', 'ibm_as') :-
         platform('power32', 'aix', _, Platform).
 
@@ -2936,10 +2906,10 @@ insane('Too many compilers on platform P1 for extension P2',
 % Compiler/language constraints
 comp_lang('gfortran', 'fortran').
 comp_lang(Compiler, 'c') :-
-    member(Compiler, ['gcc', 'pgcc', 'VC', 'xlc', 'icc', 'bg_gcc', 'bgq_gcc', 'bgxlc']);
-    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc', 'bg_g++', 'bgq_g++', 'bgxlc++']).
+    member(Compiler, ['gcc', 'pgcc', 'VC', 'xlc', 'icc']);
+    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc']).
 comp_lang(Compiler, 'c++') :-
-    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc', 'bg_g++', 'bgq_g++', 'bgxlc++']).
+    member(Compiler, ['g++', 'pgcxx', 'VC++', 'xlC', 'icpc']).
 comp_lang('gcc', 'att_asm') :-
     % We dont use gcc for assembly files on AIX
     current_platform(Platform),
@@ -2958,14 +2928,6 @@ mutatee_comp('xlc').
 mutatee_comp('xlC').
 mutatee_comp('icc').
 mutatee_comp('icpc').
-mutatee_comp('bg_gcc').
-mutatee_comp('bg_g++').
-mutatee_comp('bg_gfortran').
-mutatee_comp('bgq_gcc').
-mutatee_comp('bgq_g++').
-mutatee_comp('bgq_gfortran').
-mutatee_comp('bgxlc').
-mutatee_comp('bgxlc++').
 
 % compiler_presence_def/2
 % compiler_presence_def(Compiler, EnvironmentVariable)
@@ -2995,14 +2957,6 @@ compiler_define_string('icc', 'intel_cc').
 compiler_define_string('icpc', 'intel_CC').
 compiler_define_string_32('icc', 'intel_cc_32').
 compiler_define_string_32('icpc', 'intel_CC_32').
-compiler_define_string('bg_gcc', 'gnu_cc').
-compiler_define_string('bg_g++', 'gnu_xx').
-compiler_define_string('bg_gfortran', 'gnu_fc').
-compiler_define_string('bgq_gcc', 'mpi_cc').
-compiler_define_string('bgq_g++', 'mpi_cxx').
-compiler_define_string('bgq_gfortran', 'gnu_fc').
-compiler_define_string('bgxlc', 'mpi_xlc').
-compiler_define_string('bgxlc++', 'mpi_xlcxx').
 
 %%%%%%%%%%
 % *_s relations translate various internal atoms into strings than are
@@ -3025,12 +2979,6 @@ compiler_s('VC', 'cl').
 compiler_s('VC++', 'cl').
 compiler_s('icc', 'icc').
 compiler_s('icpc', 'icpc').
-compiler_s('bg_gcc', 'powerpc-bgp-linux-gcc').
-compiler_s('bg_g++', 'powerpc-bgp-linux-g++').
-compiler_s('bg_gfortran', 'powerpc-bgp-linux-gfortran').
-compiler_s('bgq_gcc', 'mpicc').
-compiler_s('bgq_g++', 'mpic++').
-compiler_s('bgq_gfortran', 'mpif90').
 compiler_s('pgcxx', 'pgCC').
 
 
@@ -3041,17 +2989,17 @@ compiler_s('pgcxx', 'pgCC').
 % FIXME Im also not sure that all these compilers default to no optimization
 compiler_opt_trans(Comp, 'none', '-g -O0') :- \+ member(Comp, ['VC++', 'VC']).
 compiler_opt_trans(Comp, 'low', '-O1') :-
-    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc']).
 compiler_opt_trans(Comp, 'low', '/O1 /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 compiler_opt_trans(IBM, 'low', '-O') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'high', '-O2') :-
-    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 'gfortran', 'icc', 'icpc']).
 compiler_opt_trans(Comp, 'high', '/O2 /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
 compiler_opt_trans(IBM, 'high', '-O3') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'max', '-O3') :-
-    member(Comp, ['gcc', 'g++', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'icc', 'icpc']).
 compiler_opt_trans(IBM, 'max', '-O5') :-
     member(IBM, ['xlc', 'xlC']).
 compiler_opt_trans(Comp, 'max', '/Ox /MD /Zi /DNDEBUG') :- Comp == 'VC++'; Comp == 'VC'.
@@ -3059,11 +3007,9 @@ compiler_opt_trans(Comp, 'none', '/Od /Zi /MDd /D_DEBUG') :- Comp == 'VC++'; Com
 
 compiler_pic_trans(_, 'none', '-no-pie').
 compiler_pic_trans(Comp, 'pic', '-fPIC -fPIE -pie') :-
-    member(Comp, ['gcc', 'g++', 'gfortran', 'icc', 'icpc', 'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+    member(Comp, ['gcc', 'g++', 'gfortran', 'icc', 'icpc']).
 compiler_pic_trans(Comp, 'pic', '-KPIC') :-
     member(Comp, ['pgcc', 'pgcxx']).
-compiler_pic_trans(Comp, 'pic', '-qpic') :-
-    member(Comp, ['bgxlc', 'bgxlc++']).
 compiler_pic_trans(Comp, 'pic', '') :-
         member(Comp, ['VC++', 'VC']).
 
@@ -3073,15 +3019,7 @@ compiler_pic('pgcxx', 'pic').
 compiler_pic('pgcc', 'pic').
 compiler_pic('icpc', 'pic').
 compiler_pic('icc', 'pic').
-compiler_pic('bgxlc', 'pic').
-compiler_pic('bgxlc++', 'pic').
 compiler_pic('gfortran', 'pic').
-compiler_pic('bg_gcc', 'pic').
-compiler_pic('bg_g++', 'pic').
-compiler_pic('bg_gfortran', 'pic').
-compiler_pic('bgq_gcc', 'pic').
-compiler_pic('bgq_g++', 'pic').
-compiler_pic('bgq_gfortran', 'pic').
 compiler_pic(C, 'none') :-
         mutatee_comp(C).
         
@@ -3096,44 +3034,29 @@ insane('P1 not defined as a compiler, but has optimization translation defined',
 % partial_compile: compile to an object file rather than an executable
 compiler_parm_trans(Comp, 'partial_compile', '-c') :-
     member(Comp, ['gcc', 'g++', 'pgcc', 'pgcxx', 
-                  'xlc', 'xlC', 'gfortran', 'VC', 'VC++', 'icc', 'icpc',
-                  'bg_gcc', 'bg_g++', 'bg_gfortran', 'bgxlc', 'bgxlc++',
-                  'bgq_gcc', 'bgq_g++', 'bgq_gfortran']).
+                  'xlc', 'xlC', 'gfortran', 'VC', 'VC++', 'icc', 'icpc']).
 
 % Mutator compiler defns
 mutator_comp('g++').
 mutator_comp('pgcxx').
 mutator_comp('VC++').
 mutator_comp('xlC').
-mutator_comp('bgxlc++').
 
 % Per-compiler link options for building mutatees
-mutatee_link_options(Gnu_family, '${MUTATEE_LDFLAGS_GNU}') :- member(Gnu_family, ['icc', 'gcc', 'g++', 'icpc', 'bg_gcc', 'bg_g++', 'bgq_gcc', 'bgq_g++']).
+mutatee_link_options(Gnu_family, '${MUTATEE_LDFLAGS_GNU}') :- member(Gnu_family, ['icc', 'gcc', 'g++', 'icpc']).
 mutatee_link_options(Native_cc, '${MUTATEE_CFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}') :-
     member(Native_cc, ['xlc', 'pgcc']).
 mutatee_link_options(Native_cxx, '${MUTATEE_CXXFLAGS_NATIVE} ${MUTATEE_LDFLAGS_NATIVE}') :-
     member(Native_cxx, ['xlC', 'pgcxx']).
 mutatee_link_options('VC', '${CMAKE_EXE_LINKER_FLAGS} ${MUTATEE_LDFLAGS_NATIVE}').
 mutatee_link_options('VC++', '${CMAKE_EXE_LINKER_FLAGS} ${MUTATEE_LDFLAGS_NATIVE}').
-mutatee_link_options('bgxlc', '${MUTATEE_LDFLAGS_NATIVE}').
-mutatee_link_options('bgxlc++', '${MUTATEE_LDFLAGS_NATIVE}').
 
 % Static and dynamic linking
 compiler_static_link('g++', P, '-static') :- platform(_,'linux', _, P).
 compiler_static_link('gcc', P, '-static') :- platform(_,'linux', _, P).
 compiler_static_link('g++', P, '-static') :- platform(_,'freebsd', _,P).
 compiler_static_link('gcc', P, '-static') :- platform(_,'freebsd', _,P).
-compiler_static_link('bg_g++', P, '-static') :- platform(_,'bluegene', 'bluegenep', P).
-compiler_static_link('bg_gcc', P, '-static') :- platform(_,'bluegene', 'bluegenep', P).
-compiler_static_link('bgq_g++', P, '-static') :- platform(_, _, 'bluegeneq', P).
-compiler_static_link('bgq_gcc', P, '-static') :- platform(_, _, 'bluegeneq', P).
 
-compiler_dynamic_link('bg_g++', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegenep', P).
-compiler_dynamic_link('bg_gcc', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegenep', P).
-compiler_dynamic_link('bgq_g++', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegeneq', P).
-compiler_dynamic_link('bgq_gcc', P, '-dynamic -Wl,-export-dynamic') :- platform(_, _, 'bluegeneq', P).
-compiler_dynamic_link('bgxlc', P, '-qnostaticlink') :- platform(_, _, 'bluegeneq', P).
-compiler_dynamic_link('bgxlc++', P, '-qnostaticlink') :- platform(_, _, 'bluegeneq', P).
 compiler_dynamic_link('g++', _, '-Wl,-export-dynamic').
 compiler_dynamic_link('gcc', _, '-Wl,-export-dynamic').
 compiler_dynamic_link('icc', _, '-Xlinker -export-dynamic').
@@ -3144,26 +3067,14 @@ comp_std_flags_str('gcc', '${CFLAGS}').
 comp_std_flags_str('g++', '${CXXFLAGS}').
 comp_std_flags_str('xlc', '${CFLAGS_NATIVE}').
 comp_std_flags_str('pgcc', '${CFLAGS_NATIVE}').
-comp_std_flags_str('bgxlc', '${CFLAGS}').
-comp_std_flags_str('bgxlc++', '${CXXFLAGS}').
 % FIXME Make sure that these flags for cxx are correct, or tear out cxx (Alpha)
 comp_std_flags_str('xlC', '${CXXFLAGS_NATIVE}').
 comp_std_flags_str('pgcxx', '${CXXFLAGS_NATIVE}').
-comp_std_flags_str('bg_gcc', '${CFLAGS}').
-comp_std_flags_str('bg_g++', '${CXXFLAGS}').
-comp_std_flags_str('bgq_gcc', '${CFLAGS}').
-comp_std_flags_str('bgq_g++', '${CXXFLAGS}').
 
 comp_mutatee_flags_str('gcc', '${MUTATEE_CFLAGS_GNU} ').
 comp_mutatee_flags_str('g++', '${MUTATEE_CXXFLAGS_GNU} ').
 comp_mutatee_flags_str('xlc', '${MUTATEE_CFLAGS_NATIVE} ').
 comp_mutatee_flags_str('pgcc', '${MUTATEE_CFLAGS_NATIVE} ').
-comp_mutatee_flags_str('bg_gcc', '${MUTATEE_CFLAGS_GNU} ').
-comp_mutatee_flags_str('bg_g++', '${MUTATEE_CXXFLAGS_GNU} ').
-comp_mutatee_flags_str('bgq_gcc', '${MUTATEE_CFLAGS_GNU} ').
-comp_mutatee_flags_str('bgq_g++', '${MUTATEE_CXXFLAGS_GNU} ').
-comp_mutatee_flags_str('bgxlc', '${CFLAGS}').
-comp_mutatee_flags_str('bgxlc++', '${CXXFLAGS}').
 % FIXME Make sure that these flags for cxx are correct, or tear out cxx (Alpha)
 comp_mutatee_flags_str('xlC', '${MUTATEE_CXXFLAGS_NATIVE} ').
 comp_mutatee_flags_str('pgcxx', '${MUTATEE_CXXFLAGS_NATIVE} ').
@@ -3415,24 +3326,8 @@ test_processmode(Test, 'None') :- tests_module(Test, Module),
    module(Module),
    \+ member(Module, ['proccontrol']).
 
-bg_vn_exclude('VN', 'MultiThreaded').
-
-% platform_mode is currently only used by BG/P to specify the modes
-% the system can run in: Virtual, Dual, or SMP
-platform_mode(P, M, RM, TM) :-
-   current_platform(P),
-   platform(_, 'bluegene', 'bluegenep', P),
-   member(M, ['DUAL', 'VN', 'SMP']),
-   member(RM, ['createProcess', 'useAttach', 'binary']),
-   \+ bg_vn_exclude(M, TM).
-
-platform_mode(P, 'NONE', 'disk', _) :-
-   current_platform(P),
-   platform(_, 'bluegene', 'bluegenep', P).
-
-platform_mode(P, 'NONE', _, _) :- 
-   current_platform(P),
-   \+ platform(_, 'bluegene', 'bluegenep', P).   
+platform_mode(P, 'NONE', _, _) :-
+   current_platform(P).
 
 % runmode/1
 % runmode(+RunMode)
@@ -3466,10 +3361,8 @@ test_runmode(Test, 'binary') :- test_runmode(Test, 'static').
 % runmode_platform(?Platform, ?Runmode, ?Module)
 % This specifies what platforms support which runmodes, essentially
 % specify binary rewriter support for Dyninst
-runmode_platform(P, 'createProcess', 'dyninst') :- platform(_, S, _, P),
-  S \= 'bluegene'.
-runmode_platform(P, 'useAttach', 'dyninst') :- platform(_, S, _, P),
-  S \= 'bluegene'.
+runmode_platform(P, 'createProcess', 'dyninst') :- platform(_, _, _, P).
+runmode_platform(P, 'useAttach', 'dyninst') :- platform(_, _, _, P).
 runmode_platform(P, 'createProcess', 'proccontrol') :- platform(_, _, _, P).
 runmode_platform(P, 'useAttach', 'proccontrol') :- platform(_, _, _, P).
 runmode_platform(P, 'createProcess', 'instruction') :- platform(_, _, _, P).
@@ -3478,8 +3371,6 @@ runmode_platform(P, 'binary', _) :- platform('x86_64', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('aarch64', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('power32', 'linux', _, P).
 runmode_platform(P, 'binary', _) :- platform('power64', 'linux', _, P).
-runmode_platform(P, 'binary', _) :- platform('power32', 'bluegene', _, P).
-runmode_platform(P, 'binary', _) :- platform('power64', 'bluegene', _, P).
 runmode_platform(P, 'binary', _) :- platform('i386', 'freebsd', _, P).
 runmode_platform(P, 'binary', _) :- platform('x86_64', 'freebsd', _,P).
 % runmode_platform(P, 'binary', _) :- platform('i386', 'windows', _,P).
