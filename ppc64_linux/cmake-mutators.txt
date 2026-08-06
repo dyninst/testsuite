@@ -255,26 +255,6 @@ set (dyninst_OBJS_ALL_MUTATORS
 )
 
 
-include_directories ("../src/instruction")
-set (instruction_MUTATORS
-	power_decode
-	aarch64_decode
-	aarch64_cft
-	aarch64_decode_ldst
-	aarch64_simd
-	power_cft
-)
-
-set (instruction_OBJS_ALL_MUTATORS
-	power_decode.o
-	aarch64_decode.o
-	aarch64_cft.o
-	aarch64_decode_ldst.o
-	aarch64_simd.o
-	power_cft.o
-)
-
-
 include_directories ("../src/symtab")
 set (symtab_MUTATORS
 	test_lookup_func
@@ -301,10 +281,6 @@ set (symtab_OBJS_ALL_MUTATORS
 )
 
 set (MUTATOR_NAME_LIST
-	aarch64_cft
-	aarch64_decode
-	aarch64_decode_ldst
-	aarch64_simd
 	init_fini_callback
 	pc_addlibrary
 	pc_breakpoint
@@ -323,8 +299,6 @@ set (MUTATOR_NAME_LIST
 	pc_thread
 	pc_thread_cont
 	pc_tls
-	power_cft
-	power_decode
 	snip_change_shlib_var
 	snip_ref_shlib_var
 	test1_1
@@ -435,10 +409,6 @@ set (MUTATOR_NAME_LIST
 	)
 
 set (MUTATOR_MODULE_LIB_LIST
-	testinstruction
-	testinstruction
-	testinstruction
-	testinstruction
 	testdyninst
 	testproccontrol
 	testproccontrol
@@ -457,8 +427,6 @@ set (MUTATOR_MODULE_LIB_LIST
 	testproccontrol
 	testproccontrol
 	testproccontrol
-	testinstruction
-	testinstruction
 	testdyninst
 	testdyninst
 	testdyninst
@@ -570,10 +538,6 @@ set (MUTATOR_MODULE_LIB_LIST
 
 set (SRC src)
 set (MUTATOR_SOURCE_LIST
-	${SRC}/instruction/aarch64_cft.C
-	${SRC}/instruction/aarch64_decode.C
-	${SRC}/instruction/aarch64_decode_ldst.C
-	${SRC}/instruction/aarch64_simd.C
 	${SRC}/dyninst/init_fini_callback.C
 	${SRC}/proccontrol/pc_addlibrary.C
 	${SRC}/proccontrol/pc_breakpoint.C
@@ -592,8 +556,6 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/proccontrol/pc_thread.C
 	${SRC}/proccontrol/pc_thread_cont.C
 	${SRC}/proccontrol/pc_tls.C
-	${SRC}/instruction/power_cft.C
-	${SRC}/instruction/power_decode.C
 	${SRC}/dyninst/snip_change_shlib_var.C
 	${SRC}/dyninst/snip_ref_shlib_var.C
 	${SRC}/dyninst/test1_1.C
@@ -703,7 +665,7 @@ set (MUTATOR_SOURCE_LIST
 	${SRC}/symtab/test_type_info.C
 	)
 
-foreach (val RANGE 130)
+foreach (val RANGE 124)
 	list (GET MUTATOR_NAME_LIST ${val} lib)
 	list (GET MUTATOR_SOURCE_LIST ${val} source)
 	list (GET MUTATOR_MODULE_LIB_LIST ${val} comp_dep)
