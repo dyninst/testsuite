@@ -33,9 +33,16 @@
 
 unsigned long get_pointer()
 {
+    // Build the value low-byte-first so that its least-significant bytes are
+    // identical regardless of pointer width. The testsuite runs a 64-bit
+    // mutator against 32-bit mutatees (BUILD_RTLIB_32); a pointer-sized
+    // constant produced in the 64-bit mutator is passed to the 32-bit mutatee
+    // truncated to 32 bits, so mutator and mutatee must agree on the low 32
+    // bits. The previous high-byte-first shift made them diverge (mutator low
+    // 32 = 0xa4a5a6a7 vs mutatee 0xa0a1a2a3), failing e.g. test1_2 on i386.
     unsigned long val = 0UL;
     for(short i = 0; i < (short)(sizeof(void *)); i++) {
-        val = (val << 8)|((i&0xFF)|0xA0);
+        val |= (unsigned long)((i & 0xFF) | 0xA0) << (8 * i);
     }
     return val;
 }

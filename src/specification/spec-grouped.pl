@@ -740,6 +740,12 @@ test_runs_everywhere('test2_1').
 mutator('test2_1', ['test2_1.C']).
 test_runmode('test2_1', 'createProcess').
 test_start_state('test2_1', 'selfstart').
+% test1_5 and test1_6 exercise 64-bit integer operations (long long
+% compares / >2^32 mul/div) in snippets, which the i386 (32-bit) snippet
+% register model cannot represent. Restrict them to the 64-bit ABI.
+restricted_amd64_abi('test1_5').
+restricted_amd64_abi('test1_6').
+
 restricted_amd64_abi('test2_1').
 tests_module('test2_1', 'dyninst').
 
