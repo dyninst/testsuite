@@ -57,6 +57,8 @@ int test1_33_globalVariable1 = -1;
 /* Function definitions follow */
 
 int global33_2 = 0;
+/* External global so the store below can't be DCE'd (see func3 epilogue). */
+int test1_33_func3_sink = 0;
 
 int test1_33_mutatee() {
   int passed;
@@ -89,6 +91,12 @@ void test1_33_func2(int x) {
     /* dprintf("That's all.\n"); */
 }
 
+/* Force a jump table for func3's switch even when the mutatee TU is built -O0:
+   modern gcc (>=12 at -O2, >=15 at every level) lowers a small dense switch to a
+   decision tree, and at -O0 never emits a jump table at all, so this test (which
+   checks Dyninst's jump-table CFG recovery) needs the switch compiled >= -O1.
+   See dyninst/testsuite#278. clang tables it natively; the attribute drives gcc. */
+__attribute__((optimize("O2")))
 int test1_33_func3(int x) {
     /* dprintf("Entry.\n"); */
 
@@ -175,9 +183,146 @@ int test1_33_func3(int x) {
 	/* dprintf("19\n"); */
 	x &= 0x144;
 	break;
+      case 20:
+		x *= 17;
+		break;
+      case 21:
+		x ^= 30;
+		break;
+      case 22:
+		x |= 43;
+		break;
+      case 23:
+		x &= 56;
+		break;
+      case 24:
+		x += 69;
+		break;
+      case 25:
+		x -= 82;
+		break;
+      case 26:
+		x *= 95;
+		break;
+      case 27:
+		x ^= 108;
+		break;
+      case 28:
+		x |= 121;
+		break;
+      case 29:
+		x &= 134;
+		break;
+      case 30:
+		x += 147;
+		break;
+      case 31:
+		x -= 160;
+		break;
+      case 32:
+		x *= 173;
+		break;
+      case 33:
+		x ^= 186;
+		break;
+      case 34:
+		x |= 199;
+		break;
+      case 35:
+		x &= 212;
+		break;
+      case 36:
+		x += 225;
+		break;
+      case 37:
+		x -= 238;
+		break;
+      case 38:
+		x *= 251;
+		break;
+      case 39:
+		x ^= 13;
+		break;
+      case 40:
+		x |= 26;
+		break;
+      case 41:
+		x &= 39;
+		break;
+      case 42:
+		x += 52;
+		break;
+      case 43:
+		x -= 65;
+		break;
+      case 44:
+		x *= 78;
+		break;
+      case 45:
+		x ^= 91;
+		break;
+      case 46:
+		x |= 104;
+		break;
+      case 47:
+		x &= 117;
+		break;
+      case 48:
+		x += 130;
+		break;
+      case 49:
+		x -= 143;
+		break;
+      case 50:
+		x *= 156;
+		break;
+      case 51:
+		x ^= 169;
+		break;
+      case 52:
+		x |= 182;
+		break;
+      case 53:
+		x &= 195;
+		break;
+      case 54:
+		x += 208;
+		break;
+      case 55:
+		x -= 221;
+		break;
+      case 56:
+		x *= 234;
+		break;
+      case 57:
+		x ^= 247;
+		break;
+      case 58:
+		x |= 9;
+		break;
+      case 59:
+		x &= 22;
+		break;
+      case 60:
+		x += 35;
+		break;
+      case 61:
+		x -= 48;
+		break;
+      case 62:
+		x *= 61;
+		break;
+      case 63:
+		x ^= 74;
+		break;
     };
 
     /* dprintf("Exit.\n"); */
+
+    /* Anchor a single high-in-degree merge block so the switch's convergence
+       survives -O2 tail-duplication (foundSwitchIn), paired with the jump-table
+       dispatch (foundSwitchOut). See dyninst/testsuite#278. */
+    test1_33_func3_sink += x;
 
     return x;
 }
