@@ -375,10 +375,15 @@ test_results_t test1_33_Mutator::executeTest()
            block->getSources(in);
            block->getTargets(out);
 
-           if (!foundSwitchOut && out.size() >= 10 && in.size() <= 1) 
+           // The jump-table dispatch should have close to one out-edge per case.
+           // func3 has 65 cases; Dyninst recovers ~56 out-edges for the dispatch
+           // across gcc 8-15 on x86_64/aarch64/ppc64le (the /, %, and shift cases
+           // split off the main table). Require >= 50 so this genuinely confirms a
+           // jump table was recovered, not merely a multi-way block. See testsuite#278.
+           if (!foundSwitchOut && out.size() >= 50 && in.size() <= 1)
            {
               foundSwitchOut = true;
-           } 
+           }
            else if (!foundSwitchIn && in.size() >= 10 && out.size() <= 1) 
            {
               foundSwitchIn = true;

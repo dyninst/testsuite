@@ -59,6 +59,9 @@ int test1_33_globalVariable1 = -1;
 int global33_2 = 0;
 /* External global so the store below can't be DCE'd (see func3 epilogue). */
 int test1_33_func3_sink = 0;
+/* Second global so func2's if/else stays a real branch (not a cmov) if the
+   optimization level is ever raised; see dyninst/testsuite#278. */
+int test1_33_func2_h = 0;
 
 int test1_33_mutatee() {
   int passed;
@@ -82,10 +85,12 @@ void test1_33_func2(int x) {
 
     if (x == 1) {
         /* dprintf("Goodbye.\n"); */
-	global33_2 = 1;
+	global33_2 += 11;
+	test1_33_func2_h -= 7;
     } else {
         /* dprintf("See you.\n"); */
-	global33_2 = 2;
+	global33_2 *= 33;
+	test1_33_func2_h += x;
     }
 
     /* dprintf("That's all.\n"); */
@@ -314,6 +319,9 @@ int test1_33_func3(int x) {
 		break;
       case 63:
 		x ^= 74;
+		break;
+      case 64:
+		x |= 87;
 		break;
     };
 
