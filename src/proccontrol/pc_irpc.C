@@ -348,10 +348,7 @@ void pc_irpcMutator::runIRPCs() {
             continue;
          }
 
-         // Create this thread's tinfo entry. The "Post IRPCs" loop below and the
-         // post_sequential re-post loop both iterate tinfo, so a thread with no entry
-         // here never gets an IRPC posted -- runIRPCs() would then spin forever, since
-         // has_pending_irpcs() stays false while all_irpcs_completed() stays false.
+         // Create this thread's tinfo entry.
          tinfo.emplace(thr, thread_info_t());
 
          for (unsigned k = 0; k < NUM_IRPCS; k++)
