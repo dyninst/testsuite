@@ -348,6 +348,9 @@ void pc_irpcMutator::runIRPCs() {
             continue;
          }
 
+         // Create this thread's tinfo entry.
+         tinfo.emplace(thr, thread_info_t());
+
          for (unsigned k = 0; k < NUM_IRPCS; k++)
          {
             IRPC::ptr irpc;
