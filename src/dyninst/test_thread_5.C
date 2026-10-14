@@ -154,6 +154,7 @@ bool test_thread_5_Mutator::setVar(const char *vname, void *addr, int testno,
 
 static bool test8done = false;
 static bool test8err = false;
+static BPatch_process *test8proc = NULL;
 static unsigned long tids[TEST8_THREADS];
 static user_event_t last_event[TEST8_THREADS];
 
@@ -175,12 +176,16 @@ static bool findThreadIndex(unsigned long tid, unsigned int &index)
   return false;
 }
 
-static void test8cb(BPatch_process * /*proc*/, void *buf, unsigned int bufsize)
+static void test8cb(BPatch_process *proc, void *buf, unsigned int bufsize)
 {
   // FIXME This being static is probably killing the test
   static int destroy_counter = 0;
   if (debugPrint())
     dprintf("%s[%d]:  inside test8cb\n", __FILE__, __LINE__);
+
+  // Messages still queued from a previous mutatee are not ours
+  if (proc != test8proc)
+    return;
 
   if (bufsize != sizeof(user_msg_t)) {
     //  something is incredibly wrong
@@ -256,6 +261,7 @@ test_results_t test_thread_5_Mutator::executeTest() {
 
   test8done = false;
   test8err = false;
+  test8proc = appProc;
 
     // load libtest12.so -- currently only used by subtest 5, but make it generally
     // available
@@ -324,6 +330,7 @@ test_results_t test_thread_5_Mutator::executeTest() {
       FAIL_MES(TESTNAME, TESTDESC);
       logerror("%s[%d]:  mutatee exited before reporting all mutex events\n",
                __FILE__, __LINE__);
+      bpatch->removeUserEventCallback(test8cb);
       return FAILED;
     }
     bpatch->pollForStatusChange();
