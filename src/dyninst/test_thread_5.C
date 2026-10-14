@@ -154,6 +154,7 @@ bool test_thread_5_Mutator::setVar(const char *vname, void *addr, int testno,
 
 static bool test8done = false;
 static bool test8err = false;
+static BPatch_process *test8proc = NULL;
 static unsigned long tids[TEST8_THREADS];
 static user_event_t last_event[TEST8_THREADS];
 
@@ -175,12 +176,16 @@ static bool findThreadIndex(unsigned long tid, unsigned int &index)
   return false;
 }
 
-static void test8cb(BPatch_process * /*proc*/, void *buf, unsigned int bufsize)
+static void test8cb(BPatch_process *proc, void *buf, unsigned int bufsize)
 {
   // FIXME This being static is probably killing the test
   static int destroy_counter = 0;
   if (debugPrint())
     dprintf("%s[%d]:  inside test8cb\n", __FILE__, __LINE__);
+
+  // Messages still queued from a previous mutatee are not ours
+  if (proc != test8proc)
+    return;
 
   if (bufsize != sizeof(user_msg_t)) {
     //  something is incredibly wrong
@@ -245,12 +250,6 @@ do { \
   } \
 } while (0)
 
-#if defined(os_freebsd_test)
-const char *threadLibName = "libthr";
-#else
-const char *threadLibName = "libpthread";
-#endif
-
 // static int mutatorTest(BPatch_thread *appThread, BPatch_image *appImage)
 test_results_t test_thread_5_Mutator::executeTest() {
   BPatch_process *appProc = appThread->getProcess();
@@ -262,6 +261,7 @@ test_results_t test_thread_5_Mutator::executeTest() {
 
   test8done = false;
   test8err = false;
+  test8proc = appProc;
 
     // load libtest12.so -- currently only used by subtest 5, but make it generally
     // available
@@ -285,18 +285,6 @@ test_results_t test_thread_5_Mutator::executeTest() {
 
   //  instrument events having to do with mutex init, lock, unlock, destroy
   //  with messaging functions in libtest12.so
-  BPatch_object *libpthread = NULL;
-  vector<BPatch_object*> objs;
-  appImage->getObjects(objs);
-  for(auto i = objs.begin(); i != objs.end(); ++i)
-  {
-      if((*i)->name().find(threadLibName) != std::string::npos)
-      {
-	  libpthread = *i;
-      }
-  }
-  assert(libpthread);
-
   BPatch_function *mutInit = findFunction("createLock", appImage,TESTNO, TESTDESC);
   BPatch_point *mutInitPt = findPoint(mutInit, BPatch_entry,TESTNO, TESTDESC);
   CHECK_POINT(mutInitPt, "entry", "createLock");
@@ -336,8 +324,18 @@ test_results_t test_thread_5_Mutator::executeTest() {
   appThread->getProcess()->continueExecution();
 
   //  wait until we have received the desired number of events
-  while(!test8err && !test8done) {
-    bpatch->waitForStatusChange();
+  //  (or the mutatee dies, or timeout happens)
+  while(!test8err && !test8done && (timeout < TIMEOUT)) {
+    if (appThread->getProcess()->isTerminated()) {
+      FAIL_MES(TESTNAME, TESTDESC);
+      logerror("%s[%d]:  mutatee exited before reporting all mutex events\n",
+               __FILE__, __LINE__);
+      bpatch->removeUserEventCallback(test8cb);
+      return FAILED;
+    }
+    bpatch->pollForStatusChange();
+    sleep_ms(SLEEP_INTERVAL);
+    timeout += SLEEP_INTERVAL;
   }
 
   if (timeout >= TIMEOUT) {
