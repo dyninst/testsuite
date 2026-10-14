@@ -318,8 +318,17 @@ test_results_t test_thread_5_Mutator::executeTest() {
   appThread->getProcess()->continueExecution();
 
   //  wait until we have received the desired number of events
-  while(!test8err && !test8done) {
-    bpatch->waitForStatusChange();
+  //  (or the mutatee dies, or timeout happens)
+  while(!test8err && !test8done && (timeout < TIMEOUT)) {
+    if (appThread->getProcess()->isTerminated()) {
+      FAIL_MES(TESTNAME, TESTDESC);
+      logerror("%s[%d]:  mutatee exited before reporting all mutex events\n",
+               __FILE__, __LINE__);
+      return FAILED;
+    }
+    bpatch->pollForStatusChange();
+    sleep_ms(SLEEP_INTERVAL);
+    timeout += SLEEP_INTERVAL;
   }
 
   if (timeout >= TIMEOUT) {
