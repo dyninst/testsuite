@@ -245,12 +245,6 @@ do { \
   } \
 } while (0)
 
-#if defined(os_freebsd_test)
-const char *threadLibName = "libthr";
-#else
-const char *threadLibName = "libpthread";
-#endif
-
 // static int mutatorTest(BPatch_thread *appThread, BPatch_image *appImage)
 test_results_t test_thread_5_Mutator::executeTest() {
   BPatch_process *appProc = appThread->getProcess();
@@ -285,18 +279,6 @@ test_results_t test_thread_5_Mutator::executeTest() {
 
   //  instrument events having to do with mutex init, lock, unlock, destroy
   //  with messaging functions in libtest12.so
-  BPatch_object *libpthread = NULL;
-  vector<BPatch_object*> objs;
-  appImage->getObjects(objs);
-  for(auto i = objs.begin(); i != objs.end(); ++i)
-  {
-      if((*i)->name().find(threadLibName) != std::string::npos)
-      {
-	  libpthread = *i;
-      }
-  }
-  assert(libpthread);
-
   BPatch_function *mutInit = findFunction("createLock", appImage,TESTNO, TESTDESC);
   BPatch_point *mutInitPt = findPoint(mutInit, BPatch_entry,TESTNO, TESTDESC);
   CHECK_POINT(mutInitPt, "entry", "createLock");
