@@ -20,17 +20,41 @@ jobs:
     outputs:
       latest: ${{ steps.all.outputs.latest }}
     steps:
+      - name: Checkout Dyninst
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: dyninst/dyninst
+
       - id: all
-        uses: dyninst/dyninst/actions/os-versions@master
+        uses: $./.github/actions/os-versions
+
+  get-compilers:
+    runs-on: ubuntu-latest
+    needs: check-if-needed
+    outputs:
+      all: ${{ steps.compilers.outputs.value }}
+    steps:
+      - name: Checkout Dyninst
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: dyninst/dyninst
+        
+      - id: compilers
+        shell: bash
+        run: |
+          set -ex
+          script="./.github/scripts/compiler_configs.py"
+          names=$(python3 ${script} --print-names)
+          echo "value=${names}" >> $GITHUB_OUTPUT
 
   build:
     runs-on: ubuntu-latest
-    needs: [get-oses]
+    needs: [get-oses, get-compilers]
     strategy:
       fail-fast: false
       matrix:
         os: ${{ fromJson(needs.get-oses.outputs.latest) }}
-        compiler: [ 'gcc', 'clang' ]
+        compiler: ${{ fromJson(needs.get-compilers.outputs.all) }}
     permissions:
       packages: read
     container:
