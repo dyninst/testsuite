@@ -69,7 +69,7 @@ jobs:
 
       - name: Build
         run: |
-          case "${{ inputs.compiler }}" in
+          case "${{ matrix.compiler }}" in
             clang) cc=clang; cxx=clang++; ;;
               gcc) cc=gcc; cxx=g++; ;;
           esac
