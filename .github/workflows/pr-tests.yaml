@@ -81,5 +81,5 @@ jobs:
           args+="-DCMAKE_MUT_C_COMPILER=gcc "
           args+="-DCMAKE_MUT_CXX_COMPILER=g++ "
 
-          cmake . -DDyninst_ROOT=/dyninst/install
+          cmake . -DDyninst_ROOT=/dyninst/install ${args}
           cmake --build . --parallel 4
