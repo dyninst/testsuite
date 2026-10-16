@@ -69,5 +69,17 @@ jobs:
 
       - name: Build
         run: |
-           cmake . -DDyninst_DIR=/dyninst/install/lib/cmake/Dyninst
-           cmake --build . --parallel 4
+          case "${{ inputs.compiler }}" in
+            clang) cc=clang; cxx=clang++; ;;
+              gcc) cc=gcc; cxx=g++; ;;
+          esac
+
+          args="-DCMAKE_C_COMPILER=${cc} "
+          args+="-DCMAKE_CXX_COMPILER=${cxx} "
+
+          # Only gcc mutatees are supported
+          args+="-DCMAKE_MUT_C_COMPILER=gcc "
+          args+="-DCMAKE_MUT_CXX_COMPILER=g++ "
+
+          cmake . -DDyninst_ROOT=/dyninst/install
+          cmake --build . --parallel 4
