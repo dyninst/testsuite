@@ -5,21 +5,45 @@ on:
      branches:
         - master
 jobs:
-  gcc:
+
+  # Don't run the check if the PR is a draft
+  check-if-needed:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    steps:
+      - shell: bash
+        run: true
+
+  get-oses:
+    runs-on: ubuntu-latest
+    needs: check-if-needed
+    outputs:
+      latest: ${{ steps.all.outputs.latest }}
+    steps:
+      - id: all
+        uses: dyninst/dyninst/os-versions
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [get-oses]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.get-oses.outputs.latest) }}
+        compiler: [ 'gcc', 'clang' ]
     permissions:
       packages: read
-    runs-on: ubuntu-latest
     container:
-      image: ghcr.io/dyninst/amd64/ubuntu-20.04:latest
+      image: ghcr.io/dyninst/amd64/${{ matrix.os }}:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
-    name: gcc
+    name: Codegen arch (${{ matrix.os }}, ${{ matrix.compiler }})
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Build
         run: |
            cmake . -DDyninst_DIR=/dyninst/install/lib/cmake/Dyninst
-           cmake --build .
+           cmake --build . --parallel 4
