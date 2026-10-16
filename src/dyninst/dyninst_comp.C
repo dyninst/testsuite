@@ -55,7 +55,9 @@ class DyninstComponent : public ComponentTester
 private:
    BPatch *bpatch{};
    char *libRTname{};
+#if defined(m_abi)
    char *libRTname_m_abi{};
+#endif
    std::string err_msg{};
 
    ParamPtr bpatch_ptr{};
