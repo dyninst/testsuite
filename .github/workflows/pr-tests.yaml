@@ -26,7 +26,7 @@ jobs:
           repository: dyninst/dyninst
 
       - id: all
-        uses: $./.github/actions/os-versions
+        uses: $/.github/actions/os-versions
 
   get-compilers:
     runs-on: ubuntu-latest
