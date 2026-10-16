@@ -126,12 +126,9 @@ int test1_12_Mutator::mutatorTesta()
 
 	setExpectError(DYNINST_NO_ERROR);
 
-	int freeCount = 0;
-
 	for (int i =0; i < count; i++) 
 	{
 		appProc->free(*memStuff[i]);
-		freeCount++;
 	}
 
         temp = appProc->malloc(500);
