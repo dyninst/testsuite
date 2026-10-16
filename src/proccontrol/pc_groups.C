@@ -276,7 +276,6 @@ void pc_groupsMutator::trigger_sync() {
 
 test_results_t pc_groupsMutator::executeTest()
 {
-   std::vector<Process::ptr>::iterator i;
    error = false;
    pset = comp->pset;
 
