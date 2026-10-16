@@ -62,7 +62,7 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
-    name: Codegen arch (${{ matrix.os }}, ${{ matrix.compiler }})
+    name: ${{ matrix.os }}, ${{ matrix.compiler }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
