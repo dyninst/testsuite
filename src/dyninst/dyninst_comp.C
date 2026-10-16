@@ -826,29 +826,14 @@ void instrument_entry_points( BPatch_addressSpace * app_thread,
 
 	//   handle_vector * list_of_handles = new handle_vector;
 
-	int null_entry_point_count = 0;
-	int failed_snippet_insertion_count = 0;
-
 	point_vector * entries = func->findPoint( BPatch_entry );
 	assert( entries != 0 );
 
 	for( unsigned int i = 0; i < entries->size(); i++ )
 	{
 		BPatch_point * point = ( * entries )[ i ];
-		if( point == 0 )
-		{
-			null_entry_point_count++;
-		}
-		else
-		{
-			BPatchSnippetHandle * result =
-				app_thread->insertSnippet( * code,
-						* point, BPatch_callBefore, BPatch_firstSnippet );
-			if( result == 0 )
-			{
-				failed_snippet_insertion_count++;
-			}
-		}
+    app_thread->insertSnippet( * code,
+        * point, BPatch_callBefore, BPatch_firstSnippet );
 	}
 
 	delete code;
@@ -864,29 +849,14 @@ void instrument_exit_points( BPatch_addressSpace * app_thread,
 
 	//   handle_vector * list_of_handles = new handle_vector;
 
-	int null_exit_point_count = 0;
-	int failed_snippet_insertion_count = 0;
-
 	point_vector * exits = func->findPoint( BPatch_exit );
 	assert( exits != 0 );
 
 	for( unsigned int i = 0; i < exits->size(); i++ )
 	{
 		BPatch_point * point = ( * exits )[ i ];
-		if( point == 0 )
-		{
-			null_exit_point_count++;
-		}
-		else
-		{
-			BPatchSnippetHandle * result =
-				app_thread->insertSnippet( * code,
-						* point, BPatch_callAfter, BPatch_firstSnippet );
-			if( result == 0 )
-			{
-				failed_snippet_insertion_count++;
-			}
-		}
+    app_thread->insertSnippet( * code,
+        * point, BPatch_callAfter, BPatch_firstSnippet );
 	}
 
 	delete code;
