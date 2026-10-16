@@ -43,7 +43,13 @@ extern char **environ;
 
 using namespace std;
 
-#define debug_printf(str, ...) do { if (getDebugLog()) { fprintf(getDebugLog(), str, ## __VA_ARGS__); fflush(getDebugLog()); } } while (0)
+template <typename... Args>
+static void debug_printf(char const* str, Args... args) {
+  if(getDebugLog()) {
+     fprintf(getDebugLog(), str, std::forward<Args>(args)...);
+     fflush(getDebugLog());
+  }
+}
 
 static void encodeParams(ParameterDict &params, MessageBuffer &buf)
 {
