@@ -27,12 +27,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#if defined(__XLC__) || defined(__xlC__)
-#pragma implementation("Dictionary.h")
-#else
-#pragma implementation "Dictionary.h"
-#endif
-
 #include <vector>
 
 // Templates used in test1_30.C
