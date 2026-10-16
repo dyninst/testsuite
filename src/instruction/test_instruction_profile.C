@@ -87,9 +87,6 @@ test_results_t test_instruction_profile_Mutator::executeTest()
 
   std::vector<Region*> codeRegions;
   s->getCodeRegions(codeRegions);
-  unsigned int cf_count = 0;
-  unsigned int valid_count = 0;
-  unsigned int total_count = 0;
 
   for(std::vector<Region*>::iterator curReg = codeRegions.begin();
       curReg != codeRegions.end();
@@ -118,14 +115,11 @@ test_results_t test_instruction_profile_Mutator::executeTest()
     {
       i = d.decode(decodeBase + offset);
       //cout << endl << "\t\t" << i.format() << std::endl;
-      total_count++;
       decodedInsns.push_back(i);
       if(i.isValid()) {
     	offset += i.size();
-	    valid_count++;
 	    if((i.getCategory() != c_NoCategory) && i.getControlFlowTarget())
 	    {
-            cf_count++;
             decodedInsns.clear();
         }
       }
