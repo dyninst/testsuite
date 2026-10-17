@@ -40,10 +40,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <fstream>
-#include <iostream>
-#include <string>
-
 static bool enableLog = false;
 
 #define RESULT_REPORTED -1
@@ -254,25 +250,24 @@ void parse_resumelog(std::vector<RunGroup *> &groups)
 
 void parse_mutateelog(RunGroup *group, char *logname)
 {
-   std::ifstream f{logname};
+   FILE *f = fopen(logname, "r");
    if (!f) {
       std::string alt_logname = std::string("../") + logname;
-      f.open(alt_logname);
+      f = fopen(alt_logname.c_str(), "r");
    }
-   assert(f.good());
-   std::string testname{};
+   assert(f);
+   char testname[256];
    for (;;)
    {
       test_results_t result = UNKNOWN;
-
-      std::getline(f, testname);
-      if (testname.empty()) {
+      int res = fscanf(f, "%256s\n", testname);
+      if (res != 1) {
          break;
       }
       
-      int passed = -1;
-      f >> passed >> std::ws;
-      if (f.fail())
+      int passed;
+      res = fscanf(f, "%d\n", &passed);
+      if (res == EOF)
          result = CRASHED;
       else if (passed == 1)
          result = PASSED;
@@ -286,7 +281,7 @@ void parse_mutateelog(RunGroup *group, char *logname)
       bool found = false;
       for (unsigned i=0; i<group->tests.size(); i++)
       {
-         if (group->tests[i]->name == testname)
+         if (strcmp(group->tests[i]->name, testname) == 0)
          {
             group->tests[i]->results[group_teardown_rs] = result;
             found = true;
@@ -297,6 +292,7 @@ void parse_mutateelog(RunGroup *group, char *logname)
       if (result == CRASHED)
          break;
    }
+   fclose(f);
 }
 
 void clear_mutateelog(char *logname)
