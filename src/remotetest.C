@@ -43,14 +43,6 @@ extern char **environ;
 
 using namespace std;
 
-template <typename... Args>
-static void debug_printf(char const* str, Args... args) {
-  if(getDebugLog()) {
-     fprintf(getDebugLog(), str, std::forward<Args>(args)...);
-     fflush(getDebugLog());
-  }
-}
-
 static void encodeParams(ParameterDict &params, MessageBuffer &buf)
 {
    std::string result;
@@ -135,9 +127,12 @@ static char *decodeParams(ParameterDict &params, char *buffer)
             params[key];
             break;
          }
-         default:
-            debug_printf("BAD: %s %s %s %s\n", cur, key, type, value);
+         default: {
+            if(getDebugLog()) {
+              fprintf(getDebugLog(), "BAD: %s %s %s %s\n", cur, key, type, value);
+            }
             assert(0);
+         }
       }
       free(key);
       free(type);
@@ -606,7 +601,9 @@ void RemoteBE::dispatch(char *message)
       dispatchExit(message_begin);
    }
    else {
-      debug_printf("Failed to dispatch message %s\n", message);
+      if(getDebugLog()) {
+        fprintf(getDebugLog(), "Failed to dispatch message %s\n", message);
+      }
       assert(0);
    }
 }
@@ -748,7 +745,9 @@ void RemoteBE::setenv_on_local(char *message)
    args = decodeString(var, args);
    args = decodeString(str, args);
    
-   debug_printf("Setting local environment %s = %s\n", var.c_str(), str.c_str());
+   if(getDebugLog()) {
+     fprintf(getDebugLog(), "Setting local environment %s = %s\n", var.c_str(), str.c_str());
+   }
    int result = setenv(var.c_str(), str.c_str(), 1);
    
    bool bresult = (result == 0);
