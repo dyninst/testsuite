@@ -271,7 +271,7 @@ void parse_mutateelog(RunGroup *group, char *logname)
       }
       
       int passed = -1;
-      f >> passed;
+      f >> passed >> std::ws;
       if (f.fail())
          result = CRASHED;
       else if (passed == 1)
