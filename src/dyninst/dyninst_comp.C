@@ -832,8 +832,9 @@ void instrument_entry_points( BPatch_addressSpace * app_thread,
 	for( unsigned int i = 0; i < entries->size(); i++ )
 	{
 		BPatch_point * point = ( * entries )[ i ];
-    app_thread->insertSnippet( * code,
-        * point, BPatch_callBefore, BPatch_firstSnippet );
+		if(point) {
+			app_thread->insertSnippet(*code, *point, BPatch_callBefore, BPatch_firstSnippet);
+		}
 	}
 
 	delete code;
@@ -855,8 +856,9 @@ void instrument_exit_points( BPatch_addressSpace * app_thread,
 	for( unsigned int i = 0; i < exits->size(); i++ )
 	{
 		BPatch_point * point = ( * exits )[ i ];
-    app_thread->insertSnippet( * code,
-        * point, BPatch_callAfter, BPatch_firstSnippet );
+		if(point) {
+			app_thread->insertSnippet(*code, *point, BPatch_callAfter, BPatch_firstSnippet);
+		}
 	}
 
 	delete code;
