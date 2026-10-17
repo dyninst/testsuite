@@ -51,7 +51,7 @@ DLLEXPORT float snip_ref_shlib_var5 = 5.5e5;
 DLLEXPORT double snip_ref_shlib_var6 = 5.5e50;
 DLLEXPORT short snip_ref_shlib_var7 = 0x3333;
 
-DLLEXPORT int check_snip_change_shlib_var()
+DLLEXPORT int check_snip_change_shlib_var(void)
 {
 	if (snip_change_shlib_var == 777)
 		return 1;
@@ -79,25 +79,25 @@ DLLEXPORT int call22_5b(int x)
     return x + MAGIC22_5B;
 }
 /* function to make regex (test 21)search non-trivial */
-DLLEXPORT void cbll21_1()
+DLLEXPORT void cbll21_1(void)
 {
      printf("This function was not meant to be called!\n");
 }
 /* function to make regex (test 21)search non-trivial */
-DLLEXPORT void cbll22_1()
+DLLEXPORT void cbll22_1(void)
 {
      printf("This function was not meant to be called!\n");
 }
 
 /* function to make regex (test21) search non-trivial */
-DLLEXPORT void acbll22_1()
+DLLEXPORT void acbll22_1(void)
 {
      printf("This function was not meant to be called!\n");
 }
 
 /* Keep this function at the end of this file to kludgily ensure that
    its base address differs from its counterpart in libtestA.c */
-DLLEXPORT void call21_1()
+DLLEXPORT void call21_1(void)
 {
      printf("This function was not meant to be called!\n");
 }

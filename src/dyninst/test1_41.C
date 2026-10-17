@@ -47,7 +47,6 @@
 
 
 class test1_41_Mutator : public DyninstMutator {
-  BPatch_exitType expectedSignal{ExitedNormally};
   int debugPrint{};
   const int iterations{2};
   char *pathname{};

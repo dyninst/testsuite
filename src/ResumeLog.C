@@ -260,7 +260,7 @@ void parse_mutateelog(RunGroup *group, char *logname)
    for (;;)
    {
       test_results_t result = UNKNOWN;
-      int res = fscanf(f, "%256s\n", testname);
+      int res = fscanf(f, "%255s\n", testname);
       if (res != 1) {
          break;
       }

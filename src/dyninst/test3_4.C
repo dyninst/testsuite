@@ -45,7 +45,6 @@
 
 #include "dyninst_comp.h"
 class test3_4_Mutator : public DyninstMutator {
-  const unsigned int MAX_MUTATEES;
   unsigned int Mutatees;
   int debugPrint;
   char *pathname;
@@ -62,7 +61,7 @@ extern "C" DLLEXPORT  TestMutator *test3_4_factory() {
 }
 
 test3_4_Mutator::test3_4_Mutator() 
-  : MAX_MUTATEES(32), Mutatees(3), pathname(NULL), bpatch(NULL) {
+  : Mutatees(3), pathname(NULL), bpatch(NULL) {
 }
 
 //

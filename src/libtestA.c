@@ -54,7 +54,7 @@ extern "C" {
 /* Keep this function at the start of this file to kludgily ensure
 // that its base address differs from its counterpart in libtestB.c
 */
-DLLEXPORT int call21_1()
+DLLEXPORT int call21_1(void)
 {
      printf("This function was not meant to be called!\n");
      return -1;
@@ -107,7 +107,7 @@ int lib_check_tls_write(unsigned char expected)
    return (lib_tls_write_char == expected);
 }
 
-void lib_update_tls_reads()
+void lib_update_tls_reads(void)
 {
    lib_tls_read_int++;
    lib_tls_read_long--;

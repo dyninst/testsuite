@@ -48,7 +48,7 @@ int libraryDebug = 0;
 unsigned int did_report_entry = 0;
 unsigned int did_report_exit = 0;
 
-void reportEntry()
+void reportEntry(void)
 {
 
   user_msg_t msg;
@@ -66,7 +66,7 @@ void reportEntry()
   did_report_entry = 1;
 }
 
-void reportExit()
+void reportExit(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -83,7 +83,7 @@ void reportExit()
   did_report_exit = 1;
 }
 
-void reportCallsite()
+void reportCallsite(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -95,7 +95,7 @@ void reportCallsite()
   }
 }
 
-void reportEvent1()
+void reportEvent1(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -107,7 +107,7 @@ void reportEvent1()
   }
 }
 
-void reportEvent2()
+void reportEvent2(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -119,7 +119,7 @@ void reportEvent2()
   }
 }
 
-void reportEvent3()
+void reportEvent3(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -136,7 +136,7 @@ void reportEvent3()
     mode.
 */
 
-void reportMutexInit()
+void reportMutexInit(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -152,7 +152,7 @@ void reportMutexInit()
     inserted at mutex destroy points by the mutator to test the async user messaging 
     mode.
 */
-void reportMutexDestroy()
+void reportMutexDestroy(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -168,7 +168,7 @@ void reportMutexDestroy()
     inserted at mutex lock points by the mutator to test the async user messaging 
     mode.
 */
-void reportMutexLock()
+void reportMutexLock(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
@@ -184,7 +184,7 @@ void reportMutexLock()
     inserted at mutex unlock points by the mutator to test the async user messaging 
     mode.
 */
-void reportMutexUnlock()
+void reportMutexUnlock(void)
 {
   user_msg_t msg;
   msg.id = nextid++;
